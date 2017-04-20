@@ -1,14 +1,19 @@
 package com.pcvpmo.pdsw.upteho.managedbeans;
 
+import com.pcvpmo.pdsw.upteho.entities.Clase;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import com.pcvpmo.pdsw.upteho.entities.Materia; 
+import com.pcvpmo.pdsw.upteho.entities.Profesor;
+import com.pcvpmo.pdsw.upteho.entities.Recurso;
 
 /**
  * Managed Bean encargado de la comunicación entre capa logica y presentacion
  * @author Daniel Ospina
  */
+
 @ManagedBean(name = "UnidadProyectos")
 @SessionScoped
 public class UnidadProyectosBean implements Serializable{
