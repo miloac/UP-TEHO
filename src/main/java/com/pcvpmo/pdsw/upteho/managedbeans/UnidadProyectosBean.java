@@ -35,7 +35,7 @@ public class UnidadProyectosBean implements Serializable{
      * @param cohorte Codigo cohorte del curso
      * @param idClase id de la clase a cancelar
      */
-    public void cancelarClase(String cohorte, int idClase) {
+    public void cancelarClase(int cohorte, int idClase) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
@@ -63,40 +63,39 @@ public class UnidadProyectosBean implements Serializable{
     }
     
     /**
-     * Consulta la lista de programas de la Unidad de Proyectos
-     * @return una lista de cadenas de programas
+     * Consulta las materias de una asignatura
+     * @return una lista con las Materias
      */
-    public List<String> consultarProgramas() {
+     public List<Materia> consultarMaterias(int idAsignatura){
+         throw new UnsupportedOperationException("Not supported yet.");
+     }
+    
+    /**
+     * Consulta la lista de programas de la Unidad de Proyectos
+     * @return una lista de Programas
+     */
+    public List<Programa> consultarProgramas() {
         //TODO comprobar que es String para una lista desplegable
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
     /**
      * Consulta las asignaturas (de un programa especifico)
-     * @return Lista de cadenas de asignaturas
+     * @return Lista de Asignaturas
      */
-    public List<String> consultarAsignaturas() {
+    public List<Asignatura> consultarAsignaturas() {
         //TODO confirmar si se puede de un programa especifico (segun lo seleccionado en la lista desplegable de programa)
         //TODO comprobar que es String para una lista desplegable
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    /**
-     * Consultar los prerequisitos (dado un programa y asignatura especifico)
-     * @return Lista de cadenas de requisitos
-     */
-    public List<String> consultarRequisitos() {
-        throw new UnsupportedOperationException("Not supported yet.");
-        //TODO confirmar si se puede de un programa especifico (segun lo seleccionado en la lista desplegable de programa y asignatura)
-        //TODO comprobar que es String para una lista desplegable
-        
-    }
+ 
     
     /**
      * Consulta los periodos academicos
-     * @return una lista de periodos academicos
+     * @return una lista de Periodos academicos
      */
-    public List<String> consultarPeriodo() {
+    public List<Periodo> consultarPeriodo() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
