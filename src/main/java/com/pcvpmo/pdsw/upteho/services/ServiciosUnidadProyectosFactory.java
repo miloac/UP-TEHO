@@ -7,6 +7,7 @@ package com.pcvpmo.pdsw.upteho.services;
 
 import com.google.inject.Injector;
 import static com.google.inject.Guice.createInjector;
+import com.pcvpmo.pdsw.upteho.services.impl.ServiciosUnidadProyectosImpl;
 import org.mybatis.guice.XMLMyBatisModule;
 import org.mybatis.guice.datasource.helper.JdbcHelper;
 

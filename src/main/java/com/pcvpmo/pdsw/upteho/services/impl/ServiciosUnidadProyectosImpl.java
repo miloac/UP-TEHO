@@ -6,6 +6,12 @@
 package com.pcvpmo.pdsw.upteho.services.impl;
 
 import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
+import com.pcvpmo.pdsw.upteho.entities.Asignatura;
+import com.pcvpmo.pdsw.upteho.entities.Clase;
+import com.pcvpmo.pdsw.upteho.entities.Materia;
+import com.pcvpmo.pdsw.upteho.entities.Profesor;
+import com.pcvpmo.pdsw.upteho.entities.Programa;
+import com.pcvpmo.pdsw.upteho.entities.Recurso;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import java.util.List;
 
