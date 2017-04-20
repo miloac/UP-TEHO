@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--<settings>
+        <setting name="logImpl" value="LOG4J"/>        
+    </settings>-->
+    
+    <typeAliases>
+        
+    </typeAliases>
+        
+                        
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="org.postgresql.Driver" />
+                <property name="url" value="jdbc:postgres://
+ec2-23-21-219-105.compute-1.amazonaws.com:5432/d3lmsdnbs8tujt" />
+                <property name="username" value="ybbqthsauwnmve" />
+                <property name="password" value="209fbbbeeae98d781cd2b72695911faff0a32c64a52427ced37355a8962eee58" />
+            </dataSource>
+        </environment>
+    </environments>
+        
+    <mappers>
+            
+    </mappers> 
+        
+        
+</configuration>
