@@ -61,54 +61,6 @@ public class UpTehoTest {
     public void setUp(){
 
     }
-
-    
-
-    @Test
-    public void pruebaClaseFrontera1(){
-
-        ServiciosUnidadProyectosImpl sup = new ServiciosUnidadProyectosImpl ();
-
-        List<Materia> l = new List()<Materia>;
-
-        try{
-
-            sup.registrarMateria(0, 0, null, 0, "Programacion Imperativa", "PIM", "introduccion a la programacion");
-
-            l = sup.consultarMaterias(0);
-
-        }catch (PersistenceException e){}
-
-        assertTrue(l.size()==1);
-
-    }
-
-    
-
-    @Test
-    public void pruebaNoPermiteRegistrarUnaMateriaConProgramaNull(){
-
-        ServiciosUnidadProyectosImpl sup = new ServiciosUnidadProyectosImpl ();
-
-        List<Materia> l= new List()<Materia>;
-
-        List<Materia> lb= new List()<Materia>;
-
-        try{
-
-            sup.registrarMateria(0, 0, null, 0, null, "PIM", "introduccion a la programacion");
-
-            sup.registrarMateria(1, 0, null, 0, null, "PIM", "materiales magneticos");
-
-            l = sup.consultarMaterias(1);
-
-            lb = sup.consultarMaterias(1);
-
-        }catch (PersistenceException e){}
-
-        assertTrue(l.isEmpty() && lb.isEmpty());
-
-    }
     
     @Test
     public void ce5(){
