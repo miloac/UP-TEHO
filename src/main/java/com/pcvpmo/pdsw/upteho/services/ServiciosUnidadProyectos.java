@@ -5,10 +5,129 @@
  */
 package com.pcvpmo.pdsw.upteho.services;
 
+import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
+import com.pcvpmo.pdsw.upteho.entities.Asignatura;
+import com.pcvpmo.pdsw.upteho.entities.Clase;
+import com.pcvpmo.pdsw.upteho.entities.Materia;
+import com.pcvpmo.pdsw.upteho.entities.Profesor;
+import com.pcvpmo.pdsw.upteho.entities.Programa;
+import com.pcvpmo.pdsw.upteho.entities.Recurso;
+import java.util.List;
+
 /**
  * Interface de Servicios necesarios para la aplicacion de Unidad de Proyectos
- * @author Daniel Ospina 
+ * @author Daniel Ospina, Andres Felipe Pardo Mesa
  */
 public interface ServiciosUnidadProyectos {
-    //TODO agregar cada uno de los metodos en el bean con pre y pos
+    /**
+     * @obj Registra materia con los atributos especificos.
+     * @pre tipoRequisito debe ser un número entre 0 y 1.
+     * @param idPrograma 
+     * @param idAsignatura
+     * @param siglaRequisito
+     * @param tipoRequisito
+     * @param nombreMateria
+     * @param siglaMateria
+     * @param descripcionMateria
+     * @pos si todos los parametros son correctos ,la materia es registrada.
+     * @throws PersistenceException 
+     */
+    public void registrarMateria(int idPrograma, int idAsignatura, String siglaRequisito, int tipoRequisito, String nombreMateria, String siglaMateria, String descripcionMateria) throws PersistenceException;
+    
+    /**
+     * @obj Cancela una clase de un Curso especifico
+     * @param cohorte
+     * @param idClase
+     * @pos si todos los parametros son correctos ,se cancela la clase en el curso dado
+     * @throws PersistenceException
+    **/
+    public void cancelarClase(int cohorte, int idClase) throws PersistenceException;
+
+    /**
+     * @obj Programa una clase en un horario especifico
+     * @param fecha
+     * @param hora 
+     * @pos si la fecha y la hora son correctas se programa la clase en el horario dado.
+     * @throws PersistenceException
+     */ 
+    public void programarClase(String fecha, String hora) throws PersistenceException;
+    //TODO: Poner parametros adicionales dependiendo como se diseñe el bean.
+    
+    /**
+     * @obj Se registra un curso dada su asignatura ,materia y profesor correspondiente
+     * @param idAsignatura
+     * @param siglaMateria
+     * @param idProfesor
+     * @pos si los parametros son correctos,y el profesor tiene el horario adecuado para dictar el curso,se resgistra el curso
+     * @throws PersistenceException
+     * 
+     */
+    public void registrarCurso(int idAsignatura, String siglaMateria, int idProfesor) throws PersistenceException ;
+   
+   /**
+    * @obj Consulta las materia registradas en el sistema
+    * @return lista de Materia
+    * @pos List con todas las Materias registradas en la base de datos
+    * @throws PersistenceException
+    */ 
+   public List<Materia> consultarMaterias() throws PersistenceException;
+   
+   /**
+    * @obj consulta las materias de una asignatura
+    * @return lista con Materias 
+    * @pos List con las materias de una asignatura dada  una asignatura
+    * @throws PersistenceException 
+    */
+   public List<Materia> consultarMaterias(int idAsignatura) throws PersistenceException;
+   
+   /**
+    * @obj Consulta los programas de la Unidad de Proyectos
+    * @return Lista con los Programas de la unidad de proyectos
+    * @pos List con los programas registrados en la base de datos
+    * @throws PersistenceException 
+    */
+   public List<Programa> consultarProgramas() throws PersistenceException;
+   
+   /**
+    * @obj Consulta las asignaturas 
+    * @return lista con de las Asignaturas
+    * @pos:List con  las asignaturas registradas en la base de datos
+    * @throws PersistenceException 
+    */
+   public List<Asignatura> consultarAsignaturas()throws PersistenceException;
+   
+   /**
+    * @obj Consulta los profesores segun el filtro de busqueda
+    * @param busqueda
+    * @return lista con los Profesores que contienen en su nombre la palabra de la busqueda
+    * @pos: List de tipo Profesor ,donde el nombre de los profesores contiene el String dado en la busqueda
+    * @throws PersistenceException 
+    */
+  public List<Profesor> consultarProfesores(String busqueda) throws PersistenceException;
+  
+  /**
+   * @obj Consulta las clases programadas para un curso especifico
+   * @param cohorte
+   * @return lista de Clases dado un curso especifico
+   * @pos: List de tipo Clase con las Clases que corresponden a un curso especifico
+   * @throws PersistenceException 
+   */
+  public List<Clase> consultarClases(String cohorte) throws PersistenceException;
+  
+  /**
+   * @obj Consulta los recursos disponibles que pueden ser asignados a una clase 
+   * @return
+   * @pos: List de tipo Recurso con los Recursos que estan disponibles.
+   * @throws PersistenceException 
+   */
+  public List<Recurso> consultarRecursosDisponibles() throws PersistenceException;
+  
+  /**
+   * objetivo: consulta los recursos de una clase dada
+   * @param cohorte
+   * @return lista con Recursos
+   * @pos: List de tipo Recurso que tiene los recursos usados en la clase dada
+   * @throws PersistenceException 
+   */
+  public List<Recurso> consultarRecursosClase(String cohorte) throws PersistenceException;
 }
