@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * Clase de Servicios necesarios para la aplicacion de Unidad de Proyectos
- * @author daniel,Felipe Pardo
+ * @author Daniel Ospina, Felipe Pardo
  */
 public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
 
