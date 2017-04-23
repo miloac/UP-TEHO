@@ -5,6 +5,7 @@
  */
 package com.pcvpmo.pdsw.uptehu.tests;
 import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
+import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.impl.ServiciosUnidadProyectosImpl;
 import java.util.List;
 import org.junit.Before;
@@ -42,8 +43,8 @@ public class UpTehoTest {
     
     @Test
     public void pruebaClaseFrontera1(){
-        ServiciosUnidadProyectosImpl sup = new ServiciosUnidadProyectosImpl ();
-        List<Materia> l = new List()<Materia>;
+        ServiciosUnidadProyectos sup = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        List<Materia> l = null;
         try{
             sup.registrarMateria(0, 0, null, 0, "Programacion Imperativa", "PIM", "introduccion a la programacion");
             l = sup.consultarMaterias(0);
@@ -53,9 +54,9 @@ public class UpTehoTest {
     
     @Test
     public void pruebaNoPermiteRegistrarUnaMateriaConProgramaNull(){
-        ServiciosUnidadProyectosImpl sup = new ServiciosUnidadProyectosImpl ();
-        List<Materia> l= new List()<Materia>;
-        List<Materia> lb= new List()<Materia>;
+        ServiciosUnidadProyectos sup = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        List<Materia> l= null;
+        List<Materia> lb= null;
         try{
             sup.registrarMateria(0, 0, null, 0, null, "PIM", "introduccion a la programacion");
             sup.registrarMateria(1, 0, null, 0, null, "PIM", "materiales magneticos");
@@ -64,4 +65,76 @@ public class UpTehoTest {
         }catch (PersistenceException e){}
         assertTrue(l.isEmpty() && lb.isEmpty());
     }
+    
+    @Test 
+    public void pruebaNorequisitosCiclicos(){
+        ServiciosUnidadProyectos sup = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        try{
+            sup.registrarMateria(0, 0, "pwea", 1, "programacion orientada objetos", "poob", "enseñanza de objetos y su respectiva programacion");
+            sup.registrarMateria(0, 0, "powe", 1, "programacion web y aplicaciones", "pwea", "desarrollo de aplicaciones web");
+            sup.registrarMateria(0, 0, "poob", 0, "programacion de objetos en aplicaciones we", "powe", "desarrollo de aplicaiones dinamicas");
+        }catch(PersistenceException e){
+            assert(true);
+        }
+    }
+    
+    @Test
+    public void pruebaReporteSinUnaMateriaCancelada(){
+        ServiciosUnidadProyectos sup = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        try{
+            sup.registrarMateria(0, 0, "pwea", 1, "programacion orientada objetos", "poob", "enseñanza de objetos y su respectiva programacion");
+            sup.registrarMateria(0, 0, "powe", 1, "programacion web y aplicaciones", "pwea", "desarrollo de aplicaciones web");
+            sup.registrarMateria(1, 0, null, 0, "vision arquitectonica simplificada", "vias", "diseño de estructuras viales ");
+            sup.registrarMateria(1, 0, null, 0, "estructuras metalicas para terremotos", "estr", "diseño de sistemas de amortiguacion");
+            //como se relaciona una clase con una materia?, no se ha implementado el metodo de generar reporte
+        }catch(PersistenceException e){
+        }
+        assertTrue(true);       
+    }
+    
+    @Test
+    public void pruebaClasePorFueraDelPeriodo(){
+        ServiciosUnidadProyectos sup = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        try{
+            //como se sabe cual es el periodo y su respectivo horario
+            sup.programarClase("10/6/2017", "21:00");
+        }catch (PersistenceException e){
+        }
+        assertTrue(true);        
+    }
+    
+    @Test
+    public void elCursoInvalidaElHorarioDelProfesorAsignado(){
+        ServiciosUnidadProyectos sup = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        try{
+            //la prueba no se puede hacer si no se conoce el horario de un profesor, ¿com ose pueden registrar?
+            //sup.registrarProfesor con un horario que no sea valido con cierto curso
+            sup.registrarMateria(0, 0, "pwea", 1, "programacion orientada objetos", "poob", "enseñanza de objetos y su respectiva programacion");
+            sup.registrarMateria(0, 0, null, 0, "programacion web y aplicaciones", "pwea", "desarrollo de aplicaciones web");
+            sup.registrarCurso(0, "poob", 0);
+        }catch (PersistenceException e){
+        }
+        assertTrue(true);
+    }
+    
+    @Test 
+    public void registroDeMateriasValido(){
+        ServiciosUnidadProyectos sup = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        List<Materia> lista = null;
+        try{
+            sup.registrarMateria(0, 0, "pwea", 1, "programacion orientada objetos", "poob", "enseñanza de objetos y su respectiva programacion");
+            sup.registrarMateria(0, 0, "powe", 1, "programacion web y aplicaciones", "pwea", "desarrollo de aplicaciones web");
+            sup.registrarMateria(1, 0, null, 0, "vision arquitectonica simplificada", "vias", "diseño de estructuras viales ");
+            sup.registrarMateria(1, 0, null, 0, "estructuras metalicas para terremotos", "estr", "diseño de sistemas de amortiguacion");
+            lista = sup.consultarMaterias();
+        }catch (PersistenceException e){  
+        }
+        boolean ans=true;
+        for (int i=0; i<lista.size(); i++){
+            //ans= lista.get(i).metodoparaobtenerla asignaturadeunamateria!=null && lista.get(i).metodoparaobtenerelprograma();
+        }
+        assertTrue(ans);
+    }
+    
+    
 }
