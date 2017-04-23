@@ -6,12 +6,8 @@
 package com.pcvpmo.pdsw.uptehu.tests;
 
 import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
-import com.pcvpmo.pdsw.upteho.entities.Materia;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
-import com.pcvpmo.pdsw.upteho.services.impl.ServiciosUnidadProyectosImpl;
-import java.util.List;
-import static junit.framework.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -54,8 +50,6 @@ public class UpTehoTest {
     public UpTehoTest(){
 
     }
-
-    
 
     @Before
     public void setUp(){
