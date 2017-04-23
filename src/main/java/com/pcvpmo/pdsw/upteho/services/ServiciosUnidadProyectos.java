@@ -8,6 +8,7 @@ package com.pcvpmo.pdsw.upteho.services;
 import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
+import com.pcvpmo.pdsw.upteho.entities.Curso;
 import com.pcvpmo.pdsw.upteho.entities.Materia;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
@@ -44,15 +45,16 @@ public interface ServiciosUnidadProyectos {
     public void cancelarClase(int cohorte, int idClase) throws PersistenceException;
 
     /**
+     * @param curso Curso al cual se le asignará la clase
      * @obj Programa una clase en un horario especifico
      * @param fecha
      * @param hora 
      * @pos si la fecha y la hora son correctas se programa la clase en el horario dado.
      * @throws PersistenceException
      */ 
-    public void programarClase(String fecha, String hora) throws PersistenceException;
-    //TODO: Poner parametros adicionales dependiendo como se diseñe el bean.
-    
+    public void programarClase(String fecha, String hora, Curso curso) throws PersistenceException;
+    //TODO: Cambiar parametros dependiendo como se diseñe el bean.
+    // Los paranetros inicialmente puestos era fecha y hora unicamente
     /**
      * @obj Se registra un curso dada su asignatura ,materia y profesor correspondiente
      * @param idAsignatura

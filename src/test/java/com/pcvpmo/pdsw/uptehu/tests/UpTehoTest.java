@@ -13,11 +13,9 @@ import static org.junit.Assert.*;
 /**
  *
  * @author Jefferson Castañeda - Gabriel Peña
- */
-
-/**
+ *
  *  frontera
- * CF1: Registrar una mateira de un programa al que no pertenece, resultado esperado: no se deja registrar la materia 
+ * CF1: Registrar una materia de un programa al que no pertenece, resultado esperado: no se deja registrar la materia 
  * clases de equivalencia 
  * CE1: una materia no puede ser registrada con un nombre nulo; resultado esperado: no se registra la materia
  * CE2: las materias de primer nivel se puede registrar sin prerequisitos; resultado esperado: registro la materia
@@ -30,36 +28,6 @@ import static org.junit.Assert.*;
  * CE9: al consultar las clases, si un cohorte es valido, el resultado no puede ser vacio; RE: listado no vacio de clases x cohorte
  *
  */
-
-/**
-
- *  frontera
-
- * CF1: Registrar una materia de un programa al que no pertenece, resultado esperado: no se deja registrar la materia 
-
- * clases de equivalencia 
-
- * CE1: una materia no puede ser registrada con un nombre nulo; resultado esperado: no se registra la materia
-
- * CE2: las materias de primer nivel se puede registrar sin prerequisitos; resultado esperado: registro la materia
-
- * CE3: si una materia A tiene un prerequisito B, la materia B no puede tener prerequisitos en los que A es prerequisito; resultado esperado: error
-
- * CE4: si se cancela una clase, no debe aparecer en el reporte del periodo; resultado esperado: la clase no aparece
-
- * CE5: no se puede programar una clase por fuera del horario del periodo; resultado esperado: error
-
- * CE6: no se puede registrar un curso si el profesor no tiene disponibilidad ; resultado esperado: error
-
- * CE7: se debe conocer por lo menos el programa y la asignatura de cada materia que aparezca; resultado esperado: asignatura y programa de las materias
-
- * CE8: al momento de registrar una materia, si esta tiene un Cohorte igual a otra ya registrada, deberia informar el error; RE: mensaje de error
-
- * CE9: al consultar las clases, si un cohorte es valido, el resultado no puede ser vacio; RE: listado no vacio de clases x cohorte
-
- *
-
- */
 public class UpTehoTest {
     
     public UpTehoTest(){
@@ -69,6 +37,9 @@ public class UpTehoTest {
     public void setUp(){
     }
     
+    /**
+     * CF1: Registrar una materia de un programa al que no pertenece, resultado esperado: no se deja registrar la materia 
+     */
     @Test
     public void pruebaClaseFrontera1(){
         ServiciosUnidadProyectos sup = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
@@ -80,6 +51,9 @@ public class UpTehoTest {
         assertTrue(l.size()==1);
     }
     
+    /**
+     * CE1: una materia no puede ser registrada con un nombre nulo; resultado esperado: no se registra la materia
+     */
     @Test
     public void pruebaNoPermiteRegistrarUnaMateriaConProgramaNull(){
         ServiciosUnidadProyectos sup = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
@@ -94,6 +68,10 @@ public class UpTehoTest {
         assertTrue(l.isEmpty() && lb.isEmpty());
     }
     
+    /**
+     * CE3: si una materia A tiene un prerequisito B, la materia B no puede tener prerequisitos en los que A es prerequisito; resultado esperado: error
+     * 
+     */
     @Test 
     public void pruebaNorequisitosCiclicos(){
         ServiciosUnidadProyectos sup = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
@@ -106,6 +84,9 @@ public class UpTehoTest {
         }
     }
     
+    /**
+     * CE4: si se cancela una clase, no debe aparecer en el reporte del periodo; resultado esperado: la clase no aparece
+     */
     @Test
     public void pruebaReporteSinUnaMateriaCancelada(){
         ServiciosUnidadProyectos sup = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
@@ -115,28 +96,39 @@ public class UpTehoTest {
             sup.registrarMateria(1, 0, null, 0, "vision arquitectonica simplificada", "vias", "diseño de estructuras viales ");
             sup.registrarMateria(1, 0, null, 0, "estructuras metalicas para terremotos", "estr", "diseño de sistemas de amortiguacion");
             //como se relaciona una clase con una materia?, no se ha implementado el metodo de generar reporte
+            // RE: Ya estan correctas las entities y relaciones, el reporte sale de la entities.Clase y se piden los atributos, 
+            //la descripcion de este test parece mas una Prueba de aceptacion que de unidad...
         }catch(PersistenceException e){
         }
         assertTrue(true);       
     }
     
+    /**
+     * CE5: no se puede programar una clase por fuera del horario del periodo; resultado esperado: error
+     */
     @Test
     public void pruebaClasePorFueraDelPeriodo(){
         ServiciosUnidadProyectos sup = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
         try{
             //como se sabe cual es el periodo y su respectivo horario
-            sup.programarClase("10/6/2017", "21:00");
+            sup.programarClase("10/6/2017", "21:00"); //Ya se cambio este metodo en Services para que tenga sentido
+            // RE: Curso tiene los atributos para el periodo, para hacer el test tendria que crear los objetos necesarios
+            // O rgistrar un nuevo curso, cambiando el metodo registrarClase
         }catch (PersistenceException e){
         }
         assertTrue(true);        
     }
     
+    /**
+     * CE6: no se puede registrar un curso si el profesor no tiene disponibilidad ; resultado esperado: error
+     */
     @Test
     public void elCursoInvalidaElHorarioDelProfesorAsignado(){
         ServiciosUnidadProyectos sup = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
         try{
             //la prueba no se puede hacer si no se conoce el horario de un profesor, ¿com ose pueden registrar?
             //sup.registrarProfesor con un horario que no sea valido con cierto curso
+            //RE: Primero se registra el curso, el profesor y su respectivo horario, y luego hacen la prueba de si se puede registrar
             sup.registrarMateria(0, 0, "pwea", 1, "programacion orientada objetos", "poob", "enseñanza de objetos y su respectiva programacion");
             sup.registrarMateria(0, 0, null, 0, "programacion web y aplicaciones", "pwea", "desarrollo de aplicaciones web");
             sup.registrarCurso(0, "poob", 0);
@@ -145,6 +137,9 @@ public class UpTehoTest {
         assertTrue(true);
     }
     
+    /**
+     * CE7: se debe conocer por lo menos el programa y la asignatura de cada materia que aparezca; resultado esperado: asignatura y programa de las materias
+     */
     @Test 
     public void registroDeMateriasValido(){
         ServiciosUnidadProyectos sup = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
@@ -164,6 +159,10 @@ public class UpTehoTest {
         assertTrue(ans);
     }
     
+    /**
+     * 
+     * 
+     */
     @Test
     public void ce5(){
         ServiciosUnidadProyectos s=ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
