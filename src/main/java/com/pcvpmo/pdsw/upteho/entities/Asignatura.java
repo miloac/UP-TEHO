@@ -7,8 +7,40 @@ package com.pcvpmo.pdsw.upteho.entities;
 
 /**
  *
- * @author 2116177
+ * @author Juan Camilo Mantilla
  */
 public class Asignatura {
+    int id;
+    String nombre;
+    int programaId;
+    
+    public Asignatura(int id, String nom, int progId){
+        this.id = id;
+        this. nombre = nom;
+        this.programaId = progId;
+    }
+    public int getID(){
+        return this.id;
+    }
+    
+    public String getNombre(){
+        return this.nombre;
+    }
+    
+    public int getprogramaID(){
+        return this.programaId;
+    }
+    
+    public void setID(int id){
+        this.id = id;
+    }
+    
+    public void setNombre(String nom){
+        this.nombre = nom;
+    }
+    
+    public void setProgramaID(int progId){
+        this.programaId = progId;
+    }
     
 }
