@@ -1,0 +1,45 @@
+.encabezado {
+    max-width: 100%;
+    height: 90px;
+    background: #ddd;
+    border-top: 2px solid #ddd;
+}
+.subencabezado {
+    margin: auto;
+    max-width: 70%;
+    height: auto;
+	    
+}
+.menu {
+    max-width:100%;
+    height:50px;
+    background:#fff;
+}
+.submenu {
+    margin:auto;
+    max-width:90%;
+    height:auto;
+}
+
+.pie {
+    max-width:100%;
+    height:60px;
+    background:#444;
+    border-top:1px solid #333;
+}
+.subpie {
+    margin:auto;
+    max-width:85%;
+    height:36px;
+    padding-top:20px;
+    text-align:center;
+}
+
+
+.item_m {
+    float:left;
+    font-size:18px;
+    padding:15px 35px;
+    list-style:none;
+    color: grey;
+}

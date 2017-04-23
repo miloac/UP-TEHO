@@ -6,23 +6,25 @@
      
       
     <h:head>
-        <link rel="stylesheet" type="text/css" href="estilos.css"/>
+        <h:outputStylesheet library="css" name="estilo.css" />        
         <title>UP-TEHO</title>
+        
     </h:head>
     <h:body>
         <!-- Encabezado -->
-        <header style="max-width: 100%; height: 100px; background: #ddd; border-top: 1px solid #ddd;font-family: 'Roboto', sans-serif;">
-            <header style="margin: auto; max-width: 70%; height: auto;">
-                
+        <header class="encabezado">
+            <header class="subencabezado">
+                <h1>UP-TEHO</h1>
             </header>
         </header>
+       
         <!-- MENU -->
-        <nav style="max-width:100%; height:50px; background:#fff;">
-            <nav style="margin:auto; max-width:80%; height:auto">
-                <a style="float:left;font-size:18px;padding:15px 15px;list-style:none;" href="Registro.xhtml">pag1</a>
-                <a style="float:left;font-size:18px;padding:15px 15px;list-style:none;" href="#">pag2</a>
-                <a style="float:left;font-size:18px;padding:15px 15px;list-style:none;" href="#">pag3</a>
-                <a style="float:left;font-size:18px;padding:15px 15px;list-style:none;" href="#">pag4</a>
+        <nav class="menu">
+            <nav class="submenu">
+                <a href="index.xhtml"><li class="item_m">INICIO</li></a>
+                <a href="ReporteProgramacion.xhtml"><li class="item_m">GENERAR</li></a>
+                <a href="RegistrarNuevaMateria.xhtml"><li class="item_m">PAG3</li></a>
+                <a href="#"><li class="item_m">PAG4</li></a>
             </nav>
         </nav>
         
@@ -34,8 +36,8 @@
         </div>
         
         <!--SUBPIE -->
-        <footer style="	max-width:100%; height:60px; background:#444; border-top:1px solid #333;">
-            <footer style="margin:auto;	max-width:85%; height:36px; padding-top:20px;text-align:center;">
+        <footer class="pie">
+            <footer class="subpie">
                 <font color="#CCCCCC">&copy; Copyright 2017 <a href="index.xhtml">
                 <font color="#999999">UP-TEHO</font></a> | Created By UP-TEHO</font>
             </footer>
