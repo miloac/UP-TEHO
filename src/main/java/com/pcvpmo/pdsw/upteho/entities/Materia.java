@@ -7,7 +7,7 @@ package com.pcvpmo.pdsw.upteho.entities;
 
 /**
  *
- * @author 2116177
+ * @author Juan Camilo Mantilla
  */
 public class Materia {
     
