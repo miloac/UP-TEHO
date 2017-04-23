@@ -6,16 +6,16 @@
 package com.pcvpmo.pdsw.upteho.entities;
 
 /**
- *
+ * Una clase simple que representa un Curso en la Unidad de Proyectos y sus detalles
  * @author Juan Camilo Mantilla
  */
 public class Curso {
-    int cohorte;
-    int profesorId;
-    String materia;
-    String periodo;
+    private int cohorte;
+    private int profesorId;
+    private Materia materia;
+    private Periodo periodo;
     
-    public Curso(int cohorte, int profId, String materia, String periodo){
+    public Curso(int cohorte, int profId, Materia materia, Periodo periodo){
         this.cohorte = cohorte;
         this.profesorId = profId;
         this.materia = materia;
@@ -30,11 +30,11 @@ public class Curso {
         return this.profesorId;
     }
     
-    public String getMateria(){
+    public Materia getMateria(){
         return this.materia;
     }
     
-    public String getPeriodo(){
+    public Periodo getPeriodo(){
         return this.periodo;
     }
     
@@ -46,11 +46,11 @@ public class Curso {
         this.profesorId = profId;
     }
     
-    public void setMateria(String mat){
+    public void setMateria(Materia mat){
         this.materia = mat;
     }
     
-    public void setPeriodo(String per){
+    public void setPeriodo(Periodo per){
         this.periodo = per;
     }
 }

@@ -1,37 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pcvpmo.pdsw.upteho.entities;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
- *
+ * Una clase simple que representa una Clase en la Unidad de Proyectos y sus detalles
  * @author Juan Camilo Mantilla
  */
 public class Clase {
-    int cohorte;
-    int id;
-    Date fechaHora;
-    int programaId;
+    private Curso curso;
+    private int id;
+    private Timestamp fechaHora;
+    private int programaId;
     
-    public Clase(int cohorte, int id, Date fecha, int programaId){
-        this.cohorte = cohorte;
+    public Clase(Curso curso, int id, Timestamp fecha, int programaId){
+        this.curso = curso;
         this.id = id;
         this.fechaHora = fecha;
         this.programaId = programaId;
     }
     
-    public int getCohorte(){
-        return this.cohorte;
+    public Curso getCurso(){
+        return this.curso;
     }
     
     public int getID(){
         return this.id;
     }
     
-    public Date getFecha(){
+    public Timestamp getFecha(){
         return this.fechaHora;
     }
     
@@ -39,8 +34,8 @@ public class Clase {
         return this.programaId;
     }
     
-    public void setCohorte(int co){
-        this.cohorte = co;
+    public void setCurso(Curso curso){
+        this.curso = curso;
     }
     
     public void setID(int id){
@@ -51,7 +46,7 @@ public class Clase {
         this.programaId = progId;
     }
     
-    public void setFechaHora(Date fecha){
+    public void setFechaHora(Timestamp fecha){
         this.fechaHora = fecha;
     }
 }

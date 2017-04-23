@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pcvpmo.pdsw.upteho.entities;
 
 /**
- *
+ * Una clase simple que representa un Recurso en la Unidad de Proyectos y sus detalles
  * @author Juan Camilo Mantilla
  */
 public class Recurso {

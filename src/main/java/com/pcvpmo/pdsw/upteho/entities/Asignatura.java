@@ -1,23 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pcvpmo.pdsw.upteho.entities;
 
 /**
- *
+ * Una clase simple que representa una Asignatura en la Unidad de Proyectos y sus detalles
  * @author Juan Camilo Mantilla
  */
 public class Asignatura {
-    int id;
-    String nombre;
-    int programaId;
+    private int id;
+    private String nombre;
+    private Programa programa;
     
-    public Asignatura(int id, String nom, int progId){
+    public Asignatura(int id, String nombre, Programa programa){
         this.id = id;
-        this. nombre = nom;
-        this.programaId = progId;
+        this.nombre = nombre;
+        this.programa = programa;
     }
     public int getID(){
         return this.id;
@@ -27,8 +22,8 @@ public class Asignatura {
         return this.nombre;
     }
     
-    public int getprogramaID(){
-        return this.programaId;
+    public Programa getPrograma(){
+        return this.programa;
     }
     
     public void setID(int id){
@@ -39,8 +34,8 @@ public class Asignatura {
         this.nombre = nom;
     }
     
-    public void setProgramaID(int progId){
-        this.programaId = progId;
+    public void setPrograma(Programa progId){
+        this.programa = progId;
     }
     
 }

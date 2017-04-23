@@ -2,6 +2,7 @@ package com.pcvpmo.pdsw.upteho.managedbeans;
 
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
+import com.pcvpmo.pdsw.upteho.entities.Curso;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -20,6 +21,9 @@ import com.pcvpmo.pdsw.upteho.entities.Recurso;
 @ManagedBean(name = "UnidadProyectos")
 @SessionScoped
 public class UnidadProyectosBean implements Serializable{
+    
+    private Curso cursoActual; 
+    //Curso que se haya seleccionado en la pagina, este atributo puede cambiar por id o String dependiendo de como lo implementemos
     
     public UnidadProyectosBean() {
     }
