@@ -103,7 +103,11 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
 
     @Override
     public Curso consultarCurso(int cohorte) throws UnidadProyectosException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try{
+        return  daoCurso.consultarCurso(cohorte);
+        }catch(PersistenceException e){
+            throw new UnidadProyectosException("Error al consultar el curso "+cohorte,e);
+        }
     }
     
 }
