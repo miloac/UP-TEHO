@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.MateriaMapper">
+    <resultMap type='Materia' id='MateriaResult'>
+        <id property='sigla' column='sigla'/>
+        <result property='nombre' column='nombre'/>
+        <result property="creditos" column="creditos"/>
+        <result property="descripcion" column="descripcion"/>
+        <association property="asignatura" javaType="Asignatura" columnPrefix="asi_" resultMap="AsignaturaResult"></association>
+    </resultMap>
+    
+    <resultMap type='Asignatura' id='AsignaturaResult'>
+        <id property='id' column='id'/>
+        <result property='nombre' column='nombre'/>
+        <association property="programa" javaType="Programa" column="pro_" resultMap="ProgramaResult"/>
+    </resultMap>
+    
+    <resultMap type="Programa" id="ProgramaResult">
+        <id property="id" column="id"/>
+        <result property="nombre" column="nombre"/>
+    </resultMap>
+</mapper>

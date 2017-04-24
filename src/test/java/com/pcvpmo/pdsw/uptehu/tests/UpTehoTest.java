@@ -1,10 +1,9 @@
 package com.pcvpmo.pdsw.uptehu.tests;
 
-import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
-import com.pcvpmo.pdsw.upteho.services.impl.ServiciosUnidadProyectosImpl;
 import com.pcvpmo.pdsw.upteho.entities.Materia;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
+import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,7 +46,7 @@ public class UpTehoTest {
         try{
             sup.registrarMateria(0, 0, null, 0, "Programacion Imperativa", "PIM", "introduccion a la programacion");
             l = sup.consultarMaterias(0);
-        }catch (PersistenceException e){}
+        }catch (UnidadProyectosException e){}
         assertTrue(l.size()==1);
     }
     
@@ -64,7 +63,7 @@ public class UpTehoTest {
             sup.registrarMateria(1, 0, null, 0, null, "PIM", "materiales magneticos");
             l = sup.consultarMaterias(1);
             lb = sup.consultarMaterias(1);
-        }catch (PersistenceException e){}
+        }catch (UnidadProyectosException e){}
         assertTrue(l.isEmpty() && lb.isEmpty());
     }
     
@@ -79,7 +78,7 @@ public class UpTehoTest {
             sup.registrarMateria(0, 0, "pwea", 1, "programacion orientada objetos", "poob", "enseñanza de objetos y su respectiva programacion");
             sup.registrarMateria(0, 0, "powe", 1, "programacion web y aplicaciones", "pwea", "desarrollo de aplicaciones web");
             sup.registrarMateria(0, 0, "poob", 0, "programacion de objetos en aplicaciones we", "powe", "desarrollo de aplicaiones dinamicas");
-        }catch(PersistenceException e){
+        }catch(UnidadProyectosException e){
             assert(true);
         }
     }
@@ -98,7 +97,7 @@ public class UpTehoTest {
             //como se relaciona una clase con una materia?, no se ha implementado el metodo de generar reporte
             // RE: Ya estan correctas las entities y relaciones, el reporte sale de la entities.Clase y se piden los atributos, 
             //la descripcion de este test parece mas una Prueba de aceptacion que de unidad...
-        }catch(PersistenceException e){
+        }catch(UnidadProyectosException e){
         }
         assertTrue(true);       
     }
@@ -114,8 +113,7 @@ public class UpTehoTest {
             sup.programarClase("10/6/2017", "21:00"); //Ya se cambio este metodo en Services para que tenga sentido
             // RE: Curso tiene los atributos para el periodo, para hacer el test tendria que crear los objetos necesarios
             // O rgistrar un nuevo curso, cambiando el metodo registrarClase
-        }catch (PersistenceException e){
-        }
+        }catch (UnidadProyectosException e){}
         assertTrue(true);        
     }
     
@@ -132,7 +130,7 @@ public class UpTehoTest {
             sup.registrarMateria(0, 0, "pwea", 1, "programacion orientada objetos", "poob", "enseñanza de objetos y su respectiva programacion");
             sup.registrarMateria(0, 0, null, 0, "programacion web y aplicaciones", "pwea", "desarrollo de aplicaciones web");
             sup.registrarCurso(0, "poob", 0);
-        }catch (PersistenceException e){
+        }catch (UnidadProyectosException e){
         }
         assertTrue(true);
     }
@@ -150,7 +148,7 @@ public class UpTehoTest {
             sup.registrarMateria(1, 0, null, 0, "vision arquitectonica simplificada", "vias", "diseño de estructuras viales ");
             sup.registrarMateria(1, 0, null, 0, "estructuras metalicas para terremotos", "estr", "diseño de sistemas de amortiguacion");
             lista = sup.consultarMaterias();
-        }catch (PersistenceException e){  
+        }catch (UnidadProyectosException e){  
         }
         boolean ans=true;
         for (int i=0; i<lista.size(); i++){
@@ -170,8 +168,8 @@ public class UpTehoTest {
         //que se encuentre en las fechas del periodo academico 
         try {
             s.programarClase("2005-12-20", "7:00");
-        } catch (Exception e) {
-            new PersistenceException("la fecha idicada se encuantra fuera del horario del periodo", e);
+        } catch (UnidadProyectosException e) {
+            new UnidadProyectosException("la fecha idicada se encuantra fuera del horario del periodo", e);
         }
     }
     
@@ -182,8 +180,8 @@ public class UpTehoTest {
             s.registrarCurso(0001, "PDSW", 001);
             //falta implementar en el metodo la disponibilidad del profesor, incluyendo la lista con los horarios que 
 //            ya tiene registrados
-        } catch (Exception e) {
-            new PersistenceException("la fecha no esta disponible para este profesor", e);
+        } catch (UnidadProyectosException e) {
+            new UnidadProyectosException("la fecha no esta disponible para este profesor", e);
         }
     }
     
@@ -194,8 +192,8 @@ public class UpTehoTest {
             //TODO falta implementar en el metodo de registrar materia la variable de cohorte
             s.registrarMateria(001, 002, "MBDA", 1, "Arquitectura empresarial", "AREM", "enfoca al desarrolllo del "
                     + "emprendimiento empresarial");
-        } catch (Exception e) {
-            new PersistenceException("el cohorte ya se encuentra registrado para otra materia", e);
+        } catch (UnidadProyectosException e) {
+            new UnidadProyectosException("el cohorte ya se encuentra registrado para otra materia", e);
         }
     }
 }

@@ -12,6 +12,11 @@ import com.pcvpmo.pdsw.upteho.entities.Periodo;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
+import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
+import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
+import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Managed Bean encargado de la comunicación entre capa logica y presentacion
@@ -21,6 +26,8 @@ import com.pcvpmo.pdsw.upteho.entities.Recurso;
 @ManagedBean(name = "UnidadProyectos")
 @SessionScoped
 public class UnidadProyectosBean implements Serializable{
+    
+    ServiciosUnidadProyectos sp = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectos();
     
     private Curso cursoActual; 
     //Curso que se haya seleccionado en la pagina, este atributo puede cambiar por id o String dependiendo de como lo implementemos
@@ -143,6 +150,20 @@ public class UnidadProyectosBean implements Serializable{
      */
     public List<Recurso> consultarRecursosClase(String cohorte) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    /**
+     * Consulta los cursos actuales en la Unidad de Proyectos
+     * @return Lista de Cursos
+     */
+    public List<Curso> consultarCursos() {
+        List<Curso> lista = null;
+        try {
+            lista = sp.consultarCursos();
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
     }
 }
 
