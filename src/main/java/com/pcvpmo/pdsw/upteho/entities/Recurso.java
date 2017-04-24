@@ -1,12 +1,17 @@
 package com.pcvpmo.pdsw.upteho.entities;
 
+import java.io.Serializable;
+
 /**
  * Una clase simple que representa un Recurso en la Unidad de Proyectos y sus detalles
  * @author Juan Camilo Mantilla
  */
-public class Recurso {
-    int id;
-    String nombre;
+public class Recurso implements Serializable {
+    private int id;
+    private String nombre;
+
+    public Recurso() {
+    }
     
     public Recurso(int id, String nom){
         this.id = id;

@@ -1,13 +1,18 @@
 package com.pcvpmo.pdsw.upteho.entities;
 
+import java.io.Serializable;
+
 /**
  * Una clase simple que representa una Asignatura en la Unidad de Proyectos y sus detalles
  * @author Juan Camilo Mantilla
  */
-public class Asignatura {
+public class Asignatura implements Serializable {
     private int id;
     private String nombre;
     private Programa programa;
+
+    public Asignatura() {
+    }
     
     public Asignatura(int id, String nombre, Programa programa){
         this.id = id;
