@@ -1,14 +1,42 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pcvpmo.pdsw.upteho.entities;
+import java.sql.Timestamp;
 
 /**
- *
- * @author 2116177
+ * Una clase simple que representa un Periodo Academico en la Unidad de Proyectos y sus detalles
+ * @author Juan Camilo Mantilla
  */
 public class Periodo {
+    String nombre;
+    Timestamp fechaInicial;
+    Timestamp fechaFin;
     
+    public Periodo(String nom, Timestamp fechaI, Timestamp fechaF){
+        this.nombre = nom;
+        this.fechaInicial = fechaI;
+        this.fechaFin = fechaF;
+    }
+    
+    public String getNombre(){
+        return this.nombre;
+    }
+    
+    public Timestamp getFechaInicial(){
+        return this.fechaInicial;
+    }
+    
+    public Timestamp getFechaFin(){
+        return this.fechaFin;
+    }
+    
+    public void setNombre(String nom){
+        this.nombre = nom;
+    }
+    
+    public void setFechaInicial(Timestamp fechaI){
+        this.fechaInicial = fechaI;
+    }
+    
+    public void setFechaFin(Timestamp fechaF){
+        this.fechaFin = fechaF;
+    }
 }
