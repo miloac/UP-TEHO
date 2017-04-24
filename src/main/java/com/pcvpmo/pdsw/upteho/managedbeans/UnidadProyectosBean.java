@@ -19,13 +19,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Managed Bean encargado de la comunicación entre capa logica y presentacion
+ * Managed Bean encargado de la comunicacion entre capa logica y presentacion
  * @author Daniel Ospina
  */
-
-@ManagedBean(name = "UnidadProyectos")
+@ManagedBean(name = "UnidadProyectosBean")
 @SessionScoped
-public class UnidadProyectosBean implements Serializable{
+public class UnidadProyectosBean implements Serializable {
     
     ServiciosUnidadProyectos sp = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectos();
     
@@ -83,6 +82,7 @@ public class UnidadProyectosBean implements Serializable{
     
     /**
      * Consulta las materias de una asignatura
+     * @param idAsignatura id de la asignatura
      * @return una lista con las Materias
      */
      public List<Materia> consultarMaterias(int idAsignatura){
@@ -107,8 +107,6 @@ public class UnidadProyectosBean implements Serializable{
         //TODO comprobar que es String para una lista desplegable
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
- 
     
     /**
      * Consulta los periodos academicos
@@ -146,6 +144,7 @@ public class UnidadProyectosBean implements Serializable{
     
     /**
      * Consulta los recursos asignados a una clase en particular
+     * @param cohorte cohorte del curso que se quiere consultar
      * @return Lista de recursos asignados a una clase
      */
     public List<Recurso> consultarRecursosClase(String cohorte) {
