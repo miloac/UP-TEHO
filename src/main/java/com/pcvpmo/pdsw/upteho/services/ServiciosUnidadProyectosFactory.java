@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pcvpmo.pdsw.upteho.services;
 
 import com.google.inject.Injector;
@@ -16,6 +11,7 @@ import com.pcvpmo.pdsw.upteho.dao.ProfesorDAO;
 import com.pcvpmo.pdsw.upteho.dao.ProgramaDAO;
 import com.pcvpmo.pdsw.upteho.dao.RecursoDAO;
 import com.pcvpmo.pdsw.upteho.dao.RequisitoDAO;
+import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISCursoDAO;
 import com.pcvpmo.pdsw.upteho.services.impl.ServiciosUnidadProyectosImpl;
 import org.mybatis.guice.XMLMyBatisModule;
 import org.mybatis.guice.datasource.helper.JdbcHelper;
@@ -40,6 +36,7 @@ public class ServiciosUnidadProyectosFactory {
                 install(JdbcHelper.PostgreSQL);
                 setClassPathResource("mybatis-config.xml");
                 bind(ServiciosUnidadProyectos.class).to(ServiciosUnidadProyectosImpl.class);
+                bind(CursoDAO.class).to(MyBATISCursoDAO.class);
                 //TODO agregar bind de DAOS MyBatis
             }
         });
@@ -50,6 +47,7 @@ public class ServiciosUnidadProyectosFactory {
                 install(JdbcHelper.PostgreSQL);
                 setEnvironmentId("mybatis-config-h2.xml");
                 bind(ServiciosUnidadProyectos.class).to(ServiciosUnidadProyectosImpl.class);
+                bind(CursoDAO.class).to(MyBATISCursoDAO.class);
                 //TODO agregar binds Daos MyBatis
             }
         });

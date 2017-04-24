@@ -1,13 +1,18 @@
 package com.pcvpmo.pdsw.upteho.entities;
 
+import java.io.Serializable;
+
 /**
  * Una clase simple que representa un Profesor en la Unidad de Proyectos y sus detalles
  * @author Juan Camilo Mantilla
  */
-public class Profesor {
-    int id;
-    String nombre;
-    String correo;
+public class Profesor implements Serializable {
+    private int id;
+    private String nombre;
+    private String correo;
+
+    public Profesor() {
+    }
     
     public Profesor(int id, String nom, String mail){
         this.id = id;

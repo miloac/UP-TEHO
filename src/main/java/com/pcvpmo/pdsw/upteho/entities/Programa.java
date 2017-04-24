@@ -1,12 +1,17 @@
 package com.pcvpmo.pdsw.upteho.entities;
 
+import java.io.Serializable;
+
 /**
  * Una clase simple que representa un Programa en la Unidad de Proyectos y sus detalles
  * @author Juan Camilo Mantilla
  */
-public class Programa {
-    int id;
-    String nombre;
+public class Programa implements Serializable {
+    private int id;
+    private String nombre;
+
+    public Programa() {
+    }
     
     public Programa(int id, String nom){
         this.id = id;
