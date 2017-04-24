@@ -59,4 +59,6 @@
         left join Periodo as per on cur.Periodo_nombre=per.nombre
         left join Profesores as prf on cur.Profesor_id=prf.id
     </select>
+    
+    
 </mapper>

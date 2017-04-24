@@ -33,7 +33,7 @@ public interface ServiciosUnidadProyectos {
      * @obj Cancela una clase de un Curso especifico
      * @param cohorte
      * @param idClase
-     * @pos si todos los parametros son correctos ,se cancela la clase en el curso dado
+     * @pos se cancela la clase del curso especifico, se eliminan los recursos de la clase y la reserva del salon
      * @throws UnidadProyectosException
     **/
     public void cancelarClase(int cohorte, int idClase) throws UnidadProyectosException;
@@ -54,7 +54,7 @@ public interface ServiciosUnidadProyectos {
      * @param idAsignatura
      * @param siglaMateria
      * @param idProfesor
-     * @pos si los parametros son correctos,y el profesor tiene el horario adecuado para dictar el curso,se resgistra el curso
+    * @pos si el profesor tiene el horario adecuado para dictar el curso,se resgistra el curso sin clases ni periodo
      * @throws UnidadProyectosException
      * 
      */
@@ -71,8 +71,10 @@ public interface ServiciosUnidadProyectos {
    /**
     * @obj consulta las materias de una asignatura
     * @return lista con Materias 
-    * @pos List con las materias de una asignatura dada  una asignatura
+    * @pos List con las materias que contiene una Asignatura 
     * @throws UnidadProyectosException 
+    * @pos List con las materias que contiene una Asignatura 
+    * @throws PersistenceException 
     */
    public List<Materia> consultarMaterias(int idAsignatura) throws UnidadProyectosException;
    
