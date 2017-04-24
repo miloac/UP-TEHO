@@ -1,13 +1,18 @@
 package com.pcvpmo.pdsw.upteho.entities;
 
+import java.io.Serializable;
+
 /**
  * Una clase simple que representa un Requisito en la Unidad de Proyectos y sus detalles
  * @author Juan Camilo Mantilla
  */
-public class Requisito {
+public class Requisito implements Serializable {
     String sigMateria;
     String sigRequisito;
     int tipo;
+
+    public Requisito() {
+    }
     
     public Requisito(String mat, String req, int tipo){
         this.sigMateria = mat;

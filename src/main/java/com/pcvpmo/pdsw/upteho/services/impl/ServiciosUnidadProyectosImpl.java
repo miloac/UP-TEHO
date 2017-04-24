@@ -6,6 +6,7 @@
 package com.pcvpmo.pdsw.upteho.services.impl;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.pcvpmo.pdsw.upteho.dao.CursoDAO;
 import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
@@ -25,6 +26,7 @@ import java.util.logging.Logger;
  * Clase de Servicios necesarios para la aplicacion de Unidad de Proyectos
  * @author Daniel Ospina, Felipe Pardo
  */
+@Singleton
 public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     
     @Inject

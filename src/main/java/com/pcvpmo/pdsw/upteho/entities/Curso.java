@@ -1,5 +1,7 @@
 package com.pcvpmo.pdsw.upteho.entities;
 
+import java.io.Serializable;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10,11 +12,14 @@ package com.pcvpmo.pdsw.upteho.entities;
  * Una clase simple que representa un Curso en la Unidad de Proyectos y sus detalles
  * @author Juan Camilo Mantilla
  */
-public class Curso {
+public class Curso implements Serializable {
     private int cohorte;
     private Profesor profesor;
     private Materia materia;
     private Periodo periodo;
+
+    public Curso() {
+    }
     
     public Curso(int cohorte, Profesor profesor, Materia materia, Periodo periodo){
         this.cohorte = cohorte;

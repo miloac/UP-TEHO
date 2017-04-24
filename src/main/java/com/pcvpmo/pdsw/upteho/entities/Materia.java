@@ -1,16 +1,21 @@
 package com.pcvpmo.pdsw.upteho.entities;
 
+import java.io.Serializable;
+
 /**
  * Una clase simple que representa una Materia en la Unidad de Proyectos y sus detalles
  * @author Juan Camilo Mantilla
  */
-public class Materia {
+public class Materia implements Serializable {
     private String sigla;
     private String nombre;
     private int creditos;
     private String descripcion;
     private Asignatura asignatura;
 
+    public Materia() {
+    }
+    
     public Materia(String sigla, String nombre, int creditos, String descripcion, Asignatura asignatura) {
         this.sigla = sigla;
         this.nombre = nombre;

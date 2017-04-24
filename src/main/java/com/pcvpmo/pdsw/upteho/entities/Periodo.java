@@ -1,14 +1,18 @@
 package com.pcvpmo.pdsw.upteho.entities;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * Una clase simple que representa un Periodo Academico en la Unidad de Proyectos y sus detalles
  * @author Juan Camilo Mantilla
  */
-public class Periodo {
+public class Periodo implements Serializable {
     String nombre;
     Timestamp fechaInicial;
     Timestamp fechaFin;
+
+    public Periodo() {
+    }
     
     public Periodo(String nom, Timestamp fechaI, Timestamp fechaF){
         this.nombre = nom;
