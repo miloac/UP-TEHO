@@ -2,30 +2,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3c.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui" 
-      xmlns:f="http://xmlns.jcp.org/jsf/core">     
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         
-        <title>Reporte Programacion Semanal</title>
+        <title>Reporte Programacion Semestral</title>
         <h:outputStylesheet library="css" name="estilo.css" />
     </h:head>
     <h:body>
         <!-- Encabezado -->
-        <header class="encabezado">
-            <header class="subencabezado">
-                <h1>UP-TEHO</h1>
-            </header>
-        </header>
+        <ui:include src="resources/inc/header.xhtml" />
        
         <!-- MENU -->
-        <nav class="menu">
-            <nav class="submenu">
-                <a href="index.xhtml"><li class="item_m">INICIO</li></a>
-                <a href="ReporteProgramacion.xhtml"><li class="item_m">GENERAR</li></a>
-                <a href="RegistrarNuevaMateria.xhtml"><li class="item_m">PAG3</li></a>
-                <a href="#"><li class="item_m">PAG4</li></a>
-            </nav>
-        </nav>
+        <ui:include src="resources/inc/menu.xhtml" />
         
         <!-- CUERPO -->
         <center><div style="max-width:97%;min-height:20px;background:#444 ;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
@@ -84,12 +73,7 @@
         </div>
         
         <!--SUBPIE -->
-        <footer class="pie">
-            <footer class="subpie">
-                <font color="#CCCCCC">&copy; Copyright 2017 <a href="index.xhtml">
-                <font color="#999999">UP-TEHO</font></a> | Created By UP-TEHO</font>
-            </footer>
-        </footer>
+        <ui:include src="resources/inc/footer.xhtml" />
     </h:body>
 </html>
 
