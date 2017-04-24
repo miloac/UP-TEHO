@@ -52,18 +52,21 @@
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="true" size="700" minSize="500" maxSize="700">
                         <h:form id="tabla_programacion">
-                            <p:dataTable var="programa" value="#{UnidadProyectos.consultarProgramas}">
+                            <p:dataTable var="curso" value="#{UnidadProyectos.consultarCursos}">
+                                <p:column headerText="INFO">
+                                    <center><h:commandButton value="Consultar" /></center>  
+                                </p:column>
                                 <p:column headerText="COHORTE">
-                                    <center><h:commandButton value="consultar" /></center>  
+                                    <h:outputText value="#{curso.cohorte}"/>
                                 </p:column>
                                 <p:column headerText="ASIGNATURA">
-                                    <h:outputText value="6"/>
+                                    <h:outputText value="#{curso.materia.asignatura.nombre}"/>
                                 </p:column>
                                 <p:column headerText="MATERIA">
-                                    <h:outputText value="5"/>
+                                    <h:outputText value="#{curso.materia.nombre}"/>
                                 </p:column>
                                 <p:column headerText="PROFESOR">
-                                    <h:outputText value="4"/>
+                                    <h:outputText value="#{curso.profesor.nombre}"/>
                                 </p:column>
                                 <p:column headerText="HORAS">
                                     <h:outputText value="3"/>
