@@ -24,8 +24,8 @@ public interface ServiciosUnidadProyectos {
      * @param nombreMateria
      * @param siglaMateria
      * @param descripcionMateria
-     * @pos si todos los parametros son correctos ,la materia es registrada.
-     * @throws UnidadProyectosException
+     * @pos la materia es registrada debe estar en la base de datos.
+     * @throws PersistenceException 
      */
     public void registrarMateria(int idPrograma, int idAsignatura, String siglaRequisito, int tipoRequisito, String nombreMateria, String siglaMateria, String descripcionMateria) throws UnidadProyectosException;
     
@@ -74,7 +74,7 @@ public interface ServiciosUnidadProyectos {
     * @pos List con las materias que contiene una Asignatura 
     * @throws UnidadProyectosException 
     * @pos List con las materias que contiene una Asignatura 
-    * @throws PersistenceException 
+
     */
    public List<Materia> consultarMaterias(int idAsignatura) throws UnidadProyectosException;
    
@@ -130,9 +130,17 @@ public interface ServiciosUnidadProyectos {
   public List<Recurso> consultarRecursosClase(String cohorte) throws UnidadProyectosException;
   
   /**
-   * //TODO javadoc
-   * @return 
+   * @obj consulta los cursos registrados en la base de datos
+   * @return Lista con todos los cursos registrados
    * @throws UnidadProyectosException 
    */
   public List<Curso> consultarCursos() throws UnidadProyectosException;
+  
+  /**
+   * @obj se consulta un  curso especifico dado su numero de cohorte
+   * @param cohorte
+   * @return Curso correspondiente a el numero de cohorte
+   * @throws UnidadProyectosException 
+   */
+  public Curso consultarCurso(int cohorte) throws UnidadProyectosException;
 }

@@ -7,6 +7,7 @@ package com.pcvpmo.pdsw.upteho.dao.mybatis.mappers;
 
 import com.pcvpmo.pdsw.upteho.entities.Curso;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * Interface para el Mapper Curso
@@ -19,4 +20,5 @@ public interface CursoMapper {
      * @return una lista con los cursos
      */
     List<Curso> consultarCursos();
+    Curso consultarCurso(@Param("cohorteCur")int cohorte);
 }

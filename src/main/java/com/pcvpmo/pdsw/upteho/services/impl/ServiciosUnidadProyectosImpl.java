@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     
     @Inject
-    CursoDAO daoCurso; //TODO is Private?
+    private CursoDAO daoCurso;
     
     @Override
     public void registrarMateria(int idPrograma, int idAsignatura, String siglaRequisito, int tipoRequisito, String nombreMateria, String siglaMateria, String descripcionMateria) {
@@ -99,6 +99,11 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
         } catch (PersistenceException ex) {
             throw new UnidadProyectosException("Error al consultar los cursos", ex);
         }
+    }
+
+    @Override
+    public Curso consultarCurso(int cohorte) throws UnidadProyectosException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
