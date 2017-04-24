@@ -34,6 +34,15 @@ public class UnidadProyectosBean implements Serializable {
     public UnidadProyectosBean() {
     }
     
+    public String irPaginaCurso(Curso curso_actual) {
+        cursoActual = curso_actual;
+        return "InfoCurso";
+    }
+    
+    public String nombreCursoActual() {
+        return cursoActual.getMateria().getNombre();
+    }
+    
     /**
      * Registra una Materia nueva con los datos necesarios respectivos
      * @param idPrograma id del programa de grado al que pertenece la materia

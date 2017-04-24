@@ -13,7 +13,7 @@
     
     <resultMap type='Periodo' id='PeriodoResult'>
         <id property='nombre' column='nombre'/>
-        <result property='fechaInicial' column='fecha_inic'/>
+        <result property='fechaInicial' column='fecha_inicio'/>
         <result property='fechaFin' column='fecha_fin'/>
     </resultMap>
     
@@ -44,13 +44,13 @@
         pro.id as mat_asi_pro_id,
         pro.nombre as mat_asi_pro_nombre,
         
-        per.nombre as mat_asi_pro_per_nombre,
-        per.fecha_inicio as mat_asi_pro_per_fecha_inic,
-        per.fecha_fin as mat_asi_pro_per_fecha_fin,
+        per.nombre as per_nombre,
+        per.fecha_inicio as per_fecha_inicio,
+        per.fecha_fin as per_fecha_fin,
         
-        prf.id as mat_asi_pro_per_prf_id,
-        prf.nombre as mat_asi_pro_per_prf_nombre,
-        prf.correo as mat_asi_pro_per_prf_correo
+        prf.id as prf_id,
+        prf.nombre as prf_nombre,
+        prf.correo as prf_correo
         
         from Cursos as cur
         left join Materias as mat on cur.Materias_sigla=mat.sigla

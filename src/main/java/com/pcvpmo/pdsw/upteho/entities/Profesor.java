@@ -7,9 +7,9 @@ import java.io.Serializable;
  * @author Juan Camilo Mantilla
  */
 public class Profesor implements Serializable {
-    int id;
-    String nombre;
-    String correo;
+    private int id;
+    private String nombre;
+    private String correo;
 
     public Profesor() {
     }
