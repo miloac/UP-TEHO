@@ -7,8 +7,8 @@ import java.io.Serializable;
  * @author Juan Camilo Mantilla
  */
 public class Programa implements Serializable {
-    int id;
-    String nombre;
+    private int id;
+    private String nombre;
 
     public Programa() {
     }

@@ -7,9 +7,9 @@ import java.io.Serializable;
  * @author Juan Camilo Mantilla
  */
 public class Requisito implements Serializable {
-    String sigMateria;
-    String sigRequisito;
-    int tipo;
+    private String sigMateria;
+    private String sigRequisito;
+    private int tipo;
 
     public Requisito() {
     }
