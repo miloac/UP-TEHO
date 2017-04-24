@@ -1,9 +1,10 @@
+package com.pcvpmo.pdsw.upteho.entities;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pcvpmo.pdsw.upteho.entities;
 
 /**
  * Una clase simple que representa un Curso en la Unidad de Proyectos y sus detalles
@@ -11,13 +12,13 @@ package com.pcvpmo.pdsw.upteho.entities;
  */
 public class Curso {
     private int cohorte;
-    private int profesorId;
+    private Profesor profesor;
     private Materia materia;
     private Periodo periodo;
     
-    public Curso(int cohorte, int profId, Materia materia, Periodo periodo){
+    public Curso(int cohorte, Profesor profesor, Materia materia, Periodo periodo){
         this.cohorte = cohorte;
-        this.profesorId = profId;
+        this.profesor = profesor;
         this.materia = materia;
         this.periodo = periodo;
     }
@@ -26,8 +27,8 @@ public class Curso {
         return this.cohorte;
     }
     
-    public int getProfesorId(){
-        return this.profesorId;
+    public Profesor getProfesor(){
+        return this.profesor;
     }
     
     public Materia getMateria(){
@@ -42,8 +43,8 @@ public class Curso {
         this.cohorte = co;
     }
     
-    public void setProfesorId(int profId){
-        this.profesorId = profId;
+    public void setProfesor(Profesor profesor){
+        this.profesor = profesor;
     }
     
     public void setMateria(Materia mat){
