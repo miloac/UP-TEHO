@@ -138,7 +138,8 @@ public interface ServiciosUnidadProyectos {
   
   /**
    * @obj se consulta un  curso especifico dado su numero de cohorte
-   * @param cohorte
+   * @pre cohorte mayor que 0
+   * @param cohorte cohorte del curso a consultar
    * @return Curso correspondiente a el numero de cohorte
    * @throws UnidadProyectosException 
    */
@@ -147,6 +148,7 @@ public interface ServiciosUnidadProyectos {
   /**
    * Consulta Consulta todos los cursos de un periodo especifico
    * @param nombre del curso
+   * @pos nombre debe tener el formato [Año]-[Semestre] Ejemplo: "2017-1"
    * @return lista de cursos del periodo
    * @throws UnidadProyectosException
    */

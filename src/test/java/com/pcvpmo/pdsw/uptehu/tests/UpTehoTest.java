@@ -1,5 +1,6 @@
 package com.pcvpmo.pdsw.uptehu.tests;
 
+import com.pcvpmo.pdsw.upteho.entities.Curso;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.entities.Materia;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
@@ -110,7 +111,7 @@ public class UpTehoTest {
         ServiciosUnidadProyectos sup = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
         try{
             //como se sabe cual es el periodo y su respectivo horario
-            sup.programarClase("10/6/2017", "21:00"); //Ya se cambio este metodo en Services para que tenga sentido
+            sup.programarClase("10/6/2017", "21:00", new Curso());//Ya se cambio este metodo en Services para que tenga sentido
             // RE: Curso tiene los atributos para el periodo, para hacer el test tendria que crear los objetos necesarios
             // O rgistrar un nuevo curso, cambiando el metodo registrarClase
         }catch (UnidadProyectosException e){}
@@ -156,23 +157,7 @@ public class UpTehoTest {
         }
         assertTrue(ans);
     }
-    
-    /**
-     * 
-     * 
-     */
-    @Test
-    public void ce5(){
-        ServiciosUnidadProyectos s=ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
-        //TODO se compara la fecha elegida por el profesor para programar la clase, 
-        //que se encuentre en las fechas del periodo academico 
-        try {
-            s.programarClase("2005-12-20", "7:00");
-        } catch (UnidadProyectosException e) {
-            new UnidadProyectosException("la fecha idicada se encuantra fuera del horario del periodo", e);
-        }
-    }
-    
+      
     @Test
     public void ce6(){
         ServiciosUnidadProyectos s=ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
