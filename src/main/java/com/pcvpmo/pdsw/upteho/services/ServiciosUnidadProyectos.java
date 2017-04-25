@@ -4,9 +4,11 @@ import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
 import com.pcvpmo.pdsw.upteho.entities.Curso;
 import com.pcvpmo.pdsw.upteho.entities.Materia;
+import com.pcvpmo.pdsw.upteho.entities.Periodo;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
+import com.pcvpmo.pdsw.upteho.entities.Salon;
 import java.util.List;
 
 /**
@@ -25,7 +27,7 @@ public interface ServiciosUnidadProyectos {
      * @param siglaMateria
      * @param descripcionMateria
      * @pos la materia es registrada debe estar en la base de datos.
-     * @throws PersistenceException 
+     * @throws UnidadProyectosException 
      */
     public void registrarMateria(int idPrograma, int idAsignatura, String siglaRequisito, int tipoRequisito, String nombreMateria, String siglaMateria, String descripcionMateria) throws UnidadProyectosException;
     
@@ -153,4 +155,38 @@ public interface ServiciosUnidadProyectos {
    * @throws UnidadProyectosException
    */
   public List<Curso> consultarCursosPorPeriodo(String nombre) throws UnidadProyectosException;
+    
+  /**
+   * @obj Consulta los salones dado el periodo academico
+   * @pre periodo puede ser null
+   * @param periodo
+   * @return lista con los salones que corresponden al periodo academico
+   * @throws UnidadProyectosException 
+   */
+  public List<Salon> consultarSalonesPeriodo(Periodo periodo) throws UnidadProyectosException; 
+  
+  /**
+   * @obj Consultar clase correspondientes a un curso
+   * @pre idCohorte puede ser null
+   * @param idCohorte
+   * @return lista con las Clases que corresponden a un curso
+   * @throws UnidadProyectosException 
+   */
+  public List<Clase> consultarClasesCurso(int idCohorte)throws UnidadProyectosException;
+  
+  /**
+   * @obj consultar los salones registrados en  la base de datos
+   * @return lista con todos los salones registrados
+   * @throws UnidadProyectosException 
+   */
+  public List<Salon> consultarSalones() throws UnidadProyectosException; 
+  
+  /**
+   * @obj consultar los salones correspondientes a un curso especifico
+   * @param cohorte
+   * @return lista de salones que corresponden a un curso especifico
+   * @throws UnidadProyectosException 
+   */
+  public List<Salon> consultarSalonCurso(int cohorte) throws UnidadProyectosException;
+  
 }

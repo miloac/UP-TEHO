@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.SalonMapper">
+    <resultMap type='Salon' id='SalonResult'>
+        <id property='idSalon' column='id_salon'/>
+        <result property='tipoSalon' column='tipo_salon'>
+    </resultMap>
+    
+    <select parameterType="map" id="consultarSalones" resultMap="SalonResult">
+        select
+        id_salon ,
+        tipo_salon 
+        from Salon
+    </select>
+        
+    <select parameterType="map" id="consultarSalonPeriodo" resultMap="SalonResult">
+        select
+        sal.id_salon
+        sal.tipo_salon
+        from Salon as sal
+        left join ReservacionSalones as rsal on sal.id_salon=rsal.Salon_id_salon
+        left join Clases as cla on rsal.Clases_id_clase=cla.id_clase
+        left join Cursos as cur on cla.Cursos_cohorte=cur.cohorte
+        where cur.Periodo_nombre= COALESCE(?,idPeriodo)
+    </select>
+    
+     <select parameterType="map" id="consultarSalonCurso" resultMap="SalonResult">
+        select
+        sal.id_salon
+        sal.tipo_salon
+        from Salon as sal
+        left join ReservacionSalones as rsal on sal.id_salon=rsal.Salon_id_salon
+        left join Clases as cla on rsal.Clases_id_clase=cla.id_clase
+        left join Cursos as cur on cla.Cursos_cohorte=cur.cohorte
+        where cur.cohorte= #{cohorte}
+    </select>
+</mapper>
