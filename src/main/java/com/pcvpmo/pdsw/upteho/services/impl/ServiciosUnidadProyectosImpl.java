@@ -19,8 +19,6 @@ import com.pcvpmo.pdsw.upteho.entities.Recurso;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Clase de Servicios necesarios para la aplicacion de Unidad de Proyectos
@@ -104,9 +102,18 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     @Override
     public Curso consultarCurso(int cohorte) throws UnidadProyectosException {
         try{
-        return  daoCurso.consultarCurso(cohorte);
+            return daoCurso.consultarCurso(cohorte);
         }catch(PersistenceException e){
             throw new UnidadProyectosException("Error al consultar el curso "+cohorte,e);
+        }
+    }
+
+    @Override
+    public List<Curso> consultarCursosPorPeriodo(String nombre) throws UnidadProyectosException {
+        try {
+            return daoCurso.consultarCursosPorPeriodo(nombre);
+        } catch (PersistenceException e) {
+            throw new UnidadProyectosException("Error al consultar los cursos por el periodo " + nombre, e);
         }
     }
     

@@ -49,12 +49,13 @@ public interface ServiciosUnidadProyectos {
     public void programarClase(String fecha, String hora, Curso curso) throws UnidadProyectosException;
     //TODO: Cambiar parametros dependiendo como se diseñe el bean.
     // Los paranetros inicialmente puestos era fecha y hora unicamente
+    
     /**
      * @obj Se registra un curso dada su asignatura ,materia y profesor correspondiente
      * @param idAsignatura
      * @param siglaMateria
      * @param idProfesor
-      * @pos si el profesor tiene el horario adecuado para dictar el curso,se resgistra el curso sin clases ni periodo
+     * @pos si el profesor tiene el horario adecuado para dictar el curso,se resgistra el curso sin clases ni periodo
      * @throws UnidadProyectosException
      * 
      */
@@ -70,6 +71,7 @@ public interface ServiciosUnidadProyectos {
    
    /**
     * @obj consulta las materias de una asignatura
+    * @param idAsignatura id de la asignatura
     * @return lista con Materias 
     * @pos List con las materias que contiene una Asignatura 
     * @throws UnidadProyectosException 
@@ -136,9 +138,19 @@ public interface ServiciosUnidadProyectos {
   
   /**
    * @obj se consulta un  curso especifico dado su numero de cohorte
-   * @param cohorte
+   * @pre cohorte mayor que 0
+   * @param cohorte cohorte del curso a consultar
    * @return Curso correspondiente a el numero de cohorte
    * @throws UnidadProyectosException 
    */
   public Curso consultarCurso(int cohorte) throws UnidadProyectosException;
+  
+  /**
+   * Consulta Consulta todos los cursos de un periodo especifico
+   * @param nombre del curso
+   * @pos nombre debe tener el formato [Año]-[Semestre] Ejemplo: "2017-1"
+   * @return lista de cursos del periodo
+   * @throws UnidadProyectosException
+   */
+  public List<Curso> consultarCursosPorPeriodo(String nombre) throws UnidadProyectosException;
 }

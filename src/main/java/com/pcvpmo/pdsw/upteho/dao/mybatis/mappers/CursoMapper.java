@@ -20,5 +20,18 @@ public interface CursoMapper {
      * @return una lista con los cursos
      */
     List<Curso> consultarCursos();
+    
+    /**
+     * Consulta un curso especifico dado un cohorte
+     * @param cohorte cohorte del curso
+     * @return Objeto Curso 
+     */
     Curso consultarCurso(@Param("cohorteCur")int cohorte);
+    
+    /**
+     * Consulta todos los cursos de un periodo dado
+     * @param nombre nombre del periodo
+     * @return Lista de cursos
+     */
+    List<Curso> consultarCursosPorPeriodo(@Param("nombrePeriodo")String nombre);
 }
