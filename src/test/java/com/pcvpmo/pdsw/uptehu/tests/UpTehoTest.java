@@ -6,6 +6,8 @@ import com.pcvpmo.pdsw.upteho.entities.Materia;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -187,6 +189,34 @@ public class UpTehoTest {
                     + "emprendimiento empresarial");
         } catch (UnidadProyectosException e) {
             new UnidadProyectosException("el cohorte ya se encuentra registrado para otra materia", e);
+        }
+    }
+    /**
+     * CE10: al consultar un curso, el cohorte no puede ser negativo; resultado esperado: error
+     */
+    @Test
+    public void consultarCursoCohorteNegativo(){
+        ServiciosUnidadProyectos s=ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        try{
+            s.consultarCurso(-1);
+            fail("No debe dejar consultar un numero negativo");
+        } catch (UnidadProyectosException ex) {
+            
+        }
+        
+    }
+    
+    /**
+     * CE11: al consultar cursos por periodo, el periodo debe tener un formato adecuado de: año, guion y numero del semestre: AAAA-N; resultado esperado: error si no se sigue el formato
+     */
+    @Test
+    public void consultarCursoPeriodoCorrecto(){
+        ServiciosUnidadProyectos s=ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        try{
+            s.consultarCursosPorPeriodo("20162");
+            fail("No debe consultar un periodo con formato erroneo");
+        } catch (UnidadProyectosException ex) {
+            
         }
     }
     

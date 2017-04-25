@@ -113,6 +113,16 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
 
     @Override
     public List<Curso> consultarCursosPorPeriodo(String nombre) throws UnidadProyectosException {
+        String[] valores = nombre.split("-");
+        if(valores.length != 2){
+            try{
+                int valor1 = Integer.parseInt(valores[0]);
+                int valor2 = Integer.parseInt(valores[1]);
+            }
+            catch(Exception e){
+                throw new UnidadProyectosException("El formato del periodo no es correcto",e);
+            }    
+        }
         try {
             return daoCurso.consultarCursosPorPeriodo(nombre);
         } catch (PersistenceException e) {
