@@ -162,6 +162,7 @@ public class UpTehoTest {
         assertTrue(ans);
     }
     
+    
     /**
      * CE6: no se puede registrar un curso si el profesor no tiene disponibilidad ; resultado esperado: error
      */
@@ -191,6 +192,7 @@ public class UpTehoTest {
             new UnidadProyectosException("el cohorte ya se encuentra registrado para otra materia", e);
         }
     }
+
     /**
      * CE10: al consultar un curso, el cohorte no puede ser negativo; resultado esperado: error
      */
@@ -219,6 +221,7 @@ public class UpTehoTest {
             
         }
     }
+
     
     
 }
