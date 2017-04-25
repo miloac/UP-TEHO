@@ -1,5 +1,6 @@
 package com.pcvpmo.pdsw.upteho.entities;
 import java.io.Serializable;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 /**
@@ -10,7 +11,7 @@ public class Clase implements Serializable {
     private Curso curso;
     private int id;
     private Timestamp fechaHora;
-    private int programaId;
+    private Time duracion;
 
     public Clase() {
     }
@@ -19,7 +20,7 @@ public class Clase implements Serializable {
         this.curso = curso;
         this.id = id;
         this.fechaHora = fecha;
-        this.programaId = programaId;
+        this.duracion = duracion;
     }
     
     public Curso getCurso(){
@@ -34,8 +35,8 @@ public class Clase implements Serializable {
         return this.fechaHora;
     }
     
-    public int getProgramaId(){
-        return this.programaId;
+    public Time getDuracion(){
+        return this.duracion;
     }
     
     public void setCurso(Curso curso){
@@ -46,8 +47,8 @@ public class Clase implements Serializable {
         this.id = id;
     }
     
-    public void setProgramaId(int progId){
-        this.programaId = progId;
+    public void setDuracion(Time progId){
+        this.duracion = progId;
     }
     
     public void setFechaHora(Timestamp fecha){

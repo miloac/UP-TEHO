@@ -7,15 +7,19 @@ package com.pcvpmo.pdsw.upteho.services.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.pcvpmo.pdsw.upteho.dao.ClaseDAO;
 import com.pcvpmo.pdsw.upteho.dao.CursoDAO;
 import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
+import com.pcvpmo.pdsw.upteho.dao.SalonDAO;
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
 import com.pcvpmo.pdsw.upteho.entities.Curso;
 import com.pcvpmo.pdsw.upteho.entities.Materia;
+import com.pcvpmo.pdsw.upteho.entities.Periodo;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
+import com.pcvpmo.pdsw.upteho.entities.Salon;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
 import java.util.List;
@@ -31,6 +35,12 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     
     @Inject
     private CursoDAO daoCurso;
+    
+    @Inject 
+    private ClaseDAO daoClase;
+    
+    @Inject
+    private SalonDAO daoSalon;
     
     @Override
     public void registrarMateria(int idPrograma, int idAsignatura, String siglaRequisito, int tipoRequisito, String nombreMateria, String siglaMateria, String descripcionMateria) {
@@ -109,5 +119,41 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             throw new UnidadProyectosException("Error al consultar el curso "+cohorte,e);
         }
     }
+
+    @Override
+    public List<Salon> consultarSalonesPeriodo(Periodo periodo) throws UnidadProyectosException {
+       try{
+           return daoSalon.consultarSalonPeriodo(periodo.getNombre());
+       }catch(PersistenceException e){
+           throw new  UnidadProyectosException("Error al consultar los salones  del periodo"+periodo.getNombre(),e);
+       }
+    }
+    @Override
+    public List<Clase> consultarClasesCurso(int idCohorte) throws UnidadProyectosException {
+        try{
+            return daoClase.consultarClaseCurso(idCohorte);
+        }catch(PersistenceException e){
+            throw new UnidadProyectosException("Error al consultar clase del curso"+idCohorte,e);
+        }
+    }
+
+    @Override
+    public List<Salon> consultarSalones() throws UnidadProyectosException {
+        try{
+            return daoSalon.consultarSalones();
+        }catch(PersistenceException e){
+            throw new UnidadProyectosException("Error al consultar los Salones",e);
+        }
+    }
+
+    @Override
+    public List<Salon> consultarSalonCurso(int cohorte) throws UnidadProyectosException {
+        try{
+            return daoSalon.consultarSalonCurso(cohorte);
+        }catch(PersistenceException e){
+            throw new UnidadProyectosException("Error al consultar el salon  del  curso"+cohorte,e);
+        }
+    }
+
     
 }
