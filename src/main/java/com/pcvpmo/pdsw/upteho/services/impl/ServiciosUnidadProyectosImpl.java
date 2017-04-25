@@ -101,6 +101,9 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
 
     @Override
     public Curso consultarCurso(int cohorte) throws UnidadProyectosException {
+        if(cohorte <0){
+            throw new UnidadProyectosException("El cohorte"+cohorte+"no es permitido");
+        }
         try{
             return daoCurso.consultarCurso(cohorte);
         }catch(PersistenceException e){
