@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface CursoDAO {
     List<Curso> consultarCursos() throws PersistenceException;
+    
+    Curso consultarCurso(int cohorte) throws PersistenceException;
 }

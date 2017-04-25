@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     
     @Inject
-    CursoDAO daoCurso; //TODO is Private?
+    private CursoDAO daoCurso;
     
     @Override
     public void registrarMateria(int idPrograma, int idAsignatura, String siglaRequisito, int tipoRequisito, String nombreMateria, String siglaMateria, String descripcionMateria) {
@@ -98,6 +98,15 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             return daoCurso.consultarCursos();
         } catch (PersistenceException ex) {
             throw new UnidadProyectosException("Error al consultar los cursos", ex);
+        }
+    }
+
+    @Override
+    public Curso consultarCurso(int cohorte) throws UnidadProyectosException {
+        try{
+        return  daoCurso.consultarCurso(cohorte);
+        }catch(PersistenceException e){
+            throw new UnidadProyectosException("Error al consultar el curso "+cohorte,e);
         }
     }
     
