@@ -155,8 +155,10 @@ public interface ServiciosUnidadProyectos {
    * @throws UnidadProyectosException
    */
   public List<Curso> consultarCursosPorPeriodo(String nombre) throws UnidadProyectosException;
+
+    
   /**
-   * Consulta los salones dado el periodo academico
+   * @obj Consulta los salones dado el periodo academico
    * @pre periodo puede ser null
    * @param periodo
    * @return lista con los salones que corresponden al periodo academico
