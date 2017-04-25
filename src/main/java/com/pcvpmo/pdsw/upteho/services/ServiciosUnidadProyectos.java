@@ -54,7 +54,7 @@ public interface ServiciosUnidadProyectos {
      * @param idAsignatura
      * @param siglaMateria
      * @param idProfesor
-    * @pos si el profesor tiene el horario adecuado para dictar el curso,se resgistra el curso sin clases ni periodo
+      * @pos si el profesor tiene el horario adecuado para dictar el curso,se resgistra el curso sin clases ni periodo
      * @throws UnidadProyectosException
      * 
      */
@@ -73,8 +73,6 @@ public interface ServiciosUnidadProyectos {
     * @return lista con Materias 
     * @pos List con las materias que contiene una Asignatura 
     * @throws UnidadProyectosException 
-    * @pos List con las materias que contiene una Asignatura 
-
     */
    public List<Materia> consultarMaterias(int idAsignatura) throws UnidadProyectosException;
    
