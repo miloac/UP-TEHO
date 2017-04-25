@@ -52,10 +52,7 @@ public class ServiciosUnidadProyectosFactory {
             }
         });
     }
-    /**
-     *
-     * @return
-     */
+    
     public ServiciosUnidadProyectos getServiciosUnidadProyectos() {
         return injector.getInstance(ServiciosUnidadProyectos.class);
     }

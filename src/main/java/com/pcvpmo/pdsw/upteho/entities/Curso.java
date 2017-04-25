@@ -1,13 +1,6 @@
 package com.pcvpmo.pdsw.upteho.entities;
 
 import java.io.Serializable;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Una clase simple que representa un Curso en la Unidad de Proyectos y sus detalles
  * @author Juan Camilo Mantilla

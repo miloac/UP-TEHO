@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pcvpmo.pdsw.upteho.dao.mybatis;
 
 import com.google.inject.Inject;
@@ -30,5 +25,9 @@ public class MyBATISCursoDAO implements CursoDAO {
     public Curso consultarCurso(int cohorte) throws PersistenceException {
         return cursoMapper.consultarCurso(cohorte);
     }
-    
+
+    @Override
+    public List<Curso> consultarCursosPorPeriodo(String nombre) throws PersistenceException {
+        return cursoMapper.consultarCursosPorPeriodo(nombre);       
+    }
 }

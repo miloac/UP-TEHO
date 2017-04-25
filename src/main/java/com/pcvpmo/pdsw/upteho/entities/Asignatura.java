@@ -19,7 +19,7 @@ public class Asignatura implements Serializable {
         this.nombre = nombre;
         this.programa = programa;
     }
-    public int getID(){
+    public int getId(){
         return this.id;
     }
     
@@ -31,7 +31,7 @@ public class Asignatura implements Serializable {
         return this.programa;
     }
     
-    public void setID(int id){
+    public void setId(int id){
         this.id = id;
     }
     

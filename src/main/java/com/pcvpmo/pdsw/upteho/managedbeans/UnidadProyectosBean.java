@@ -66,6 +66,11 @@ public class UnidadProyectosBean implements Serializable {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
+    /**
+     * Programa una Clase //TODO Terminar esta descripcion
+     * @param fecha fecha de la clase
+     * @param hora hora de la clase
+     */
     public void programarClase(String fecha, String hora) {
         //TODO comprobar que tipo es la fecha y hora, salones y recursos
         throw new UnsupportedOperationException("Not supported yet.");
@@ -168,6 +173,22 @@ public class UnidadProyectosBean implements Serializable {
         List<Curso> lista = null;
         try {
             lista = sp.consultarCursos();
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
+    }
+    
+    /**
+     * Consulta todos los cursos de un periodo especifico
+     * @param nombre nombre del periodo
+     * @return lista de cursos de un periodo especifico
+     */
+    public List<Curso> consultarCursosPorPeriodo(String nombre) {
+        if (nombre.equals("")) nombre = null;
+        List<Curso> lista = null;
+        try {
+            lista = sp.consultarCursosPorPeriodo(nombre);
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
