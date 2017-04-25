@@ -11,4 +11,5 @@ import org.apache.ibatis.annotations.Param;
 public interface ReservacionSalonMapper {
     List<ReservacionSalon> consultarSalonesReservados();
     List<ReservacionSalon> consultarSalonPeriodo(@Param("idPeriodo")String periodo);
+    List<ReservacionSalon> consultarSalonesCurso(@Param("idCohorte")int idCohorte);
 }

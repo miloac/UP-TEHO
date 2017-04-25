@@ -174,7 +174,7 @@ public interface ServiciosUnidadProyectos {
    * @return lista con las Clases que corresponden a un curso
    * @throws UnidadProyectosException Excepcion con datos del error
    */
-  public List<Clase> consultarClasesCurso(int idCohorte)throws UnidadProyectosException;
+  public List<ReservacionSalon> consultarSalonesCurso(int idCohorte)throws UnidadProyectosException;
   
   /**
    *  consultar los salones registrados en  la base de datos
