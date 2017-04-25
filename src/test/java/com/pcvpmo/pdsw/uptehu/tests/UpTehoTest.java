@@ -26,7 +26,7 @@ import static org.junit.Assert.*;
  * CE7: se debe conocer por lo menos el programa y la asignatura de cada materia que aparezaca; resultado esperado: asignatura y programa de las materias
  * CE8: al momento de registrar una mateira, si esta tiene un Cohorte igual a otra ya registrada, deberia informar el error; RE: mensaje de error
  * CE9: al consultar las clases, si un cohorte es valido, el resultado no puede ser vacio; RE: listado no vacio de clases x cohorte
- *
+ * CE9: no se puede consultar los curso 
  */
 public class UpTehoTest {
     
@@ -106,17 +106,17 @@ public class UpTehoTest {
     /**
      * CE5: no se puede programar una clase por fuera del horario del periodo; resultado esperado: error
      */
-    @Test
-    public void pruebaClasePorFueraDelPeriodo(){
-        ServiciosUnidadProyectos sup = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
-        try{
-            //como se sabe cual es el periodo y su respectivo horario
-            sup.programarClase("10/6/2017", "21:00"); //Ya se cambio este metodo en Services para que tenga sentido
-            // RE: Curso tiene los atributos para el periodo, para hacer el test tendria que crear los objetos necesarios
-            // O rgistrar un nuevo curso, cambiando el metodo registrarClase
-        }catch (UnidadProyectosException e){}
-        assertTrue(true);        
-    }
+//    @Test
+//    public void pruebaClasePorFueraDelPeriodo(){
+//        ServiciosUnidadProyectos sup = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+//        try{
+//            //como se sabe cual es el periodo y su respectivo horario
+//            sup.programarClase("10/6/2017", "21:00"); //Ya se cambio este metodo en Services para que tenga sentido
+//            // RE: Curso tiene los atributos para el periodo, para hacer el test tendria que crear los objetos necesarios
+//            // O rgistrar un nuevo curso, cambiando el metodo registrarClase
+//        }catch (UnidadProyectosException e){}
+//        assertTrue(true);        
+//    }
     
     /**
      * CE6: no se puede registrar un curso si el profesor no tiene disponibilidad ; resultado esperado: error
@@ -162,18 +162,18 @@ public class UpTehoTest {
      * 
      * 
      */
-    @Test
-    public void ce5(){
-        ServiciosUnidadProyectos s=ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
-        //TODO se compara la fecha elegida por el profesor para programar la clase, 
-        //que se encuentre en las fechas del periodo academico 
-        try {
-
-            s.programarClase("2005-12-20", "7:00");
-        } catch (UnidadProyectosException e) {
-            new UnidadProyectosException("la fecha idicada se encuantra fuera del horario del periodo", e);
-        }
-    }
+//    @Test
+//    public void ce5(){
+//        ServiciosUnidadProyectos s=ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+//        //TODO se compara la fecha elegida por el profesor para programar la clase, 
+//        //que se encuentre en las fechas del periodo academico 
+//        try {
+//
+//            s.programarClase("2005-12-20", "7:00");
+//        } catch (UnidadProyectosException e) {
+//            new UnidadProyectosException("la fecha idicada se encuantra fuera del horario del periodo", e);
+//        }
+//    }
     
     @Test
     public void ce6(){
@@ -197,5 +197,11 @@ public class UpTehoTest {
         } catch (UnidadProyectosException e) {
             new UnidadProyectosException("el cohorte ya se encuentra registrado para otra materia", e);
         }
+    }
+    
+    @Test
+    public void consultarCursoValido() throws UnidadProyectosException{
+        ServiciosUnidadProyectos s=ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        assertEquals(, s.consultarCurso(1));
     }
 }
