@@ -11,7 +11,10 @@ import com.pcvpmo.pdsw.upteho.dao.ProfesorDAO;
 import com.pcvpmo.pdsw.upteho.dao.ProgramaDAO;
 import com.pcvpmo.pdsw.upteho.dao.RecursoDAO;
 import com.pcvpmo.pdsw.upteho.dao.RequisitoDAO;
+import com.pcvpmo.pdsw.upteho.dao.SalonDAO;
+import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISClaseDAO;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISCursoDAO;
+import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISSalonDAO;
 import com.pcvpmo.pdsw.upteho.services.impl.ServiciosUnidadProyectosImpl;
 import org.mybatis.guice.XMLMyBatisModule;
 import org.mybatis.guice.datasource.helper.JdbcHelper;
@@ -37,6 +40,8 @@ public class ServiciosUnidadProyectosFactory {
                 setClassPathResource("mybatis-config.xml");
                 bind(ServiciosUnidadProyectos.class).to(ServiciosUnidadProyectosImpl.class);
                 bind(CursoDAO.class).to(MyBATISCursoDAO.class);
+                bind(ClaseDAO.class).to(MyBATISClaseDAO.class);
+                bind(SalonDAO.class).to(MyBATISSalonDAO.class);
                 //TODO agregar bind de DAOS MyBatis
             }
         });
@@ -48,6 +53,8 @@ public class ServiciosUnidadProyectosFactory {
                 setEnvironmentId("mybatis-config-h2.xml");
                 bind(ServiciosUnidadProyectos.class).to(ServiciosUnidadProyectosImpl.class);
                 bind(CursoDAO.class).to(MyBATISCursoDAO.class);
+                bind(ClaseDAO.class).to(MyBATISClaseDAO.class);
+                bind(SalonDAO.class).to(MyBATISSalonDAO.class);
                 //TODO agregar binds Daos MyBatis
             }
         });
