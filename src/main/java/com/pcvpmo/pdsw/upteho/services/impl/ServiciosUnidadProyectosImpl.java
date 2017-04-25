@@ -10,6 +10,7 @@ import com.google.inject.Singleton;
 import com.pcvpmo.pdsw.upteho.dao.ClaseDAO;
 import com.pcvpmo.pdsw.upteho.dao.CursoDAO;
 import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
+import com.pcvpmo.pdsw.upteho.dao.ReservacionSalonDAO;
 import com.pcvpmo.pdsw.upteho.dao.SalonDAO;
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
@@ -19,6 +20,7 @@ import com.pcvpmo.pdsw.upteho.entities.Periodo;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
+import com.pcvpmo.pdsw.upteho.entities.ReservacionSalon;
 import com.pcvpmo.pdsw.upteho.entities.Salon;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
@@ -39,6 +41,9 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     
     @Inject
     private SalonDAO daoSalon;
+    
+    @Inject
+    private ReservacionSalonDAO daoReservacionSalon;
     
     @Override
     public void registrarMateria(int idPrograma, int idAsignatura, String siglaRequisito, int tipoRequisito, String nombreMateria, String siglaMateria, String descripcionMateria) {
@@ -123,15 +128,17 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
 
     @Override
     public List<Curso> consultarCursosPorPeriodo(String nombre) throws UnidadProyectosException {
-        String[] valores = nombre.split("-");
-        if(valores.length != 2){
-            try{
-                int valor1 = Integer.parseInt(valores[0]);
-                int valor2 = Integer.parseInt(valores[1]);
+        if(nombre != null) {
+            String[] valores = nombre.split("-");
+            if(valores.length != 2){
+                try{
+                    int valor1 = Integer.parseInt(valores[0]);
+                    int valor2 = Integer.parseInt(valores[1]);
+                }
+                catch(NumberFormatException e){
+                    throw new UnidadProyectosException("El formato del periodo no es correcto",e);
+                }
             }
-            catch(Exception e){
-                throw new UnidadProyectosException("El formato del periodo no es correcto",e);
-            }    
         }
         try {
             return daoCurso.consultarCursosPorPeriodo(nombre);
@@ -139,6 +146,8 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             throw new UnidadProyectosException("Error al consultar los cursos por el periodo " + nombre, e);
         }
     }
+    
+    @Override
     public List<Salon> consultarSalonesPeriodo(Periodo periodo) throws UnidadProyectosException {
        try{
            return daoSalon.consultarSalonPeriodo(periodo.getNombre());
@@ -146,6 +155,7 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
            throw new  UnidadProyectosException("Error al consultar los salones  del periodo"+periodo.getNombre(),e);
        }
     }
+    
     @Override
     public List<Clase> consultarClasesCurso(int idCohorte) throws UnidadProyectosException {
         try{
@@ -156,9 +166,9 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     }
 
     @Override
-    public List<Salon> consultarSalones() throws UnidadProyectosException {
+    public List<ReservacionSalon> consultarSalonesReservados() throws UnidadProyectosException {
         try{
-            return daoSalon.consultarSalones();
+            return daoReservacionSalon.consultarSalonesReservados();
         }catch(PersistenceException e){
             throw new UnidadProyectosException("Error al consultar los Salones",e);
         }
@@ -170,6 +180,15 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             return daoSalon.consultarSalonCurso(cohorte);
         }catch(PersistenceException e){
             throw new UnidadProyectosException("Error al consultar el salon  del  curso"+cohorte,e);
+        }
+    }
+
+    @Override
+    public List<Salon> consultarSalones() throws UnidadProyectosException {
+        try{
+            return daoSalon.consultarSalones();
+        }catch(PersistenceException e){
+            throw new UnidadProyectosException("Error al consultar todos los salones",e);
         }
     }
 

@@ -11,9 +11,11 @@ import com.pcvpmo.pdsw.upteho.dao.ProfesorDAO;
 import com.pcvpmo.pdsw.upteho.dao.ProgramaDAO;
 import com.pcvpmo.pdsw.upteho.dao.RecursoDAO;
 import com.pcvpmo.pdsw.upteho.dao.RequisitoDAO;
+import com.pcvpmo.pdsw.upteho.dao.ReservacionSalonDAO;
 import com.pcvpmo.pdsw.upteho.dao.SalonDAO;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISClaseDAO;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISCursoDAO;
+import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISReservacionSalonDAO;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISSalonDAO;
 import com.pcvpmo.pdsw.upteho.services.impl.ServiciosUnidadProyectosImpl;
 import org.mybatis.guice.XMLMyBatisModule;
@@ -42,6 +44,7 @@ public class ServiciosUnidadProyectosFactory {
                 bind(CursoDAO.class).to(MyBATISCursoDAO.class);
                 bind(ClaseDAO.class).to(MyBATISClaseDAO.class);
                 bind(SalonDAO.class).to(MyBATISSalonDAO.class);
+                bind(ReservacionSalonDAO.class).to(MyBATISReservacionSalonDAO.class);
                 //TODO agregar bind de DAOS MyBatis
             }
         });
@@ -55,6 +58,7 @@ public class ServiciosUnidadProyectosFactory {
                 bind(CursoDAO.class).to(MyBATISCursoDAO.class);
                 bind(ClaseDAO.class).to(MyBATISClaseDAO.class);
                 bind(SalonDAO.class).to(MyBATISSalonDAO.class);
+                bind(ReservacionSalonDAO.class).to(MyBATISReservacionSalonDAO.class);
                 //TODO agregar binds Daos MyBatis
             }
         });
@@ -99,6 +103,15 @@ public class ServiciosUnidadProyectosFactory {
     public RequisitoDAO getRequisitoDAO() {
         return injector.getInstance(RequisitoDAO.class);
     }
+    
+    public SalonDAO getSalonDAO() {
+        return injector.getInstance(SalonDAO.class);
+    }
+    
+    public ReservacionSalonDAO getReservacionSalonDAO() {
+        return injector.getInstance(ReservacionSalonDAO.class);
+    }
+    
     public ServiciosUnidadProyectos getServiciosUnidadProyectosTesting() {
         return testInjector.getInstance(ServiciosUnidadProyectos.class);
     }
@@ -137,6 +150,14 @@ public class ServiciosUnidadProyectosFactory {
     
     public RequisitoDAO getRequisitoDAOTesting() {
         return testInjector.getInstance(RequisitoDAO.class);
+    }
+    
+    public SalonDAO getSalonDAOTesting() {
+        return testInjector.getInstance(SalonDAO.class);
+    }
+    
+    public ReservacionSalonDAO getReservacionSalonDAOTesting() {
+        return testInjector.getInstance(ReservacionSalonDAO.class);
     }
     
     public static ServiciosUnidadProyectosFactory getInstance() {
