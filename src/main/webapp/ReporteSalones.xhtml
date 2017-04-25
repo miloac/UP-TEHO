@@ -30,39 +30,46 @@
                     <p:layoutUnit position="north" size="50" resizable="true">
                         <center>
                             <h:outputText value="Generar Reporte:  "></h:outputText>
-                            <h:inputText id="nombre" value=""></h:inputText>
-                            <p:watermark for="nombre" value="Ingrese Periodo"></p:watermark>
+                            <h:inputText id="nombrePeriodo" binding="#{nombrePeriodo}"/>
+                            <p:watermark for="nombrePeriodo" value="Ingrese Periodo"></p:watermark>
                             &nbsp;
-                            
-                            <p:commandButton value="Generar Reporte"  />
+                            <p:commandButton value="Generar Reporte" update=":#{p:component('tabla_salones')} :#{p:component('tabla_todos_salones')}"/>
                         </center>
                   
                     </p:layoutUnit>
-                    <p:layoutUnit position="center" resizable="true" size="700" minSize="500" maxSize="700">
+                    <p:layoutUnit position="center" resizable="true" size="700" minSize="500">
                         <h:form id="tabla_salones">
-                            <p:dataTable var="salon" value="#{UnidadProyectos}">
-                                <p:column headerText="INFO">
-                                    <center><h:commandButton value="Consultar" /></center>  
-                                </p:column>
+                            <p:dataTable var="reservacionSalon" value="#{UnidadProyectosBean.consultarSalonesReservados()}">
                                 <p:column headerText="SALON">
-                                    <h:outputText value="1"/>
+                                    <h:outputText value="#{reservacionSalon.salon.idSalon}"/>
                                 </p:column>
-                                <p:column headerText="FECHA">
-                                    <h:outputText value="2"/>
+                                <p:column headerText="TIPO">
+                                    <h:outputText value="#{reservacionSalon.salon.tipoSalon}"/>
                                 </p:column>
-                                <p:column headerText="HORA">
-                                    <h:outputText value="3"/>
+                                <p:column headerText="FECHA Y HORA">
+                                    <h:outputText value="#{reservacionSalon.clase.fechaHora.toString()}"/>
                                 </p:column>
-                                <p:column headerText="PROFESOR">
-                                    <h:outputText value="4"/>
-                                </p:column>
-                                <p:column headerText="REQUERIDO">
-                                    <h:outputText value="5"/>
+                                <p:column headerText="ID DE CLASE">
+                                    <h:outputText value="#{reservacionSalon.clase.id}"/>
                                 </p:column>
                             </p:dataTable>
                         </h:form>
                     </p:layoutUnit>
-                    
+                    <p:layoutUnit position="west" resizable="true" size="700" minSize="500">
+                        <h:form id="tabla_todos_salones">
+                            <p:dataTable var="salon" value="#{UnidadProyectosBean.consultarSalones()}">
+                                <p:column headerText="SALON">
+                                    <h:outputText value="#{salon.idSalon}"/>
+                                </p:column>
+                                <p:column headerText="TIPO">
+                                    <h:outputText value="#{salon.tipoSalon}"/>
+                                </p:column>
+                                <p:column headerText="RESERVAR">
+                                    <center><h:commandButton value="Reservar"/></center>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:layoutUnit>
                 </p:layout>                
             </div>
         </div>

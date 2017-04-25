@@ -8,6 +8,7 @@ import com.pcvpmo.pdsw.upteho.entities.Periodo;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
+import com.pcvpmo.pdsw.upteho.entities.ReservacionSalon;
 import com.pcvpmo.pdsw.upteho.entities.Salon;
 import java.util.List;
 
@@ -180,6 +181,8 @@ public interface ServiciosUnidadProyectos {
    * @throws UnidadProyectosException 
    */
   public List<Salon> consultarSalones() throws UnidadProyectosException; 
+  
+  public List<ReservacionSalon> consultarSalonesReservados() throws UnidadProyectosException;
   
   /**
    * @obj consultar los salones correspondientes a un curso especifico

@@ -17,6 +17,8 @@
         <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Programa" alias="Programa"/>
         <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Recurso" alias="Recurso"/>
         <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Requisito" alias="Requisito"/>
+        <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Salon" alias="Salon"/>
+        <typeAlias type="com.pcvpmo.pdsw.upteho.entities.ReservacionSalon" alias="ReservacionSalon"/>
     </typeAliases>
         
                         
@@ -35,6 +37,9 @@
     <mappers>
         <mapper resource="mappers/CursoMapper.xml"></mapper>
         <mapper resource="mappers/MateriaMapper.xml"></mapper>
+        <mapper resource="mappers/ClaseMapper.xml"></mapper>
+        <mapper resource="mappers/SalonMapper.xml"></mapper>
+        <mapper resource="mappers/ReservacionSalonMapper.xml"></mapper>
     </mappers> 
         
         
