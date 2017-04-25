@@ -135,7 +135,7 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
                     int valor1 = Integer.parseInt(valores[0]);
                     int valor2 = Integer.parseInt(valores[1]);
                 }
-                catch(NumberFormatException e){
+                catch(Exception e){
                     throw new UnidadProyectosException("El formato del periodo no es correcto",e);
                 }
             }

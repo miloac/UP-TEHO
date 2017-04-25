@@ -133,128 +133,96 @@ CREATE TABLE Salon (
 ALTER TABLE Asignaturas ADD CONSTRAINT Asignaturas_Programas
     FOREIGN KEY (Programas_id)
     REFERENCES Programas (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
 ;
 
 -- Reference: Clases_Cursos (table: Clases)
 ALTER TABLE Clases ADD CONSTRAINT Clases_Cursos
     FOREIGN KEY (Cursos_cohorte)
     REFERENCES Cursos (cohorte)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
 ;
 
 -- Reference: Curso_Materias (table: Cursos)
 ALTER TABLE Cursos ADD CONSTRAINT Curso_Materias
     FOREIGN KEY (Materias_sigla)
     REFERENCES Materias (sigla)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
 ;
 
 -- Reference: Curso_Profesores (table: Cursos)
 ALTER TABLE Cursos ADD CONSTRAINT Curso_Profesores
     FOREIGN KEY (Profesor_id)
     REFERENCES Profesores (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
 ;
 
 -- Reference: Cursos_Periodo (table: Cursos)
 ALTER TABLE Cursos ADD CONSTRAINT Cursos_Periodo
     FOREIGN KEY (Periodo_nombre)
     REFERENCES Periodo (nombre)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
 ;
 
 -- Reference: HorarioDispRecurso_Recursos (table: HorarioDispRecurso)
 ALTER TABLE HorarioDispRecurso ADD CONSTRAINT HorarioDispRecurso_Recursos
     FOREIGN KEY (Recursos_id)
     REFERENCES Recursos (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
 ;
 
 -- Reference: HorarioDisponible_Profesores (table: HorarioDisponible)
 ALTER TABLE HorarioDisponible ADD CONSTRAINT HorarioDisponible_Profesores
     FOREIGN KEY (Profesores_id)
     REFERENCES Profesores (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
 ;
 
 -- Reference: IntegrantesComites_Comites (table: IntegrantesComites)
 ALTER TABLE IntegrantesComites ADD CONSTRAINT IntegrantesComites_Comites
     FOREIGN KEY (Comites_id)
     REFERENCES Comites (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
 ;
 
 -- Reference: IntegrantesComites_Profesores (table: IntegrantesComites)
 ALTER TABLE IntegrantesComites ADD CONSTRAINT IntegrantesComites_Profesores
     FOREIGN KEY (Profesores_id)
     REFERENCES Profesores (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
 ;
 
 -- Reference: Materias_Asignaturas (table: Materias)
 ALTER TABLE Materias ADD CONSTRAINT Materias_Asignaturas
     FOREIGN KEY (Asignaturas_id)
     REFERENCES Asignaturas (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
 ;
 
 -- Reference: RecursosdeClase_Clases (table: RecursosdeClase)
 ALTER TABLE RecursosdeClase ADD CONSTRAINT RecursosdeClase_Clases
     FOREIGN KEY (Clases_Cursos_cohorte, Clases_id_clase)
-    REFERENCES Clases (Cursos_cohorte, id_clase)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+    REFERENCES Clases (Cursos_cohorte, id_clase) 
 ;
 
 -- Reference: RecursosdeClase_Recursos (table: RecursosdeClase)
 ALTER TABLE RecursosdeClase ADD CONSTRAINT RecursosdeClase_Recursos
     FOREIGN KEY (Recursos_id)
-    REFERENCES Recursos (id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+    REFERENCES Recursos (id)
 ;
 
 -- Reference: Requisitos_Materias (table: Requisitos)
 ALTER TABLE Requisitos ADD CONSTRAINT Requisitos_Materias
     FOREIGN KEY (sigla_requisito)
-    REFERENCES Materias (sigla)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+    REFERENCES Materias (sigla)
 ;
 
 -- Reference: Requisitos_Materias2 (table: Requisitos)
 ALTER TABLE Requisitos ADD CONSTRAINT Requisitos_Materias2
     FOREIGN KEY (sigla_materia)
     REFERENCES Materias (sigla)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
 ;
 
 -- Reference: ReservacionSalones_Salon (table: ReservacionSalones)
 ALTER TABLE ReservacionSalones ADD CONSTRAINT ReservacionSalones_Salon
     FOREIGN KEY (Salon_id_salon)
     REFERENCES Salon (id_salon)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
 ;
 
 -- Reference: Salon_Clases (table: ReservacionSalones)
 ALTER TABLE ReservacionSalones ADD CONSTRAINT Salon_Clases
     FOREIGN KEY (Clases_Cursos_cohorte, Clases_id_clase)
     REFERENCES Clases (Cursos_cohorte, id_clase)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
 ;
 
 -- End of file.
