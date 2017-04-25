@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+     
+      
+    <h:head>
+        
+        <title>Reporte Salones</title>
+        <h:outputStylesheet library="css" name="estilo.css" />
+    </h:head>
+    <h:body>
+        <!-- Encabezado -->
+        <ui:include src="resources/inc/header.xhtml" />
+               
+        <!-- MENU -->
+        <ui:include src="resources/inc/menu.xhtml" />
+        
+        <!-- CUERPO -->
+        <center><div style="max-width:97%;min-height:20px;background:brown ;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
+            <div style="padding:15px;margin:auto;" >
+                <center><font color="#FFF" size="+2">REPORTE DE SALONES</font></center>
+            </div>
+        </div></center>
+        <div style="max-width:100%;min-height:600px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
+            <div style="padding:10px;margin:auto;" >
+                <p:layout style="max-width:100%;max-height:100%;">
+                    <p:layoutUnit position="north" size="50" resizable="true">
+                        <center>
+                            <h:outputText value="Generar Reporte:  "></h:outputText>
+                            <h:inputText id="nombre" value=""></h:inputText>
+                            <p:watermark for="nombre" value="Ingrese Periodo"></p:watermark>
+                            &nbsp;
+                            
+                            <p:commandButton value="Generar Reporte"  />
+                        </center>
+                  
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" resizable="true" size="700" minSize="500" maxSize="700">
+                        <h:form id="tabla_salones">
+                            <p:dataTable var="salon" value="#{UnidadProyectos}">
+                                <p:column headerText="INFO">
+                                    <center><h:commandButton value="Consultar" /></center>  
+                                </p:column>
+                                <p:column headerText="SALON">
+                                    <h:outputText value="1"/>
+                                </p:column>
+                                <p:column headerText="FECHA">
+                                    <h:outputText value="2"/>
+                                </p:column>
+                                <p:column headerText="HORA">
+                                    <h:outputText value="3"/>
+                                </p:column>
+                                <p:column headerText="PROFESOR">
+                                    <h:outputText value="4"/>
+                                </p:column>
+                                <p:column headerText="REQUERIDO">
+                                    <h:outputText value="5"/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:layoutUnit>
+                    
+                </p:layout>                
+            </div>
+        </div>
+        
+        <!--SUBPIE -->
+        <ui:include src="resources/inc/footer.xhtml" />
+    </h:body>
+</html>
+
