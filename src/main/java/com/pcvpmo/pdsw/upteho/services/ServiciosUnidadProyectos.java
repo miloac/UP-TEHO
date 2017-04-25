@@ -18,177 +18,178 @@ import java.util.List;
  */
 public interface ServiciosUnidadProyectos {
     /**
-     * @obj Registra materia con los atributos especificos.
-     * @pre tipoRequisito debe ser un número entre 0 y 1.
-     * @param idPrograma 
-     * @param idAsignatura
-     * @param siglaRequisito
-     * @param tipoRequisito
-     * @param nombreMateria
-     * @param siglaMateria
-     * @param descripcionMateria
-     * @pos la materia es registrada debe estar en la base de datos.
-     * @throws UnidadProyectosException 
+     *  Registra materia con los atributos especificos.
+     * //pre tipoRequisito debe ser un número entre 0 y 1.
+     * @param idPrograma id del programa
+     * @param idAsignatura id de la asignatura
+     * @param siglaRequisito sigla del requisito
+     * @param tipoRequisito tipo del requisito
+     * @param nombreMateria nombre de la materia
+     * @param siglaMateria sigla de la materia
+     * @param descripcionMateria descripcion de la materia
+     * //pos la materia es registrada debe estar en la base de datos.
+     * @throws UnidadProyectosException Excepcion con datos del error
      */
     public void registrarMateria(int idPrograma, int idAsignatura, String siglaRequisito, int tipoRequisito, String nombreMateria, String siglaMateria, String descripcionMateria) throws UnidadProyectosException;
     
     /**
-     * @obj Cancela una clase de un Curso especifico
-     * @param cohorte
-     * @param idClase
-     * @pos se cancela la clase del curso especifico, se eliminan los recursos de la clase y la reserva del salon
-     * @throws UnidadProyectosException
+     *  Cancela una clase de un Curso especifico
+     * @param cohorte cohorte de  la materia
+     * @param idClase id de la clase
+     * //pos se cancela la clase del curso especifico, se eliminan los recursos de la clase y la reserva del salon
+     * @throws UnidadProyectosException Excepcion con datos del error
     **/
     public void cancelarClase(int cohorte, int idClase) throws UnidadProyectosException;
 
     /**
+     * 
+     *  Programa una clase en un horario especifico
      * @param curso Curso al cual se le asignará la clase
-     * @obj Programa una clase en un horario especifico
-     * @param fecha
-     * @param hora 
-     * @pos si la fecha y la hora son correctas se programa la clase en el horario dado.
-     * @throws UnidadProyectosException
+     * @param fecha fecha de la clase
+     * @param hora hora de la clase
+     * //pos si la fecha y la hora son correctas se programa la clase en el horario dado.
+     * @throws UnidadProyectosException Excepcion con datos del error
      */ 
     public void programarClase(String fecha, String hora, Curso curso) throws UnidadProyectosException;
     //TODO: Cambiar parametros dependiendo como se diseñe el bean.
     // Los paranetros inicialmente puestos era fecha y hora unicamente
     
     /**
-     * @obj Se registra un curso dada su asignatura ,materia y profesor correspondiente
-     * @param idAsignatura
-     * @param siglaMateria
-     * @param idProfesor
-     * @pos si el profesor tiene el horario adecuado para dictar el curso,se resgistra el curso sin clases ni periodo
-     * @throws UnidadProyectosException
+     *  Se registra un curso dada su asignatura ,materia y profesor correspondiente
+     * @param idAsignatura id de la asignatura
+     * @param siglaMateria sigla de la materia
+     * @param idProfesor id del profesor
+     * //pos si el profesor tiene el horario adecuado para dictar el curso,se resgistra el curso sin clases ni periodo
+     * @throws UnidadProyectosException Excepcion con datos del error
      * 
      */
     public void registrarCurso(int idAsignatura, String siglaMateria, int idProfesor) throws UnidadProyectosException ;
    
    /**
-    * @obj Consulta las materia registradas en el sistema
+    *  Consulta las materia registradas en el sistema
     * @return lista de Materia
-    * @pos List con todas las Materias registradas en la base de datos
-    * @throws UnidadProyectosException
+    * //pos List con todas las Materias registradas en la base de datos
+    * @throws UnidadProyectosException Excepcion con datos del error
     */ 
    public List<Materia> consultarMaterias() throws UnidadProyectosException;
    
    /**
-    * @obj consulta las materias de una asignatura
+    *  consulta las materias de una asignatura
     * @param idAsignatura id de la asignatura
     * @return lista con Materias 
-    * @pos List con las materias que contiene una Asignatura 
-    * @throws UnidadProyectosException 
+    * //pos List con las materias que contiene una Asignatura 
+    * @throws UnidadProyectosException Excepcion con datos del error
     */
    public List<Materia> consultarMaterias(int idAsignatura) throws UnidadProyectosException;
    
    /**
-    * @obj Consulta los programas de la Unidad de Proyectos
+    *  Consulta los programas de la Unidad de Proyectos
     * @return Lista con los Programas de la unidad de proyectos
-    * @pos List con los programas registrados en la base de datos
-    * @throws UnidadProyectosException 
+    * //pos List con los programas registrados en la base de datos
+    * @throws UnidadProyectosException Excepcion con datos del error
     */
    public List<Programa> consultarProgramas() throws UnidadProyectosException;
    
    /**
-    * @obj Consulta las asignaturas 
+    *  Consulta las asignaturas 
     * @return lista con de las Asignaturas
-    * @pos:List con  las asignaturas registradas en la base de datos
-    * @throws UnidadProyectosException
+    * //pos:List con  las asignaturas registradas en la base de datos
+    * @throws UnidadProyectosException Excepcion con datos del error
     */
    public List<Asignatura> consultarAsignaturas()throws UnidadProyectosException;
    
    /**
-    * @obj Consulta los profesores segun el filtro de busqueda
-    * @param busqueda
+    *  Consulta los profesores segun el filtro de busqueda
+    * @param busqueda filtro de busqueda de profesores
     * @return lista con los Profesores que contienen en su nombre la palabra de la busqueda
-    * @pos: List de tipo Profesor ,donde el nombre de los profesores contiene el String dado en la busqueda
-    * @throws UnidadProyectosException
+    * //pos: List de tipo Profesor ,donde el nombre de los profesores contiene el String dado en la busqueda
+    * @throws UnidadProyectosException Excepcion con datos del error
     */
   public List<Profesor> consultarProfesores(String busqueda) throws UnidadProyectosException;
   
   /**
-   * @obj Consulta las clases programadas para un curso especifico
-   * @param cohorte
+   *  Consulta las clases programadas para un curso especifico
+   * @param cohorte cohorte del curso
    * @return lista de Clases dado un curso especifico
-   * @pos: List de tipo Clase con las Clases que corresponden a un curso especifico
-   * @throws UnidadProyectosException 
+   * //pos: List de tipo Clase con las Clases que corresponden a un curso especifico
+   * @throws UnidadProyectosException Excepcion con datos del error
    */
   public List<Clase> consultarClases(String cohorte) throws UnidadProyectosException;
   
   /**
-   * @obj Consulta los recursos disponibles que pueden ser asignados a una clase 
+   *  Consulta los recursos disponibles que pueden ser asignados a una clase 
    * @return
-   * @pos: List de tipo Recurso con los Recursos que estan disponibles.
-   * @throws UnidadProyectosException
+   * //pos: List de tipo Recurso con los Recursos que estan disponibles.
+   * @throws UnidadProyectosException Excepcion con datos del error
    */
   public List<Recurso> consultarRecursosDisponibles() throws UnidadProyectosException;
   
   /**
    * objetivo: consulta los recursos de una clase dada
-   * @param cohorte
+   * @param cohorte cohorte del curso
    * @return lista con Recursos
-   * @pos: List de tipo Recurso que tiene los recursos usados en la clase dada
-   * @throws UnidadProyectosException 
+   * //pos: List de tipo Recurso que tiene los recursos usados en la clase dada
+   * @throws UnidadProyectosException Excepcion con datos del error
    */
   public List<Recurso> consultarRecursosClase(String cohorte) throws UnidadProyectosException;
   
   /**
-   * @obj consulta los cursos registrados en la base de datos
+   *  consulta los cursos registrados en la base de datos
    * @return Lista con todos los cursos registrados
-   * @throws UnidadProyectosException 
+   * @throws UnidadProyectosException Excepcion con datos del error
    */
   public List<Curso> consultarCursos() throws UnidadProyectosException;
   
   /**
-   * @obj se consulta un  curso especifico dado su numero de cohorte
-   * @pre cohorte mayor que 0
+   *  se consulta un  curso especifico dado su numero de cohorte
+   * //pre cohorte mayor que 0
    * @param cohorte cohorte del curso a consultar
    * @return Curso correspondiente a el numero de cohorte
-   * @throws UnidadProyectosException 
+   * @throws UnidadProyectosException Excepcion con datos del error
    */
   public Curso consultarCurso(int cohorte) throws UnidadProyectosException;
   
   /**
    * Consulta Consulta todos los cursos de un periodo especifico
-   * @param nombre del curso
-   * @pos nombre debe tener el formato [Año]-[Semestre] Ejemplo: "2017-1"
+   * @param nombre nombre del curso
+   * //pos nombre debe tener el formato [Año]-[Semestre] Ejemplo: "2017-1"
    * @return lista de cursos del periodo
-   * @throws UnidadProyectosException
+   * @throws UnidadProyectosException Excepcion con datos del error
    */
   public List<Curso> consultarCursosPorPeriodo(String nombre) throws UnidadProyectosException;
     
   /**
-   * @obj Consulta los salones dado el periodo academico
-   * @pre periodo puede ser null
-   * @param periodo
+   *  Consulta los salones dado el periodo academico
+   * //pre periodo puede ser null
+   * @param periodo  periodo a consultar
    * @return lista con los salones que corresponden al periodo academico
-   * @throws UnidadProyectosException 
+   * @throws UnidadProyectosException Excepcion con datos del error
    */
   public List<Salon> consultarSalonesPeriodo(Periodo periodo) throws UnidadProyectosException; 
   
   /**
-   * @obj Consultar clase correspondientes a un curso
-   * @pre idCohorte puede ser null
-   * @param idCohorte
+   *  Consultar clase correspondientes a un curso
+   * //pre idCohorte puede ser null
+   * @param idCohorte cohorte  del curso
    * @return lista con las Clases que corresponden a un curso
-   * @throws UnidadProyectosException 
+   * @throws UnidadProyectosException Excepcion con datos del error
    */
   public List<Clase> consultarClasesCurso(int idCohorte)throws UnidadProyectosException;
   
   /**
-   * @obj consultar los salones registrados en  la base de datos
+   *  consultar los salones registrados en  la base de datos
    * @return lista con todos los salones registrados
-   * @throws UnidadProyectosException 
+   * @throws UnidadProyectosException Excepcion con datos del error
    */
   public List<Salon> consultarSalones() throws UnidadProyectosException; 
   
   public List<ReservacionSalon> consultarSalonesReservados() throws UnidadProyectosException;
   
   /**
-   * @obj consultar los salones correspondientes a un curso especifico
-   * @param cohorte
+   *  consultar los salones correspondientes a un curso especifico
+   * @param cohorte cohorte del curso
    * @return lista de salones que corresponden a un curso especifico
-   * @throws UnidadProyectosException 
+   * @throws UnidadProyectosException Excepcion con datos del error
    */
   public List<Salon> consultarSalonCurso(int cohorte) throws UnidadProyectosException;
   
