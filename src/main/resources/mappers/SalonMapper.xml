@@ -6,7 +6,7 @@
 <mapper namespace="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.SalonMapper">
     <resultMap type='Salon' id='SalonResult'>
         <id property='idSalon' column='id_salon'/>
-        <result property='tipoSalon' column='tipo_salon'>
+        <result property='tipoSalon' column='tipo_salon'/>
     </resultMap>
     
     <select parameterType="map" id="consultarSalones" resultMap="SalonResult">
@@ -18,16 +18,20 @@
         
     <select parameterType="map" id="consultarSalonPeriodo" resultMap="SalonResult">
         select
-        sal.id_salon
-        sal.tipo_salon
-        from Salon as sal
-        left join ReservacionSalones as rsal on sal.id_salon=rsal.Salon_id_salon
-        left join Clases as cla on rsal.Clases_id_clase=cla.id_clase
-        left join Cursos as cur on cla.Cursos_cohorte=cur.cohorte
-        where cur.Periodo_nombre= COALESCE(?,idPeriodo)
+        sal.id_salon,
+        sal.tipo_salon,
+        rsal.Clases_Cursos_cohorte,
+        rsal.Clases_id_clase
+        
+        from Salon as sal, ReservacionSalones as rsal, Clases as cla, Cursos as cur 
+        where sal.id_salon=rsal.Salon_id_salon
+        and rsal.Clases_id_clase=cla.id_clase
+        and cla.Cursos_cohorte=cur.cohorte
+        
+        and cur.Periodo_nombre=COALESCE(#{idPeriodo}, cur.Periodo_nombre)
     </select>
     
-     <select parameterType="map" id="consultarSalonCurso" resultMap="SalonResult">
+    <!--<select parameterType="map" id="consultarSalonCurso" resultMap="SalonResult">
         select
         sal.id_salon
         sal.tipo_salon
@@ -36,5 +40,5 @@
         left join Clases as cla on rsal.Clases_id_clase=cla.id_clase
         left join Cursos as cur on cla.Cursos_cohorte=cur.cohorte
         where cur.cohorte= #{cohorte}
-    </select>
+    </select>-->
 </mapper>

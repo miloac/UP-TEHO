@@ -26,21 +26,19 @@
             <div style="padding:10px;margin:auto;" >
                 <p:layout style="max-width:100%;max-height:100%;">
                     <p:layoutUnit position="north" size="60" resizable="false">
+                        <h:form id="form">
                         <center>
                             <h:outputText value="Generar Reporte:  "></h:outputText>
-                            <h:inputText id="nombre" value=""></h:inputText>
-                            <p:watermark for="nombre" value="Ingrese Periodo"></p:watermark>
+                            <h:inputText id="nombrePeriodo" binding="#{nombrePeriodo}"/>
+                            <p:watermark for="nombrePeriodo" value="Ingrese Periodo"></p:watermark>
                             &nbsp;
-                            <h:inputText id="documento" value=""></h:inputText>
-                            <p:watermark for="documento" value="Ingrese Programa"></p:watermark>
-                            &nbsp;
-                            <p:commandButton value="Generar Reporte"  />
+                            <p:commandButton value="Generar Reporte" update=":#{p:component('tabla_programacion')}" />
                         </center>
-                  
+                        </h:form>
                     </p:layoutUnit>
                     <p:layoutUnit position="center" resizable="true" size="1000" minSize="1000">
                         <h:form id="tabla_programacion">
-                            <p:dataTable var="curso" value="#{UnidadProyectosBean.consultarCursos()}">
+                            <p:dataTable var="curso" value="#{UnidadProyectosBean.consultarCursosPorPeriodo(nombrePeriodo.value)}">
                                 <p:column headerText="INFO">
                                     <center><h:commandButton value="Consultar" action="#{UnidadProyectosBean.irPaginaCurso(curso)}"/></center>  
                                 </p:column>

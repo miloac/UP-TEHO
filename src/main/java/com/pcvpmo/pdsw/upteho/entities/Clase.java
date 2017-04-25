@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  * @author Juan Camilo Mantilla
  */
 public class Clase implements Serializable {
-    private Curso curso;
+    private int cohorteCurso;
     private int id;
     private Timestamp fechaHora;
     private Time duracion;
@@ -16,42 +16,44 @@ public class Clase implements Serializable {
     public Clase() {
     }
     
-    public Clase(Curso curso, int id, Timestamp fecha, int programaId){
-        this.curso = curso;
+    public Clase(int cohorteCurso, int id, Timestamp fecha, Time duracion){
+        this.cohorteCurso = cohorteCurso;
         this.id = id;
         this.fechaHora = fecha;
         this.duracion = duracion;
     }
-    
-    public Curso getCurso(){
-        return this.curso;
+
+    public int getCohorteCurso() {
+        return cohorteCurso;
     }
-    
-    public int getID(){
-        return this.id;
+
+    public void setCohorteCurso(int cohorteCurso) {
+        this.cohorteCurso = cohorteCurso;
     }
-    
-    public Timestamp getFecha(){
-        return this.fechaHora;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     
     public Time getDuracion(){
         return this.duracion;
     }
     
-    public void setCurso(Curso curso){
-        this.curso = curso;
+    public void setDuracion(Time time){
+        this.duracion = time;
     }
-    
-    public void setID(int id){
-        this.id = id;
+
+    public Timestamp getFechaHora() {
+        return fechaHora;
     }
-    
-    public void setDuracion(Time progId){
-        this.duracion = progId;
+
+    public void setFechaHora(Timestamp fechaHora) {
+        this.fechaHora = fechaHora;
     }
-    
-    public void setFechaHora(Timestamp fecha){
-        this.fechaHora = fecha;
-    }
+   
 }
+
