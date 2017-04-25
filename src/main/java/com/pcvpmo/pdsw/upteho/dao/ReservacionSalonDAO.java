@@ -10,4 +10,5 @@ import java.util.List;
 public interface ReservacionSalonDAO {
     List<ReservacionSalon> consultarSalonesReservados()throws PersistenceException;
     List<ReservacionSalon> consultarSalonPeriodo(String periodo)throws PersistenceException;
+    List<ReservacionSalon> consultarSalonesCurso(int cohorte) throws PersistenceException;
 }

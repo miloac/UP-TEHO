@@ -7,6 +7,22 @@
     <h:head></h:head>
     <h:body>
         <div>Informacion del curso</div>
-        <h:outputText value="#{UnidadProyectosBean.nombreCursoActual()}"/> 
+        <h:outputText value="#{UnidadProyectosBean.nombreCursoActual()}"/>
+        <h:form id="tabla_salones">
+            <p:dataTable var="reservacionSalon" value="#{UnidadProyectosBean.consultarSalonesCurso(UnidadProyectosBean.cohorteCursoActual())}">
+                <p:column headerText="SALON">
+                    <h:outputText value="#{reservacionSalon.salon.idSalon}"/>
+                </p:column>
+                <p:column headerText="TIPO">
+                    <h:outputText value="#{reservacionSalon.salon.tipoSalon}"/>
+                </p:column>
+                <p:column headerText="FECHA Y HORA">
+                    <h:outputText value="#{reservacionSalon.clase.fechaHora.toString()}"/>
+                </p:column>
+                <p:column headerText="ID DE CLASE">
+                    <h:outputText value="#{reservacionSalon.clase.id}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
     </h:body>
 </html>

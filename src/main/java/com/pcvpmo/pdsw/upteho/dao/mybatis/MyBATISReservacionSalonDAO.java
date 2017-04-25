@@ -24,5 +24,10 @@ public class MyBATISReservacionSalonDAO implements ReservacionSalonDAO{
     public List<ReservacionSalon> consultarSalonPeriodo(String periodo) throws PersistenceException {
         return reservacionSalonMapper.consultarSalonPeriodo(periodo);
     }
+
+    @Override
+    public List<ReservacionSalon> consultarSalonesCurso(int cohorte) throws PersistenceException {
+        return reservacionSalonMapper.consultarSalonesCurso(cohorte);
+    }
   
 }

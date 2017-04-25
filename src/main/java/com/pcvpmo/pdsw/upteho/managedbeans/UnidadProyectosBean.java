@@ -45,6 +45,10 @@ public class UnidadProyectosBean implements Serializable {
         return cursoActual.getMateria().getNombre();
     }
     
+    public int cohorteCursoActual() {
+        return cursoActual.getCohorte();
+    }
+    
     /**
      * Registra una Materia nueva con los datos necesarios respectivos
      * @param idPrograma id del programa de grado al que pertenece la materia
@@ -211,6 +215,16 @@ public class UnidadProyectosBean implements Serializable {
         List<Salon> lista = null;
         try {
             lista = sp.consultarSalones();
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
+    }
+    
+    public List<ReservacionSalon> consultarSalonesCurso(int cohorte) {
+        List<ReservacionSalon> lista = null;
+        try {
+            lista = sp.consultarSalonesCurso(cohorte);
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         }

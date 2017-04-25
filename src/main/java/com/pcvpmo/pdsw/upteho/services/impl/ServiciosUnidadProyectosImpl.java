@@ -25,6 +25,8 @@ import com.pcvpmo.pdsw.upteho.entities.Salon;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Clase de Servicios necesarios para la aplicacion de Unidad de Proyectos
@@ -155,15 +157,7 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
            throw new  UnidadProyectosException("Error al consultar los salones  del periodo"+periodo.getNombre(),e);
        }
     }
-    
-    @Override
-    public List<Clase> consultarClasesCurso(int idCohorte) throws UnidadProyectosException {
-        try{
-            return daoClase.consultarClaseCurso(idCohorte);
-        }catch(PersistenceException e){
-            throw new UnidadProyectosException("Error al consultar clase del curso"+idCohorte,e);
-        }
-    }
+
 
     @Override
     public List<ReservacionSalon> consultarSalonesReservados() throws UnidadProyectosException {
@@ -189,6 +183,15 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             return daoSalon.consultarSalones();
         }catch(PersistenceException e){
             throw new UnidadProyectosException("Error al consultar todos los salones",e);
+        }
+    }
+
+    @Override
+    public List<ReservacionSalon> consultarSalonesCurso(int idCohorte) throws UnidadProyectosException {
+        try {
+            return daoReservacionSalon.consultarSalonesCurso(idCohorte);
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar los salones del curso con cohorte: " + idCohorte, ex);
         }
     }
 
