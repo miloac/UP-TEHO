@@ -5,15 +5,7 @@
 <configuration>
 
     <typeAliases>
-        <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Asignatura" alias="Asignatura"/>
-        <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Clase" alias="Clase"/>
-        <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Curso" alias="Curso"/>
-        <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Materia" alias="Materia"/>
-        <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Periodo" alias="Periodo"/>
-        <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Profesor" alias="Profesor"/>
-        <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Programa" alias="Programa"/>
-        <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Recurso" alias="Recurso"/>
-        <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Requisito" alias="Requisito"/>
+        
     </typeAliases>
 
 
@@ -31,8 +23,7 @@
     </environments>
     
     <mappers>      
-        <mapper resource="mappers/CursoMapper.xml"></mapper>
-        <mapper resource="mappers/MateriaMapper.xml"></mapper>
+        
     </mappers> 
     
 </configuration>
