@@ -141,13 +141,13 @@ public interface ServiciosUnidadProyectos {
   public List<Curso> consultarCursos() throws UnidadProyectosException;
   
   /**
-   *  se consulta un  curso especifico dado su numero de cohorte
-   * //pre cohorte mayor que 0
-   * @param cohorte cohorte del curso a consultar
-   * @return Curso correspondiente a el numero de cohorte
+   *  se consulta un  curso especifico dado su numero de id
+   * //pre id mayor que 0
+   * @param id id del curso a consultar
+   * @return Curso correspondiente a el numero de id
    * @throws UnidadProyectosException Excepcion con datos del error
    */
-  public Curso consultarCurso(int cohorte) throws UnidadProyectosException;
+  public Curso consultarCurso(int id) throws UnidadProyectosException;
   
   /**
    * Consulta Consulta todos los cursos de un periodo especifico

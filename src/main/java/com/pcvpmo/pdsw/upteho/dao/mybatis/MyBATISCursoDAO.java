@@ -22,8 +22,8 @@ public class MyBATISCursoDAO implements CursoDAO {
     }
 
     @Override
-    public Curso consultarCurso(int cohorte) throws PersistenceException {
-        return cursoMapper.consultarCurso(cohorte);
+    public Curso consultarCurso(int id) throws PersistenceException {
+        return cursoMapper.consultarCurso(id);
     }
 
     @Override
