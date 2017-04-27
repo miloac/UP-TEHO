@@ -11,7 +11,6 @@ import com.pcvpmo.pdsw.upteho.dao.ClaseDAO;
 import com.pcvpmo.pdsw.upteho.dao.CursoDAO;
 import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
 import com.pcvpmo.pdsw.upteho.dao.ReservacionSalonDAO;
-import com.pcvpmo.pdsw.upteho.dao.SalonDAO;
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
 import com.pcvpmo.pdsw.upteho.entities.Curso;
@@ -24,6 +23,7 @@ import com.pcvpmo.pdsw.upteho.entities.ReservacionSalon;
 import com.pcvpmo.pdsw.upteho.entities.Salon;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,8 +41,6 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     @Inject 
     private ClaseDAO daoClase;
     
-    @Inject
-    private SalonDAO daoSalon;
     
     @Inject
     private ReservacionSalonDAO daoReservacionSalon;
@@ -117,14 +115,14 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     }
 
     @Override
-    public Curso consultarCurso(int cohorte) throws UnidadProyectosException {
-        if(cohorte <0){
-            throw new UnidadProyectosException("El cohorte"+cohorte+"no es permitido");
+    public Curso consultarCurso(int id) throws UnidadProyectosException {
+        if(id <0){
+            throw new UnidadProyectosException("El id "+id+"no es permitido");
         }
         try{
-            return daoCurso.consultarCurso(cohorte);
+            return daoCurso.consultarCurso(id);
         }catch(PersistenceException e){
-            throw new UnidadProyectosException("Error al consultar el curso "+cohorte,e);
+            throw new UnidadProyectosException("Error al consultar el curso "+id,e);
         }
     }
 
@@ -151,11 +149,13 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     
     @Override
     public List<Salon> consultarSalonesPeriodo(Periodo periodo) throws UnidadProyectosException {
-       try{
-           return daoSalon.consultarSalonPeriodo(periodo.getNombre());
-       }catch(PersistenceException e){
-           throw new  UnidadProyectosException("Error al consultar los salones  del periodo"+periodo.getNombre(),e);
-       }
+       //try{
+           //return daoSalon.consultarSalonPeriodo(periodo.getNombre());
+       //}catch(PersistenceException e){
+        //   throw new  UnidadProyectosException("Error al consultar los salones  del periodo"+periodo.getNombre(),e);
+       //}
+       List<Salon> lista=new ArrayList<Salon>();
+       return lista;
     }
 
 
@@ -170,20 +170,24 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
 
     @Override
     public List<Salon> consultarSalonCurso(int cohorte) throws UnidadProyectosException {
-        try{
-            return daoSalon.consultarSalonCurso(cohorte);
-        }catch(PersistenceException e){
-            throw new UnidadProyectosException("Error al consultar el salon  del  curso"+cohorte,e);
-        }
+        //try{
+         //   return daoSalon.consultarSalonCurso(cohorte);
+        //}catch(PersistenceException e){
+        //    throw new UnidadProyectosException("Error al consultar el salon  del  curso"+cohorte,e);
+        //}
+        List<Salon> lista=new ArrayList<Salon>();
+       return lista;
     }
 
     @Override
     public List<Salon> consultarSalones() throws UnidadProyectosException {
-        try{
-            return daoSalon.consultarSalones();
-        }catch(PersistenceException e){
-            throw new UnidadProyectosException("Error al consultar todos los salones",e);
-        }
+        //try{
+        //    return daoSalon.consultarSalones();
+        //}catch(PersistenceException e){
+        //    throw new UnidadProyectosException("Error al consultar todos los salones",e);
+        //}
+        List<Salon> lista=new ArrayList<Salon>();
+       return lista;
     }
 
     @Override

@@ -21,7 +21,7 @@ public interface CursoMapper {
      * @param cohorte cohorte del curso
      * @return Objeto Curso 
      */
-    Curso consultarCurso(@Param("cohorteCur")int cohorte);
+    Curso consultarCurso(@Param("idCur")int id);
     
     /**
      * Consulta todos los cursos de un periodo dado
