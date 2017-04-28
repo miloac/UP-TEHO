@@ -58,15 +58,15 @@
                     <p:layoutUnit position="west" resizable="true" size="700" minSize="500">
                         <h:form id="tabla_todos_salones">
                             <p:dataTable var="salon" value="#{UnidadProyectosBean.consultarSalones()}">
-                                <p:column headerText="SALON">
+                                <!--p:column headerText="SALON">
                                     <h:outputText value="#{salon.idSalon}"/>
-                                </p:column>
+                                </p:column-->
                                 <p:column headerText="TIPO">
                                     <h:outputText value="#{salon.tipoSalon}"/>
                                 </p:column>
-                                <p:column headerText="RESERVAR">
+                                <!--p:column headerText="RESERVAR">
                                     <center><h:commandButton value="Reservar"/></center>
-                                </p:column>
+                                </p:column-->
                             </p:dataTable>
                         </h:form>
                     </p:layoutUnit>
