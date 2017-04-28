@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pcvpmo.pdsw.upteho.services.impl;
 
 import com.google.inject.Inject;
@@ -19,7 +14,6 @@ import com.pcvpmo.pdsw.upteho.entities.Periodo;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
-import com.pcvpmo.pdsw.upteho.entities.ReservacionSalon;
 import com.pcvpmo.pdsw.upteho.entities.Salon;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
@@ -43,8 +37,6 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     
     @Inject
     private CohorteDAO daoCohorte;
-    
-    
     
     @Override
     public void registrarMateria(int idPrograma, int idAsignatura, String siglaRequisito, int tipoRequisito, String nombreMateria, String siglaMateria, String descripcionMateria) {
@@ -159,9 +151,6 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
        return lista;
     }
 
-
-    
-
     @Override
     public List<Salon> consultarSalonCurso(int cohorte) throws UnidadProyectosException {
         //try{
@@ -192,9 +181,25 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             throw new UnidadProyectosException("Error al consultar el cohorte", ex);
         }
     }
-
-   
-
-
     
+    @Override
+    public List<Clase> consultarClasesxPeriodo(String periodo) throws UnidadProyectosException {
+        if(periodo != null) {
+            String[] valores = periodo.split("-");
+            if(valores.length != 2){
+                try{
+                    int valor1 = Integer.parseInt(valores[0]);
+                    int valor2 = Integer.parseInt(valores[1]);
+                }
+                catch(Exception e){
+                    throw new UnidadProyectosException("El formato del periodo no es correcto",e);
+                }
+            }
+        }
+        try {
+            return daoClase.consultarClasesxPeriodo(periodo);
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar las clases en el periodo" + periodo, ex);
+        }
+    }  
 }
