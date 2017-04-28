@@ -8,9 +8,9 @@ package com.pcvpmo.pdsw.upteho.services.impl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.pcvpmo.pdsw.upteho.dao.ClaseDAO;
+import com.pcvpmo.pdsw.upteho.dao.CohorteDAO;
 import com.pcvpmo.pdsw.upteho.dao.CursoDAO;
 import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
-import com.pcvpmo.pdsw.upteho.dao.ReservacionSalonDAO;
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
 import com.pcvpmo.pdsw.upteho.entities.Curso;
@@ -41,9 +41,10 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     @Inject 
     private ClaseDAO daoClase;
     
-    
     @Inject
-    private ReservacionSalonDAO daoReservacionSalon;
+    private CohorteDAO daoCohorte;
+    
+    
     
     @Override
     public void registrarMateria(int idPrograma, int idAsignatura, String siglaRequisito, int tipoRequisito, String nombreMateria, String siglaMateria, String descripcionMateria) {
@@ -159,14 +160,7 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     }
 
 
-    @Override
-    public List<ReservacionSalon> consultarSalonesReservados() throws UnidadProyectosException {
-        try{
-            return daoReservacionSalon.consultarSalonesReservados();
-        }catch(PersistenceException e){
-            throw new UnidadProyectosException("Error al consultar los Salones",e);
-        }
-    }
+    
 
     @Override
     public List<Salon> consultarSalonCurso(int cohorte) throws UnidadProyectosException {
@@ -191,13 +185,16 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     }
 
     @Override
-    public List<ReservacionSalon> consultarSalonesCurso(int idCohorte) throws UnidadProyectosException {
+    public int consultarCohorte(Curso curso, Programa programa) throws UnidadProyectosException {
         try {
-            return daoReservacionSalon.consultarSalonesCurso(idCohorte);
+            return daoCohorte.consultarCohorte(curso.getId(),programa.getId());
         } catch (PersistenceException ex) {
-            throw new UnidadProyectosException("Error al consultar los salones del curso con cohorte: " + idCohorte, ex);
+            throw new UnidadProyectosException("Error al consultar el cohorte", ex);
         }
     }
+
+   
+
 
     
 }

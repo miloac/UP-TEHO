@@ -1,4 +1,4 @@
- <?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -6,9 +6,10 @@
 <mapper namespace="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.ClaseMapper">
     <resultMap type='Clase' id='ClaseResult'>
        <id property='id' column='id_clase'/>
-       <id property="cohorteCurso" column="Cursos_cohorte"/>
-       <result property="fechaHora" column="fecha_hora" jdbcType="TIMESTAMP" javaType="java.sql.Date"/>
-       <result property="duracion" column="duracion"/>
+       <id property="cursosId" column="Cursos_id"/>
+       <result property="fecha" column="fecha"/>
+       <result property="hora" column="hora"/>
+       <result property="tipoSalon" column="tipo_salon"/>
     </resultMap>
     
     <!--<select parameterType="map" id="consultarClases" resultMap="ClaseResult">
@@ -18,6 +19,7 @@
         cla.id_clase,
         cla.fecha_hora,
         cla.duracion ,
+        cla.tipo_salon
         
         cur.cohorte as cur_cohorte,
         cur.Profesor_id as cur_Profesor_id, 

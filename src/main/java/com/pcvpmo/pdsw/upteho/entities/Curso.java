@@ -21,7 +21,7 @@ public class Curso implements Serializable {
         this.periodo = periodo;
     }
     
-    public int getCohorte(){
+    public int getId(){
         return this.id;
     }
     
@@ -37,7 +37,7 @@ public class Curso implements Serializable {
         return this.periodo;
     }
     
-    public void setCohorte(int co){
+    public void setId(int co){
         this.id = co;
     }
     
