@@ -18,6 +18,7 @@
         <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Recurso" alias="Recurso"/>
         <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Requisito" alias="Requisito"/>
         <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Salon" alias="Salon"/>
+        <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Cohorte" alias="Cohorte"/>
     </typeAliases>
         
                         
