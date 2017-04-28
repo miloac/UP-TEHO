@@ -4,6 +4,7 @@ import com.google.inject.Injector;
 import static com.google.inject.Guice.createInjector;
 import com.pcvpmo.pdsw.upteho.dao.AsignaturaDAO;
 import com.pcvpmo.pdsw.upteho.dao.ClaseDAO;
+import com.pcvpmo.pdsw.upteho.dao.CohorteDAO;
 import com.pcvpmo.pdsw.upteho.dao.CursoDAO;
 import com.pcvpmo.pdsw.upteho.dao.MateriaDAO;
 import com.pcvpmo.pdsw.upteho.dao.PeriodoDAO;
@@ -12,6 +13,7 @@ import com.pcvpmo.pdsw.upteho.dao.ProgramaDAO;
 import com.pcvpmo.pdsw.upteho.dao.RecursoDAO;
 import com.pcvpmo.pdsw.upteho.dao.RequisitoDAO;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISClaseDAO;
+import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISCohorteDAO;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISCursoDAO;
 import com.pcvpmo.pdsw.upteho.services.impl.ServiciosUnidadProyectosImpl;
 import org.mybatis.guice.XMLMyBatisModule;
@@ -39,6 +41,7 @@ public class ServiciosUnidadProyectosFactory {
                 bind(ServiciosUnidadProyectos.class).to(ServiciosUnidadProyectosImpl.class);
                 bind(CursoDAO.class).to(MyBATISCursoDAO.class);
                 bind(ClaseDAO.class).to(MyBATISClaseDAO.class);
+                bind(CohorteDAO.class).to(MyBATISCohorteDAO.class);
                 //TODO agregar bind de DAOS MyBatis
             }
         });
@@ -51,6 +54,7 @@ public class ServiciosUnidadProyectosFactory {
                 bind(ServiciosUnidadProyectos.class).to(ServiciosUnidadProyectosImpl.class);
                 bind(CursoDAO.class).to(MyBATISCursoDAO.class);
                 bind(ClaseDAO.class).to(MyBATISClaseDAO.class);
+                bind(CohorteDAO.class).to(MyBATISCohorteDAO.class);
                 //TODO agregar binds Daos MyBatis
             }
         });
@@ -96,6 +100,10 @@ public class ServiciosUnidadProyectosFactory {
         return injector.getInstance(RequisitoDAO.class);
     }
     
+    public CohorteDAO getCohorteDAO() {
+        return injector.getInstance(CohorteDAO.class);
+    }
+    
     public ServiciosUnidadProyectos getServiciosUnidadProyectosTesting() {
         return testInjector.getInstance(ServiciosUnidadProyectos.class);
     }
@@ -134,6 +142,10 @@ public class ServiciosUnidadProyectosFactory {
     
     public RequisitoDAO getRequisitoDAOTesting() {
         return testInjector.getInstance(RequisitoDAO.class);
+    }
+    
+    public CohorteDAO getCohorteDAOTesting() {
+        return testInjector.getInstance(CohorteDAO.class);
     }
     
     public static ServiciosUnidadProyectosFactory getInstance() {
