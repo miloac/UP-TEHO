@@ -38,7 +38,7 @@ public class ServiciosUnidadProyectosFactory {
                 setClassPathResource("mybatis-config.xml");
                 bind(ServiciosUnidadProyectos.class).to(ServiciosUnidadProyectosImpl.class);
                 bind(CursoDAO.class).to(MyBATISCursoDAO.class);
-                bind(ClaseDAO.class).to(MyBATISClaseDAO.class); 
+                bind(ClaseDAO.class).to(MyBATISClaseDAO.class);
                 //TODO agregar bind de DAOS MyBatis
             }
         });
@@ -96,9 +96,6 @@ public class ServiciosUnidadProyectosFactory {
         return injector.getInstance(RequisitoDAO.class);
     }
     
-    
-   
-    
     public ServiciosUnidadProyectos getServiciosUnidadProyectosTesting() {
         return testInjector.getInstance(ServiciosUnidadProyectos.class);
     }
@@ -139,7 +136,6 @@ public class ServiciosUnidadProyectosFactory {
         return testInjector.getInstance(RequisitoDAO.class);
     }
     
-        
     public static ServiciosUnidadProyectosFactory getInstance() {
         return instance;
     }

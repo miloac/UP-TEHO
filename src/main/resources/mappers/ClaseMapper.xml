@@ -6,98 +6,24 @@
 <mapper namespace="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.ClaseMapper">
     <resultMap type='Clase' id='ClaseResult'>
        <id property='id' column='id_clase'/>
-       <id property="cursosId" column="Cursos_id"/>
+       <id property="cursoId" column="Cursos_id"/>
        <result property="fecha" column="fecha"/>
        <result property="hora" column="hora"/>
-       <result property="tipoSalon" column="tipo_salon"/>
+       <result property="tipo_salon" column="tipo_salon"/>
     </resultMap>
     
-    <!--<select parameterType="map" id="consultarClases" resultMap="ClaseResult">
+    <select parameterType="map" id="consultarClasesxPeriodo" resultMap="ClaseResult">
         select
-        
-        cla.Cursos_cohorte ,
+        cla.Cursos_id,
         cla.id_clase,
-        cla.fecha_hora,
-        cla.duracion ,
+        cla.fecha,
+        cla.hora,
         cla.tipo_salon
         
-        cur.cohorte as cur_cohorte,
-        cur.Profesor_id as cur_Profesor_id, 
-        cur.Materias_sigla as cur_Materias_sigla,
-        cur.Periodo_nombre as cur_Periodo_nombre,
-        
-        mat.sigla as mat_sigla,
-        mat.nombre as mat_nombre,
-        mat.creditos as mat_creditos,
-        mat.descripcion as mat_descripcion,
-        mat.Asignaturas_id as mat_Asignaturas_id,
-        
-        asi.id as mat_asi_id,
-        asi.nombre as mat_asi_nombre,
-        asi.Programas_id as mat_asi_Programas_id,
-        
-        pro.id as mat_asi_pro_id,
-        pro.nombre as mat_asi_pro_nombre,
-        
-        per.nombre as per_nombre,
-        per.fecha_inicio as per_fecha_inicio,
-        per.fecha_fin as per_fecha_fin,
-        
-        prf.id as prf_id,
-        prf.nombre as prf_nombre,
-        prf.correo as prf_correo
-        
         from Clases as cla
-        left join Cursos as cur on cla.Cursos_cohorte=cur.cohorte
-        left join Materias as mat on cur.Materias_sigla=mat.sigla
-        left join Asignaturas as asi on mat.Asignaturas_id=asi.id
-        left join Programas as pro on asi.Programas_id=pro.id
-        left join Periodo as per on cur.Periodo_nombre=per.nombre
-        left join Profesores as prf on cur.Profesor_id=prf.id 
+        left join Cursos as cur on cla.Cursos_id=cur.id
+        
+        where cur.Periodo_nombre=COALESCE(#{periodo}, cur.Periodo_nombre)
     </select>
-        
-    <select parameterType="map" id="consultarClasesCurso" resultMap="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.CursoMapper.SalonResult">
-    select
-        
-        cla.Cursos_cohorte ,
-        cla.id_clase,
-        cla.fecha_hora,
-        cla.duracion ,
-        
-        cur.cohorte as cur_cohorte,
-        cur.Profesor_id as cur_Profesor_id, 
-        cur.Materias_sigla as cur_Materias_sigla,
-        cur.Periodo_nombre as cur_Periodo_nombre,
-        
-        mat.sigla as mat_sigla,
-        mat.nombre as mat_nombre,
-        mat.creditos as mat_creditos,
-        mat.descripcion as mat_descripcion,
-        mat.Asignaturas_id as mat_Asignaturas_id,
-        
-        asi.id as mat_asi_id,
-        asi.nombre as mat_asi_nombre,
-        asi.Programas_id as mat_asi_Programas_id,
-        
-        pro.id as mat_asi_pro_id,
-        pro.nombre as mat_asi_pro_nombre,
-        
-        per.nombre as per_nombre,
-        per.fecha_inicio as per_fecha_inicio,
-        per.fecha_fin as per_fecha_fin,
-        
-        prf.id as prf_id,
-        prf.nombre as prf_nombre,
-        prf.correo as prf_correo
-        
-        from Clases as cla
-        left join Cursos as cur on cla.Cursos_cohorte=cur.cohorte
-        left join Materias as mat on cur.Materias_sigla=mat.sigla
-        left join Asignaturas as asi on mat.Asignaturas_id=asi.id
-        left join Programas as pro on asi.Programas_id=pro.id
-        left join Periodo as per on cur.Periodo_nombre=per.nombre
-        left join Profesores as prf on cur.Profesor_id=prf.id
-        where cur.cohorte= COALESCE(?,idCohorte)
-    </select>-->
     
 </mapper>

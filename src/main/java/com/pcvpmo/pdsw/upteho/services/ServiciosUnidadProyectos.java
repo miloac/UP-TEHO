@@ -8,7 +8,6 @@ import com.pcvpmo.pdsw.upteho.entities.Periodo;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
-import com.pcvpmo.pdsw.upteho.entities.ReservacionSalon;
 import com.pcvpmo.pdsw.upteho.entities.Salon;
 import java.util.List;
 
@@ -168,15 +167,12 @@ public interface ServiciosUnidadProyectos {
    */
   public List<Salon> consultarSalonesPeriodo(Periodo periodo) throws UnidadProyectosException; 
   
-  
   /**
    *  consultar los salones registrados en  la base de datos
    * @return lista con todos los salones registrados
    * @throws UnidadProyectosException Excepcion con datos del error
    */
   public List<Salon> consultarSalones() throws UnidadProyectosException; 
-  
- 
   
   /**
    *  consultar los salones correspondientes a un curso especifico
@@ -187,4 +183,7 @@ public interface ServiciosUnidadProyectos {
   public List<Salon> consultarSalonCurso(int cohorte) throws UnidadProyectosException;
   
   public int consultarCohorte(Curso curso,Programa programa)throws UnidadProyectosException;
+
+  public List<Clase> consultarClasesxPeriodo(String periodo) throws UnidadProyectosException;
+
 }

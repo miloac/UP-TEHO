@@ -12,7 +12,6 @@ import com.pcvpmo.pdsw.upteho.entities.Periodo;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
-import com.pcvpmo.pdsw.upteho.entities.ReservacionSalon;
 import com.pcvpmo.pdsw.upteho.entities.Salon;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
@@ -154,6 +153,17 @@ public class UnidadProyectosBean implements Serializable {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
+    public List<Clase> consultarClasesxPeriodo(String periodo) {
+        if (periodo.equals("")) periodo = null;
+        List<Clase> lista = null;
+        try {
+            lista = sp.consultarClasesxPeriodo(periodo);
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
+    }
+    
     /**
      * Consulta los recursos disponibles que pueden ser asignados a una clase
      * @return Lista de recursos disponibles
@@ -201,17 +211,7 @@ public class UnidadProyectosBean implements Serializable {
         return lista;
     }
     
-    
-    public List<Salon> consultarSalones() {
-        List<Salon> lista = null;
-        try {
-            lista = sp.consultarSalones();
-        } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return lista;
-    }
-    
+   
     public List<Salon> consultarSalonCurso(int cohorte) {
         List<Salon> lista = null;
         try {

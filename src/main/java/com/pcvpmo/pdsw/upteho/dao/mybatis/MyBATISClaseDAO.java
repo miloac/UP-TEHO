@@ -20,15 +20,10 @@ public class MyBATISClaseDAO implements ClaseDAO{
     
     @Inject
     private ClaseMapper claseMapper;
-    
-    @Override
-    public List<Clase> consultarClases() throws PersistenceException {
-        return claseMapper.consultarClases();
-    }
 
     @Override
-    public List<Clase> consultarClaseCurso(int idCohorte) throws PersistenceException {
-        return claseMapper.consultarClaseCurso(idCohorte);
+    public List<Clase> consultarClasesxPeriodo(String periodo) throws PersistenceException {
+        return claseMapper.consultarClasesxPeriodo(periodo);
     }
     
 }
