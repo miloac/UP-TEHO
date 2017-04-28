@@ -1,34 +1,36 @@
 package com.pcvpmo.pdsw.upteho.entities;
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Time;
-import java.sql.Timestamp;
+import java.sql.Date;
 
 /**
  * Una clase simple que representa una Clase en la Unidad de Proyectos y sus detalles
  * @author Juan Camilo Mantilla
  */
 public class Clase implements Serializable {
-    private int cohorteCurso;
+    private int cursosId;
     private int id;
-    private Timestamp fechaHora;
-    private Time duracion;
+    private Date fecha;
+    private Time hora;
+    private String tipoSalon;
 
     public Clase() {
     }
     
-    public Clase(int cohorteCurso, int id, Timestamp fecha, Time duracion){
-        this.cohorteCurso = cohorteCurso;
+    public Clase(int Cursos_id, int id, Date fecha, Time hora){
+        this.cursosId = Cursos_id;
         this.id = id;
-        this.fechaHora = fecha;
-        this.duracion = duracion;
+        this.fecha = fecha;
+        this.hora = hora;
     }
 
-    public int getCohorteCurso() {
-        return cohorteCurso;
+    public int getCursosId() {
+        return cursosId;
     }
 
-    public void setCohorteCurso(int cohorteCurso) {
-        this.cohorteCurso = cohorteCurso;
+    public void setCursosId(int Cursos_id) {
+        this.cursosId = Cursos_id;
     }
 
     public int getId() {
@@ -39,21 +41,28 @@ public class Clase implements Serializable {
         this.id = id;
     }
     
-    public Time getDuracion(){
-        return this.duracion;
+    public Time getHora(){
+        return this.hora;
     }
     
-    public void setDuracion(Time time){
-        this.duracion = time;
+    public void setHora(Time time){
+        this.hora = time;
     }
 
-    public Timestamp getFechaHora() {
-        return fechaHora;
+    public Date getFecha() {
+        return fecha;
     }
 
-    public void setFechaHora(Timestamp fechaHora) {
-        this.fechaHora = fechaHora;
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
+    public String getTipoSalon(){
+        return tipoSalon;
+    }
+    public void setTipoSalon(String tipoSalon){
+        this.tipoSalon=tipoSalon;
+    }
+    
    
 }
 

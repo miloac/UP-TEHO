@@ -46,7 +46,7 @@
                                     <h:outputText value="#{curso.materia.asignatura.programa.nombre}"/>
                                 </p:column>
                                 <p:column headerText="COHORTE">
-                                    <h:outputText value="#{curso.cohorte}"/>
+                                    <h:outputText value="#{UnidadProyectosBean.consultarCohorte(curso,curso.materia.asignatura.programa)}"/>
                                 </p:column>
                                 <p:column headerText="ASIGNATURA">
                                     <h:outputText value="#{curso.materia.asignatura.nombre}"/>

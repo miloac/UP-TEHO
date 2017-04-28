@@ -167,14 +167,6 @@ public interface ServiciosUnidadProyectos {
    */
   public List<Salon> consultarSalonesPeriodo(Periodo periodo) throws UnidadProyectosException; 
   
-  /**
-   *  Consultar clase correspondientes a un curso
-   * //pre idCohorte puede ser null
-   * @param idCohorte cohorte  del curso
-   * @return lista con las Clases que corresponden a un curso
-   * @throws UnidadProyectosException Excepcion con datos del error
-   */
-  public List<ReservacionSalon> consultarSalonesCurso(int idCohorte)throws UnidadProyectosException;
   
   /**
    *  consultar los salones registrados en  la base de datos
@@ -183,7 +175,7 @@ public interface ServiciosUnidadProyectos {
    */
   public List<Salon> consultarSalones() throws UnidadProyectosException; 
   
-  public List<ReservacionSalon> consultarSalonesReservados() throws UnidadProyectosException;
+ 
   
   /**
    *  consultar los salones correspondientes a un curso especifico
@@ -193,4 +185,5 @@ public interface ServiciosUnidadProyectos {
    */
   public List<Salon> consultarSalonCurso(int cohorte) throws UnidadProyectosException;
   
+  public int consultarCohorte(Curso curso,Programa programa)throws UnidadProyectosException;
 }

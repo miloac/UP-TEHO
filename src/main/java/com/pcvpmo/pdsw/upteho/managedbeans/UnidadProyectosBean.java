@@ -45,8 +45,8 @@ public class UnidadProyectosBean implements Serializable {
         return cursoActual.getMateria().getNombre();
     }
     
-    public int cohorteCursoActual() {
-        return cursoActual.getCohorte();
+    public int idCursoActual() {
+        return cursoActual.getId();
     }
     
     /**
@@ -201,15 +201,6 @@ public class UnidadProyectosBean implements Serializable {
         return lista;
     }
     
-    public List<ReservacionSalon> consultarSalonesReservados() {              
-        List<ReservacionSalon> lista = null;
-        try {
-            lista = sp.consultarSalonesReservados();
-        } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return lista;
-    }
     
     public List<Salon> consultarSalones() {
         List<Salon> lista = null;
@@ -221,14 +212,24 @@ public class UnidadProyectosBean implements Serializable {
         return lista;
     }
     
-    public List<ReservacionSalon> consultarSalonesCurso(int cohorte) {
-        List<ReservacionSalon> lista = null;
+    public List<Salon> consultarSalonCurso(int cohorte) {
+        List<Salon> lista = null;
         try {
-            lista = sp.consultarSalonesCurso(cohorte);
+            lista = sp.consultarSalonCurso(cohorte);
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lista;
+    }
+    
+    public int consultarCohorte(Curso curso,Programa programa){
+        int cohorte=0;
+        try{
+          cohorte= sp.consultarCohorte(curso,programa); 
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cohorte;
     }
 }
 

@@ -9,7 +9,7 @@
         <div>Informacion del curso</div>
         <h:outputText value="#{UnidadProyectosBean.nombreCursoActual()}"/>
         <h:form id="tabla_salones">
-            <p:dataTable var="reservacionSalon" value="#{UnidadProyectosBean.consultarSalonesCurso(UnidadProyectosBean.cohorteCursoActual())}">
+            <p:dataTable var="reservacionSalon" value="#{UnidadProyectosBean.consultarSalonesCurso(UnidadProyectosBean.idCursoActual())}">
                 <p:column headerText="SALON">
                     <h:outputText value="#{reservacionSalon.salon.idSalon}"/>
                 </p:column>

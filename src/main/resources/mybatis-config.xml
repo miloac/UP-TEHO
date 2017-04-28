@@ -38,8 +38,7 @@
         <mapper resource="mappers/CursoMapper.xml"></mapper>
         <mapper resource="mappers/MateriaMapper.xml"></mapper>
         <mapper resource="mappers/ClaseMapper.xml"></mapper>
-        <mapper resource="mappers/SalonMapper.xml"></mapper>
-        <mapper resource="mappers/ReservacionSalonMapper.xml"></mapper>
+        <mapper resource="mappers/CohorteMapper.xml"></mapper>
     </mappers> 
         
         

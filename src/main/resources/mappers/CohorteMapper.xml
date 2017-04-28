@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.ClaseMapper">
+    <resultMap type='Cohorte' id='CohorteResult'>
+       <association property="curso" javaType="Curso" columnPrefix="cur_" resultMap="CursoResult"></association>
+       <association property="periodo" javaType="Periodo" columnPrefix="per_" resultMap="PeriodoResult"></association>
+       <id property="cohorte" column="cohorte"/>
+    </resultMap>
+</mapper>
