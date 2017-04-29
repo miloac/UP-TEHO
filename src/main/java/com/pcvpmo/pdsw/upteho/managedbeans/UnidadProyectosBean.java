@@ -30,6 +30,7 @@ public class UnidadProyectosBean implements Serializable {
     ServiciosUnidadProyectos sp = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectos();
     
     private Curso cursoActual; 
+    private  int cohorteCursoActual;
     //Curso que se haya seleccionado en la pagina, este atributo puede cambiar por id o String dependiendo de como lo implementemos
     
     public UnidadProyectosBean() {
@@ -212,10 +213,10 @@ public class UnidadProyectosBean implements Serializable {
     }
     
    
-    public List<Salon> consultarSalonCurso(int cohorte) {
+    public List<Salon> consultarSalonCurso() {
         List<Salon> lista = null;
         try {
-            lista = sp.consultarSalonCurso(cohorte);
+            lista = sp.consultarSalonCurso(cohorteCursoActual);
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -229,7 +230,9 @@ public class UnidadProyectosBean implements Serializable {
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+        cohorteCursoActual=cohorte;
         return cohorte;
     }
+    
 }
 

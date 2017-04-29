@@ -5,8 +5,56 @@
   
 <mapper namespace="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.CohorteMapper">
     <resultMap type='Cohorte' id='CohorteResult'>
-        <id property="cohorte" column="cohorte"/>
-        <association property="curso" javaType="Curso" columnPrefix="cur_" resultMap="CursoResult"></association>
-        <association property="periodo" javaType="Periodo" columnPrefix="per_" resultMap="PeriodoResult"></association>
+        <result property="cohorte" column="cohorte"/>
+        <association property="curso" javaType="Curso" columnPrefix="cur_" resultMap="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.CursoMapper.CursoResult"></association>
+        <association property="programa" javaType="Programa" columnPrefix="mat_asi_pro_" resultMap="ProgramaResult"></association>
     </resultMap>
+    <resultMap type="Programa" id="ProgramaResult">
+        <id property="id" column="id"/>
+        <result property="nombre" column="nombre"/>
+    </resultMap>
+    
+    <select parameterType="map" id="consultarCohorte" resultMap="CohorteResult">
+        select 
+        
+        coh.Programas_id,
+        coh.Cursos_id,
+        coh.cohorte,
+        
+        cur.id as cur_id,
+        cur.Profesor_id as cur_Profesor,
+        cur.Materias_sigla as cur_Materias,
+        cur.Periodo_nombre as cur_Periodo_nombre,
+        
+        mat.sigla as mat_sigla,
+        mat.nombre as mat_nombre,
+        mat.creditos as mat_creditos,
+        mat.descripcion as mat_descripcion,
+        mat.Asignaturas_id as mat_Asignaturas_id,
+        
+        asi.id as mat_asi_id,
+        asi.nombre as mat_asi_nombre,
+        asi.Programas_id as mat_asi_Programas_id,
+        
+        pro.id as mat_asi_pro_id,
+        pro.nombre as mat_asi_pro_nombre,
+        
+        per.nombre as per_nombre,
+        per.fecha_inicio as per_fecha_inicio,
+        per.fecha_fin as per_fecha_fin,
+        
+        prf.id as prf_id,
+        prf.nombre as prf_nombre,
+        prf.correo as prf_correo
+        
+        from Cohortes as coh
+        left join Cursos as cur on coh.Cursos_id=cur.id
+        left join Materias as mat on cur.Materias_sigla=mat.sigla
+        left join Asignaturas as asi on mat.Asignaturas_id=asi.id
+        left join Programas as pro on asi.Programas_id=pro.id
+        left join Periodos as per on cur.Periodo_nombre=per.nombre
+        left join Profesores as prf on cur.Profesor_id=prf.id
+        
+        where pro.id=#{idPrograma} and cur.id=#{idCurso}
+    </select>
 </mapper>

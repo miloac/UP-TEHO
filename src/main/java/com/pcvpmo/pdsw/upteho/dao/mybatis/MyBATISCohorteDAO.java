@@ -10,6 +10,7 @@ import com.pcvpmo.pdsw.upteho.dao.CohorteDAO;
 import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.CohorteMapper;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.CursoMapper;
+import com.pcvpmo.pdsw.upteho.entities.Cohorte;
 
 /**
  *
@@ -18,10 +19,11 @@ import com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.CursoMapper;
 public class MyBATISCohorteDAO implements CohorteDAO{
     @Inject
     private CohorteMapper cohorteMapper;
-    
+
     @Override
-    public int consultarCohorte(int idCurso, int idPrograma) throws PersistenceException {
+    public Cohorte consultarCohorte(int idCurso, int idPrograma) throws PersistenceException {
         return cohorteMapper.consultarCohorte(idCurso,idPrograma);
     }
+    
     
 }

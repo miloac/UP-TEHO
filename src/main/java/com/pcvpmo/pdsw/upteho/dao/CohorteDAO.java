@@ -5,10 +5,12 @@
  */
 package com.pcvpmo.pdsw.upteho.dao;
 
+import com.pcvpmo.pdsw.upteho.entities.Cohorte;
+
 /**
  *
  * @author andres
  */
 public interface CohorteDAO {
-    int consultarCohorte (int idCurso,int idPrograma)throws PersistenceException;
+    Cohorte consultarCohorte (int idCurso,int idPrograma)throws PersistenceException;
 }
