@@ -8,6 +8,7 @@ import com.pcvpmo.pdsw.upteho.dao.CursoDAO;
 import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
+import com.pcvpmo.pdsw.upteho.entities.Cohorte;
 import com.pcvpmo.pdsw.upteho.entities.Curso;
 import com.pcvpmo.pdsw.upteho.entities.Materia;
 import com.pcvpmo.pdsw.upteho.entities.Periodo;
@@ -175,11 +176,14 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
 
     @Override
     public int consultarCohorte(Curso curso, Programa programa) throws UnidadProyectosException {
+        Cohorte cohorte;
         try {
-            return daoCohorte.consultarCohorte(curso.getId(),programa.getId());
+            cohorte=daoCohorte.consultarCohorte(curso.getId(),programa.getId());
         } catch (PersistenceException ex) {
             throw new UnidadProyectosException("Error al consultar el cohorte", ex);
         }
+        if(cohorte==null)return 0;
+        else return cohorte.getCohorte();
     }
     
     @Override

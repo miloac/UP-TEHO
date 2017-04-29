@@ -28,10 +28,7 @@
             <div style="padding:10px;margin:auto;" >
                 <h:outputText value="#{UnidadProyectosBean.nombreCursoActual()}"/>
                 <h:form id="tabla_salones">
-                    <p:dataTable var="reservacionSalon" value="#{UnidadProyectosBean.consultarSalonesCurso(UnidadProyectosBean.cohorteCursoActual())}">
-                        <p:column headerText="SALON">
-                            <h:outputText value="#{reservacionSalon.salon.idSalon}"/>
-                        </p:column>
+                    <p:dataTable var="reservacionSalon" value="#{UnidadProyectosBean.consultarSalonCurso()}">
                         <p:column headerText="TIPO">
                             <h:outputText value="#{reservacionSalon.salon.tipoSalon}"/>
                         </p:column>
@@ -40,6 +37,9 @@
                         </p:column>
                         <p:column headerText="ID DE CLASE">
                             <h:outputText value="#{reservacionSalon.clase.id}"/>
+                        </p:column>
+                        <p:column headerText="RECURSOS">
+                            <h:outputText value="TODO"/>
                         </p:column>
                     </p:dataTable>
                 </h:form>                           
