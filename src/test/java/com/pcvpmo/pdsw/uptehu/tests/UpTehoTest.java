@@ -221,6 +221,20 @@ public class UpTehoTest {
             
         }
     }
+    
+    /**
+     * CE11: al consultar cursos por periodo, el periodo debe tener un formato adecuado de: año, guion y numero del semestre: AAAA-N; resultado esperado: error si no se sigue el formato
+     */
+    @Test
+    public void consultarClasesPeriodoCorrecto(){
+        ServiciosUnidadProyectos s=ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        try{
+            s.consultarClasesxPeriodo("20162");
+            fail("No debe consultar un periodo con formato erroneo");
+        } catch (UnidadProyectosException ex) {
+            
+        }
+    }
 
     
     

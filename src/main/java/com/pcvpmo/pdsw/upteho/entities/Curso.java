@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @author Juan Camilo Mantilla
  */
 public class Curso implements Serializable {
-    private int cohorte;
+    private int id;
     private Profesor profesor;
     private Materia materia;
     private Periodo periodo;
@@ -14,15 +14,15 @@ public class Curso implements Serializable {
     public Curso() {
     }
     
-    public Curso(int cohorte, Profesor profesor, Materia materia, Periodo periodo){
-        this.cohorte = cohorte;
+    public Curso(int id, Profesor profesor, Materia materia, Periodo periodo){
+        this.id = id;
         this.profesor = profesor;
         this.materia = materia;
         this.periodo = periodo;
     }
     
-    public int getCohorte(){
-        return this.cohorte;
+    public int getId(){
+        return this.id;
     }
     
     public Profesor getProfesor(){
@@ -37,8 +37,8 @@ public class Curso implements Serializable {
         return this.periodo;
     }
     
-    public void setCohorte(int co){
-        this.cohorte = co;
+    public void setId(int co){
+        this.id = co;
     }
     
     public void setProfesor(Profesor profesor){

@@ -8,7 +8,6 @@ import com.pcvpmo.pdsw.upteho.entities.Periodo;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
-import com.pcvpmo.pdsw.upteho.entities.ReservacionSalon;
 import com.pcvpmo.pdsw.upteho.entities.Salon;
 import java.util.List;
 
@@ -105,92 +104,85 @@ public interface ServiciosUnidadProyectos {
     * //pos: List de tipo Profesor ,donde el nombre de los profesores contiene el String dado en la busqueda
     * @throws UnidadProyectosException Excepcion con datos del error
     */
-  public List<Profesor> consultarProfesores(String busqueda) throws UnidadProyectosException;
-  
-  /**
-   *  Consulta las clases programadas para un curso especifico
-   * @param cohorte cohorte del curso
-   * @return lista de Clases dado un curso especifico
-   * //pos: List de tipo Clase con las Clases que corresponden a un curso especifico
-   * @throws UnidadProyectosException Excepcion con datos del error
-   */
-  public List<Clase> consultarClases(String cohorte) throws UnidadProyectosException;
-  
-  /**
-   *  Consulta los recursos disponibles que pueden ser asignados a una clase 
-   * @return
-   * //pos: List de tipo Recurso con los Recursos que estan disponibles.
-   * @throws UnidadProyectosException Excepcion con datos del error
-   */
-  public List<Recurso> consultarRecursosDisponibles() throws UnidadProyectosException;
-  
-  /**
-   * objetivo: consulta los recursos de una clase dada
-   * @param cohorte cohorte del curso
-   * @return lista con Recursos
-   * //pos: List de tipo Recurso que tiene los recursos usados en la clase dada
-   * @throws UnidadProyectosException Excepcion con datos del error
-   */
-  public List<Recurso> consultarRecursosClase(String cohorte) throws UnidadProyectosException;
-  
-  /**
-   *  consulta los cursos registrados en la base de datos
-   * @return Lista con todos los cursos registrados
-   * @throws UnidadProyectosException Excepcion con datos del error
-   */
-  public List<Curso> consultarCursos() throws UnidadProyectosException;
-  
-  /**
-   *  se consulta un  curso especifico dado su numero de cohorte
-   * //pre cohorte mayor que 0
-   * @param cohorte cohorte del curso a consultar
-   * @return Curso correspondiente a el numero de cohorte
-   * @throws UnidadProyectosException Excepcion con datos del error
-   */
-  public Curso consultarCurso(int cohorte) throws UnidadProyectosException;
-  
-  /**
-   * Consulta Consulta todos los cursos de un periodo especifico
-   * @param nombre nombre del curso
-   * //pos nombre debe tener el formato [Año]-[Semestre] Ejemplo: "2017-1"
-   * @return lista de cursos del periodo
-   * @throws UnidadProyectosException Excepcion con datos del error
-   */
-  public List<Curso> consultarCursosPorPeriodo(String nombre) throws UnidadProyectosException;
-    
-  /**
-   *  Consulta los salones dado el periodo academico
-   * //pre periodo puede ser null
-   * @param periodo  periodo a consultar
-   * @return lista con los salones que corresponden al periodo academico
-   * @throws UnidadProyectosException Excepcion con datos del error
-   */
-  public List<Salon> consultarSalonesPeriodo(Periodo periodo) throws UnidadProyectosException; 
-  
-  /**
-   *  Consultar clase correspondientes a un curso
-   * //pre idCohorte puede ser null
-   * @param idCohorte cohorte  del curso
-   * @return lista con las Clases que corresponden a un curso
-   * @throws UnidadProyectosException Excepcion con datos del error
-   */
-  public List<ReservacionSalon> consultarSalonesCurso(int idCohorte)throws UnidadProyectosException;
-  
-  /**
-   *  consultar los salones registrados en  la base de datos
-   * @return lista con todos los salones registrados
-   * @throws UnidadProyectosException Excepcion con datos del error
-   */
-  public List<Salon> consultarSalones() throws UnidadProyectosException; 
-  
-  public List<ReservacionSalon> consultarSalonesReservados() throws UnidadProyectosException;
-  
-  /**
-   *  consultar los salones correspondientes a un curso especifico
-   * @param cohorte cohorte del curso
-   * @return lista de salones que corresponden a un curso especifico
-   * @throws UnidadProyectosException Excepcion con datos del error
-   */
-  public List<Salon> consultarSalonCurso(int cohorte) throws UnidadProyectosException;
-  
+    public List<Profesor> consultarProfesores(String busqueda) throws UnidadProyectosException;
+
+    /**
+     *  Consulta las clases programadas para un curso especifico
+     * @param cohorte cohorte del curso
+     * @return lista de Clases dado un curso especifico
+     * //pos: List de tipo Clase con las Clases que corresponden a un curso especifico
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public List<Clase> consultarClases(String cohorte) throws UnidadProyectosException;
+
+    /**
+     *  Consulta los recursos disponibles que pueden ser asignados a una clase 
+     * @return
+     * //pos: List de tipo Recurso con los Recursos que estan disponibles.
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public List<Recurso> consultarRecursosDisponibles() throws UnidadProyectosException;
+
+    /**
+     * objetivo: consulta los recursos de una clase dada
+     * @param cohorte cohorte del curso
+     * @return lista con Recursos
+     * //pos: List de tipo Recurso que tiene los recursos usados en la clase dada
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public List<Recurso> consultarRecursosClase(String cohorte) throws UnidadProyectosException;
+
+    /**
+     *  consulta los cursos registrados en la base de datos
+     * @return Lista con todos los cursos registrados
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public List<Curso> consultarCursos() throws UnidadProyectosException;
+
+    /**
+     *  se consulta un  curso especifico dado su numero de id
+     * //pre id mayor que 0
+     * @param id id del curso a consultar
+     * @return Curso correspondiente a el numero de id
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public Curso consultarCurso(int id) throws UnidadProyectosException;
+
+    /**
+     * Consulta Consulta todos los cursos de un periodo especifico
+     * @param nombre nombre del curso
+     * //pos nombre debe tener el formato [Año]-[Semestre] Ejemplo: "2017-1"
+     * @return lista de cursos del periodo
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public List<Curso> consultarCursosPorPeriodo(String nombre) throws UnidadProyectosException;
+
+    /**
+     *  Consulta los salones dado el periodo academico
+     * //pre periodo puede ser null
+     * @param periodo  periodo a consultar
+     * @return lista con los salones que corresponden al periodo academico
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public List<Salon> consultarSalonesPeriodo(Periodo periodo) throws UnidadProyectosException; 
+
+    /**
+     *  consultar los salones registrados en  la base de datos
+     * @return lista con todos los salones registrados
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public List<Salon> consultarSalones() throws UnidadProyectosException; 
+
+    /**
+     *  consultar los salones correspondientes a un curso especifico
+     * @param cohorte cohorte del curso
+     * @return lista de salones que corresponden a un curso especifico
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public List<Salon> consultarSalonCurso(int cohorte) throws UnidadProyectosException;
+
+    public int consultarCohorte(Curso curso,Programa programa)throws UnidadProyectosException;
+
+    public List<Clase> consultarClasesxPeriodo(String periodo) throws UnidadProyectosException;
+
 }

@@ -9,6 +9,5 @@ import org.apache.ibatis.annotations.Param;
  * @author andres
  */
 public interface ClaseMapper {
-    List<Clase> consultarClases();
-    List<Clase> consultarClaseCurso(@Param("idCohorte")int cohorte);
+    List<Clase> consultarClasesxPeriodo(@Param("periodo")String periodo);
 }

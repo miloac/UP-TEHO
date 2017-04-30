@@ -5,10 +5,11 @@
   
 <mapper namespace="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.CursoMapper">
     <resultMap type='Curso' id='CursoResult'>
-        <id property='cohorte' column='cohorte'/>
+        <id property='id' column='id'/>
         <association property="materia" javaType="Materia" columnPrefix="mat_" resultMap="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.MateriaMapper.MateriaResult"></association>
-        <association property="periodo" javaType="Periodo" columnPrefix="per_" resultMap="PeriodoResult"></association>
+         <association property="periodo" javaType="Periodo" columnPrefix="per_" resultMap="PeriodoResult"></association>
         <association property='profesor' javaType="Profesor" columnPrefix="prf_" resultMap="ProfesorResult"/>
+       
     </resultMap>
     
     <resultMap type='Periodo' id='PeriodoResult'>
@@ -26,7 +27,7 @@
     <select parameterType="map" id="consultarCursos" resultMap="CursoResult">
         
         select
-        cur.cohorte,
+        cur.id,
         cur.Profesor_id,
         cur.Materias_sigla,
         cur.Periodo_nombre,
@@ -56,13 +57,13 @@
         left join Materias as mat on cur.Materias_sigla=mat.sigla
         left join Asignaturas as asi on mat.Asignaturas_id=asi.id
         left join Programas as pro on asi.Programas_id=pro.id
-        left join Periodo as per on cur.Periodo_nombre=per.nombre
+        left join Periodos as per on cur.Periodo_nombre=per.nombre
         left join Profesores as prf on cur.Profesor_id=prf.id
     </select>
     
     <select parameterType="map" id="consultarCurso" resultMap="CursoResult">
          select
-        cur.cohorte,
+        cur.id,
         cur.Profesor_id,
         cur.Materias_sigla,
         cur.Periodo_nombre,
@@ -92,14 +93,14 @@
         left join Materias as mat on cur.Materias_sigla=mat.sigla
         left join Asignaturas as asi on mat.Asignaturas_id=asi.id
         left join Programas as pro on asi.Programas_id=pro.id
-        left join Periodo as per on cur.Periodo_nombre=per.nombre
+        left join Periodos as per on cur.Periodo_nombre=per.nombre
         left join Profesores as prf on cur.Profesor_id=prf.id
-        where cur.cohorte=#{cohorteCur}
+        where cur.id= #{idCur}
     </select>
     
-    <select parameterType="map" id="consultarCursosPorPeriodo" resultMap="CursoResult">
+      <select parameterType="map" id="consultarCursosPorPeriodo" resultMap="CursoResult">
         select
-        cur.cohorte,
+        cur.id,
         cur.Profesor_id,
         cur.Materias_sigla,
         cur.Periodo_nombre,
@@ -129,7 +130,7 @@
         left join Materias as mat on cur.Materias_sigla=mat.sigla
         left join Asignaturas as asi on mat.Asignaturas_id=asi.id
         left join Programas as pro on asi.Programas_id=pro.id
-        left join Periodo as per on cur.Periodo_nombre=per.nombre
+        left join Periodos as per on cur.Periodo_nombre=per.nombre
         left join Profesores as prf on cur.Profesor_id=prf.id
         
         where per.nombre=COALESCE(#{nombrePeriodo}, per.nombre)

@@ -5,16 +5,13 @@
  */
 package com.pcvpmo.pdsw.upteho.dao.mybatis.mappers;
 
-import com.pcvpmo.pdsw.upteho.entities.Salon;
-import java.util.List;
+import com.pcvpmo.pdsw.upteho.entities.Cohorte;
 import org.apache.ibatis.annotations.Param;
 
 /**
  *
  * @author andres
  */
-public interface SalonMapper {
-    List<Salon> consultarSalones();
-    List<Salon> consultarSalonPeriodo(@Param("idPeriodo")String periodo);
-    List<Salon> consultarSalonCurso(@Param("cohorte")int idCohorte);
+public interface CohorteMapper {
+    Cohorte consultarCohorte(@Param("idCurso")int idCurso,@Param("idPrograma") int idPrograma);
 }

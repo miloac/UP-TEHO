@@ -12,7 +12,6 @@ import com.pcvpmo.pdsw.upteho.entities.Periodo;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
-import com.pcvpmo.pdsw.upteho.entities.ReservacionSalon;
 import com.pcvpmo.pdsw.upteho.entities.Salon;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
@@ -31,6 +30,7 @@ public class UnidadProyectosBean implements Serializable {
     ServiciosUnidadProyectos sp = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectos();
     
     private Curso cursoActual; 
+    private  int cohorteCursoActual;
     //Curso que se haya seleccionado en la pagina, este atributo puede cambiar por id o String dependiendo de como lo implementemos
     
     public UnidadProyectosBean() {
@@ -45,8 +45,8 @@ public class UnidadProyectosBean implements Serializable {
         return cursoActual.getMateria().getNombre();
     }
     
-    public int cohorteCursoActual() {
-        return cursoActual.getCohorte();
+    public int idCursoActual() {
+        return cursoActual.getId();
     }
     
     /**
@@ -154,6 +154,17 @@ public class UnidadProyectosBean implements Serializable {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
+    public List<Clase> consultarClasesxPeriodo(String periodo) {
+        if (periodo.equals("")) periodo = null;
+        List<Clase> lista = null;
+        try {
+            lista = sp.consultarClasesxPeriodo(periodo);
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
+    }
+    
     /**
      * Consulta los recursos disponibles que pueden ser asignados a una clase
      * @return Lista de recursos disponibles
@@ -201,34 +212,27 @@ public class UnidadProyectosBean implements Serializable {
         return lista;
     }
     
-    public List<ReservacionSalon> consultarSalonesReservados() {              
-        List<ReservacionSalon> lista = null;
-        try {
-            lista = sp.consultarSalonesReservados();
-        } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return lista;
-    }
-    
-    public List<Salon> consultarSalones() {
+   
+    public List<Salon> consultarSalonCurso() {
         List<Salon> lista = null;
         try {
-            lista = sp.consultarSalones();
+            lista = sp.consultarSalonCurso(cohorteCursoActual);
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lista;
     }
     
-    public List<ReservacionSalon> consultarSalonesCurso(int cohorte) {
-        List<ReservacionSalon> lista = null;
-        try {
-            lista = sp.consultarSalonesCurso(cohorte);
+    public int consultarCohorte(Curso curso,Programa programa){
+        int cohorte=0;
+        try{
+          cohorte= sp.consultarCohorte(curso,programa); 
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return lista;
+        cohorteCursoActual=cohorte;
+        return cohorte;
     }
+    
 }
 

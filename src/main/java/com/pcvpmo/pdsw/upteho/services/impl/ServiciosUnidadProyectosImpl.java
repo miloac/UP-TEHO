@@ -1,29 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pcvpmo.pdsw.upteho.services.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.pcvpmo.pdsw.upteho.dao.ClaseDAO;
+import com.pcvpmo.pdsw.upteho.dao.CohorteDAO;
 import com.pcvpmo.pdsw.upteho.dao.CursoDAO;
 import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
-import com.pcvpmo.pdsw.upteho.dao.ReservacionSalonDAO;
-import com.pcvpmo.pdsw.upteho.dao.SalonDAO;
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
+import com.pcvpmo.pdsw.upteho.entities.Cohorte;
 import com.pcvpmo.pdsw.upteho.entities.Curso;
 import com.pcvpmo.pdsw.upteho.entities.Materia;
 import com.pcvpmo.pdsw.upteho.entities.Periodo;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
-import com.pcvpmo.pdsw.upteho.entities.ReservacionSalon;
 import com.pcvpmo.pdsw.upteho.entities.Salon;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,10 +37,7 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     private ClaseDAO daoClase;
     
     @Inject
-    private SalonDAO daoSalon;
-    
-    @Inject
-    private ReservacionSalonDAO daoReservacionSalon;
+    private CohorteDAO daoCohorte;
     
     @Override
     public void registrarMateria(int idPrograma, int idAsignatura, String siglaRequisito, int tipoRequisito, String nombreMateria, String siglaMateria, String descripcionMateria) {
@@ -117,14 +109,14 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     }
 
     @Override
-    public Curso consultarCurso(int cohorte) throws UnidadProyectosException {
-        if(cohorte <0){
-            throw new UnidadProyectosException("El cohorte"+cohorte+"no es permitido");
+    public Curso consultarCurso(int id) throws UnidadProyectosException {
+        if(id <0){
+            throw new UnidadProyectosException("El id "+id+"no es permitido");
         }
         try{
-            return daoCurso.consultarCurso(cohorte);
+            return daoCurso.consultarCurso(id);
         }catch(PersistenceException e){
-            throw new UnidadProyectosException("Error al consultar el curso "+cohorte,e);
+            throw new UnidadProyectosException("Error al consultar el curso "+id,e);
         }
     }
 
@@ -151,49 +143,67 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     
     @Override
     public List<Salon> consultarSalonesPeriodo(Periodo periodo) throws UnidadProyectosException {
-       try{
-           return daoSalon.consultarSalonPeriodo(periodo.getNombre());
-       }catch(PersistenceException e){
-           throw new  UnidadProyectosException("Error al consultar los salones  del periodo"+periodo.getNombre(),e);
-       }
-    }
-
-
-    @Override
-    public List<ReservacionSalon> consultarSalonesReservados() throws UnidadProyectosException {
-        try{
-            return daoReservacionSalon.consultarSalonesReservados();
-        }catch(PersistenceException e){
-            throw new UnidadProyectosException("Error al consultar los Salones",e);
-        }
+       //try{
+           //return daoSalon.consultarSalonPeriodo(periodo.getNombre());
+       //}catch(PersistenceException e){
+        //   throw new  UnidadProyectosException("Error al consultar los salones  del periodo"+periodo.getNombre(),e);
+       //}
+       List<Salon> lista=new ArrayList<Salon>();
+       return lista;
     }
 
     @Override
     public List<Salon> consultarSalonCurso(int cohorte) throws UnidadProyectosException {
-        try{
-            return daoSalon.consultarSalonCurso(cohorte);
-        }catch(PersistenceException e){
-            throw new UnidadProyectosException("Error al consultar el salon  del  curso"+cohorte,e);
-        }
+        //try{
+         //   return daoSalon.consultarSalonCurso(cohorte);
+        //}catch(PersistenceException e){
+        //    throw new UnidadProyectosException("Error al consultar el salon  del  curso"+cohorte,e);
+        //}
+        List<Salon> lista=new ArrayList<Salon>();
+       return lista;
     }
 
     @Override
     public List<Salon> consultarSalones() throws UnidadProyectosException {
-        try{
-            return daoSalon.consultarSalones();
-        }catch(PersistenceException e){
-            throw new UnidadProyectosException("Error al consultar todos los salones",e);
-        }
+        //try{
+        //    return daoSalon.consultarSalones();
+        //}catch(PersistenceException e){
+        //    throw new UnidadProyectosException("Error al consultar todos los salones",e);
+        //}
+        List<Salon> lista=new ArrayList<Salon>();
+       return lista;
     }
 
     @Override
-    public List<ReservacionSalon> consultarSalonesCurso(int idCohorte) throws UnidadProyectosException {
+    public int consultarCohorte(Curso curso, Programa programa) throws UnidadProyectosException {
+        Cohorte cohorte;
         try {
-            return daoReservacionSalon.consultarSalonesCurso(idCohorte);
+            cohorte=daoCohorte.consultarCohorte(curso.getId(),programa.getId());
         } catch (PersistenceException ex) {
-            throw new UnidadProyectosException("Error al consultar los salones del curso con cohorte: " + idCohorte, ex);
+            throw new UnidadProyectosException("Error al consultar el cohorte", ex);
         }
+        if(cohorte==null)return 0;
+        else return cohorte.getCohorte();
     }
-
     
+    @Override
+    public List<Clase> consultarClasesxPeriodo(String periodo) throws UnidadProyectosException {
+        if(periodo != null) {
+            String[] valores = periodo.split("-");
+            if(valores.length != 2){
+                try{
+                    int valor1 = Integer.parseInt(valores[0]);
+                    int valor2 = Integer.parseInt(valores[1]);
+                }
+                catch(Exception e){
+                    throw new UnidadProyectosException("El formato del periodo no es correcto",e);
+                }
+            }
+        }
+        try {
+            return daoClase.consultarClasesxPeriodo(periodo);
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar las clases en el periodo" + periodo, ex);
+        }
+    }  
 }

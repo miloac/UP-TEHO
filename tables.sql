@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-04-20 19:55:18.123
+-- Last modification date: 2017-04-27 17:04:25.01
 
 -- tables
 -- Table: Asignaturas
@@ -12,11 +12,20 @@ CREATE TABLE Asignaturas (
 
 -- Table: Clases
 CREATE TABLE Clases (
-    Cursos_cohorte int  NOT NULL,
+    Cursos_id int  NOT NULL,
     id_clase int  NOT NULL,
-    fecha_hora timestamp  NOT NULL,
-    duracion time  NOT NULL,
-    CONSTRAINT Clases_pk PRIMARY KEY (Cursos_cohorte,id_clase)
+    fecha date  NOT NULL,
+    hora time  NOT NULL,
+    tipo_salon varchar(15)  NOT NULL,
+    CONSTRAINT Clases_pk PRIMARY KEY (Cursos_id,id_clase)
+);
+
+-- Table: Cohortes
+CREATE TABLE Cohortes (
+    Programas_id int  NOT NULL,
+    Cursos_id int  NOT NULL,
+    cohorte int  NOT NULL,
+    CONSTRAINT Cohortes_pk PRIMARY KEY (Programas_id,Cursos_id)
 );
 
 -- Table: Comites
@@ -28,11 +37,11 @@ CREATE TABLE Comites (
 
 -- Table: Cursos
 CREATE TABLE Cursos (
-    cohorte int  NOT NULL,
+    id int  NOT NULL,
     Profesor_id int  NOT NULL,
     Materias_sigla varchar(4)  NOT NULL,
     Periodo_nombre varchar(6)  NOT NULL,
-    CONSTRAINT Cursos_pk PRIMARY KEY (cohorte)
+    CONSTRAINT Cursos_pk PRIMARY KEY (id)
 );
 
 -- Table: HorarioDispRecurso
@@ -67,12 +76,12 @@ CREATE TABLE Materias (
     CONSTRAINT Materias_pk PRIMARY KEY (sigla)
 );
 
--- Table: Periodo
-CREATE TABLE Periodo (
+-- Table: Periodos
+CREATE TABLE Periodos (
     nombre varchar(6)  NOT NULL,
     fecha_inicio date  NOT NULL,
     fecha_fin date  NOT NULL,
-    CONSTRAINT Periodo_pk PRIMARY KEY (nombre)
+    CONSTRAINT Periodos_pk PRIMARY KEY (nombre)
 );
 
 -- Table: Profesores
@@ -99,10 +108,10 @@ CREATE TABLE Recursos (
 
 -- Table: RecursosdeClase
 CREATE TABLE RecursosdeClase (
-    Clases_Cursos_cohorte int  NOT NULL,
+    Clases_Curso_id int  NOT NULL,
     Clases_id_clase int  NOT NULL,
     Recursos_id int  NOT NULL,
-    CONSTRAINT RecursosdeClase_pk PRIMARY KEY (Clases_Cursos_cohorte,Clases_id_clase,Recursos_id)
+    CONSTRAINT RecursosdeClase_pk PRIMARY KEY (Clases_Curso_id,Clases_id_clase,Recursos_id)
 );
 
 -- Table: Requisitos
@@ -113,19 +122,13 @@ CREATE TABLE Requisitos (
     CONSTRAINT Requisitos_pk PRIMARY KEY (sigla_materia,sigla_requisito)
 );
 
--- Table: ReservacionSalones
-CREATE TABLE ReservacionSalones (
-    Clases_Cursos_cohorte int  NOT NULL,
-    Clases_id_clase int  NOT NULL,
-    Salon_id_salon varchar(10)  NOT NULL,
-    CONSTRAINT ReservacionSalones_pk PRIMARY KEY (Clases_Cursos_cohorte,Clases_id_clase)
-);
-
--- Table: Salon
-CREATE TABLE Salon (
-    id_salon varchar(10)  NOT NULL,
-    tipo_salon varchar(10)  NOT NULL,
-    CONSTRAINT Salon_pk PRIMARY KEY (id_salon)
+-- Table: Usuarios
+CREATE TABLE Usuarios (
+    id int  NOT NULL,
+    nombre varchar(20)  NOT NULL,
+    apellido varchar(20)  NOT NULL,
+    rol varchar(2)  NOT NULL,
+    CONSTRAINT Usuarios_pk PRIMARY KEY (id)
 );
 
 -- foreign keys
@@ -137,8 +140,20 @@ ALTER TABLE Asignaturas ADD CONSTRAINT Asignaturas_Programas
 
 -- Reference: Clases_Cursos (table: Clases)
 ALTER TABLE Clases ADD CONSTRAINT Clases_Cursos
-    FOREIGN KEY (Cursos_cohorte)
-    REFERENCES Cursos (cohorte)  
+    FOREIGN KEY (Cursos_id)
+    REFERENCES Cursos (id)  
+;
+
+-- Reference: Cohortes_Cursos (table: Cohortes)
+ALTER TABLE Cohortes ADD CONSTRAINT Cohortes_Cursos
+    FOREIGN KEY (Cursos_id)
+    REFERENCES Cursos (id)  
+;
+
+-- Reference: Cohortes_Programas (table: Cohortes)
+ALTER TABLE Cohortes ADD CONSTRAINT Cohortes_Programas
+    FOREIGN KEY (Programas_id)
+    REFERENCES Programas (id)  
 ;
 
 -- Reference: Curso_Materias (table: Cursos)
@@ -156,7 +171,7 @@ ALTER TABLE Cursos ADD CONSTRAINT Curso_Profesores
 -- Reference: Cursos_Periodo (table: Cursos)
 ALTER TABLE Cursos ADD CONSTRAINT Cursos_Periodo
     FOREIGN KEY (Periodo_nombre)
-    REFERENCES Periodo (nombre)  
+    REFERENCES Periodos (nombre)  
 ;
 
 -- Reference: HorarioDispRecurso_Recursos (table: HorarioDispRecurso)
@@ -191,20 +206,20 @@ ALTER TABLE Materias ADD CONSTRAINT Materias_Asignaturas
 
 -- Reference: RecursosdeClase_Clases (table: RecursosdeClase)
 ALTER TABLE RecursosdeClase ADD CONSTRAINT RecursosdeClase_Clases
-    FOREIGN KEY (Clases_Cursos_cohorte, Clases_id_clase)
-    REFERENCES Clases (Cursos_cohorte, id_clase) 
+    FOREIGN KEY (Clases_Curso_id, Clases_id_clase)
+    REFERENCES Clases (Cursos_id, id_clase)  
 ;
 
 -- Reference: RecursosdeClase_Recursos (table: RecursosdeClase)
 ALTER TABLE RecursosdeClase ADD CONSTRAINT RecursosdeClase_Recursos
     FOREIGN KEY (Recursos_id)
-    REFERENCES Recursos (id)
+    REFERENCES Recursos (id)  
 ;
 
 -- Reference: Requisitos_Materias (table: Requisitos)
 ALTER TABLE Requisitos ADD CONSTRAINT Requisitos_Materias
     FOREIGN KEY (sigla_requisito)
-    REFERENCES Materias (sigla)
+    REFERENCES Materias (sigla)  
 ;
 
 -- Reference: Requisitos_Materias2 (table: Requisitos)
@@ -213,16 +228,5 @@ ALTER TABLE Requisitos ADD CONSTRAINT Requisitos_Materias2
     REFERENCES Materias (sigla)  
 ;
 
--- Reference: ReservacionSalones_Salon (table: ReservacionSalones)
-ALTER TABLE ReservacionSalones ADD CONSTRAINT ReservacionSalones_Salon
-    FOREIGN KEY (Salon_id_salon)
-    REFERENCES Salon (id_salon)  
-;
-
--- Reference: Salon_Clases (table: ReservacionSalones)
-ALTER TABLE ReservacionSalones ADD CONSTRAINT Salon_Clases
-    FOREIGN KEY (Clases_Cursos_cohorte, Clases_id_clase)
-    REFERENCES Clases (Cursos_cohorte, id_clase)  
-;
-
 -- End of file.
+
