@@ -1,6 +1,7 @@
 package com.pcvpmo.pdsw.upteho.dao.mybatis.mappers;
 
 import com.pcvpmo.pdsw.upteho.entities.Curso;
+import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -29,4 +30,11 @@ public interface CursoMapper {
      * @return Lista de cursos
      */
     List<Curso> consultarCursosPorPeriodo(@Param("nombrePeriodo")String nombre);
+    
+    /**
+     * consulta los profesores con el nombre dado
+     * @param nombre
+     * @return lista de profesores
+     */
+    List<Profesor> consultarProfesoresxNombre(@Param("nombrePro")String nombre);
 }

@@ -135,4 +135,11 @@
         
         where per.nombre=COALESCE(#{nombrePeriodo}, per.nombre)
     </select>
+    
+    <select parameterType="map" id="consultarProfesoresxNombre" resultMap="ProfesorResult">
+        select
+        id, nombre, correo
+        from profesores
+        where nombre like '%${nombrePro}%' 
+    </select>
 </mapper>

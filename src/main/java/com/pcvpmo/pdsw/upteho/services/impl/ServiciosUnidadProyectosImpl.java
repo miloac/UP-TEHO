@@ -80,8 +80,12 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     }
 
     @Override
-    public List<Profesor> consultarProfesores(String busqueda){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Profesor> consultarProfesores(String busqueda) throws UnidadProyectosException{
+        try {
+            return daoCurso.consultarProfesores(busqueda);
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("El nombre no se encuentra registrado", ex);
+        }
     }
 
     @Override
