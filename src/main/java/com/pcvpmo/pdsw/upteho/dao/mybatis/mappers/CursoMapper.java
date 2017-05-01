@@ -19,7 +19,7 @@ public interface CursoMapper {
     
     /**
      * Consulta un curso especifico dado un cohorte
-     * @param cohorte cohorte del curso
+     * @param id
      * @return Objeto Curso 
      */
     Curso consultarCurso(@Param("idCur")int id);
@@ -33,7 +33,7 @@ public interface CursoMapper {
     
     /**
      * consulta los profesores con el nombre dado
-     * @param nombre
+     * @param nombre texto con el nombre de los profesores a buscar
      * @return lista de profesores
      */
     List<Profesor> consultarProfesoresxNombre(@Param("nombrePro")String nombre);

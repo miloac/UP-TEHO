@@ -151,17 +151,16 @@ public class UnidadProyectosBean implements Serializable {
     /**
      * Consulta los profesores filtrados segun la busqueda
      * @return Lista de profesores segun el filtrado por busqueda
-     * @throws com.pcvpmo.pdsw.upteho.services.UnidadProyectosException
+     * @throws com.pcvpmo.pdsw.upteho.services.UnidadProyectosException excepsion en caso de que el nombre del 
+     * profesor no se encuentre registrado 
      */
     public List<Profesor> consultarProfesores() throws UnidadProyectosException {
-        System.out.println("test "+getNameProf());
-//            System.out.println("test "+sp.consultarProfesores(getNameProf()));
             return sp.consultarProfesores(getNameProf());        
     }
     
     /**
      * Consulta las clases programadas para un curso en especifico
-     * @param cohorte
+     * @param cohorte numero de cohorte
      * @return Lista de Clases de un curso
      */
     public List<Clase> consultarClases(String cohorte) {
