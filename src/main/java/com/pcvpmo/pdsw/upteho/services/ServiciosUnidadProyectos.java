@@ -167,22 +167,36 @@ public interface ServiciosUnidadProyectos {
     public List<Salon> consultarSalonesPeriodo(Periodo periodo) throws UnidadProyectosException; 
 
     /**
-     *  consultar los salones registrados en  la base de datos
+     * Consultar los salones registrados en  la base de datos
      * @return lista con todos los salones registrados
      * @throws UnidadProyectosException Excepcion con datos del error
      */
     public List<Salon> consultarSalones() throws UnidadProyectosException; 
 
     /**
-     *  consultar los salones correspondientes a un curso especifico
+     * Consultar los salones correspondientes a un curso especifico
      * @param cohorte cohorte del curso
      * @return lista de salones que corresponden a un curso especifico
      * @throws UnidadProyectosException Excepcion con datos del error
      */
     public List<Salon> consultarSalonCurso(int cohorte) throws UnidadProyectosException;
-
+    
+    /**
+     * Consulta el cohorte dado un Curso y un Programa
+     * @param curso curso a consultar
+     * @param programa programa a consultar
+     * @return entero del cohorte
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
     public int consultarCohorte(Curso curso,Programa programa)throws UnidadProyectosException;
-
+    
+    /**
+     * Consulta las clases dado un periodo especifico
+     * //pre: si periodo es null, debe retornar todas las clases de todos los periodos
+     * @param periodo periodo a consultar
+     * @return Lista de clases
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
     public List<Clase> consultarClasesxPeriodo(String periodo) throws UnidadProyectosException;
 
 }
