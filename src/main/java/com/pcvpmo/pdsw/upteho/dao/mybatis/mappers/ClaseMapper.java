@@ -5,8 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 /**
- *
- * @author andres
+ * Interface para el mapper Clase
+ * @author Andres Felipe Pardo
  */
 public interface ClaseMapper {
     List<Clase> consultarClasesxPeriodo(@Param("periodo")String periodo);

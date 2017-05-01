@@ -13,10 +13,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
+ * Clase de Test de Unidad para Servicios de Unidad de proyectos
  * @author Jefferson Castañeda - Gabriel Peña
  *
- *  frontera
+ * Frontera
  * CF1: Registrar una materia de un programa al que no pertenece, resultado esperado: no se deja registrar la materia 
  * clases de equivalencia 
  * CE1: una materia no puede ser registrada con un nombre nulo; resultado esperado: no se registra la materia

@@ -30,7 +30,7 @@ public class UnidadProyectosBean implements Serializable {
     ServiciosUnidadProyectos sp = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectos();
     
     private Curso cursoActual; 
-    private  int cohorteCursoActual;
+    private int cohorteCursoActual;
     //Curso que se haya seleccionado en la pagina, este atributo puede cambiar por id o String dependiendo de como lo implementemos
     
     public UnidadProyectosBean() {
@@ -146,14 +146,10 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     /**
-     * Consulta las clases programadas para un curso en especifico
-     * @param cohorte
-     * @return Lista de Clases de un curso
+     * Consulta todas las clases programadas para un periodo especifico, si periodo es: "" consulta todas las clases de todos los periodos
+     * @param periodo periodo a consultar
+     * @return lista de Clases
      */
-    public List<Clase> consultarClases(String cohorte) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
     public List<Clase> consultarClasesxPeriodo(String periodo) {
         if (periodo.equals("")) periodo = null;
         List<Clase> lista = null;
@@ -212,7 +208,10 @@ public class UnidadProyectosBean implements Serializable {
         return lista;
     }
     
-   
+    /**
+     * Consulta el salon dado el cohorte del curso actual elegido
+     * @return lista de Salones
+     */
     public List<Salon> consultarSalonCurso() {
         List<Salon> lista = null;
         try {
@@ -223,6 +222,12 @@ public class UnidadProyectosBean implements Serializable {
         return lista;
     }
     
+    /**
+     * Consulta el cohorte dado un curso y un programa especificado
+     * @param curso curso a consultar
+     * @param programa programa a consultar
+     * @return entero del cohorte segun curso y programa
+     */
     public int consultarCohorte(Curso curso,Programa programa){
         int cohorte=0;
         try{
