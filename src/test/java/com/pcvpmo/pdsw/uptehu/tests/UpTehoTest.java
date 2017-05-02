@@ -17,10 +17,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
+ * Clase de Test de Unidad para Servicios de Unidad de proyectos
  * @author Jefferson Castañeda - Gabriel Peña
  *
- *  frontera
+ * Frontera
  * CF1: Registrar una materia de un programa al que no pertenece, resultado esperado: no se deja registrar la materia 
  * clases de equivalencia 
  * CE1: una materia no puede ser registrada con un nombre nulo; resultado esperado: no se registra la materia
@@ -332,6 +332,20 @@ public class UpTehoTest {
         ServiciosUnidadProyectos s=ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
         try{
             s.consultarCursosPorPeriodo("20162");
+            fail("No debe consultar un periodo con formato erroneo");
+        } catch (UnidadProyectosException ex) {
+            
+        }
+    }
+    
+    /**
+     * CE11: al consultar cursos por periodo, el periodo debe tener un formato adecuado de: año, guion y numero del semestre: AAAA-N; resultado esperado: error si no se sigue el formato
+     */
+    @Test
+    public void consultarClasesPeriodoCorrecto(){
+        ServiciosUnidadProyectos s=ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        try{
+            s.consultarClasesxPeriodo("20162");
             fail("No debe consultar un periodo con formato erroneo");
         } catch (UnidadProyectosException ex) {
             

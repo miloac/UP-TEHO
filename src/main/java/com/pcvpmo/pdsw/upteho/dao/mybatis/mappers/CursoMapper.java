@@ -19,7 +19,7 @@ public interface CursoMapper {
     
     /**
      * Consulta un curso especifico dado un cohorte
-     * @param id
+     * @param id cohorte del curso
      * @return Objeto Curso 
      */
     Curso consultarCurso(@Param("idCur")int id);

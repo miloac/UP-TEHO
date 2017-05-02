@@ -40,10 +40,8 @@ public class UnidadProyectosBean implements Serializable {
     private Profesor profesorSelect;
     private Materia materia;
     private String nameProf="a";
-
-    
-
-       //Curso que se haya seleccionado en la pagina, este atributo puede cambiar por id o String dependiendo de como lo implementemos
+    private int cohorteCursoActual;
+    //Curso que se haya seleccionado en la pagina, este atributo puede cambiar por id o String dependiendo de como lo implementemos
     
     public UnidadProyectosBean() {
     }
@@ -159,12 +157,19 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     /**
-     * Consulta las clases programadas para un curso en especifico
-     * @param cohorte numero de cohorte
-     * @return Lista de Clases de un curso
+     * Consulta todas las clases programadas para un periodo especifico, si periodo es: "" consulta todas las clases de todos los periodos
+     * @param periodo periodo a consultar
+     * @return lista de Clases
      */
-    public List<Clase> consultarClases(String cohorte) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<Clase> consultarClasesxPeriodo(String periodo) {
+        if (periodo.equals("")) periodo = null;
+        List<Clase> lista = null;
+        try {
+            lista = sp.consultarClasesxPeriodo(periodo);
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
     }
     
     public List<Clase> consultarClasesxPeriodo(String periodo) {
@@ -224,8 +229,11 @@ public class UnidadProyectosBean implements Serializable {
         }
         return lista;
     }
-    
-   
+
+    /**
+     * Consulta el salon dado el cohorte del curso actual elegido
+     * @return lista de Salones
+     */
     public List<Salon> consultarSalonCurso() {
         List<Salon> lista = null;
         try {
@@ -354,7 +362,6 @@ public class UnidadProyectosBean implements Serializable {
 
     public void setProfesorSelect(Profesor profesorSelect) {
         this.profesorSelect = profesorSelect;
-    }
-    
-    }
+    }    
+}
 
