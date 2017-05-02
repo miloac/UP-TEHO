@@ -2,6 +2,7 @@ package com.pcvpmo.pdsw.upteho.managedbeans;
 
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
+import com.pcvpmo.pdsw.upteho.entities.Cohorte;
 import com.pcvpmo.pdsw.upteho.entities.Curso;
 import java.io.Serializable;
 import java.util.List;
@@ -30,6 +31,15 @@ public class UnidadProyectosBean implements Serializable {
     ServiciosUnidadProyectos sp = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectos();
     
     private Curso cursoActual; 
+    private  int cohorteCursoActual;    
+    private Programa programa;
+    private Asignatura asignatura;    
+    private Periodo periodo;    
+    private Cohorte cohorte;
+    private List<Profesor> profesor;
+    private Profesor profesorSelect;
+    private Materia materia;
+    private String nameProf="a";
     private int cohorteCursoActual;
     //Curso que se haya seleccionado en la pagina, este atributo puede cambiar por id o String dependiendo de como lo implementemos
     
@@ -138,11 +148,12 @@ public class UnidadProyectosBean implements Serializable {
     
     /**
      * Consulta los profesores filtrados segun la busqueda
-     * @param busqueda cadena para filtrar por nombre de un profesor
      * @return Lista de profesores segun el filtrado por busqueda
+     * @throws com.pcvpmo.pdsw.upteho.services.UnidadProyectosException excepsion en caso de que el nombre del 
+     * profesor no se encuentre registrado 
      */
-    public List<Profesor> consultarProfesores(String busqueda) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<Profesor> consultarProfesores() throws UnidadProyectosException {
+            return sp.consultarProfesores(getNameProf());        
     }
     
     /**
@@ -150,6 +161,17 @@ public class UnidadProyectosBean implements Serializable {
      * @param periodo periodo a consultar
      * @return lista de Clases
      */
+    public List<Clase> consultarClasesxPeriodo(String periodo) {
+        if (periodo.equals("")) periodo = null;
+        List<Clase> lista = null;
+        try {
+            lista = sp.consultarClasesxPeriodo(periodo);
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
+    }
+    
     public List<Clase> consultarClasesxPeriodo(String periodo) {
         if (periodo.equals("")) periodo = null;
         List<Clase> lista = null;
@@ -207,7 +229,7 @@ public class UnidadProyectosBean implements Serializable {
         }
         return lista;
     }
-    
+
     /**
      * Consulta el salon dado el cohorte del curso actual elegido
      * @return lista de Salones
@@ -222,12 +244,6 @@ public class UnidadProyectosBean implements Serializable {
         return lista;
     }
     
-    /**
-     * Consulta el cohorte dado un curso y un programa especificado
-     * @param curso curso a consultar
-     * @param programa programa a consultar
-     * @return entero del cohorte segun curso y programa
-     */
     public int consultarCohorte(Curso curso,Programa programa){
         int cohorte=0;
         try{
@@ -238,6 +254,114 @@ public class UnidadProyectosBean implements Serializable {
         cohorteCursoActual=cohorte;
         return cohorte;
     }
+        
+    /**
+     * Get the value of programa
+     *
+     * @return the value of programa
+     */
+    public Programa getPrograma() {
+        return programa;
+    }
+
+    /**
+     * Set the value of programa
+     *
+     * @param programa new value of programa
+     */
+    public void setPrograma(Programa programa) {
+        this.programa = programa;
+    }    
+
+    /**
+     * Get the value of asignatura
+     *
+     * @return the value of asignatura
+     */
+    public Asignatura getAsignatura() {
+        return asignatura;
+    }
+
+    /**
+     * Set the value of asignatura
+     *
+     * @param asignatura new value of asignatura
+     */
+    public void setAsignatura(Asignatura asignatura) {
+        this.asignatura = asignatura;
+    }
     
+    /**
+     * Get the value of periodo
+     *
+     * @return the value of periodo
+     */
+    public Periodo getPeriodo() {
+        return periodo;
+    }
+
+    /**
+     * Set the value of periodo
+     *
+     * @param periodo new value of periodo
+     */
+    public void setPeriodo(Periodo periodo) {
+        this.periodo = periodo;
+    }
+     /**
+     * Get the value of cohorte
+     *
+     * @return the value of cohorte
+     */
+    public Cohorte getCohorte() {
+        return cohorte;
+    }
+
+    /**
+     * Set the value of cohorte
+     *
+     * @param cohorte new value of cohorte
+     */
+    public void setCohorte(Cohorte cohorte) {
+        this.cohorte = cohorte;
+    }
+
+    public List<Profesor> getProfesor() {
+        return profesor;
+    }
+    
+    /**
+     * Get the value of materia
+     *
+     * @return the value of materia
+     */
+    public Materia getMateria() {
+        return materia;
+    }
+
+    /**
+     * Set the value of materia
+     *
+     * @param materia new value of materia
+     */
+    public void setMateria(Materia materia) {
+        this.materia = materia;
+    }
+
+    public String getNameProf() {
+        return nameProf;
+    }
+
+    public void setNameProf(String nameProf) {
+        this.nameProf = nameProf;
+    }
+
+    public Profesor getProfesorSelect() {
+        return profesorSelect;
+    }
+
+    public void setProfesorSelect(Profesor profesorSelect) {
+        this.profesorSelect = profesorSelect;
+    }    
 }
 

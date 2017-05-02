@@ -5,6 +5,7 @@
 <configuration>
 
     <typeAliases>
+        
     </typeAliases>
 
 
@@ -22,6 +23,7 @@
     </environments>
     
     <mappers>      
+        
     </mappers> 
     
 </configuration>

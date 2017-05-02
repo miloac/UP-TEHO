@@ -1,13 +1,17 @@
 package com.pcvpmo.pdsw.uptehu.tests;
 
+import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Curso;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
+
 import com.pcvpmo.pdsw.upteho.entities.Materia;
+import com.pcvpmo.pdsw.upteho.entities.Periodo;
+import com.pcvpmo.pdsw.upteho.entities.Profesor;
+import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -28,6 +32,7 @@ import static org.junit.Assert.*;
  * CE7: se debe conocer por lo menos el programa y la asignatura de cada materia que aparezaca; resultado esperado: asignatura y programa de las materias
  * CE8: al momento de registrar una mateira, si esta tiene un Cohorte igual a otra ya registrada, deberia informar el error; RE: mensaje de error
  * CE9: al consultar las clases, si un cohorte es valido, el resultado no puede ser vacio; RE: listado no vacio de clases x cohorte
+ * CE9: no se puede consultar los curso 
  * CE10: al consultar un curso, el cohorte no puede ser negativo; resultado esperado: error
  * CE11: al consultar cursos por periodo, el periodo debe tener un formato adecuado de: año, guion y numero del semestre: AAAA-N; resultado esperado: error si no se sigue el formato
  *
@@ -36,7 +41,7 @@ public class UpTehoTest {
     
     public UpTehoTest(){
     }
-    
+
     @Before
     public void setUp(){
     }
@@ -110,6 +115,7 @@ public class UpTehoTest {
     /**
      * CE5: no se puede programar una clase por fuera del horario del periodo; resultado esperado: error
      */
+
     //@Test
     public void pruebaClasePorFueraDelPeriodo(){
         ServiciosUnidadProyectos sup = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
@@ -161,12 +167,14 @@ public class UpTehoTest {
         }
         assertTrue(ans);
     }
+
     
     
     /**
      * CE6: no se puede registrar un curso si el profesor no tiene disponibilidad ; resultado esperado: error
      */
     //@Test
+
     public void ce6(){
         ServiciosUnidadProyectos s=ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
         try {
@@ -192,6 +200,114 @@ public class UpTehoTest {
             new UnidadProyectosException("el cohorte ya se encuentra registrado para otra materia", e);
         }
     }
+    
+     /**
+
+     * ConsultarCursoValido: consulta en el metodo Consultar curso si el resultado es el esperado, con unos datos
+
+     * registrados en la memoria volatil
+     */
+
+    //    @Test
+
+//    public void consultarCursoValido() throws UnidadProyectosException{
+//
+//        ServiciosUnidadProyectos s=ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+//
+//        Profesor p=new Profesor(12, "pablo", "pablo@escuela.com");        
+//
+//        Programa pro=new Programa(95, "maestria en gerencia");
+//
+//        Asignatura a=new Asignatura(56, "procesos", pro);
+//
+//        Materia m=new Materia("qwer", "proceso de desarrollo", 3, "introduccion a los procesos de desarrollo", a);
+//
+//        Periodo per=new Periodo("2017-1", java.sql.Date.valueOf("2017-01-15"), java.sql.Date.valueOf("2017-06-05"));
+//
+//        Curso c=new Curso(123, p, m,per);
+//
+//        assertEquals("no se consulta correctamente el curso",c, s.consultarCurso(123));
+//
+//    }
+
+    
+
+    /**
+
+     * La prueba numeroCursosCorrectos utiliza el metodo consultarCursos para consultar el numero de cursos
+
+     * inscritos y lo compara con un arreglo de cursos registrados en la memoria volatil.
+
+     * @throws UnidadProyectosException 
+
+     */
+
+//    @Test
+
+//    public void numeroCursosCorrecto() throws UnidadProyectosException{
+//
+//        Profesor p1=new Profesor(12, "pablo", "pablo@escuela.com");        
+//
+//        Programa pro1=new Programa(95, "maestria en gerencia");
+//
+//        Asignatura a1=new Asignatura(56, "procesos", pro1);
+//
+//        Materia m1=new Materia("qwer", "proceso de desarrollo", 3, "introduccion a los procesos de desarrollo", a1);
+//
+//        Periodo per1=new Periodo("2017-1", java.sql.Date.valueOf("2017-01-15"), java.sql.Date.valueOf("2017-06-05"));
+//
+//        Curso c1=new Curso(123, p1, m1,per1);
+//
+//        
+//
+//        Profesor p2=new Profesor(123, "pedro", "pedro@escuela.com");        
+//
+//        Programa pro2=new Programa(951, "maestria en finanzas");
+//
+//        Asignatura a2=new Asignatura(564, "fundamentos", pro2);
+//
+//        Materia m2=new Materia("fghb", "fundamentos de desarrollo", 4, "introduccion a los fundamentos de desarrollo", a2);
+//
+//        Periodo per2=new Periodo("2017-2", java.sql.Date.valueOf("2017-08-15"), java.sql.Date.valueOf("2017-12-05"));
+//
+//        Curso c2=new Curso(1234, p2, m2,per2);
+//
+//        
+//
+//        Profesor p3=new Profesor(1237, "manuel", "manuel@escuela.com");        
+//
+//        Programa pro3=new Programa(9541, "maestria en economia");
+//
+//        Asignatura a3=new Asignatura(5624, "introduccion", pro3);
+//
+//        Materia m3=new Materia("gghv", "introduccion al desarrollo", 3, "introduccion a los fundamentos", a3);
+//
+//        Curso c3=new Curso(1239, p3, m3,per1);
+//
+//        
+//
+//        ArrayList<Curso> cursos =new ArrayList<>();
+//
+//        cursos.add(c1);
+//
+//        cursos.add(c2);
+//
+//        cursos.add(c3);
+//
+//        ServiciosUnidadProyectos s=ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+//
+//        try {
+//
+//            assertEquals("el numero de cursos no es correcto", cursos.size(), s.consultarCursos().size());
+//
+//        } catch (UnidadProyectosException ex) {
+//
+//             
+//            new UnidadProyectosException("se produjo un error en el test de consultar cursos", ex);
+//
+//        }
+//
+//    }
 
     /**
      * CE10: al consultar un curso, el cohorte no puede ser negativo; resultado esperado: error
@@ -235,7 +351,18 @@ public class UpTehoTest {
             
         }
     }
-
     
-    
+    /**
+     * CE11: al consultar cursos por periodo, el periodo debe tener un formato adecuado de: año, guion y numero del semestre: AAAA-N; resultado esperado: error si no se sigue el formato
+     */
+    @Test
+    public void consultarClasesPeriodoCorrecto(){
+        ServiciosUnidadProyectos s=ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        try{
+            s.consultarClasesxPeriodo("20162");
+            fail("No debe consultar un periodo con formato erroneo");
+        } catch (UnidadProyectosException ex) {
+            
+        }
+    }
 }

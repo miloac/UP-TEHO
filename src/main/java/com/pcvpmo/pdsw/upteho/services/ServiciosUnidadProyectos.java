@@ -198,5 +198,4 @@ public interface ServiciosUnidadProyectos {
      * @throws UnidadProyectosException Excepcion con datos del error
      */
     public List<Clase> consultarClasesxPeriodo(String periodo) throws UnidadProyectosException;
-
 }
