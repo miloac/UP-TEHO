@@ -17,6 +17,7 @@ import com.pcvpmo.pdsw.upteho.entities.Salon;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
+import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,15 +32,9 @@ public class UnidadProyectosBean implements Serializable {
     ServiciosUnidadProyectos sp = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectos();
     
     private Curso cursoActual; 
-    private  int cohorteCursoActual;    
-    private Programa programa;
-    private Asignatura asignatura;    
-    private Periodo periodo;    
-    private Cohorte cohorte;
-    private List<Profesor> profesor;
+    private  int cohorteCursoActual;        
     private Profesor profesorSelect;
-    private Materia materia;
-    private String nameProf="a";
+    private String nameProf;
     //Curso que se haya seleccionado en la pagina, este atributo puede cambiar por id o String dependiendo de como lo implementemos
     
     public UnidadProyectosBean() {
@@ -242,100 +237,7 @@ public class UnidadProyectosBean implements Serializable {
         cohorteCursoActual=cohorte;
         return cohorte;
     }
-        
-    /**
-     * Get the value of programa
-     *
-     * @return the value of programa
-     */
-    public Programa getPrograma() {
-        return programa;
-    }
-
-    /**
-     * Set the value of programa
-     *
-     * @param programa new value of programa
-     */
-    public void setPrograma(Programa programa) {
-        this.programa = programa;
-    }    
-
-    /**
-     * Get the value of asignatura
-     *
-     * @return the value of asignatura
-     */
-    public Asignatura getAsignatura() {
-        return asignatura;
-    }
-
-    /**
-     * Set the value of asignatura
-     *
-     * @param asignatura new value of asignatura
-     */
-    public void setAsignatura(Asignatura asignatura) {
-        this.asignatura = asignatura;
-    }
     
-    /**
-     * Get the value of periodo
-     *
-     * @return the value of periodo
-     */
-    public Periodo getPeriodo() {
-        return periodo;
-    }
-
-    /**
-     * Set the value of periodo
-     *
-     * @param periodo new value of periodo
-     */
-    public void setPeriodo(Periodo periodo) {
-        this.periodo = periodo;
-    }
-     /**
-     * Get the value of cohorte
-     *
-     * @return the value of cohorte
-     */
-    public Cohorte getCohorte() {
-        return cohorte;
-    }
-
-    /**
-     * Set the value of cohorte
-     *
-     * @param cohorte new value of cohorte
-     */
-    public void setCohorte(Cohorte cohorte) {
-        this.cohorte = cohorte;
-    }
-
-    public List<Profesor> getProfesor() {
-        return profesor;
-    }
-    
-    /**
-     * Get the value of materia
-     *
-     * @return the value of materia
-     */
-    public Materia getMateria() {
-        return materia;
-    }
-
-    /**
-     * Set the value of materia
-     *
-     * @param materia new value of materia
-     */
-    public void setMateria(Materia materia) {
-        this.materia = materia;
-    }
-
     public String getNameProf() {
         return nameProf;
     }
@@ -346,6 +248,15 @@ public class UnidadProyectosBean implements Serializable {
 
     public Profesor getProfesorSelect() {
         return profesorSelect;
+    }
+    
+    public Curso cursoTemp(){
+        Programa pro=new Programa(5, "especializacion en proyectos");
+        Asignatura as=new Asignatura(69, "fundamentos", pro);
+        Materia ma=new Materia("INFU", "Introduccion a fundamentos", 4, "sdgb", as);
+        Periodo pe=new Periodo("2020-1", java.sql.Date.valueOf("2020-05-03"), java.sql.Date.valueOf("2020-05-15"));
+        Curso cu = new Curso(56, ma, pe);
+        return cu;
     }
 
     public void setProfesorSelect(Profesor profesorSelect) {
