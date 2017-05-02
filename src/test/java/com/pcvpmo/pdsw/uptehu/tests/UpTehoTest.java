@@ -182,7 +182,6 @@ public class UpTehoTest {
             //falta implementar en el metodo la disponibilidad del profesor, incluyendo la lista con los horarios que 
 //            ya tiene registrados
         } catch (UnidadProyectosException e) {
-            new UnidadProyectosException("la fecha no esta disponible para este profesor", e);
         }
     }
     
@@ -197,7 +196,6 @@ public class UpTehoTest {
             s.registrarMateria(001, 002, "MBDA", 1, "Arquitectura empresarial", "AREM", "enfoca al desarrolllo del "
                     + "emprendimiento empresarial");
         } catch (UnidadProyectosException e) {
-            new UnidadProyectosException("el cohorte ya se encuentra registrado para otra materia", e);
         }
     }
     
@@ -332,20 +330,6 @@ public class UpTehoTest {
         ServiciosUnidadProyectos s=ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
         try{
             s.consultarCursosPorPeriodo("20162");
-            fail("No debe consultar un periodo con formato erroneo");
-        } catch (UnidadProyectosException ex) {
-            
-        }
-    }
-    
-    /**
-     * CE11: al consultar cursos por periodo, el periodo debe tener un formato adecuado de: año, guion y numero del semestre: AAAA-N; resultado esperado: error si no se sigue el formato
-     */
-    @Test
-    public void consultarClasesPeriodoCorrecto(){
-        ServiciosUnidadProyectos s=ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
-        try{
-            s.consultarClasesxPeriodo("20162");
             fail("No debe consultar un periodo con formato erroneo");
         } catch (UnidadProyectosException ex) {
             

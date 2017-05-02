@@ -40,7 +40,6 @@ public class UnidadProyectosBean implements Serializable {
     private Profesor profesorSelect;
     private Materia materia;
     private String nameProf="a";
-    private int cohorteCursoActual;
     //Curso que se haya seleccionado en la pagina, este atributo puede cambiar por id o String dependiendo de como lo implementemos
     
     public UnidadProyectosBean() {
@@ -161,17 +160,6 @@ public class UnidadProyectosBean implements Serializable {
      * @param periodo periodo a consultar
      * @return lista de Clases
      */
-    public List<Clase> consultarClasesxPeriodo(String periodo) {
-        if (periodo.equals("")) periodo = null;
-        List<Clase> lista = null;
-        try {
-            lista = sp.consultarClasesxPeriodo(periodo);
-        } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return lista;
-    }
-    
     public List<Clase> consultarClasesxPeriodo(String periodo) {
         if (periodo.equals("")) periodo = null;
         List<Clase> lista = null;
