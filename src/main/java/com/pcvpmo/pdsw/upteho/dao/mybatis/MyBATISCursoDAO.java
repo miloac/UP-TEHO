@@ -32,8 +32,4 @@ public class MyBATISCursoDAO implements CursoDAO {
         return cursoMapper.consultarCursosPorPeriodo(nombre);       
     }
 
-    @Override
-    public List<Profesor> consultarProfesores(String nombre) throws PersistenceException {
-        return cursoMapper.consultarProfesoresxNombre(nombre);
-    }
 }

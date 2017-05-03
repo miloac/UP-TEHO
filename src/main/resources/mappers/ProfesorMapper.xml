@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.ProfesorMapper">
+    <resultMap type="Profesor" id="ProfesorResult">
+        <id property="id" column="id"/>
+        <result property="nombre" column="nombre"/>
+        <result property="correo" column="correo"/>
+    </resultMap>
+     <select parameterType="map" id="consultarProfesoresxNombre" resultMap="ProfesorResult">
+        select
+        id, nombre, correo
+        from profesores
+        where nombre like '%${nombrePro}%' 
+    </select>
+</mapper> 
+    

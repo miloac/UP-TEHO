@@ -31,10 +31,5 @@ public interface CursoMapper {
      */
     List<Curso> consultarCursosPorPeriodo(@Param("nombrePeriodo")String nombre);
     
-    /**
-     * consulta los profesores con el nombre dado
-     * @param nombre texto con el nombre de los profesores a buscar
-     * @return lista de profesores
-     */
-    List<Profesor> consultarProfesoresxNombre(@Param("nombrePro")String nombre);
+   
 }
