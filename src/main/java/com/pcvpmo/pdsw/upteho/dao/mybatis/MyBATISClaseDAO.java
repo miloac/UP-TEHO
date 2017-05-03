@@ -5,6 +5,8 @@ import com.pcvpmo.pdsw.upteho.dao.ClaseDAO;
 import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.ClaseMapper;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 /**
@@ -24,6 +26,11 @@ public class MyBATISClaseDAO implements ClaseDAO{
     @Override
     public List<Clase> consultarClasesCurso(int id) throws PersistenceException {
         return claseMapper.consultarClasesCurso(id);
+    }
+
+    @Override
+    public void agregarClase(int idCurso, Date fecha, Time hora, String tSalon) throws PersistenceException {
+        claseMapper.agregarClase(idCurso, fecha, hora, tSalon);
     }
     
 }

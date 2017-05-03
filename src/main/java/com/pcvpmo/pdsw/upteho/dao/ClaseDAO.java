@@ -1,6 +1,8 @@
 package com.pcvpmo.pdsw.upteho.dao;
 
 import com.pcvpmo.pdsw.upteho.entities.Clase;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 /**
@@ -10,4 +12,5 @@ import java.util.List;
 public interface ClaseDAO {
     List<Clase> consultarClasesxPeriodo(String periodo) throws PersistenceException;
     List<Clase> consultarClasesCurso(int id)throws PersistenceException;
+    void agregarClase(int idCurso,Date fecha,Time hora,String tSalon)throws PersistenceException;
 }

@@ -5,11 +5,14 @@ import com.google.inject.Singleton;
 import com.pcvpmo.pdsw.upteho.dao.ClaseDAO;
 import com.pcvpmo.pdsw.upteho.dao.CohorteDAO;
 import com.pcvpmo.pdsw.upteho.dao.CursoDAO;
+import com.pcvpmo.pdsw.upteho.dao.HorarioDisponibleDAO;
 import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
+import com.pcvpmo.pdsw.upteho.dao.ProfesorDAO;
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
 import com.pcvpmo.pdsw.upteho.entities.Cohorte;
 import com.pcvpmo.pdsw.upteho.entities.Curso;
+import com.pcvpmo.pdsw.upteho.entities.HorarioDisponible;
 import com.pcvpmo.pdsw.upteho.entities.Materia;
 import com.pcvpmo.pdsw.upteho.entities.Periodo;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
@@ -17,8 +20,10 @@ import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,6 +42,12 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     
     @Inject
     private CohorteDAO daoCohorte;
+    
+    @Inject
+    private HorarioDisponibleDAO daoHorarioDisponible;
+    
+    @Inject
+    private ProfesorDAO daoProfesor;
     
     @Override
     public void registrarMateria(int idPrograma, int idAsignatura, String siglaRequisito, int tipoRequisito, String nombreMateria, String siglaMateria, String descripcionMateria) {
@@ -81,7 +92,7 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     @Override
     public List<Profesor> consultarProfesores(String busqueda) throws UnidadProyectosException{
         try {
-            return daoCurso.consultarProfesores(busqueda);
+            return daoProfesor.consultarProfesores(busqueda);
         } catch (PersistenceException ex) {
             throw new UnidadProyectosException("El nombre no se encuentra registrado", ex);
         }
@@ -197,5 +208,32 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
        } catch (PersistenceException ex) {
             throw new UnidadProyectosException("Error al consultar las clases del curso"+id, ex);
        }
+    }
+
+    @Override
+    public void agregarClase(int idCurso, Date fecha, Time hora, String tSalon, int idProfesor) throws UnidadProyectosException {
+        try{
+            List<HorarioDisponible>  horarios;
+            horarios=daoHorarioDisponible.consultarHorarioProfesor(idProfesor);
+            boolean isPosible=false;
+            for(int i=0;i<horarios.size()&& !isPosible;i++){
+                HorarioDisponible hor=horarios.get(i);
+                if(hor.getDia()==obtenerDiaSemana(fecha))
+                    if(hor.getHora().equals(hora))
+                        isPosible=true;
+            } 
+            if(isPosible)daoClase.agregarClase(idCurso, fecha, hora, tSalon);
+        }catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al insertar la clase", ex);
+        }
+    }
+    
+    private String obtenerDiaSemana(Date fecha){
+      String[] dias={"DO","LU","MA", "MI","JU","VI","SA"};
+      int numeroDia=0;
+      Calendar cal= Calendar.getInstance();
+      cal.setTime(fecha);
+      numeroDia=cal.get(Calendar.DAY_OF_WEEK);
+      return dias[numeroDia -1];
     }
 }

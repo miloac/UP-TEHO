@@ -8,6 +8,8 @@ import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 /**
@@ -197,4 +199,15 @@ public interface ServiciosUnidadProyectos {
      * @throws UnidadProyectosException Excepcion con datos del error
      */
     public List<Clase> consultarClasesxPeriodo(String periodo) throws UnidadProyectosException;
+    
+    /**
+     * Agrega una clase a un curso especifico, si el horario del profesor coincide
+     * @param idCurso
+     * @param fecha
+     * @param hora
+     * @param tSalon
+     * @param idProfesor
+     * @throws UnidadProyectosException si el identificador del curso o el identificador del profesor no existe
+     */
+    public void agregarClase(int idCurso, Date fecha, Time hora, String tSalon,int idProfesor)throws UnidadProyectosException;
 }
