@@ -8,7 +8,7 @@
         <id property='id' column='id'/>
         <association property="materia" javaType="Materia" columnPrefix="mat_" resultMap="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.MateriaMapper.MateriaResult"></association>
          <association property="periodo" javaType="Periodo" columnPrefix="per_" resultMap="PeriodoResult"></association>
-        <association property='profesor' javaType="Profesor" columnPrefix="prf_" resultMap="ProfesorResult"/>
+        <association property='profesor' javaType="Profesor" columnPrefix="prf_" resultMap="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.ProfesorMapper.ProfesorResult"/>
        
     </resultMap>
     
@@ -18,11 +18,7 @@
         <result property='fechaFin' column='fecha_fin'/>
     </resultMap>
     
-    <resultMap type="Profesor" id="ProfesorResult">
-        <id property="id" column="id"/>
-        <result property="nombre" column="nombre"/>
-        <result property="correo" column="correo"/>
-    </resultMap>
+    
     
     <select parameterType="map" id="consultarCursos" resultMap="CursoResult">
         
@@ -136,10 +132,5 @@
         where per.nombre=COALESCE(#{nombrePeriodo}, per.nombre)
     </select>
     
-    <select parameterType="map" id="consultarProfesoresxNombre" resultMap="ProfesorResult">
-        select
-        id, nombre, correo
-        from profesores
-        where nombre like '%${nombrePro}%' 
-    </select>
+   
 </mapper>

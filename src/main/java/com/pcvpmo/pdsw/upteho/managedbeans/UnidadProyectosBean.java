@@ -13,7 +13,6 @@ import com.pcvpmo.pdsw.upteho.entities.Periodo;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
-import com.pcvpmo.pdsw.upteho.entities.Salon;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
@@ -222,10 +221,10 @@ public class UnidadProyectosBean implements Serializable {
      * Consulta el salon dado el cohorte del curso actual elegido
      * @return lista de Salones
      */
-    public List<Salon> consultarSalonCurso() {
-        List<Salon> lista = null;
+    public List<Clase> consultarClasesCurso() {
+        List<Clase> lista = null;
         try {
-            lista = sp.consultarSalonCurso(cohorteCursoActual);
+            lista = sp.consultarClasesCurso(cursoActual.getId());
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -1,14 +1,15 @@
 package com.pcvpmo.pdsw.upteho.services;
 
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
-import com.pcvpmo.pdsw.upteho.entities.Clase;
 import com.pcvpmo.pdsw.upteho.entities.Curso;
 import com.pcvpmo.pdsw.upteho.entities.Materia;
 import com.pcvpmo.pdsw.upteho.entities.Periodo;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
-import com.pcvpmo.pdsw.upteho.entities.Salon;
+import com.pcvpmo.pdsw.upteho.entities.Clase;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 /**
@@ -158,28 +159,28 @@ public interface ServiciosUnidadProyectos {
     public List<Curso> consultarCursosPorPeriodo(String nombre) throws UnidadProyectosException;
 
     /**
-     *  Consulta los salones dado el periodo academico
+     *  Consulta las clases dado el periodo academico
      * //pre periodo puede ser null
      * @param periodo  periodo a consultar
-     * @return lista con los salones que corresponden al periodo academico
+     * @return lista con los clases que corresponden al periodo academico
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public List<Salon> consultarSalonesPeriodo(Periodo periodo) throws UnidadProyectosException; 
+    public List<Clase> consultarClasesPeriodo(Periodo periodo) throws UnidadProyectosException; 
 
     /**
-     * Consultar los salones registrados en  la base de datos
-     * @return lista con todos los salones registrados
+     * Consultar las clases registrados en  la base de datos
+     * @return lista con todos los clases registrados
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public List<Salon> consultarSalones() throws UnidadProyectosException; 
+    public List<Clase> consultarClases() throws UnidadProyectosException; 
 
     /**
-     * Consultar los salones correspondientes a un curso especifico
-     * @param cohorte cohorte del curso
-     * @return lista de salones que corresponden a un curso especifico
+     * Consultar las clases correspondientes a un curso especifico
+     * @param id id del curso
+     * @return lista de clases que corresponden a un curso especifico
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public List<Salon> consultarSalonCurso(int cohorte) throws UnidadProyectosException;
+    public List<Clase> consultarClasesCurso(int id) throws UnidadProyectosException;
     
     /**
      * Consulta el cohorte dado un Curso y un Programa
@@ -202,6 +203,7 @@ public interface ServiciosUnidadProyectos {
     /**
      * Consulta las asignaturas dado un programa especifico
      * //pos: si el programa es null, debe retornar todas las asignaturas
+     * @param idPrograma id del programa por el cual filtrar
      * @return Lista de asignaturas
      * @throws UnidadProyectosException Excepcion con datos del error
      */
@@ -215,4 +217,15 @@ public interface ServiciosUnidadProyectos {
      * @throws UnidadProyectosException Excepcion con datos del error
      */
     public List<Materia> consultarMateriasxAsignatura(String sigla) throws UnidadProyectosException;
+
+    /**
+     * Agrega una clase a un curso especifico, si el horario del profesor coincide
+     * @param idCurso
+     * @param fecha
+     * @param hora
+     * @param tSalon
+     * @param idProfesor
+     * @throws UnidadProyectosException si el identificador del curso o el identificador del profesor no existe
+     */
+    public void agregarClase(int idCurso, Date fecha, Time hora, String tSalon,int idProfesor)throws UnidadProyectosException;
 }

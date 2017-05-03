@@ -12,6 +12,20 @@
        <result property="tipo_salon" column="tipo_salon"/>
     </resultMap>
     
+    <select parameterType="map" id="consultarClasesCurso" resultMap="ClaseResult">
+        select
+        cla.Cursos_id,
+        cla.id_clase,
+        cla.fecha,
+        cla.hora,
+        cla.tipo_salon
+        
+        from Clases as cla
+        left join Cursos as cur on cla.Cursos_id=cur.id
+        
+        where cur.id=COALESCE(#{curId}, cur.id)
+    </select>
+    
     <select parameterType="map" id="consultarClasesxPeriodo" resultMap="ClaseResult">
         select
         cla.Cursos_id,
@@ -25,5 +39,24 @@
         
         where cur.Periodo_nombre=COALESCE(#{periodo}, cur.Periodo_nombre)
     </select>
+    
+    <select parameterType="map" id="consultarClasesProfesor" resultMap="ClaseResult">
+        select
+        cla.Cursos_id,
+        cla.id_clase,
+        cla.fecha,
+        cla.hora,
+        cla.tipo_salon
+        
+        from Clases as cla
+        left join Cursos as cur on cla.Cursos_id=cur.id
+        left join Profesores as prf on cur.Profesor_id=prf.id
+        
+        where prf.id=COALESCE(#{idProf}, prf.id)
+    </select>
+    
+    <insert parameterType="map" id="agregarClase">
+        insert into Clases (id_clase,Cursos_id,fecha,hora,tipo_salon) values(select max(id_clase)+1 from Clases,#{idCurso},#{fecha},#{hora},#{tSalon})
+    </insert>
     
 </mapper>
