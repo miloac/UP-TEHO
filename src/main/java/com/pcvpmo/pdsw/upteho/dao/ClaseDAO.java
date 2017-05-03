@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface ClaseDAO {
     List<Clase> consultarClasesxPeriodo(String periodo) throws PersistenceException;
+    List<Clase> consultarClasesCurso(int id)throws PersistenceException;
 }

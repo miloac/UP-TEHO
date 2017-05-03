@@ -15,7 +15,6 @@ import com.pcvpmo.pdsw.upteho.entities.Periodo;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
-import com.pcvpmo.pdsw.upteho.entities.Salon;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
 import java.util.ArrayList;
@@ -145,38 +144,8 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
         }
     }
     
-    @Override
-    public List<Salon> consultarSalonesPeriodo(Periodo periodo) throws UnidadProyectosException {
-       //try{
-           //return daoSalon.consultarSalonPeriodo(periodo.getNombre());
-       //}catch(PersistenceException e){
-        //   throw new  UnidadProyectosException("Error al consultar los salones  del periodo"+periodo.getNombre(),e);
-       //}
-       List<Salon> lista=new ArrayList<Salon>();
-       return lista;
-    }
+   
 
-    @Override
-    public List<Salon> consultarSalonCurso(int cohorte) throws UnidadProyectosException {
-        //try{
-         //   return daoSalon.consultarSalonCurso(cohorte);
-        //}catch(PersistenceException e){
-        //    throw new UnidadProyectosException("Error al consultar el salon  del  curso"+cohorte,e);
-        //}
-        List<Salon> lista=new ArrayList<Salon>();
-       return lista;
-    }
-
-    @Override
-    public List<Salon> consultarSalones() throws UnidadProyectosException {
-        //try{
-        //    return daoSalon.consultarSalones();
-        //}catch(PersistenceException e){
-        //    throw new UnidadProyectosException("Error al consultar todos los salones",e);
-        //}
-        List<Salon> lista=new ArrayList<Salon>();
-       return lista;
-    }
 
     @Override
     public int consultarCohorte(Curso curso, Programa programa) throws UnidadProyectosException {
@@ -210,4 +179,23 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             throw new UnidadProyectosException("Error al consultar las clases en el periodo" + periodo, ex);
         }
     }  
+
+    @Override
+    public List<Clase> consultarClasesPeriodo(Periodo periodo) throws UnidadProyectosException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Clase> consultarClases() throws UnidadProyectosException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Clase> consultarClasesCurso(int id) throws UnidadProyectosException {
+       try{
+           return daoClase.consultarClasesCurso(id);
+       } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar las clases del curso"+id, ex);
+       }
+    }
 }

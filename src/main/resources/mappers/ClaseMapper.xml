@@ -12,6 +12,20 @@
        <result property="tipo_salon" column="tipo_salon"/>
     </resultMap>
     
+    <select parameterType="map" id="consultarClasesCurso" resultMap="ClaseResult">
+        select
+        cla.Cursos_id,
+        cla.id_clase,
+        cla.fecha,
+        cla.hora,
+        cla.tipo_salon
+        
+        from Clases as cla
+        left join Cursos as cur on cla.Cursos_id=cur.id
+        
+        where cur.id=COALESCE(#{curId}, cur.id)
+    </select>
+    
     <select parameterType="map" id="consultarClasesxPeriodo" resultMap="ClaseResult">
         select
         cla.Cursos_id,

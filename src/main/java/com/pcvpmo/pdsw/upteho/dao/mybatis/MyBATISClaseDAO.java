@@ -20,5 +20,10 @@ public class MyBATISClaseDAO implements ClaseDAO{
     public List<Clase> consultarClasesxPeriodo(String periodo) throws PersistenceException {
         return claseMapper.consultarClasesxPeriodo(periodo);
     }
+
+    @Override
+    public List<Clase> consultarClasesCurso(int id) throws PersistenceException {
+        return claseMapper.consultarClasesCurso(id);
+    }
     
 }

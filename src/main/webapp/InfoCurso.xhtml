@@ -28,15 +28,18 @@
             <div style="padding:10px;margin:auto;" >
                 <h:outputText value="#{UnidadProyectosBean.nombreCursoActual()}"/>
                 <h:form id="tabla_salones">
-                    <p:dataTable var="reservacionSalon" value="#{UnidadProyectosBean.consultarSalonCurso()}">
+                    <p:dataTable var="reservacionSalon" value="#{UnidadProyectosBean.consultarClasesCurso()}">
                         <p:column headerText="TIPO">
-                            <h:outputText value="#{reservacionSalon.salon.tipoSalon}"/>
+                            <h:outputText value="#{reservacionSalon.tipo_salon}"/>
                         </p:column>
-                        <p:column headerText="FECHA Y HORA">
-                            <h:outputText value="#{reservacionSalon.clase.fechaHora.toString()}"/>
+                        <p:column headerText="FECHA">
+                            <h:outputText value="#{reservacionSalon.fecha.toString()}"/>
+                        </p:column>
+                        <p:column headerText="HORA">
+                            <h:outputText value="#{reservacionSalon.hora.toString()}"/>
                         </p:column>
                         <p:column headerText="ID DE CLASE">
-                            <h:outputText value="#{reservacionSalon.clase.id}"/>
+                            <h:outputText value="#{reservacionSalon.id}"/>
                         </p:column>
                         <p:column headerText="RECURSOS">
                             <h:outputText value="TODO"/>
