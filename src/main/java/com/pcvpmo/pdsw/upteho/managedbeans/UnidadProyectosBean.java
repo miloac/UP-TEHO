@@ -17,7 +17,10 @@ import com.pcvpmo.pdsw.upteho.entities.Salon;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
+import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,10 +35,12 @@ public class UnidadProyectosBean implements Serializable {
     ServiciosUnidadProyectos sp = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectos();
     
     private Curso cursoActual; 
-    private  int cohorteCursoActual;        
+    private int cohorteCursoActual;        
     private Profesor profesorSelect;
     private String nameProf;
-    //Curso que se haya seleccionado en la pagina, este atributo puede cambiar por id o String dependiendo de como lo implementemos
+    private Programa programaActual;
+    private Asignatura asignaturaActual;
+    private Materia materiaActual;
     
     public UnidadProyectosBean() {
     }
@@ -261,6 +266,89 @@ public class UnidadProyectosBean implements Serializable {
 
     public void setProfesorSelect(Profesor profesorSelect) {
         this.profesorSelect = profesorSelect;
-    }    
+    }
+
+    public Curso getCursoActual() {
+        return cursoActual;
+    }
+
+    public void setCursoActual(Curso cursoActual) {
+        this.cursoActual = cursoActual;
+    }
+
+    public Programa getProgramaActual() {
+        return programaActual;
+    }
+
+    public void setProgramaActual(Programa programaActual) {
+        this.programaActual = programaActual;
+    }
+
+    public Asignatura getAsignaturaActual() {
+        return asignaturaActual;
+    }
+
+    public void setAsignaturaActual(Asignatura asignaturaActual) {
+        this.asignaturaActual = asignaturaActual;
+    }
+
+    public Materia getMateriaActual() {
+        return materiaActual;
+    }
+
+    public void setMateriaActual(Materia materiaActual) {
+        this.materiaActual = materiaActual;
+    }
+    
+    public Map<String, Programa> getProgramas() {
+        List<Programa> lista = null;
+        try {
+            lista = sp.consultarProgramas();
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        HashMap<String, Programa> programas = new HashMap<>();
+        for (Programa programa: lista) {
+            programas.put(programa.getNombre(), programa);
+        }
+        return programas;
+    }
+    
+    public Map<String, Asignatura> getAsignaturas() {
+        List<Asignatura> lista = null;
+        HashMap<String, Asignatura> asignaturas = new HashMap<>();
+        try {
+            lista = sp.consultarAsignaturasxPrograma(programaActual.getId());
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (Asignatura asignatura: lista) {
+            asignaturas.put(asignatura.getNombre(), asignatura);
+        }
+        return asignaturas;
+    }
+    
+    public Map<String, Materia> getMaterias() {
+        List<Materia> lista = null;
+        HashMap<String, Materia> materias = new HashMap<>();
+        try {
+            lista = sp.consultarMateriasxAsignatura(materiaActual.getSigla());
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (Materia materia: lista) {
+            materias.put(materia.getNombre(), materia);
+        }
+        return materias;
+    }
+
+    public int getCohorteCursoActual() {
+        return cohorteCursoActual;
+    }
+
+    public void setCohorteCursoActual(int cohorteCursoActual) {
+        this.cohorteCursoActual = cohorteCursoActual;
+    }
+    
 }
 
