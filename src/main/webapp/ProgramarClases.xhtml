@@ -8,7 +8,7 @@
       
     <h:head>
         
-        <title>Informacion del Curso</title>
+        <title>Programaci&oacute;n de clases</title>
         <h:outputStylesheet library="css" name="estilo.css" />
     </h:head>
     <h:body>
@@ -21,14 +21,19 @@
         <!-- CUERPO -->
         <center><div style="max-width:97%;min-height:20px;background:brown ;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:15px;margin:auto;" >
-                <center><font color="#FFF" size="+2">INFORMACION DEL CURSO</font></center>
+                <center><font color="#FFF" size="+2">PROGRAMACI&Oacute;N CLASES</font></center>
             </div>
         </div></center>
         <div style="max-width:100%;min-height:600px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:10px;margin:auto;" >
-                <h:outputText value="#{UnidadProyectosBean.nombreCursoActual()}"/>
+                PROGRAMA:
+                <h:outputText value="#{UnidadProyectosBean.programa.nombre}"/>
+                ASIGNATURA:
+                <h:outputText value="#{UnidadProyectosBean.asignatura.nombre}"/>
+                PROFESOR:
+                <h:outputText value="#{UnidadProyectosBean.profesorSelect.nombre}"/>
                 <h:form id="tabla_salones">
-                    <p:dataTable var="reservacionSalon" value="#{UnidadProyectosBean.consultarClasesCurso()}">
+                    <p:dataTable var="clasesProf" value="#{UnidadProyectosBean.consultarClasesCurso()}">
                         <p:column headerText="TIPO">
                             <h:outputText value="#{reservacionSalon.tipo_salon}"/>
                         </p:column>
@@ -53,5 +58,3 @@
         <ui:include src="resources/inc/footer.xhtml" />
     </h:body>
 </html>
-
-

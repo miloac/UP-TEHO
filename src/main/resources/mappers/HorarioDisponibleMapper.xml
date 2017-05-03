@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.HorarioDisponibleMapper">
+    <resultMap type="HorarioDisponible" id="HorarioDisponibleResult">
+        <result  property="dia" column="dia"/>
+        <result  property="hora" column="hora"/>
+        <association property='profesor' javaType="Profesor" columnPrefix="prf_" resultMap="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.ProfesorMapper.ProfesorResult"/>
+    </resultMap>
+    
+    <select parameterType="map" id="consultarHorarioProfesor" resultMap="HorarioDisponibleResult"> 
+        select
+        
+        hod.dia,
+        hod.hora,
+        hod.Profesores_id,
+        
+        prf.id as prf_id,
+        prf.nombre as prf_nombre,
+        prf.correo as prf_correo
+        
+        from HorarioDisponible as hod 
+        left join Profesores as prf  on hod.Profesores_id=prf.id
+        
+        where prf.id=#{idProfesor}
+    </select>
+</mapper> 
+    
