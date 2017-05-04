@@ -54,6 +54,10 @@ public class UnidadProyectosBean implements Serializable {
         return "InfoCurso";
     }
     
+    public String irPaginaRegistrarMateria() {
+        return "RegistrarNuevaMateria";
+    }
+        
     public String nombreCursoActual() {
         return cursoActual.getMateria().getNombre();
     }
@@ -118,8 +122,14 @@ public class UnidadProyectosBean implements Serializable {
      * @param idAsignatura id de la asignatura
      * @return una lista con las Materias
      */
-     public List<Materia> consultarMaterias(int idAsignatura){
-         throw new UnsupportedOperationException("Not supported yet.");
+    public List<Materia> consultarMaterias(int idAsignatura){
+        List<Materia> materias = null;
+        try{
+            materias = sp.consultarMaterias(idAsignatura);
+        }catch(UnidadProyectosException ex){
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return materias;
      }
     
     /**
