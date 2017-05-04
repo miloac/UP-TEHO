@@ -24,49 +24,44 @@
         </div></center>
         <div style="max-width:100%;min-height:400px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:10px;margin:auto;" >
-                <p:layout style="max-width:100%;max-height:100%;">
-                    <p:layoutUnit position="north" size="60" resizable="false">
-                        <h:form id="form">
-                        <center>
-                            <h:outputText value="Generar Reporte:  "></h:outputText>
-                            <h:inputText id="nombrePeriodo" binding="#{nombrePeriodo}"/>
-                            <p:watermark for="nombrePeriodo" value="Ingrese Periodo"></p:watermark>
-                            &nbsp;
-                            <p:commandButton value="Generar Reporte" update=":#{p:component('tabla_programacion')}" />
-                        </center>
-                        </h:form>
-                    </p:layoutUnit>
-                    <p:layoutUnit position="center" resizable="true" size="1000" minSize="1000">
-                        <h:form id="tabla_programacion">
-                            <p:dataTable var="curso" value="#{UnidadProyectosBean.consultarCursosPorPeriodo(nombrePeriodo.value)}">
-                                <p:column headerText="INFO">
-                                    <center><h:commandButton value="Consultar" action="#{UnidadProyectosBean.irPaginaCurso(curso)}"/></center>  
-                                </p:column>
-                                <p:column headerText="PROGRAMA">
-                                    <h:outputText value="#{curso.materia.asignatura.programa.nombre}"/>
-                                </p:column>
-                                <p:column headerText="COHORTE">
-                                    <h:outputText value="#{UnidadProyectosBean.consultarCohorte(curso,curso.materia.asignatura.programa)}"/>
-                                </p:column>
-                                <p:column headerText="ASIGNATURA">
-                                    <h:outputText value="#{curso.materia.asignatura.nombre}"/>
-                                </p:column>
-                                <p:column headerText="MATERIA">
-                                    <h:outputText value="#{curso.materia.nombre}"/>
-                                </p:column>
-                                <p:column headerText="PROFESOR">
-                                    <h:outputText value="#{curso.profesor.nombre}"/>
-                                </p:column>
-                                <p:column headerText="PERIODO">
-                                    <h:outputText value="#{curso.periodo.nombre}"/>
-                                </p:column>
-                                <p:column headerText="HORAS">
-                                    <h:outputText value="//TODO"/>
-                                </p:column>
-                            </p:dataTable>
-                        </h:form>
-                    </p:layoutUnit>  
-                </p:layout>                
+                <h:form id="form">
+                    <center>
+                    <h:outputText value="Generar Reporte:  "></h:outputText>
+                    <h:inputText id="nombrePeriodo" binding="#{nombrePeriodo}"/>
+                    <p:watermark for="nombrePeriodo" value="Ingrese Periodo"></p:watermark>
+                    &nbsp;
+                    <p:commandButton value="Generar Reporte" update=":#{p:component('tabla_programacion')}" />
+                    </center>
+                </h:form>
+                <br></br>
+                <h:form id="tabla_programacion">
+                    <p:dataTable var="curso" value="#{UnidadProyectosBean.consultarCursosPorPeriodo(nombrePeriodo.value)}">
+                    <p:column headerText="INFO">
+                        <center><h:commandButton value="Consultar" action="#{UnidadProyectosBean.irPaginaCurso(curso)}"/></center>  
+                    </p:column>
+                    <p:column headerText="PROGRAMA">
+                        <h:outputText value="#{curso.materia.asignatura.programa.nombre}"/>
+                    </p:column>
+                    <p:column headerText="COHORTE">
+                        <h:outputText value="#{UnidadProyectosBean.consultarCohorte(curso,curso.materia.asignatura.programa)}"/>
+                    </p:column>
+                    <p:column headerText="ASIGNATURA">
+                        <h:outputText value="#{curso.materia.asignatura.nombre}"/>
+                    </p:column>
+                    <p:column headerText="MATERIA">
+                        <h:outputText value="#{curso.materia.nombre}"/>
+                    </p:column>
+                    <p:column headerText="PROFESOR">
+                        <h:outputText value="#{curso.profesor.nombre}"/>
+                    </p:column>
+                    <p:column headerText="PERIODO">
+                        <h:outputText value="#{curso.periodo.nombre}"/>
+                    </p:column>
+                    <p:column headerText="HORAS">
+                        <h:outputText value="//TODO"/>
+                    </p:column>
+                    </p:dataTable>
+                </h:form>
             </div>
         </div>
         
