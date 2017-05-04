@@ -4,18 +4,8 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.AsignaturaMapper">    
-    <resultMap type='Asignatura' id='AsignaturaResult'>
-        <id property='id' column='id'/>
-        <result property='nombre' column='nombre'/>
-        <association property="programa" javaType="Programa" columnPrefix="pro_" resultMap="ProgramaResult"/>
-    </resultMap>
-    
-    <resultMap type="Programa" id="ProgramaResult">
-        <id property="id" column="id"/>
-        <result property="nombre" column="nombre"/>
-    </resultMap>
-    
-    <select parameterType="map" id="consultarAsignaturas" resultMap="AsignaturaResult">
+        
+    <select parameterType="map" id="consultarAsignaturas" resultMap="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.MateriaMapper.AsignaturaResult">
         select  asi.id as id,
         asi.nombre as nombre,
         asi.programas_id as Programas_id,

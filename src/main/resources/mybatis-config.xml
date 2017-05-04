@@ -42,6 +42,7 @@
         <mapper resource="mappers/HorarioDisponibleMapper.xml"></mapper>
         <mapper resource="mappers/ProfesorMapper.xml"></mapper>
         <mapper resource="mappers/AsignaturaMapper.xml"></mapper>
+        <mapper resource="mappers/ProgramaMapper.xml"></mapper>
     </mappers> 
         
         

@@ -19,6 +19,7 @@ import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISCohorteDAO;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISCursoDAO;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISHorarioDisponibleDAO;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISProfesorDAO;
+import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISProgramaDAO;
 import com.pcvpmo.pdsw.upteho.services.impl.ServiciosUnidadProyectosImpl;
 import org.mybatis.guice.XMLMyBatisModule;
 import org.mybatis.guice.datasource.helper.JdbcHelper;
@@ -49,6 +50,7 @@ public class ServiciosUnidadProyectosFactory {
                 bind(HorarioDisponibleDAO.class).to(MyBATISHorarioDisponibleDAO.class);
                 bind(ProfesorDAO.class).to(MyBATISProfesorDAO.class);
                 bind(AsignaturaDAO.class).to(MyBATISAsignaturaDAO.class);
+                bind(ProgramaDAO.class).to(MyBATISProgramaDAO.class);
                 //TODO agregar bind de DAOS MyBatis
             }
         });
@@ -65,6 +67,7 @@ public class ServiciosUnidadProyectosFactory {
                 bind(HorarioDisponibleDAO.class).to(MyBATISHorarioDisponibleDAO.class);
                 bind(ProfesorDAO.class).to(MyBATISProfesorDAO.class);
                 bind(AsignaturaDAO.class).to(MyBATISAsignaturaDAO.class);
+                bind(ProgramaDAO.class).to(MyBATISProgramaDAO.class);
                 //TODO agregar binds Daos MyBatis
             }
         });

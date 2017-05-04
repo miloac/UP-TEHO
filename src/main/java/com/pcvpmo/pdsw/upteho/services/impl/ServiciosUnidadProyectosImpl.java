@@ -9,6 +9,7 @@ import com.pcvpmo.pdsw.upteho.dao.CursoDAO;
 import com.pcvpmo.pdsw.upteho.dao.HorarioDisponibleDAO;
 import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
 import com.pcvpmo.pdsw.upteho.dao.ProfesorDAO;
+import com.pcvpmo.pdsw.upteho.dao.ProgramaDAO;
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
 import com.pcvpmo.pdsw.upteho.entities.Cohorte;
@@ -53,6 +54,9 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     @Inject
     private AsignaturaDAO daoAsignatura;
     
+    @Inject
+    private ProgramaDAO daoPrograma;
+    
     @Override
     public void registrarMateria(int idPrograma, int idAsignatura, String siglaRequisito, int tipoRequisito, String nombreMateria, String siglaMateria, String descripcionMateria) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -84,8 +88,12 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     }
 
     @Override
-    public List<Programa> consultarProgramas(){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Programa> consultarProgramas() throws UnidadProyectosException{
+        try {
+            return daoPrograma.consultarProgramas();
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar las asignaturas"+ ex);
+        }
     }
 
     @Override

@@ -123,9 +123,16 @@ public class UnidadProyectosBean implements Serializable {
      * @return una lista de Programas
      */
     public List<Programa> consultarProgramas() {
-        java.util.ArrayList<Programa> lista = new java.util.ArrayList<Programa>();
+        /*java.util.ArrayList<Programa> lista = new java.util.ArrayList<Programa>();
         Programa pro = new Programa(1,"prueba");
         lista.add(pro);
+        return lista;*/
+        List<Programa> lista = null;
+        try {
+            lista = sp.consultarProgramas();
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return lista;
     }
     
