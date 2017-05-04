@@ -211,18 +211,21 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     }
 
     @Override
-    public void agregarClase(int idCurso, Date fecha, Time hora, String tSalon, int idProfesor) throws UnidadProyectosException {
+    public boolean agregarClase(int idCurso, Date fecha, Time hora, String tSalon, int idProfesor) throws UnidadProyectosException {
         try{
             List<HorarioDisponible>  horarios;
             horarios=daoHorarioDisponible.consultarHorarioProfesor(idProfesor);
             boolean isPosible=false;
             for(int i=0;i<horarios.size()&& !isPosible;i++){
                 HorarioDisponible hor=horarios.get(i);
-                if(hor.getDia()==obtenerDiaSemana(fecha))
+          
+                if(hor.getDia().equals(obtenerDiaSemana(fecha)))
                     if(hor.getHora().equals(hora))
                         isPosible=true;
             } 
+          
             if(isPosible)daoClase.agregarClase(idCurso, fecha, hora, tSalon);
+            return isPosible;
         }catch (PersistenceException ex) {
             throw new UnidadProyectosException("Error al insertar la clase", ex);
         }

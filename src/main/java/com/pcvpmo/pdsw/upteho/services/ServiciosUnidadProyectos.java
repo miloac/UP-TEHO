@@ -209,7 +209,7 @@ public interface ServiciosUnidadProyectos {
      * @param idProfesor
      * @throws UnidadProyectosException si el identificador del curso o el identificador del profesor no existe
      */
-    public void agregarClase(int idCurso, Date fecha, Time hora, String tSalon,int idProfesor)throws UnidadProyectosException;
+    public boolean agregarClase(int idCurso, Date fecha, Time hora, String tSalon,int idProfesor)throws UnidadProyectosException;
     
     /**
      * Consulta las clases de un profesor dado 

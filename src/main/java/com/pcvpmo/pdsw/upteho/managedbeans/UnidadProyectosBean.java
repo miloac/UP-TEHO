@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
 
 /**
  * Managed Bean encargado de la comunicacion entre capa logica y presentacion
@@ -35,21 +36,24 @@ public class UnidadProyectosBean implements Serializable {
     
     ServiciosUnidadProyectos sp = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectos();
     
-    private Curso cursoActual; 
+   
     private  int cohorteCursoActual=30;    
     private Programa programa=new Programa(1,"Maestria");
     private Asignatura asignatura=new Asignatura(1,"Asignatura1",programa);    
-    private Periodo periodo;   
+    private Periodo periodo=new Periodo("2017-1",new Date(new java.util.Date(System.currentTimeMillis()).getTime()),new Date(new java.util.Date(System.currentTimeMillis()).getTime()));   
     private Cohorte cohorte;
     private List<Profesor> profesor;
     private Profesor profesorSelect=new Profesor(1,"mario perez","mario@escuelaing.edu.co");
     private Materia materia=new Materia("MATE","Materia1",4,"DescripcionDB",asignatura);
+    private Curso cursoActual=new Curso(1,profesorSelect,materia,periodo); 
     private String nameProf="a";
     private double numeroHorasPrf=0;
     private java.util.Date fechaClase;
     private String horaClase;
     private List<String> horas=null;
     private String tipoSalon;
+    private String mensajeAgregarClase;
+    private boolean registroClase;
     //Curso que se haya seleccionado en la pagina, este atributo puede cambiar por id o String dependiendo de como lo implementemos
     
     public UnidadProyectosBean() {
@@ -63,7 +67,12 @@ public class UnidadProyectosBean implements Serializable {
         return "ProgramacionClase";
     }
     public String irProgramarClases() {
-        return "ProgramarClases";
+        String pagina;
+        if(registroClase)
+            pagina= "ProgramarClases";
+        else
+            pagina="ProgramacionClase";
+        return pagina;
     }
     public String nombreCursoActual() {
         return cursoActual.getMateria().getNombre();
@@ -251,18 +260,22 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     
-    public String agregarClase(){
+    public void  agregarClase(){
         String nPagina=null;
         try{
             DateFormat formatter = new SimpleDateFormat("HH:mm");
             Time horaT = new Time(formatter.parse(horaClase).getTime());
             Date sqlFecha=new Date(fechaClase.getTime());
-            sp.agregarClase(cursoActual.getId(),sqlFecha, horaT, tipoSalon,profesorSelect.getId());
+            boolean resp=sp.agregarClase(cursoActual.getId(),sqlFecha, horaT, tipoSalon,profesorSelect.getId());
+            registroClase=resp;
+            if(resp)mensajeAgregarClase="La clase se registro";
+            else mensajeAgregarClase="El profesor no tiene horario disponible";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", mensajeAgregarClase);
             nPagina= irProgramarClases();
         } catch (Exception ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return nPagina;
+        //return nPagina;
     }
     
     
@@ -436,6 +449,15 @@ public class UnidadProyectosBean implements Serializable {
     }
     public String getTipoSalon(){
         return tipoSalon;
+    }
+    
+     public void setMensajeAgregarClase(String nMensaje){
+        
+        mensajeAgregarClase=nMensaje;
+    }
+    public String getMensajeAgregarClase(){
+        
+        return mensajeAgregarClase;
     }
 }
 
