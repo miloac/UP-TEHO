@@ -36,7 +36,8 @@ public class UnidadProyectosBean implements Serializable {
     private String nameProf;
     private String idProgramaActual;
     private String idAsignaturaActual;
-    private String siglaMateriaActual;
+    private String siglaMateriaActual;    
+    private int cohorte;
     
     public UnidadProyectosBean() {
     }
@@ -367,5 +368,28 @@ public class UnidadProyectosBean implements Serializable {
         
     }
     
+    public void registrarCohorte(int numero){
+        setCohorte(numero);
+//        System.out.println("test "+profesorSelect.getNombre());
+    }
+    
+    /**
+     * Get the value of cohorte
+     *
+     * @return the value of cohorte
+     */
+    public int getCohorte() {
+        return cohorte;
+    }
+
+    /**
+     * Set the value of cohorte
+     *
+     * @param cohorte new value of cohorte
+     */
+    public void setCohorte(int cohorte) {
+        this.cohorte = cohorte;
+    }
+
 }
 

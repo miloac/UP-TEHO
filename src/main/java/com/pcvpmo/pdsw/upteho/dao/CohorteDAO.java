@@ -8,4 +8,6 @@ import com.pcvpmo.pdsw.upteho.entities.Cohorte;
  */
 public interface CohorteDAO {
     Cohorte consultarCohorte (int idCurso,int idPrograma)throws PersistenceException;
+    
+    Cohorte consultarCohortexId(int idCohorte) throws PersistenceException;
 }

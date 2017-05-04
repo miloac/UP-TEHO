@@ -267,5 +267,10 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
       cal.setTime(fecha);
       numeroDia=cal.get(Calendar.DAY_OF_WEEK);
       return dias[numeroDia -1];
+    }    
+
+    @Override
+    public void consultarCohorte(int id) throws UnidadProyectosException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
