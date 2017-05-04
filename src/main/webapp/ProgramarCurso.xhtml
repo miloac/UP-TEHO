@@ -25,28 +25,32 @@
         <div style="max-width:100%;min-height:600px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:10px;margin:auto;" >
                 <p:panel header="Datos del Curso">
-                    <p:outputLabel for="programa" value="Programa: "/>
-                    <p:selectOneMenu id="programa" value="#{UnidadProyectosBean.programaActual}" style="width:200px">
-                        <p:ajax update="asignatura"/>
-                        <f:selectItem itemLabel="Seleccionar Programa" itemValue="" noSelectionOption="true"/>
-                        <f:selectItems value="#{UnidadProyectosBean.getProgramas()}"/>
-                    </p:selectOneMenu>
-                    <p:outputLabel for="asignatura" value="Asignatura: " />
-                    <p:selectOneMenu id="asignatura" value="#{UnidadProyectosBean.asignaturaActual}" style="width:200px">
-                        <p:ajax update="materia"/>
-                        <f:selectItem itemLabel="Seleccionar Asignatura" itemValue="" noSelectionOption="true"/>
-                        <f:selectItems value="#{UnidadProyectosBean.getAsignaturas()}"/>
-                    </p:selectOneMenu>
-                    <p:outputLabel for="materia" value="Materia: "/>
-                    <p:selectOneMenu id="materia" value="#{UnidadProyectosBean.materiaActual}" style="width:200px">
-                        <f:selectItem itemLabel="Seleccionar Materia" itemValue="" noSelectionOption="true"/>
-                        <f:selectItems value="#{UnidadProyectosBean.getMaterias()}"/>
-                    </p:selectOneMenu>
+                    <h:form id="formita">
+                    <h:panelGrid columns="2" cellpadding="10">
+                        <p:outputLabel for="programa" value="Programa: "/>
+                        <p:selectOneMenu id="programa" value="#{UnidadProyectosBean.idProgramaActual}" style="width:250px">
+                            <f:selectItem itemLabel="Seleccionar Programa" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{UnidadProyectosBean.getProgramas()}"/>
+                            <p:ajax listener="#{UnidadProyectosBean.changePrograma()}" event="change" update=":#{p:component('datos')}, asignatura, materia"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel for="asignatura" value="Asignatura: " />
+                        <p:selectOneMenu id="asignatura" value="#{UnidadProyectosBean.idAsignaturaActual}" style="width:250px">
+                            <f:selectItem itemLabel="Seleccionar Asignatura" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{UnidadProyectosBean.getAsignaturas()}"/>
+                            <p:ajax listener="#{UnidadProyectosBean.changeAsignatura()}" event="change" update=":#{p:component('datos')}, materia"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel for="materia" value="Materia: "/>
+                        <p:selectOneMenu id="materia" value="#{UnidadProyectosBean.siglaMateriaActual}" style="width:250px">
+                            <f:selectItem itemLabel="Seleccionar Materia" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{UnidadProyectosBean.getMaterias()}"/>
+                            <p:ajax event="change" update=":#{p:component('datos')}"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    </h:form>
                 </p:panel>
-                <h:outputText value="Resumen: #{UnidadProyectosBean.programaActual.nombre}, "/>
-                <h:outputText value="#{UnidadProyectosBean.asignaturaActual.nombre}, "/>
-                <h:outputText value="#{UnidadProyectosBean.materiaActual.nombre}, "/>
-                <h:outputText value="Cohorte: #{UnidadProyectosBean.cohorteCursoActual}"/>
+                <h:form id="datos">
+                    <h:outputText value="Resumen: #{UnidadProyectosBean.getResumen()}"/>
+                </h:form>
             </div>
         </div>
         

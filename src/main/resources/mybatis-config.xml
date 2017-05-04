@@ -41,6 +41,8 @@
         <mapper resource="mappers/CohorteMapper.xml"></mapper>
         <mapper resource="mappers/HorarioDisponibleMapper.xml"></mapper>
         <mapper resource="mappers/ProfesorMapper.xml"></mapper>
+        <mapper resource="mappers/ProgramaMapper.xml"></mapper>
+        <mapper resource="mappers/AsignaturaMapper.xml"></mapper>
     </mappers> 
         
         

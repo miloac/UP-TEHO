@@ -2,7 +2,6 @@ package com.pcvpmo.pdsw.upteho.managedbeans;
 
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
-import com.pcvpmo.pdsw.upteho.entities.Cohorte;
 import com.pcvpmo.pdsw.upteho.entities.Curso;
 import java.io.Serializable;
 import java.util.List;
@@ -16,8 +15,6 @@ import com.pcvpmo.pdsw.upteho.entities.Recurso;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -37,9 +34,9 @@ public class UnidadProyectosBean implements Serializable {
     private int cohorteCursoActual;        
     private Profesor profesorSelect;
     private String nameProf;
-    private Programa programaActual;
-    private Asignatura asignaturaActual;
-    private Materia materiaActual;
+    private String idProgramaActual;
+    private String idAsignaturaActual;
+    private String siglaMateriaActual;
     
     public UnidadProyectosBean() {
     }
@@ -273,73 +270,7 @@ public class UnidadProyectosBean implements Serializable {
 
     public void setCursoActual(Curso cursoActual) {
         this.cursoActual = cursoActual;
-    }
-
-    public Programa getProgramaActual() {
-        return programaActual;
-    }
-
-    public void setProgramaActual(Programa programaActual) {
-        this.programaActual = programaActual;
-    }
-
-    public Asignatura getAsignaturaActual() {
-        return asignaturaActual;
-    }
-
-    public void setAsignaturaActual(Asignatura asignaturaActual) {
-        this.asignaturaActual = asignaturaActual;
-    }
-
-    public Materia getMateriaActual() {
-        return materiaActual;
-    }
-
-    public void setMateriaActual(Materia materiaActual) {
-        this.materiaActual = materiaActual;
-    }
-    
-    public Map<String, Programa> getProgramas() {
-        List<Programa> lista = null;
-        try {
-            lista = sp.consultarProgramas();
-        } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        HashMap<String, Programa> programas = new HashMap<>();
-        for (Programa programa: lista) {
-            programas.put(programa.getNombre(), programa);
-        }
-        return programas;
-    }
-    
-    public Map<String, Asignatura> getAsignaturas() {
-        List<Asignatura> lista = null;
-        HashMap<String, Asignatura> asignaturas = new HashMap<>();
-        try {
-            lista = sp.consultarAsignaturasxPrograma(programaActual.getId());
-        } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        for (Asignatura asignatura: lista) {
-            asignaturas.put(asignatura.getNombre(), asignatura);
-        }
-        return asignaturas;
-    }
-    
-    public Map<String, Materia> getMaterias() {
-        List<Materia> lista = null;
-        HashMap<String, Materia> materias = new HashMap<>();
-        try {
-            lista = sp.consultarMateriasxAsignatura(materiaActual.getSigla());
-        } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        for (Materia materia: lista) {
-            materias.put(materia.getNombre(), materia);
-        }
-        return materias;
-    }
+    }    
 
     public int getCohorteCursoActual() {
         return cohorteCursoActual;
@@ -347,6 +278,93 @@ public class UnidadProyectosBean implements Serializable {
 
     public void setCohorteCursoActual(int cohorteCursoActual) {
         this.cohorteCursoActual = cohorteCursoActual;
+    }
+
+    public String getIdProgramaActual() {
+        return idProgramaActual;
+    }
+
+    public void setIdProgramaActual(String idProgramaActual) {
+        this.idProgramaActual = idProgramaActual;
+    }
+
+    public Map<String, String> getProgramas() {
+        List<Programa> lista = null;
+        HashMap<String, String> res = new HashMap<>();
+        try {
+            lista = sp.consultarProgramas();
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        for (Programa programa: lista) {
+            res.put(programa.getNombre(), String.valueOf(programa.getId()));
+        }
+        return res;
+    }
+    
+    public Map<String, String> getAsignaturas() {
+        List<Asignatura> lista = null;
+        HashMap<String, String> res = new HashMap<>();
+        try {
+            if (idProgramaActual == null || idProgramaActual.equals("")) lista = sp.consultarAsignaturasxPrograma(null);
+            else lista = sp.consultarAsignaturasxPrograma(Integer.parseInt(idProgramaActual));
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (Asignatura asignatura: lista) {
+            res.put(asignatura.getNombre(), String.valueOf(asignatura.getId()));
+        }
+        return res;
+    }
+    
+    public Map<String, String> getMaterias() {
+        List<Materia> lista = null;
+        HashMap<String, String> res = new HashMap<>();
+        try {
+            if (idAsignaturaActual == null || idAsignaturaActual.equals("")) lista = sp.consultarMateriasxAsignatura(null);
+            else lista = sp.consultarMateriasxAsignatura(Integer.parseInt(idAsignaturaActual));
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (Materia materia: lista) {
+            res.put(materia.getNombre(), String.valueOf(materia.getSigla()));
+        }
+        return res;
+    }
+    
+    public String getIdAsignaturaActual() {
+        return idAsignaturaActual;
+    }
+    
+    public void changePrograma() {
+        idAsignaturaActual = null;
+        siglaMateriaActual = null;
+    }
+    
+    public void changeAsignatura() {
+        siglaMateriaActual = null;
+    }
+    
+    public void setIdAsignaturaActual(String idAsignaturaActual) {
+        this.idAsignaturaActual = idAsignaturaActual;
+    }
+
+    public String getSiglaMateriaActual() {
+        return siglaMateriaActual;
+    }
+
+    public void setSiglaMateriaActual(String siglaMateriaActual) {
+        this.siglaMateriaActual = siglaMateriaActual;
+    }
+    
+    public String getResumen() {
+        String programa = idProgramaActual;
+        String asignatura = idAsignaturaActual;
+        String materia = siglaMateriaActual;
+        int cohorte = cohorteCursoActual;
+        return programa + " " + asignatura + " " + materia + " " + cohorte;
+        
     }
     
 }

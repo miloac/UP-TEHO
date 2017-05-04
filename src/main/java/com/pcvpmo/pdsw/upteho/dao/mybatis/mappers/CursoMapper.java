@@ -1,7 +1,6 @@
 package com.pcvpmo.pdsw.upteho.dao.mybatis.mappers;
 
 import com.pcvpmo.pdsw.upteho.entities.Curso;
-import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
