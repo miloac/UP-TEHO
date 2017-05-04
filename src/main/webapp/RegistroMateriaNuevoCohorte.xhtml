@@ -23,15 +23,15 @@
             <h:form id="rema">
             <h:panelGrid columns="2" cellpadding="5">
                 <h:outputText value="Programa:" />
-                <h:outputText id="pro" value="#{UnidadProyectosBean.programa.nombre}" />
+                <h:outputText id="pro" value="#{UnidadProyectosBean.cursoTemp().materia.asignatura.programa.nombre}" />
                 <h:outputText value="Asignatura:" />
-                <h:outputText id="asi" value="#{UnidadProyectosBean.asignatura.nombre}" />
+                <h:outputText id="asi" value="#{UnidadProyectosBean.cursoTemp().materia.asignatura.nombre}" />
                 <h:outputText value="Materia:" />
-                <h:outputText id="mat" value="#{UnidadProyectosBean.materia.nombre}" />
+                <h:outputText id="mat" value="#{UnidadProyectosBean.cursoTemp().materia.nombre}" />
                 <h:outputText value="Periodo:" />
-                <h:outputText id="per" value="#{UnidadProyectosBean.periodo.nombre}" />
+                <h:outputText id="per" value="#{UnidadProyectosBean.cursoTemp().periodo.nombre}" />
                 <h:outputText value="Numero de cohorte" />
-                <p:inputText id="coh" value="#{UnidadProyectosBean.cohorte}" /> 
+                <h:inputText id="cohorte" binding="#{cohorte}" /> 
             </h:panelGrid>
             <h:panelGrid columns="3" cellpadding="5">
                 <h:outputLabel for="prof" value="Profesor:" />
@@ -45,7 +45,7 @@
                 <p:column selectionMode="single" style="width: 16px;text-align: center"/>
             </p:dataTable>
             <h:panelGrid columns="2" cellpadding="5">
-                <h:commandButton value="Registrar materia en nuevo cohorte" />
+                <h:commandButton value="Registrar materia en nuevo cohorte" action="#{UnidadProyectosBean.registrarMateriaNuevoCohorte(cohorte.value)}"/>
                 <h:commandButton value="Cancelar" />
             </h:panelGrid>
         </h:form>

@@ -13,8 +13,8 @@ import com.pcvpmo.pdsw.upteho.entities.HorarioDisponible;
 import java.util.List;
 
 /**
- *
- * @author andres
+ * Implementacion de HorarioDisponibleDAO MyBATIS
+ * @author Andres Felipe Pardo
  */
 public class MyBATISHorarioDisponibleDAO implements HorarioDisponibleDAO{
     @Inject

@@ -20,6 +20,14 @@ public class Curso implements Serializable {
         this.materia = materia;
         this.periodo = periodo;
     }
+
+    public Curso(int id, Materia materia, Periodo periodo) {
+        this.id = id;
+        this.materia = materia;
+        this.periodo = periodo;
+    }
+    
+    
     
     public int getId(){
         return this.id;

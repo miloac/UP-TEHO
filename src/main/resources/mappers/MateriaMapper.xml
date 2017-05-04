@@ -28,6 +28,7 @@
         <result property="nombre" column="nombre"/>
     </resultMap>
     
+<<<<<<< HEAD
     <select parameterType="map" id="consultarProgramas" resultMap="ProgramaResult">
         select
         *
@@ -49,4 +50,11 @@
     <insert parameterType = "map" id="registrarMateria">
         INSERT INTO MATERIAS (sigla,nombre,creditos,descripcion,Asignaturas_id) VALUES(#{sigla},#{nombre},#{creditos},#{descripcion},#{asignatura});
     </insert>
+=======
+    <select parameterType="map" id="consultarMateriasxAsignatura" resultMap="MateriaResult">
+        select sigla, nombre, creditos, descripcion
+        from materias
+        where Asignaturas_id=COALESCE(#{idAsignatura}, Asignaturas_id);     
+    </select>
+>>>>>>> ec8fe5ef943c87c069f78316d7a24abc56c66a79
 </mapper>

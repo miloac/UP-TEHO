@@ -1,8 +1,9 @@
 package com.pcvpmo.pdsw.upteho.dao;
 
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
-import com.pcvpmo.pdsw.upteho.entities.Materia;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
+import com.pcvpmo.pdsw.upteho.entities.Materia;
+
 import java.util.List;
 
 /**
@@ -22,4 +23,6 @@ public interface MateriaDAO {
     
     List<Asignatura> consultarAsigPorPrograma(int programa);
     
+    List<Materia> consultarMateriasxAsignatura(Integer idAsignatura) throws PersistenceException;
+
 }

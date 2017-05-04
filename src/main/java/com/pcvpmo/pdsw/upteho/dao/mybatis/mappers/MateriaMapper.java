@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * @author Jefferson Castañeda
  */
 public interface MateriaMapper {
+
     
     /*
     * registra una materia en la base de datos
@@ -47,5 +48,7 @@ public interface MateriaMapper {
      */
     List<Asignatura> getAsigXProg(@Param("programa")int programa);
     
+    List<Materia> consultarMateriasxAsignatura(@Param("idAsignatura")Integer idAsignatura);
+
 }
 
