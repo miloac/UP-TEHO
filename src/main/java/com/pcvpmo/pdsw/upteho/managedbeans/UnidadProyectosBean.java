@@ -259,15 +259,11 @@ public class UnidadProyectosBean implements Serializable {
     public ArrayList<String> consultarProgramasNombres() throws UnidadProyectosException{
         //TODO Encontrar error que no permite que funcione
         ArrayList<String> nombres = new ArrayList<String>();
-        try{
-            List<Programa> programas = sp.consultarProgramas();
-            for(int i=0; i<programas.size(); i++){
-                nombres.add(programas.get(i).getNombre());
-            }
+        List<Programa> programas = this.consultarProgramas();
+        for(int i=0; i<programas.size(); i++){
+            nombres.add(programas.get(i).getNombre());
         }
-        catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         return nombres;
     }
         

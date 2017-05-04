@@ -26,23 +26,32 @@ and open the template in the editor.
                 <center><font color="#FFF" size="+2">Registrar una nueva asignatura</font></center>
             </div>
         </div>            
-            <h:form id="rema">
+            <h:form id="registrarAsig">
             <div align="center">
                 <br/>
-                <p:inputText  id="nombreAsig">Nombre asignatura </p:inputText>
+                <p:inputText  id="nombreAsig">Nombre de la nueva asignatura </p:inputText>
                 <br/>
                 <br/>
                 <p:selectOneMenu id="programas" style="width:300px">
                     <f:selectItem itemLabel="Seleccione Programa" itemValue="" noSelectionOption="true"/>
-                    <f:selectItems value="#{UnidadProyectosBean.consultarProgramas()}" />
+                    <f:selectItems value="#{UnidadProyectosBean.consultarProgramasNombres()}" />
                 </p:selectOneMenu>
                 <br/>
-                <br/>   
-                <p:dataTable id="asignaturas" var="asig" value="#{UnidadProyectosBean.consultarAsignaturas()}">
-                    <p:column headerText="Nombre" >
+                <br/>
+                <p:commandButton id="aceptar" value="REGISTRAR" update="asig" actionListener="#{UnidadProyectosBean.registrarAsignatura()}">
+                </p:commandButton>
+                <br/>
+                <br/>
+                <p:dataTable id="asig" var="asig" value="#{UnidadProyectosBean.consultarAsignaturas()}">
+                    <p:column headerText="NOMBRE" >
                         <h:outputText value="#{asig.nombre}" />
-                    </p:column>  
+                    </p:column>
+                    <p:column headerText="PROGRAMA" >
+                        <h:outputText value="#{asig.programa.nombre}" />
+                    </p:column>
                 </p:dataTable>
+                <br/>
+                <br/>
             </div>
         </h:form>
             </center>

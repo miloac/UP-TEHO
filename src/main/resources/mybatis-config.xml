@@ -19,7 +19,6 @@
         <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Requisito" alias="Requisito"/>
         <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Cohorte" alias="Cohorte"/>
         <typeAlias type="com.pcvpmo.pdsw.upteho.entities.HorarioDisponible" alias="HorarioDisponible"/>
-        <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Asignatura" alias="Asignatura"/>
     </typeAliases>
         
                         

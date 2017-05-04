@@ -7,7 +7,7 @@
     <resultMap type='Asignatura' id='AsignaturaResult'>
         <id property='id' column='id'/>
         <result property='nombre' column='nombre'/>
-        <association property="programa" javaType="Programa" column="pro_" resultMap="ProgramaResult"/>
+        <association property="programa" javaType="Programa" columnPrefix="pro_" resultMap="ProgramaResult"/>
     </resultMap>
     
     <resultMap type="Programa" id="ProgramaResult">
@@ -16,13 +16,11 @@
     </resultMap>
     
     <select parameterType="map" id="consultarAsignaturas" resultMap="AsignaturaResult">
-        select  asi.id as asi_id,
-        asi.nombre as asi_nombre,
-        asi.programas_id as asi_Programas_id,
-        
-        pro.id as mat_asi_pro_id,
-        pro.nombre as mat_asi_pro_nombre
-        
+        select  asi.id as id,
+        asi.nombre as nombre,
+        asi.programas_id as Programas_id,
+        pro.id as pro_id,
+        pro.nombre as pro_nombre
         from asignaturas as asi
         left join programas as pro on asi.programas_id=pro.id;
     </select>
