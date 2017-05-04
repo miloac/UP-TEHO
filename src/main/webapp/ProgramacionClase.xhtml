@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+     
+      
+    <h:head>
+        
+        <title>Programaci&oacute;n de clases</title>
+        <h:outputStylesheet library="css" name="estilo.css" />
+    </h:head>
+    <h:body>
+        <!-- Encabezado -->
+        <ui:include src="resources/inc/header.xhtml" />
+               
+        <!-- MENU -->
+        <ui:include src="resources/inc/menu.xhtml" />
+        
+        <!-- CUERPO -->
+        <center><div style="max-width:97%;min-height:20px;background:brown ;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
+            <div style="padding:15px;margin:auto;" >
+                <center><font color="#FFF" size="+2">AGREGAR CLASE</font></center>
+            </div>
+        </div></center>
+       
+            <div style="max-width:100%;min-height:600px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
+                <div style="padding:10px;margin:auto;" >
+                    <br></br>
+                    <br></br>
+                    <table>
+                        <tr>
+                            <td>
+                                <h4>MATERIA       </h4>
+                                <h:outputText value="#{UnidadProyectosBean.materia.nombre}"/>
+                            </td>
+                            <td>
+                                <h4>COHORTE      </h4>
+                                <h:outputText value="#{UnidadProyectosBean.cohorteCursoActual}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>PROFESOR   </h4>
+                                <h:outputText value="#{UnidadProyectosBean.profesorSelect.nombre}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>PERIODO   </h4>
+                                <h:outputText value="#{UnidadProyectosBean.periodo.nombre}"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <br></br>
+                    <br></br>
+                    
+                        <h:form id="formulario_clase">
+                            <center><p:outputLabel for="button" value="Fecha: " />
+                            <p:calendar id="button" value="#{UnidadProyectosBean.fechaClase}" showOn="button" />                                  
+                            </center>
+                            <br></br>
+                            <br></br>
+                            <center>
+                            <p:outputLabel  value="Hora : " />
+                            <p:selectOneMenu id="hora" value="#{UnidadProyectosBean.horaClase}" style="width:150px">
+                                <f:selectItem itemLabel="Seleccione la hora" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{UnidadProyectosBean.horas}" />
+                            </p:selectOneMenu>
+                            </center>
+                            <br></br>
+                            <br></br>
+                            <center>
+                            <p:outputLabel  value="Caracter&iacute;sticas del sal&oacute;n: " />
+                            <br></br>
+                            <br></br>
+                            <p:selectOneRadio id="console" value="#{UnidadProyectosBean.tipoSalon}">
+                                <f:selectItem itemLabel="Multimedia" itemValue="Multimedia" />
+                                <f:selectItem itemLabel="Laboratorio" itemValue="Laboratorio" />
+                                <f:selectItem itemLabel="Interactivo" itemValue="Interactivo" />
+                                <f:selectItem itemLabel="Auditorio" itemValue="Auditorio"/>
+                            </p:selectOneRadio> 
+                            </center>
+                            <br></br>
+                            <br></br>
+                            <center>
+                            <p:outputLabel  value="Recursos" />
+                             <br></br>
+                            <br></br>
+                            <p:outputLabel  value="//TODO" />
+                            </center>
+                            <br></br>
+                            <br></br>
+                            <center>
+                                <h:commandButton value="Agregar" action="#{UnidadProyectosBean.agregarClase()}"/>
+                                <h:commandButton value="Cancelar" action="#{UnidadProyectosBean.irProgramarClases()}"/>
+                            </center>
+                        </h:form> 
+                   
+                    
+        
+                </div>
+            </div>
+       
+       
+        <!--SUBPIE -->
+        <ui:include src="resources/inc/footer.xhtml" />
+    </h:body>
+</html>

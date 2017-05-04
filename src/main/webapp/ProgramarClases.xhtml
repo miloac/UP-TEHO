@@ -24,36 +24,70 @@
                 <center><font color="#FFF" size="+2">PROGRAMACI&Oacute;N CLASES</font></center>
             </div>
         </div></center>
-        <div style="max-width:100%;min-height:600px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
-            <div style="padding:10px;margin:auto;" >
-                PROGRAMA:
-                <h:outputText value="#{UnidadProyectosBean.programa.nombre}"/>
-                ASIGNATURA:
-                <h:outputText value="#{UnidadProyectosBean.asignatura.nombre}"/>
-                PROFESOR:
-                <h:outputText value="#{UnidadProyectosBean.profesorSelect.nombre}"/>
-                <h:form id="tabla_salones">
-                    <p:dataTable var="clasesProf" value="#{UnidadProyectosBean.consultarClasesCurso()}">
-                        <p:column headerText="TIPO">
-                            <h:outputText value="#{reservacionSalon.tipo_salon}"/>
-                        </p:column>
-                        <p:column headerText="FECHA">
-                            <h:outputText value="#{reservacionSalon.fecha.toString()}"/>
-                        </p:column>
-                        <p:column headerText="HORA">
-                            <h:outputText value="#{reservacionSalon.hora.toString()}"/>
-                        </p:column>
-                        <p:column headerText="ID DE CLASE">
-                            <h:outputText value="#{reservacionSalon.id}"/>
-                        </p:column>
-                        <p:column headerText="RECURSOS">
-                            <h:outputText value="TODO"/>
-                        </p:column>
-                    </p:dataTable>
-                </h:form>                           
-            </div>
-        </div>
+       
+            <div style="max-width:100%;min-height:600px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
+                <div style="padding:10px;margin:auto;" >
+                    <br></br>
+                    <br></br>
+                    <table>
+                        <tr>
+                            <td>
+                                <h4>PROGRAMA    </h4>
+                                <h:outputText value="#{UnidadProyectosBean.programa.nombre}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>ASIGNATURA   </h4>
+                                <h:outputText value="#{UnidadProyectosBean.asignatura.nombre}"/>
+                            </td>
+                            <td>
+                                <h4>MATERIA       </h4>
+                                <h:outputText value="#{UnidadProyectosBean.materia.nombre}"/>
+                            </td>
+                            <td>
+                                <h4>COHORTE      </h4>
+                                <h:outputText value="#{UnidadProyectosBean.cohorteCursoActual}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>PROFESOR   </h4>
+                                <h:outputText value="#{UnidadProyectosBean.profesorSelect.nombre}"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <br></br>
+                    <br></br>
+                    
+                        <h:form id="tabla_salones">
+                            <p:layoutUnit position="west" resizable="true" minSize="10" maxSize="200">
+                                <p:dataTable var="clasesProf" value="#{UnidadProyectosBean.consultarClasesProfesor(UnidadProyectosBean.profesorSelect.id)}">
+                                    <p:column headerText="FECHA">
+                                        <h:outputText value="#{clasesProf.fecha}"/>
+                                    </p:column>
+                                    <p:column headerText="HORA">
+                                        <h:outputText value="#{clasesProf.hora.toString()}"/>
+                                    </p:column>
+                                    <p:column headerText="ACCION">
+                                        <center><p:commandButton value="Cancelar Clase" update=":tabla_salones" action="#{UnidadProyectosBean.cancelarClase(clasesProf.id)}"/></center>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:layoutUnit>
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                            <h3>TOTAL HORAS:</h3>
+                            <h:outputText value="#{UnidadProyectosBean.numeroHorasPrf}"/>
+                            <center><h:commandButton value="Agregar Clase" action="#{UnidadProyectosBean.irProgramacionClase()}"/></center>
+                        </h:form> 
+                   
+                    
         
+                </div>
+            </div>
+       
+       
         <!--SUBPIE -->
         <ui:include src="resources/inc/footer.xhtml" />
     </h:body>

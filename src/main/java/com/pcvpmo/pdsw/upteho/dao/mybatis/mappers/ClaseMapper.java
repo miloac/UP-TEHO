@@ -15,4 +15,5 @@ public interface ClaseMapper {
     List<Clase> consultarClasesCurso(@Param("curId")int id);
     void agregarClase(@Param("idCurso")int idCurso,@Param("fecha")Date fecha,@Param("hora")Time hora,@Param("tSalon")String tSalon);
     List<Clase> consultarClasesProfesor(@Param("idProf")int idProf);
+    void cancelarClase(@Param("idClase") int id);
 }

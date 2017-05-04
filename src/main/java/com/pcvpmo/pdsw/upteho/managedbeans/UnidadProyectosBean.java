@@ -16,6 +16,12 @@ import com.pcvpmo.pdsw.upteho.entities.Recurso;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
+import java.sql.Date;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,15 +36,20 @@ public class UnidadProyectosBean implements Serializable {
     ServiciosUnidadProyectos sp = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectos();
     
     private Curso cursoActual; 
-    private  int cohorteCursoActual;    
-    private Programa programa;
-    private Asignatura asignatura;    
-    private Periodo periodo;    
+    private  int cohorteCursoActual=30;    
+    private Programa programa=new Programa(1,"Maestria");
+    private Asignatura asignatura=new Asignatura(1,"Asignatura1",programa);    
+    private Periodo periodo;   
     private Cohorte cohorte;
     private List<Profesor> profesor;
-    private Profesor profesorSelect;
-    private Materia materia;
+    private Profesor profesorSelect=new Profesor(1,"mario perez","mario@escuelaing.edu.co");
+    private Materia materia=new Materia("MATE","Materia1",4,"DescripcionDB",asignatura);
     private String nameProf="a";
+    private double numeroHorasPrf=0;
+    private java.util.Date fechaClase;
+    private String horaClase;
+    private List<String> horas=null;
+    private String tipoSalon;
     //Curso que se haya seleccionado en la pagina, este atributo puede cambiar por id o String dependiendo de como lo implementemos
     
     public UnidadProyectosBean() {
@@ -48,7 +59,12 @@ public class UnidadProyectosBean implements Serializable {
         cursoActual = curso_actual;
         return "InfoCurso";
     }
-    
+    public String irProgramacionClase() {
+        return "ProgramacionClase";
+    }
+    public String irProgramarClases() {
+        return "ProgramarClases";
+    }
     public String nombreCursoActual() {
         return cursoActual.getMateria().getNombre();
     }
@@ -71,14 +87,6 @@ public class UnidadProyectosBean implements Serializable {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    /**
-     * Cancela una clase de un Curso especifico
-     * @param cohorte Codigo cohorte del curso
-     * @param idClase id de la clase a cancelar
-     */
-    public void cancelarClase(int cohorte, int idClase) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
     
     /**
      * Programa una Clase //TODO Terminar esta descripcion
@@ -241,6 +249,40 @@ public class UnidadProyectosBean implements Serializable {
         cohorteCursoActual=cohorte;
         return cohorte;
     }
+    
+    
+    public String agregarClase(){
+        String nPagina=null;
+        try{
+            DateFormat formatter = new SimpleDateFormat("HH:mm");
+            Time horaT = new Time(formatter.parse(horaClase).getTime());
+            Date sqlFecha=new Date(fechaClase.getTime());
+            sp.agregarClase(cursoActual.getId(),sqlFecha, horaT, tipoSalon,profesorSelect.getId());
+            nPagina= irProgramarClases();
+        } catch (Exception ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return nPagina;
+    }
+    
+    
+     public List<Clase> consultarClasesProfesor(int idProf) {
+         List<Clase> clases=null;
+         try{
+            clases= sp.consultarClasesProfesor(idProf);
+             numeroHorasPrf=clases.size()*1.5;
+         } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+         }
+         return clases;
+     }
+     public void cancelarClase(int id){
+         try{
+             sp.cancelarClase(id);
+         }catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+         }
+     }
         
     /**
      * Get the value of programa
@@ -350,5 +392,50 @@ public class UnidadProyectosBean implements Serializable {
     public void setProfesorSelect(Profesor profesorSelect) {
         this.profesorSelect = profesorSelect;
     }    
+    
+    public void setCohorteCursoActual(int ncohorte){
+        cohorteCursoActual=ncohorte;
+    }
+    
+    public int getCohorteCursoActual(){
+        return cohorteCursoActual;
+    }
+     public void setNumeroHorasPrf(double nHoras){
+        numeroHorasPrf=nHoras;
+    }
+    
+    public double getNumeroHorasPrf(){
+        return numeroHorasPrf;
+    }
+     public void setFechaClase(java.util.Date nFecha){
+        fechaClase=nFecha;
+    }
+    
+    public java.util.Date  getFechaClase(){
+        return fechaClase;
+    }
+     public void setHoraClase(String nHora){
+        horaClase=nHora;
+    }
+    
+    public String  getHoraClase(){
+        return horaClase;
+    }
+    public void setHoras(List<String> nHoras){
+        horas=nHoras;
+    }
+    public List<String> getHoras(){
+        if(horas==null){
+        horas=new ArrayList<String>(Arrays.asList("07:00","08:30","10:00","11:30","13:00","14:30","16:00","17:30"));
+        }
+       
+       return horas;
+    }
+    public void setTipoSalon(String nTSalon){
+        tipoSalon=nTSalon;
+    }
+    public String getTipoSalon(){
+        return tipoSalon;
+    }
 }
 

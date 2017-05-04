@@ -59,4 +59,8 @@
         insert into Clases (id_clase,Cursos_id,fecha,hora,tipo_salon) values(select max(id_clase)+1 from Clases,#{idCurso},#{fecha},#{hora},#{tSalon})
     </insert>
     
+    <delete parameterType="map" id="cancelarClase" >
+        delete from Clases where id_clase=#{idClase}
+    </delete>
+    
 </mapper>

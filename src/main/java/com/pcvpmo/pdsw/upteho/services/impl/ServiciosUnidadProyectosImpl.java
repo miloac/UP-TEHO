@@ -236,4 +236,22 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
       numeroDia=cal.get(Calendar.DAY_OF_WEEK);
       return dias[numeroDia -1];
     }
+
+    @Override
+    public List<Clase> consultarClasesProfesor(int idProf) throws UnidadProyectosException {
+        try{
+            return daoClase.consultarClasesProfesor(idProf);
+        }catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar las clases del profesor "+idProf, ex);
+        }
+    }
+
+    @Override
+    public void cancelarClase(int id) throws UnidadProyectosException {
+        try{
+            daoClase.cancelarClase(id);
+        }catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al cancelar la clase "+id, ex);
+        }
+    }
 }
