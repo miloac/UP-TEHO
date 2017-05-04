@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.AsignaturaMapper">    
+    <resultMap type='Asignatura' id='AsignaturaResult'>
+        <id property='id' column='id'/>
+        <result property='nombre' column='nombre'/>
+        <association property="programa" javaType="Programa" column="pro_" resultMap="ProgramaResult"/>
+    </resultMap>
+    
+    <resultMap type="Programa" id="ProgramaResult">
+        <id property="id" column="id"/>
+        <result property="nombre" column="nombre"/>
+    </resultMap>
+    
+    <select parameterType="map" id="consultarAsignaturas" resultMap="AsignaturaResult">
+        select  asi.id as asi_id,
+        asi.nombre as asi_nombre,
+        asi.programas_id as asi_Programas_id,
+        
+        pro.id as mat_asi_pro_id,
+        pro.nombre as mat_asi_pro_nombre
+        
+        from asignaturas as asi
+        left join programas as pro on asi.programas_id=pro.id;
+    </select>
+    
+    
+</mapper>

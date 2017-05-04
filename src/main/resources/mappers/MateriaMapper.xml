@@ -9,17 +9,6 @@
         <result property='nombre' column='nombre'/>
         <result property="creditos" column="creditos"/>
         <result property="descripcion" column="descripcion"/>
-        <association property="asignatura" javaType="Asignatura" columnPrefix="asi_" resultMap="AsignaturaResult"></association>
-    </resultMap>
-    
-    <resultMap type='Asignatura' id='AsignaturaResult'>
-        <id property='id' column='id'/>
-        <result property='nombre' column='nombre'/>
-        <association property="programa" javaType="Programa" column="pro_" resultMap="ProgramaResult"/>
-    </resultMap>
-    
-    <resultMap type="Programa" id="ProgramaResult">
-        <id property="id" column="id"/>
-        <result property="nombre" column="nombre"/>
+        <association property="asignatura" javaType="Asignatura" columnPrefix="asi_" resultMap="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.AsignaturaMapper.AsignaturaResult"></association>
     </resultMap>
 </mapper>

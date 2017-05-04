@@ -19,6 +19,7 @@
         <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Requisito" alias="Requisito"/>
         <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Cohorte" alias="Cohorte"/>
         <typeAlias type="com.pcvpmo.pdsw.upteho.entities.HorarioDisponible" alias="HorarioDisponible"/>
+        <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Asignatura" alias="Asignatura"/>
     </typeAliases>
         
                         
@@ -41,6 +42,7 @@
         <mapper resource="mappers/CohorteMapper.xml"></mapper>
         <mapper resource="mappers/HorarioDisponibleMapper.xml"></mapper>
         <mapper resource="mappers/ProfesorMapper.xml"></mapper>
+        <mapper resource="mappers/AsignaturaMapper.xml"></mapper>
     </mappers> 
         
         

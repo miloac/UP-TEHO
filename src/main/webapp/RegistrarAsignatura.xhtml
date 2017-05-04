@@ -31,10 +31,18 @@ and open the template in the editor.
                 <br/>
                 <p:inputText  id="nombreAsig">Nombre asignatura </p:inputText>
                 <br/>
-                <p:selectOneMenu id="programas" style="width:150px">
+                <br/>
+                <p:selectOneMenu id="programas" style="width:300px">
                     <f:selectItem itemLabel="Seleccione Programa" itemValue="" noSelectionOption="true"/>
                     <f:selectItems value="#{UnidadProyectosBean.consultarProgramas()}" />
                 </p:selectOneMenu>
+                <br/>
+                <br/>   
+                <p:dataTable id="asignaturas" var="asig" value="#{UnidadProyectosBean.consultarAsignaturas()}">
+                    <p:column headerText="Nombre" >
+                        <h:outputText value="#{asig.nombre}" />
+                    </p:column>  
+                </p:dataTable>
             </div>
         </h:form>
             </center>

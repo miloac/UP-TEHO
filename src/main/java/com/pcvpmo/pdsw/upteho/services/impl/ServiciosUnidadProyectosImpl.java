@@ -2,6 +2,7 @@ package com.pcvpmo.pdsw.upteho.services.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.pcvpmo.pdsw.upteho.dao.AsignaturaDAO;
 import com.pcvpmo.pdsw.upteho.dao.ClaseDAO;
 import com.pcvpmo.pdsw.upteho.dao.CohorteDAO;
 import com.pcvpmo.pdsw.upteho.dao.CursoDAO;
@@ -29,7 +30,7 @@ import java.util.logging.Logger;
 
 /**
  * Clase de Servicios necesarios para la aplicacion de Unidad de Proyectos
- * @author Daniel Ospina, Felipe Pardo
+ * @author Daniel Ospina, Felipe Pardo, Juan Camilo Mantilla
  */
 @Singleton
 public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
@@ -48,6 +49,9 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     
     @Inject
     private ProfesorDAO daoProfesor;
+    
+    @Inject
+    private AsignaturaDAO daoAsignatura;
     
     @Override
     public void registrarMateria(int idPrograma, int idAsignatura, String siglaRequisito, int tipoRequisito, String nombreMateria, String siglaMateria, String descripcionMateria) {
@@ -85,8 +89,12 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     }
 
     @Override
-    public List<Asignatura> consultarAsignaturas(){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Asignatura> consultarAsignaturas() throws UnidadProyectosException{
+        try {
+            return daoAsignatura.consultarAsignaturas();
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar las asignaturas"+ ex);
+        }
     }
 
     @Override
@@ -189,7 +197,7 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
         } catch (PersistenceException ex) {
             throw new UnidadProyectosException("Error al consultar las clases en el periodo" + periodo, ex);
         }
-    }  
+    } 
 
     @Override
     public List<Clase> consultarClasesPeriodo(Periodo periodo) throws UnidadProyectosException {

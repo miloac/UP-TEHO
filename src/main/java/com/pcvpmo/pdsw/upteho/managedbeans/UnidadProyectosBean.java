@@ -16,6 +16,7 @@ import com.pcvpmo.pdsw.upteho.entities.Recurso;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -122,18 +123,26 @@ public class UnidadProyectosBean implements Serializable {
      * @return una lista de Programas
      */
     public List<Programa> consultarProgramas() {
-        //TODO comprobar que es String para una lista desplegable
-        throw new UnsupportedOperationException("Not supported yet.");
+        java.util.ArrayList<Programa> lista = new java.util.ArrayList<Programa>();
+        Programa pro = new Programa(1,"prueba");
+        lista.add(pro);
+        return lista;
     }
     
     /**
      * Consulta las asignaturas (de un programa especifico)
      * @return Lista de Asignaturas
      */
-    public List<Asignatura> consultarAsignaturas() {
+    public List<Asignatura> consultarAsignaturas() throws UnidadProyectosException {
         //TODO confirmar si se puede de un programa especifico (segun lo seleccionado en la lista desplegable de programa)
         //TODO comprobar que es String para una lista desplegable
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<Asignatura> lista = null;
+        try {
+            lista = sp.consultarAsignaturas();
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
     }
     
     /**
@@ -240,6 +249,26 @@ public class UnidadProyectosBean implements Serializable {
         }
         cohorteCursoActual=cohorte;
         return cohorte;
+    }
+    
+    /**
+     * Consulta los nombres de lor Programas registrados
+     * @return Lista de String con los nombres de los Programas
+     * @throws UnidadProyectosException 
+     */
+    public ArrayList<String> consultarProgramasNombres() throws UnidadProyectosException{
+        //TODO Encontrar error que no permite que funcione
+        ArrayList<String> nombres = new ArrayList<String>();
+        try{
+            List<Programa> programas = sp.consultarProgramas();
+            for(int i=0; i<programas.size(); i++){
+                nombres.add(programas.get(i).getNombre());
+            }
+        }
+        catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return nombres;
     }
         
     /**
