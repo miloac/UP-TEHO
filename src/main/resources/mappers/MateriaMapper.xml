@@ -18,8 +18,35 @@
         <association property="programa" javaType="Programa" column="pro_" resultMap="ProgramaResult"/>
     </resultMap>
     
+    <resultMap type='Asignatura' id='AsignaturaPorProgramaResult'>
+        <id property='id' column='id'/>
+        <result property='nombre' column='nombre'/>
+    </resultMap>
+    
     <resultMap type="Programa" id="ProgramaResult">
         <id property="id" column="id"/>
         <result property="nombre" column="nombre"/>
     </resultMap>
+    
+    <select parameterType="map" id="consultarProgramas" resultMap="ProgramaResult">
+        select
+        *
+        from Programas
+    </select>
+    
+    <select parameterType="map" id="getAsigXProg" resultMap="AsignaturaPorProgramaResult">
+        select
+        
+        
+        nombre
+        
+        from Asignaturas
+        where Asignaturas.Programas_id=#{programa}
+    </select>
+    
+    
+    
+    <insert parameterType = "map" id="registrarMateria">
+        INSERT INTO MATERIAS (sigla,nombre,creditos,descripcion,Asignaturas_id) VALUES(#{sigla},#{nombre},#{creditos},#{descripcion},#{asignatura});
+    </insert>
 </mapper>

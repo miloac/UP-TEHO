@@ -99,6 +99,15 @@ public interface ServiciosUnidadProyectos {
    public List<Asignatura> consultarAsignaturas()throws UnidadProyectosException;
    
    /**
+    *  Consulta las asignaturas por programa 
+    * @param programa nombre del programa
+    * @return lista con de las Asignaturas del programa
+    * //pos:List con  las asignaturas registradas en la base de datos
+    * @throws UnidadProyectosException Excepcion con datos del error
+    */
+   public List<Asignatura> consultarAsignaturasXProg(int programa)throws UnidadProyectosException;
+   
+   /**
     *  Consulta los profesores segun el filtro de busqueda
     * @param busqueda filtro de busqueda de profesores
     * @return lista con los Profesores que contienen en su nombre la palabra de la busqueda

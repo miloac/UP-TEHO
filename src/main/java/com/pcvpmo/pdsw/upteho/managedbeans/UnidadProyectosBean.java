@@ -32,7 +32,9 @@ public class UnidadProyectosBean implements Serializable {
     private Curso cursoActual; 
     private  int cohorteCursoActual;    
     private Programa programa;
-    private Asignatura asignatura;    
+    private Asignatura asignatura;   
+    private String asignaturaSelected;
+    private int programaSelected;
     private Periodo periodo;    
     private Cohorte cohorte;
     private List<Profesor> profesor;
@@ -123,7 +125,13 @@ public class UnidadProyectosBean implements Serializable {
      */
     public List<Programa> consultarProgramas() {
         //TODO comprobar que es String para una lista desplegable
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<Programa> lista = null;
+        try{
+            lista=sp.consultarProgramas();
+        }catch (UnidadProyectosException ex){
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);          
+        }
+        return lista;
     }
     
     /**
@@ -134,6 +142,21 @@ public class UnidadProyectosBean implements Serializable {
         //TODO confirmar si se puede de un programa especifico (segun lo seleccionado en la lista desplegable de programa)
         //TODO comprobar que es String para una lista desplegable
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    /**
+     * consulta las asginaturas por programa
+     * @param prog programa
+     * @return asignaturas del programa
+     */
+    public List<Asignatura> consultarAsignaturasPorPrograma(int prog){
+        List<Asignatura> lista = null;
+        try{
+            lista=sp.consultarAsignaturasXProg(prog);
+        }catch(UnidadProyectosException ex){
+            
+        }
+        return lista;
     }
     
     /**
@@ -242,6 +265,10 @@ public class UnidadProyectosBean implements Serializable {
         return cohorte;
     }
         
+    public void actualizarAsig(){
+        asignaturaSelected=null;        
+    }
+    
     /**
      * Get the value of programa
      *
@@ -259,6 +286,24 @@ public class UnidadProyectosBean implements Serializable {
     public void setPrograma(Programa programa) {
         this.programa = programa;
     }    
+    
+    /**
+     * Get the value of programa
+     *
+     * @return the value of programa
+     */
+    public int getProgramaSelected() {
+        return programaSelected;
+    }
+
+    /**
+     * Set the value of programa
+     *
+     * @param programa new value of programa
+     */
+    public void setProgramaSelected(int programa) {
+        programaSelected = programa;
+    }
 
     /**
      * Get the value of asignatura
@@ -276,6 +321,22 @@ public class UnidadProyectosBean implements Serializable {
      */
     public void setAsignatura(Asignatura asignatura) {
         this.asignatura = asignatura;
+    }
+    
+    /**
+     * get the selected asginature
+     * @return string
+     */
+    public String getAsignaturaSelected(){
+        return asignaturaSelected;
+    }
+    
+    /**
+     * set the value of selected asignature
+     * @param asig value of sig
+     */
+    public void setAsignaturaSelected(String asig){
+        asignaturaSelected=asig;
     }
     
     /**
