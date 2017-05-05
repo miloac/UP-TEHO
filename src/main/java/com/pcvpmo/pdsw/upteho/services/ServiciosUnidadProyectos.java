@@ -8,6 +8,7 @@ import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
+import com.pcvpmo.pdsw.upteho.entities.Cohorte;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
@@ -267,4 +268,11 @@ public interface ServiciosUnidadProyectos {
      * @throws UnidadProyectosException Excepcion con datos del error
      */
     public void registrarCurso(Curso cursoActual) throws UnidadProyectosException;
+    
+    /**
+     * consulta si un cohorte ya se encuentra registrado
+     * @param id numero id de un cohorte
+     * @throws UnidadProyectosException si el numero id del cohorte no existe
+     */
+    public void consultarCohorte(int id) throws UnidadProyectosException;
 }
