@@ -37,15 +37,15 @@ public class UnidadProyectosBean implements Serializable {
     ServiciosUnidadProyectos sp = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectos();
     
    
-    private  int cohorteCursoActual=30;    
-    private Programa programa=new Programa(1,"Maestria");
-    private Asignatura asignatura=new Asignatura(1,"Asignatura1",programa);    
-    private Periodo periodo=new Periodo("2017-1",new Date(new java.util.Date(System.currentTimeMillis()).getTime()),new Date(new java.util.Date(System.currentTimeMillis()).getTime()));   
+    private  int cohorteCursoActual;    
+    private Programa programa;
+    private Asignatura asignatura;
+    private Periodo periodo;
     private Cohorte cohorte;
     private List<Profesor> profesor;
-    private Profesor profesorSelect=new Profesor(1,"mario perez","mario@escuelaing.edu.co");
-    private Materia materia=new Materia("MATE","Materia1",4,"DescripcionDB",asignatura);
-    private Curso cursoActual=new Curso(1,profesorSelect,materia,periodo); 
+    private Profesor profesorSelect;
+    private Materia materia;
+    private Curso cursoActual;
     private String nameProf="a";
     private double numeroHorasPrf=0;
     private java.util.Date fechaClase;
@@ -61,7 +61,12 @@ public class UnidadProyectosBean implements Serializable {
     
     public String irPaginaCurso(Curso curso_actual) {
         cursoActual = curso_actual;
-        return "InfoCurso";
+        programa=cursoActual.getMateria().getAsignatura().getPrograma();
+        asignatura=cursoActual.getMateria().getAsignatura();
+        materia=cursoActual.getMateria();
+        profesorSelect=cursoActual.getProfesor();
+        periodo=cursoActual.getPeriodo();
+        return "ProgramarClases";
     }
     public String irProgramacionClase() {
         return "ProgramacionClase";
@@ -458,6 +463,9 @@ public class UnidadProyectosBean implements Serializable {
     public String getMensajeAgregarClase(){
         
         return mensajeAgregarClase;
+    }
+    public String irProgramarClaseSinValidar(){
+        return "ProgramarClases";
     }
 }
 

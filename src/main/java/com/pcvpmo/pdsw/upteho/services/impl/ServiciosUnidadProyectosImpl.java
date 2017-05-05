@@ -222,7 +222,14 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
                 if(hor.getDia().equals(obtenerDiaSemana(fecha)))
                     if(hor.getHora().equals(hora))
                         isPosible=true;
-            } 
+            }
+            List<Clase> horariosC;
+            horariosC=consultarClasesProfesor(idProfesor);
+            for(int i=0;i<horariosC.size() && isPosible;i++){
+                if(horariosC.get(i).getFecha().equals(fecha))
+                    if(horariosC.get(i).getHora().equals(hora))
+                        isPosible=false;
+            }
           
             if(isPosible)daoClase.agregarClase(idCurso, fecha, hora, tSalon);
             return isPosible;

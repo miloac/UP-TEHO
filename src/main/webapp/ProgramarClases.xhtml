@@ -63,6 +63,9 @@
                         <h:form id="tabla_salones">
                             <p:layoutUnit position="west" resizable="true" minSize="10" maxSize="200">
                                 <p:dataTable var="clasesProf" value="#{UnidadProyectosBean.consultarClasesProfesor(UnidadProyectosBean.profesorSelect.id)}">
+                                    <p:column headerText="TIPO">
+                                        <h:outputText value="#{clasesProf.tipo_salon}"/>
+                                    </p:column>
                                     <p:column headerText="FECHA">
                                         <h:outputText value="#{clasesProf.fecha}"/>
                                     </p:column>
