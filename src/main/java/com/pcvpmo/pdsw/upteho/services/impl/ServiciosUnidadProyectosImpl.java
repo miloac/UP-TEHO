@@ -249,18 +249,28 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     }
 
     @Override
-    public void agregarClase(int idCurso, Date fecha, Time hora, String tSalon, int idProfesor) throws UnidadProyectosException {
+    public boolean agregarClase(int idCurso, Date fecha, Time hora, String tSalon, int idProfesor) throws UnidadProyectosException {
         try{
             List<HorarioDisponible>  horarios;
             horarios=daoHorarioDisponible.consultarHorarioProfesor(idProfesor);
             boolean isPosible=false;
             for(int i=0;i<horarios.size()&& !isPosible;i++){
                 HorarioDisponible hor=horarios.get(i);
-                if(hor.getDia()==obtenerDiaSemana(fecha))
+          
+                if(hor.getDia().equals(obtenerDiaSemana(fecha)))
                     if(hor.getHora().equals(hora))
                         isPosible=true;
-            } 
+            }
+            List<Clase> horariosC;
+            horariosC=consultarClasesProfesor(idProfesor);
+            for(int i=0;i<horariosC.size() && isPosible;i++){
+                if(horariosC.get(i).getFecha().equals(fecha))
+                    if(horariosC.get(i).getHora().equals(hora))
+                        isPosible=false;
+            }
+          
             if(isPosible)daoClase.agregarClase(idCurso, fecha, hora, tSalon);
+            return isPosible;
         }catch (PersistenceException ex) {
             throw new UnidadProyectosException("Error al insertar la clase", ex);
         }
@@ -331,6 +341,24 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             daoCohorte.registrarCohorte(idPrograma, idCurso, cohorte);
         } catch (PersistenceException ex) {
             throw new UnidadProyectosException("Error al registrar un nuevo cohorte: + "+ cohorte + "con id del programa: " + idPrograma + " id del curso: " + idCurso, ex);
+        }
+    }
+
+    @Override
+    public List<Clase> consultarClasesProfesor(int idProf) throws UnidadProyectosException {
+        try{
+            return daoClase.consultarClasesProfesor(idProf);
+        }catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar las clases del profesor "+idProf, ex);
+        }
+    }
+
+    @Override
+    public void cancelarClase(int id) throws UnidadProyectosException {
+        try{
+            daoClase.cancelarClase(id);
+        }catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al cancelar la clase "+id, ex);
         }
     }
 }

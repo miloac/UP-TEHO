@@ -32,5 +32,16 @@ public class MyBATISClaseDAO implements ClaseDAO{
     public void agregarClase(int idCurso, Date fecha, Time hora, String tSalon) throws PersistenceException {
         claseMapper.agregarClase(idCurso, fecha, hora, tSalon);
     }
+
+    @Override
+    public List<Clase> consultarClasesProfesor(int idProf) throws PersistenceException {
+        return claseMapper.consultarClasesProfesor(idProf);
+    }
+
+    @Override
+    public void cancelarClase(int id) throws PersistenceException {
+        claseMapper.cancelarClase(id);
+    }
+    
     
 }

@@ -228,7 +228,7 @@ public interface ServiciosUnidadProyectos {
      * @param idProfesor
      * @throws UnidadProyectosException si el identificador del curso o el identificador del profesor no existe
      */
-    public void agregarClase(int idCurso, Date fecha, Time hora, String tSalon,int idProfesor)throws UnidadProyectosException;
+    public boolean agregarClase(int idCurso, Date fecha, Time hora, String tSalon,int idProfesor)throws UnidadProyectosException;
 
     /**
      * Consulta el siguiente id disponible de los cursos ya registrados
@@ -283,4 +283,20 @@ public interface ServiciosUnidadProyectos {
      * @param cohorte id del cohorte
      */
     public void registrarCohorte(int idPrograma, int idCurso, int cohorte) throws UnidadProyectosException;
+    
+    /**
+     * Consulta las clases de un profesor dado 
+     * @param idProf
+     * @return lista de clases de un profesor dado
+     * @throws UnidadProyectosException cuando el id del profesor no existe
+     */
+    public List<Clase> consultarClasesProfesor(int idProf) throws UnidadProyectosException;
+    
+    /**
+     * Cancela  la clase dado su id
+     * @param id
+     * @throws UnidadProyectosException 
+     */
+    public void cancelarClase(int id)throws UnidadProyectosException;
 }
+

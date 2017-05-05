@@ -13,4 +13,6 @@ public interface ClaseDAO {
     List<Clase> consultarClasesxPeriodo(String periodo) throws PersistenceException;
     List<Clase> consultarClasesCurso(int id)throws PersistenceException;
     void agregarClase(int idCurso,Date fecha,Time hora,String tSalon)throws PersistenceException;
+    List<Clase> consultarClasesProfesor(int idProf)throws PersistenceException;
+    void cancelarClase(int id)throws PersistenceException;
 }

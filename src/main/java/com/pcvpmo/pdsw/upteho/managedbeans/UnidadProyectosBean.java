@@ -17,8 +17,15 @@ import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
 import java.util.HashMap;
 import java.util.Map;
+import java.sql.Date;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
 
 /**
  * Managed Bean encargado de la comunicacion entre capa logica y presentacion
@@ -37,14 +44,43 @@ public class UnidadProyectosBean implements Serializable {
     private String idProgramaActual;
     private String idAsignaturaActual;
     private String siglaMateriaActual;
-    private String idPeriodoActual;  
+    private String idPeriodoActual;   
+    private Programa programa;
+    private Asignatura asignatura;
+    private Periodo periodo;
+    private List<Profesor> profesor;
+    private Materia materia;
+    private double numeroHorasPrf=0;
+    private java.util.Date fechaClase;
+    private String horaClase;
+    private List<String> horas=null;
+    private String tipoSalon;
+    private String mensajeAgregarClase;
+    private boolean registroClase;
+    //Curso que se haya seleccionado en la pagina, este atributo puede cambiar por id o String dependiendo de como lo implementemos
     
     public UnidadProyectosBean() {
     }
     
     public String irPaginaCurso(Curso curso_actual) {
         cursoActual = curso_actual;
-        return "InfoCurso";
+        programa=cursoActual.getMateria().getAsignatura().getPrograma();
+        asignatura=cursoActual.getMateria().getAsignatura();
+        materia=cursoActual.getMateria();
+        profesorSelect=cursoActual.getProfesor();
+        periodo=cursoActual.getPeriodo();
+        return "ProgramarClases";
+    }
+    public String irProgramacionClase() {
+        return "ProgramacionClase";
+    }
+    public String irProgramarClases() {
+        String pagina;
+        if(registroClase)
+            pagina= "ProgramarClases";
+        else
+            pagina="ProgramacionClase";
+        return pagina;
     }
     
     public String irPaginaCohorte() {
@@ -89,14 +125,6 @@ public class UnidadProyectosBean implements Serializable {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    /**
-     * Cancela una clase de un Curso especifico
-     * @param cohorte Codigo cohorte del curso
-     * @param idClase id de la clase a cancelar
-     */
-    public void cancelarClase(int cohorte, int idClase) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
     
     /**
      * Programa una Clase //TODO Terminar esta descripcion
@@ -274,8 +302,55 @@ public class UnidadProyectosBean implements Serializable {
         return cohorte;
     }
     
+
     public String getNameProf() {
         return nameProf;
+    }
+    
+    public void  agregarClase(){
+        String nPagina=null;
+        try{
+            DateFormat formatter = new SimpleDateFormat("HH:mm");
+            Time horaT = new Time(formatter.parse(horaClase).getTime());
+            Date sqlFecha=new Date(fechaClase.getTime());
+            boolean resp=sp.agregarClase(cursoActual.getId(),sqlFecha, horaT, tipoSalon,profesorSelect.getId());
+            registroClase=resp;
+            if(resp)mensajeAgregarClase="La clase se registro";
+            else mensajeAgregarClase="El profesor no tiene horario disponible";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", mensajeAgregarClase);
+            nPagina= irProgramarClases();
+        } catch (Exception ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //return nPagina;
+    }
+    
+    
+     public List<Clase> consultarClasesProfesor(int idProf) {
+         List<Clase> clases=null;
+         try{
+            clases= sp.consultarClasesProfesor(idProf);
+             numeroHorasPrf=clases.size()*1.5;
+         } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+         }
+         return clases;
+     }
+     public void cancelarClase(int id){
+         try{
+             sp.cancelarClase(id);
+         }catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+         }
+     }
+        
+    /**
+     * Get the value of programa
+     *
+     * @return the value of programa
+     */
+    public Programa getPrograma() {
+        return programa;
     }
 
     public void setNameProf(String nameProf) {
@@ -411,6 +486,62 @@ public class UnidadProyectosBean implements Serializable {
 
     public String getIdPeriodoActual() {
         return idPeriodoActual;
+    }
+    
+    public void setNumeroHorasPrf(double nHoras){
+        numeroHorasPrf=nHoras;
+    }
+    
+    public double getNumeroHorasPrf(){
+        return numeroHorasPrf;
+    }
+    
+    public void setFechaClase(java.util.Date nFecha){
+        fechaClase=nFecha;
+    }
+    
+    public java.util.Date  getFechaClase(){
+        return fechaClase;
+    }
+    
+    public void setHoraClase(String nHora){
+        horaClase=nHora;
+    }
+    
+    public String  getHoraClase(){
+        return horaClase;
+    }
+    
+    public void setHoras(List<String> nHoras){
+        horas=nHoras;
+    }
+    
+    public List<String> getHoras(){
+        if(horas==null){
+        horas=new ArrayList<String>(Arrays.asList("07:00","08:30","10:00","11:30","13:00","14:30","16:00","17:30"));
+        }
+       
+       return horas;
+    }
+    
+    public void setTipoSalon(String nTSalon){
+        tipoSalon=nTSalon;
+    }
+    
+    public String getTipoSalon(){
+        return tipoSalon;
+    }
+    
+    public void setMensajeAgregarClase(String nMensaje){
+        
+        mensajeAgregarClase=nMensaje;
+    }
+    public String getMensajeAgregarClase(){
+        
+        return mensajeAgregarClase;
+    }
+    public String irProgramarClaseSinValidar(){
+        return "ProgramarClases";
     }
 
     public void setIdPeriodoActual(String idPeriodoActual) {
