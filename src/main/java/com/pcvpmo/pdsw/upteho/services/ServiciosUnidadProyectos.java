@@ -228,4 +228,34 @@ public interface ServiciosUnidadProyectos {
      * @throws UnidadProyectosException si el identificador del curso o el identificador del profesor no existe
      */
     public void agregarClase(int idCurso, Date fecha, Time hora, String tSalon,int idProfesor)throws UnidadProyectosException;
+
+    /**
+     * Consulta el siguiente id disponible de los cursos ya registrados
+     * @return id disponible de un curso
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public int getNextCurso() throws UnidadProyectosException;
+
+    /**
+     * Consulta una materia dada una sigla
+     * @param siglaMateriaActual sigla de la materia a consultar
+     * @return Materia con sus datos
+     * @throws UnidadProyectosException  Excepcion con datos del error
+     */
+    public Materia consultarMateria(String siglaMateriaActual) throws UnidadProyectosException;
+    
+    /**
+     * Consulta un periodo dado su id
+     * @param idPeriodoActual id del periodo a consultar
+     * @return Periodo con sus datos
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public Periodo consultarPeriodo(String idPeriodoActual) throws UnidadProyectosException;
+    
+    /**
+     * Consulta todos los periodos en la Unidad de Proyectos
+     * @return Lista de Periodos
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public List<Periodo> consultarPeriodos() throws UnidadProyectosException;
 }

@@ -10,4 +10,6 @@ import java.util.List;
 public interface MateriaDAO {
     
     List<Materia> consultarMateriasxAsignatura(Integer idAsignatura) throws PersistenceException;
+
+    public Materia consultarMateria(String siglaMateria) throws PersistenceException;
 }

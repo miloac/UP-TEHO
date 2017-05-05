@@ -25,8 +25,15 @@
         <div style="max-width:100%;min-height:600px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:10px;margin:auto;" >
                 <p:panel header="Datos del Curso">
+                    <center>
                     <h:form id="formita">
                     <h:panelGrid columns="2" cellpadding="10">
+                        <p:outputLabel for="periodo" value="Periodo: "/>
+                        <p:selectOneMenu id="periodo" value="#{UnidadProyectosBean.idPeriodoActual}" style="width:250px">
+                            <f:selectItem itemLabel="Seleccionar Periodo" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{UnidadProyectosBean.getPeriodos()}"/>
+                            <p:ajax listener="#{UnidadProyectosBean.changePeriodo()}" event="change" update=":#{p:component('datos')}"/>
+                        </p:selectOneMenu>
                         <p:outputLabel for="programa" value="Programa: "/>
                         <p:selectOneMenu id="programa" value="#{UnidadProyectosBean.idProgramaActual}" style="width:250px">
                             <f:selectItem itemLabel="Seleccionar Programa" itemValue="" noSelectionOption="true"/>
@@ -45,8 +52,11 @@
                             <f:selectItems value="#{UnidadProyectosBean.getMaterias()}"/>
                             <p:ajax event="change" update=":#{p:component('datos')}"/>
                         </p:selectOneMenu>
+                        <p:outputLabel for="botoncohorte" value="Cohorte: #{UnidadProyectosBean.cohorteCursoActual}"/>
+                        <p:commandButton id="botoncohorte" value="Seleccionar Cohorte" action="#{UnidadProyectosBean.irPaginaCohorte()}"/>
                     </h:panelGrid>
                     </h:form>
+                    </center>
                 </p:panel>
                 <h:form id="datos">
                     <h:outputText value="Resumen: #{UnidadProyectosBean.getResumen()}"/>

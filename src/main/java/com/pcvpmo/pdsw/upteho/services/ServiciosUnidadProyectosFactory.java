@@ -19,6 +19,7 @@ import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISCohorteDAO;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISCursoDAO;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISHorarioDisponibleDAO;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISMateriaDAO;
+import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISPeriodoDAO;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISProfesorDAO;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISProgramaDAO;
 import com.pcvpmo.pdsw.upteho.services.impl.ServiciosUnidadProyectosImpl;
@@ -53,6 +54,7 @@ public class ServiciosUnidadProyectosFactory {
                 bind(ProgramaDAO.class).to(MyBATISProgramaDAO.class);
                 bind(AsignaturaDAO.class).to(MyBATISAsignaturaDAO.class);
                 bind(MateriaDAO.class).to(MyBATISMateriaDAO.class);
+                bind(PeriodoDAO.class).to(MyBATISPeriodoDAO.class);
                 //TODO agregar bind de DAOS MyBatis
             }
         });
@@ -71,6 +73,7 @@ public class ServiciosUnidadProyectosFactory {
                 bind(ProgramaDAO.class).to(MyBATISProgramaDAO.class);
                 bind(AsignaturaDAO.class).to(MyBATISAsignaturaDAO.class);
                 bind(MateriaDAO.class).to(MyBATISMateriaDAO.class);
+                bind(PeriodoDAO.class).to(MyBATISPeriodoDAO.class);
                 //TODO agregar binds Daos MyBatis
             }
         });

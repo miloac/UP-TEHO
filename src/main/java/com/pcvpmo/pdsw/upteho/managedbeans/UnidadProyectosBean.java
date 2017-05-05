@@ -37,6 +37,7 @@ public class UnidadProyectosBean implements Serializable {
     private String idProgramaActual;
     private String idAsignaturaActual;
     private String siglaMateriaActual;
+    private String idPeriodoActual;
     
     public UnidadProyectosBean() {
     }
@@ -44,6 +45,21 @@ public class UnidadProyectosBean implements Serializable {
     public String irPaginaCurso(Curso curso_actual) {
         cursoActual = curso_actual;
         return "InfoCurso";
+    }
+    
+    public String irPaginaCohorte() {
+        int idCurso;
+        Materia materia;
+        Periodo periodo;
+        try {
+            idCurso = sp.getNextCurso();
+            materia = sp.consultarMateria(siglaMateriaActual);
+            periodo = sp.consultarPeriodo(idPeriodoActual);
+            cursoActual = new Curso(idCurso, materia, periodo);
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "RegistroMateriaNuevoCohorte";
     }
     
     public String nombreCursoActual() {
@@ -303,6 +319,22 @@ public class UnidadProyectosBean implements Serializable {
         return res;
     }
     
+    public Map<String, String> getPeriodos() {
+        List<Periodo> lista = null;
+        HashMap<String, String> res = new HashMap<>();
+        try {
+            if (idPeriodoActual == null || idPeriodoActual.equals("")) lista = sp.consultarPeriodos();
+            else lista = sp.consultarPeriodos();
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (Periodo periodo: lista) {
+            res.put(periodo.getNombre(), String.valueOf(periodo.getNombre()));
+        }
+        return res;
+        
+    }
+    
     public Map<String, String> getAsignaturas() {
         List<Asignatura> lista = null;
         HashMap<String, String> res = new HashMap<>();
@@ -337,6 +369,12 @@ public class UnidadProyectosBean implements Serializable {
         return idAsignaturaActual;
     }
     
+    public void changePeriodo() {
+        idProgramaActual = null;
+        idAsignaturaActual = null;
+        siglaMateriaActual = null;
+    }
+    
     public void changePrograma() {
         idAsignaturaActual = null;
         siglaMateriaActual = null;
@@ -356,6 +394,14 @@ public class UnidadProyectosBean implements Serializable {
 
     public void setSiglaMateriaActual(String siglaMateriaActual) {
         this.siglaMateriaActual = siglaMateriaActual;
+    }
+
+    public String getIdPeriodoActual() {
+        return idPeriodoActual;
+    }
+
+    public void setIdPeriodoActual(String idPeriodoActual) {
+        this.idPeriodoActual = idPeriodoActual;
     }
     
     public String getResumen() {

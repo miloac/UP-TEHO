@@ -28,4 +28,27 @@
         from materias
         where Asignaturas_id=COALESCE(#{idAsignatura}, Asignaturas_id);     
     </select>
+    
+    <select parameterType="map" id="consultarMateria" resultMap="MateriaResult">
+        select
+        mat.sigla as sigla,
+        mat.nombre as nombre,
+        mat.creditos as creditos,
+        mat.descripcion as descripcion,
+        mat.Asignaturas_id as Asignaturas_id,
+        
+        asi.id as asi_id,
+        asi.nombre as asi_nombre,
+        asi.Programas_id as asi_Programas_id,
+        
+        pro.id as asi_pro_id,
+        pro.nombre as asi_pro_nombre
+        
+        from Materias as mat
+        left join Asignaturas as asi on mat.Asignaturas_id=asi.id
+        left join Programas as pro on asi.Programas_id=pro.id
+        
+        where mat.sigla=#{siglaMateria};
+    </select>
+    
 </mapper>

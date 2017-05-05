@@ -10,4 +10,6 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface MateriaMapper {
     List<Materia> consultarMateriasxAsignatura(@Param("idAsignatura")Integer idAsignatura);
+
+    Materia consultarMateria(@Param("siglaMateria")String siglaMateria);
 }

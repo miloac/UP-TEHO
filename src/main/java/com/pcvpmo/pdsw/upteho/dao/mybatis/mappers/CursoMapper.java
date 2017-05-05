@@ -30,5 +30,11 @@ public interface CursoMapper {
      */
     List<Curso> consultarCursosPorPeriodo(@Param("nombrePeriodo")String nombre);
     
+    /**
+     * Consulta el siguiente id disponible de los cursos ya registrados
+     * @return entero del id del curso disponible
+     */
+    int getNextCurso();
+    
    
 }

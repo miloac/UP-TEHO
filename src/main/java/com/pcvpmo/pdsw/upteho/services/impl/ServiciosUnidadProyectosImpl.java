@@ -8,6 +8,7 @@ import com.pcvpmo.pdsw.upteho.dao.CohorteDAO;
 import com.pcvpmo.pdsw.upteho.dao.CursoDAO;
 import com.pcvpmo.pdsw.upteho.dao.HorarioDisponibleDAO;
 import com.pcvpmo.pdsw.upteho.dao.MateriaDAO;
+import com.pcvpmo.pdsw.upteho.dao.PeriodoDAO;
 import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
 import com.pcvpmo.pdsw.upteho.dao.ProfesorDAO;
 import com.pcvpmo.pdsw.upteho.dao.ProgramaDAO;
@@ -27,6 +28,8 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Clase de Servicios necesarios para la aplicacion de Unidad de Proyectos
@@ -58,6 +61,9 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     
     @Inject
     private MateriaDAO daoMateria;
+    
+    @Inject
+    private PeriodoDAO daoPeriodo;
     
     @Override
     public void registrarMateria(int idPrograma, int idAsignatura, String siglaRequisito, int tipoRequisito, String nombreMateria, String siglaMateria, String descripcionMateria) {
@@ -267,5 +273,41 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
       cal.setTime(fecha);
       numeroDia=cal.get(Calendar.DAY_OF_WEEK);
       return dias[numeroDia -1];
+    }
+
+    @Override
+    public int getNextCurso() throws UnidadProyectosException {
+        try {
+            return daoCurso.getNextCurso();
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar la siguiente id disponible de curso", ex);
+        }
+    }
+
+    @Override
+    public Materia consultarMateria(String siglaMateria) throws UnidadProyectosException {
+        try {
+            return daoMateria.consultarMateria(siglaMateria);
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar la materia:" + siglaMateria, ex);
+        }
+    }
+
+    @Override
+    public Periodo consultarPeriodo(String idPeriodo) throws UnidadProyectosException {
+        try {
+            return daoPeriodo.consultarPeriodo(idPeriodo);
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar el periodo: " + idPeriodo, ex);
+        }
+    }
+
+    @Override
+    public List<Periodo> consultarPeriodos() throws UnidadProyectosException {
+        try {
+            return daoPeriodo.consultarPeriodos();
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar todos los periodos", ex);
+        }
     }
 }
