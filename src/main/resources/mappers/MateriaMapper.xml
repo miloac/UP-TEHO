@@ -41,11 +41,11 @@
         
         select
         
-        Asi.id
-        Asi.nombre  
+        id
+        nombre  
               
-        from Asignaturas as Asi
-        where Asi.Programas_id = #{programa}
+        from Asignaturas
+        where Programas_id = #{programa}
         
     </select>
     

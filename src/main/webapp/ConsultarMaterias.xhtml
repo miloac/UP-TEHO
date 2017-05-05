@@ -25,26 +25,26 @@
         <div style="max-width:100%;min-height:600px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:10px;margin:auto;" >
                 <center>
-                <h:form>
-                    <h:outputText value="PROGRAMA:" />
-                    <p:spacer /> 
-                    <p:selectOneButton value="#{UnidadProyectosBean.idProgramaActual}">
-                    <f:selectItems value="#{UnidadProyectosBean.getProgramas()}"/>
-                            
-                    </p:selectOneButton>
-
-                    <p:commandButton value="Submit" update=":#{p:component('tabla_programas')}" icon="ui-icon-check" />
-                    <p:spacer />      
+                <h:form id="seleccion">
+                    <h:panelGrid columns="2" cellpadding="10">
+                        <p:outputLabel for="programa" value="Programa: "/>
+                        <p:selectOneMenu id="programa" value="#{UnidadProyectosBean.idProgramaActual}" style="width:250px">
+                            <f:selectItem itemLabel="Seleccionar Programa" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{UnidadProyectosBean.getProgramas()}"/>
+                            <p:ajax listener="#{UnidadProyectosBean.changePrograma()}" event="change" update=":#{p:component('tabla_programas')}"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
                 </h:form>
+                
                 </center>
                 <br></br>  
                 <h:form id="tabla_programas">
-                    <p:dataTable var="materia" value="#{UnidadProyectosBean.consultarAsignaturasPorPrograma(idProgramaActual)}">
+                    <p:dataTable var="materia" value="#{UnidadProyectosBean}">
                     <p:column headerText="Asignatura">
-                        <h:outputText value="#{materia.nombre}"/>
+                        <h:outputText value="#{materia.getAsignaturas()}"/>
                     </p:column>
                     <p:column headerText="Materia">
-                        <h:outputText value="#{materia.programa}"/>
+                        <h:outputText value="#{materia.getMaterias()}"/>
                     </p:column>
                     <p:column headerText="Accion">
                         <center><h:commandButton value="Modificar Materia" action="#{UnidadProyectosBean.irPaginaCurso(curso)}"/></center>  
@@ -52,7 +52,7 @@
                     </p:dataTable>
                 </h:form>
                 <p:separator/>
-                <center><h:commandButton value="Registrar Materia" actionListener="#{UnidadProyectosBean.irPaginaRegistrarMateria()}"/></center>  
+                <center><h:commandButton class="boton" value="Registrar Materia" actionListener="#{UnidadProyectosBean.irPaginaRegistrarMateria}"/></center>  
                 </div>
         </div>
         

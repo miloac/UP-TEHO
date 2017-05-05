@@ -8,31 +8,16 @@
                 
                 <!-- SECCION DE LOGIN -->
                 <div style="position: relative; top:-55px; left:85%;" >
-                    <p:commandButton value="Iniciar Sesion" type="button" onclick="PF('dlg2').show();" />
+                    <p:commandButton class="boton" value="Iniciar Sesion" type="button" onclick="PF('dlg2').show();" />
                     
-                    <p:dialog header="Bienvenido... Inicia Sesion" widgetVar="dlg2" modal="true" height="100">
-                        <h:outputText value="Iniciar Sesion con:" />
+                    <p:dialog header="Bienvenido, Inicia Sesion" widgetVar="dlg2" modal="true" height="100">
+                        <h:outputText value="Iniciar Sesion como:" />
                         <p:separator></p:separator>
                         <p:commandButton value="Coordinador" type="button" icon="ui-icon-person" />
                         <p:commandButton value="Administrador" type="button" icon="ui-icon-pencil" />
                         <p:commandButton value="Profesor" type="button" icon="ui-icon-search" />
                     </p:dialog> 
                     
-                    
-                    
-                    <!--<h:form>
-                        <p:growl id="message" showDetail="true"></p:growl>
-
-                        <p:commandButton value="Iniciar Sesion" actionListener="" update="message">
-                            <p:confirm header="Iniciar Sesion" message="Inicia Sesion con:" icon="ui-icon-key" />
-                        </p:commandButton>
-
-                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-person" />
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-person" />
-                            <p:commandButton value="Profesor" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-person" />
-                        </p:confirmDialog>
-                    </h:form>-->
                 </div>  
                 
             </header>

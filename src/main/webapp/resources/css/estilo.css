@@ -60,3 +60,39 @@
     -webkit-box-shadow: 1px -1px 0 rgba(255, 255, 255, 0.6) inset;
 }
 
+.boton {
+    border: none;
+    background: #9F0000;
+    color: #f2f2f2;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    position: relative;
+    box-sizing: border-box;
+    transition: all 500ms ease;
+    cursor: pointer;
+}
+
+.textbox {
+	border: 1px solid #DBE1EB;
+	font-size: 18px;
+	font-family: Arial, Verdana;
+	padding-left: 7px;
+	padding-right: 7px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+    -o-border-radius: 4px;
+	background: #FFFFFF;
+	background: linear-gradient(left, #FFFFFF, #F7F9FA);
+	background: -moz-linear-gradient(left, #FFFFFF, #F7F9FA);
+	background: -webkit-linear-gradient(left, #FFFFFF, #F7F9FA);
+	background: -o-linear-gradient(left, #FFFFFF, #F7F9FA);
+	color: #2E3133;
+}
+.textbox:focus{
+	color: #2E3133;
+	border-color: #FBFFAD;
+}
