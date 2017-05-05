@@ -60,7 +60,14 @@
                         <p:commandButton id="botoncohorte" value="Seleccionar Cohorte y Profesor" action="#{UnidadProyectosBean.irPaginaCohorte()}"/>
                     </h:panelGrid>
                     <p:separator/>
-                    <p:commandButton id="boton_registrar" value="Registrar Curso para la Materia" action="#{UnidadProyectosBean.registrarCursoActual()}"/>
+                    <h:outputText value="#{UnidadProyectosBean.getResumen()}"/>
+                    <div></div>
+                    <p:commandButton id="boton_registrar" value="Registrar Curso para la Materia" action="#{UnidadProyectosBean.registrarCursoActual()}" onclick="PF('dlg3').show" update="mensaje"/>
+                    <p:dialog id="dialog" header="Aviso" widgetVar="dlg3" modal="true" height="100">
+                        <h:outputText id="mensaje" value="mensaje //TODO"/>
+                        <br></br>
+                        <p:commandButton value="Aceptar" action="#{UnidadProyectosBean.irProgramarCurso()}" onclick="PF('dlg3').hide()"/>
+                    </p:dialog>
                     </h:form>
                     </center>
                 </p:panel>

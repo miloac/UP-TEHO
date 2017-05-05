@@ -23,6 +23,11 @@ public class MyBATISCohorteDAO implements CohorteDAO{
     public Cohorte consultarCohortexId(int idCohorte) throws PersistenceException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void registrarCohorte(int idPrograma, int idCurso, int cohorte) throws PersistenceException {
+        cohorteMapper.registrarCohorte(idPrograma, idCurso, cohorte);
+    }
     
     
 }

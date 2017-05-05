@@ -275,4 +275,12 @@ public interface ServiciosUnidadProyectos {
      * @throws UnidadProyectosException si el numero id del cohorte no existe
      */
     public void consultarCohorte(int id) throws UnidadProyectosException;
+    
+    /**
+     * Registra un nuevo cohorte para un curso y programa especifico
+     * @param idPrograma id del programa
+     * @param idCurso id del curso
+     * @param cohorte id del cohorte
+     */
+    public void registrarCohorte(int idPrograma, int idCurso, int cohorte) throws UnidadProyectosException;
 }

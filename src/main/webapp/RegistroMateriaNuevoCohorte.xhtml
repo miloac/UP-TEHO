@@ -23,13 +23,13 @@
             <h:form id="rema">
             <h:panelGrid columns="2" cellpadding="5">
                 <h:outputText value="Programa:" />
-                <h:outputText id="pro" value="#{UnidadProyectosBean.cursoTemp().materia.asignatura.programa.nombre}" />
+                <h:outputText id="pro" value="#{UnidadProyectosBean.cursoActual.materia.asignatura.programa.nombre}" />
                 <h:outputText value="Asignatura:" />
-                <h:outputText id="asi" value="#{UnidadProyectosBean.cursoTemp().materia.asignatura.nombre}" />
+                <h:outputText id="asi" value="#{UnidadProyectosBean.cursoActual.materia.asignatura.nombre}" />
                 <h:outputText value="Materia:" />
-                <h:outputText id="mat" value="#{UnidadProyectosBean.cursoTemp().materia.nombre}" />
+                <h:outputText id="mat" value="#{UnidadProyectosBean.cursoActual.materia.nombre}" />
                 <h:outputText value="Periodo:" />
-                <h:outputText id="per" value="#{UnidadProyectosBean.cursoTemp().periodo.nombre}" />
+                <h:outputText id="per" value="#{UnidadProyectosBean.cursoActual.periodo.nombre}" />
                 <h:outputText value="Numero de cohorte" />
                 <h:inputText id="cohorte" binding="#{cohorte}" /> 
             </h:panelGrid>
@@ -45,8 +45,8 @@
                 <p:column selectionMode="single" style="width: 16px;text-align: center"/>
             </p:dataTable>
             <h:panelGrid columns="2" cellpadding="5">
-                <h:commandButton value="Registrar materia en nuevo cohorte" actionListener="#{UnidadProyectosBean.registrarCohorte(cohorte.value)}" action="ProgramarCurso"/>
-                <h:commandButton value="Cancelar" action="ProgramarCurso"/>
+                <p:commandButton value="Continuar" actionListener="#{UnidadProyectosBean.setCohorteCursoActual(cohorte.value)}" action="#{UnidadProyectosBean.volverPaginaCurso()}"/>
+                <p:commandButton value="Cancelar" action="ProgramarCurso"/>
             </h:panelGrid>
         </h:form>
             </center>

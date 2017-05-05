@@ -101,4 +101,9 @@
         
         where coh.cohorte = 
     </select>
+    
+    <insert id="registrarCohorte" parameterType="map">
+        insert into Cohortes
+        values(#{idPrograma}, #{idCurso}, #{cohorte});
+    </insert>
 </mapper>

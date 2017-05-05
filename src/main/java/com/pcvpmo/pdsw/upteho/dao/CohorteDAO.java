@@ -10,4 +10,6 @@ public interface CohorteDAO {
     Cohorte consultarCohorte (int idCurso,int idPrograma)throws PersistenceException;
     
     Cohorte consultarCohortexId(int idCohorte) throws PersistenceException;
+
+    void registrarCohorte(int idPrograma, int idCurso, int cohorte) throws PersistenceException;
 }

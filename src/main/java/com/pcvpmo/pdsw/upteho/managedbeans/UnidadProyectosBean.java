@@ -38,7 +38,6 @@ public class UnidadProyectosBean implements Serializable {
     private String idAsignaturaActual;
     private String siglaMateriaActual;
     private String idPeriodoActual;  
-    private int cohorte;
     
     public UnidadProyectosBean() {
     }
@@ -61,6 +60,11 @@ public class UnidadProyectosBean implements Serializable {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "RegistroMateriaNuevoCohorte";
+    }
+    
+    public String volverPaginaCurso() {
+        cursoActual.setProfesor(profesorSelect);
+        return "ProgramarCurso";
     }
     
     public String nombreCursoActual() {
@@ -120,6 +124,7 @@ public class UnidadProyectosBean implements Serializable {
     public void registrarCursoActual()  {
         try {
             sp.registrarCurso(cursoActual);
+            sp.registrarCohorte(Integer.parseInt(idProgramaActual), cursoActual.getId(), cohorteCursoActual);
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NullPointerException ex) {
@@ -280,15 +285,6 @@ public class UnidadProyectosBean implements Serializable {
     public Profesor getProfesorSelect() {
         return profesorSelect;
     }
-    
-    public Curso cursoTemp(){
-        Programa pro=new Programa(5, "especializacion en proyectos");
-        Asignatura as=new Asignatura(69, "fundamentos", pro);
-        Materia ma=new Materia("INFU", "Introduccion a fundamentos", 4, "sdgb", as);
-        Periodo pe=new Periodo("2020-1", java.sql.Date.valueOf("2020-05-03"), java.sql.Date.valueOf("2020-05-15"));
-        Curso cu = new Curso(56, ma, pe);
-        return cu;
-    }
 
     public void setProfesorSelect(Profesor profesorSelect) {
         this.profesorSelect = profesorSelect;
@@ -422,36 +418,14 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     public String getResumen() {
-        String programa = idProgramaActual;
-        String asignatura = idAsignaturaActual;
-        String materia = siglaMateriaActual;
-        int cohorte = cohorteCursoActual;
-        return programa + " " + asignatura + " " + materia + " " + cohorte;
-        
+        if (cursoActual == null || siglaMateriaActual == null || idPeriodoActual == null || idAsignaturaActual == null || profesorSelect == null)        {
+            return "";
+        }
+        else {
+            return "Resumen: " + cursoActual.getMateria().getNombre() + ", " 
+                               + cursoActual.getPeriodo().getNombre() + ", "
+                               + cursoActual.getProfesor().getNombre();
+        }
     }
     
-    public void registrarCohorte(int numero){
-        setCohorte(numero);
-//        System.out.println("test "+profesorSelect.getNombre());
-    }
-    
-    /**
-     * Get the value of cohorte
-     *
-     * @return the value of cohorte
-     */
-    public int getCohorte() {
-        return cohorte;
-    }
-
-    /**
-     * Set the value of cohorte
-     *
-     * @param cohorte new value of cohorte
-     */
-    public void setCohorte(int cohorte) {
-        this.cohorte = cohorte;
-    }
-
 }
-

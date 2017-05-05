@@ -9,4 +9,6 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface CohorteMapper {
     Cohorte consultarCohorte(@Param("idCurso")int idCurso,@Param("idPrograma") int idPrograma);
+
+    void registrarCohorte(@Param("idPrograma")int idPrograma, @Param("idCurso")int idCurso, @Param("cohorte")int cohorte);
 }
