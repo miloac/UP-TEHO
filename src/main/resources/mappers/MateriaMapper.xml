@@ -31,17 +31,21 @@
 
     <select parameterType="map" id="consultarProgramas" resultMap="ProgramaResult">
         select
+        
         *
         from Programas
+        
     </select>
     
     <select parameterType="map" id="getAsigXProg" resultMap="AsignaturaPorProgramaResult">
+        
         select
         
-        
-        nombre
-        
-        from Asignaturas
+        Asi.id
+        Asi.nombre  
+              
+        from Asignaturas as Asi
+        where Asi.Programas_id = #{programa}
         
     </select>
     

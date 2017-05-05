@@ -12,5 +12,41 @@
         
     </h:head>
     <h:body>
+            <!-- Encabezado -->
+            <ui:include src="resources/inc/header.xhtml" />
+
+            <!-- MENU -->
+            <ui:include src="resources/inc/menu.xhtml" />
+            <center><div style="max-width:97%;min-height:20px;background:#444 ;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
+                <div style="padding:15px;margin:auto;" >
+                    <center><font color="#FFF" size="+2">Registro nueva materia </font></center>
+                </div>
+                <div>
+                    <h:form>                     
+                        <h:form id="tabla_programacion">
+                        <p:dataTable id="checkboxDT" var="prog" value="#{UnidadProyectosBean.consultarProgramas()}" selection="#{UnidadProyectosBean.selectedPrograms}" rowKey="#{prog.id}" style="margin-bottom:0">
+                                <f:facet name="header">
+                                    registro de materias
+                                </f:facet>
+                                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                                <p:column headerText="Programa">
+                                    <h:outputText value="#{prog.nombre}"/>
+                                </p:column>
+                                <p:column headerText="asignatura">
+                                    <p:selectOneMenu id="asig" value="" style="width:250px">
+                                        <f:selectItem itemLabel="Seleccione una asignatura" itemValue="" noSelectionOption="true" />
+                                        <f:selectItems value="#{UnidadProyectosBean.consultarAsignaturasPorPrograma(Integer.parseInt(prog.id))}" var="as" itemLabel="#{as.nombre}" />
+                                        <p:ajax listener="#{UnidadProyectosBean.showID(prog.id)}" event="change"/>
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </h:form>
+                </div>
+                <div>
+                    
+                </div>
+            </div></center>
+        <ui:include src="resources/inc/footer.xhtml" />
     </h:body>
 </html>

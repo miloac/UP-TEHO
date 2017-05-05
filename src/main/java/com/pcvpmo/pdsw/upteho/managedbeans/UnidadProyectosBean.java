@@ -34,9 +34,7 @@ public class UnidadProyectosBean implements Serializable {
     private Curso cursoActual; 
     private  int cohorteCursoActual;    
     private Programa programa;
-    private Asignatura asignatura;   
-    private String asignaturaSelected;
-    private int programaSelected;
+    private Asignatura asignatura;
     private Periodo periodo;    
     private Cohorte cohorte;
     private List<Profesor> profesor;      
@@ -45,10 +43,13 @@ public class UnidadProyectosBean implements Serializable {
     private String idProgramaActual;
     private String idAsignaturaActual;
     private String siglaMateriaActual;
+    private List<Programa> selectedPrograms;
     
     public UnidadProyectosBean() {
     }
-    
+    public void showID(String p){
+        System.out.println(p);
+    }
     public String irPaginaCurso(Curso curso_actual) {
         cursoActual = curso_actual;
         return "InfoCurso";
@@ -277,10 +278,6 @@ public class UnidadProyectosBean implements Serializable {
         cohorteCursoActual=cohorte;
         return cohorte;
     }
-
-    public void actualizarAsig(){
-        asignaturaSelected=null;        
-    }
     
     /**
      * Get the value of programa
@@ -301,22 +298,20 @@ public class UnidadProyectosBean implements Serializable {
     }    
     
     /**
-     * Get the value of programa
+     * Get the value of programs selected
      *
-     * @return the value of programa
+     * @return the  list of programs
      */
-    public int getProgramaSelected() {
-        return programaSelected;
+    public List<Programa> getSelectedPrograms() {
+        return selectedPrograms;
     }
 
     /**
-     * Set the value of programa
-     *
-     * @param programa new value of programa
+     * Set the value of selectedPrograms
      */
-    public void setProgramaSelected(int programa) {
-        programaSelected = programa;
-    }
+    public void setSelectedPrograms() {
+        this.selectedPrograms = null;
+    }    
 
     /**
      * Get the value of asignatura
@@ -341,22 +336,6 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     /**
-     * get the selected asginature
-     * @return string
-     */
-    public String getAsignaturaSelected(){
-        return asignaturaSelected;
-    }
-    
-    /**
-     * set the value of selected asignature
-     * @param asig value of sig
-     */
-    public void setAsignaturaSelected(String asig){
-        asignaturaSelected=asig;
-    }
-    
-    /**
      * Get the value of periodo
      *
      * @return the value of periodo
@@ -374,7 +353,15 @@ public class UnidadProyectosBean implements Serializable {
         return cu;
 
     }
-
+    
+    public String getIdAsignaturaActual(){
+        return this.idAsignaturaActual;
+    }
+    
+    public void setIdAsignaturaActual(String idAct){
+        this.idAsignaturaActual = idAct;
+    }
+    
     public void setProfesorSelect(Profesor profesorSelect) {
         this.profesorSelect = profesorSelect;
     }
@@ -448,9 +435,6 @@ public class UnidadProyectosBean implements Serializable {
         return res;
     }
     
-    public String getIdAsignaturaActual() {
-        return idAsignaturaActual;
-    }
     
     public void changePrograma() {
         idAsignaturaActual = null;
@@ -460,10 +444,7 @@ public class UnidadProyectosBean implements Serializable {
     public void changeAsignatura() {
         siglaMateriaActual = null;
     }
-    
-    public void setIdAsignaturaActual(String idAsignaturaActual) {
-        this.idAsignaturaActual = idAsignaturaActual;
-    }
+ 
 
     public String getSiglaMateriaActual() {
         return siglaMateriaActual;
