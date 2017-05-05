@@ -258,4 +258,13 @@ public interface ServiciosUnidadProyectos {
      * @throws UnidadProyectosException Excepcion con datos del error
      */
     public List<Periodo> consultarPeriodos() throws UnidadProyectosException;
+    
+    /**
+     * Registra un Curso
+     * // PRE: Se espera que el programa, la asignatura, el periodo y el profesor ya esten registrados
+     * // POS: El curso es registrado correctamente
+     * @param cursoActual curso a registrar 
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public void registrarCurso(Curso cursoActual) throws UnidadProyectosException;
 }

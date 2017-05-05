@@ -135,4 +135,9 @@
     <select parameterType="map" id="getNextCurso" resultType="int">
         SELECT COALESCE(MAX(id)+1, 0) FROM Cursos;
     </select>
+    
+    <insert id="registrarCurso" parameterType="map">
+        INSERT INTO Cursos
+        VALUES (#{idCurso}, #{idProfesor}, #{siglaMateria}, #{nombrePeriodo})
+    </insert>
 </mapper>

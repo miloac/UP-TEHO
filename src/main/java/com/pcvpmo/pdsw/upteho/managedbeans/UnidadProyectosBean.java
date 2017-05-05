@@ -114,6 +114,19 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     /**
+     * Registra un Curso
+     */
+    public void registrarCursoActual()  {
+        try {
+            sp.registrarCurso(cursoActual);
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullPointerException ex) {
+            throw new UnsupportedOperationException("No implementado, no se pudo insertar");
+        }
+    }
+    
+    /**
      * Consulta las materias registradas en el sistema
      * @return una lista de Materia
      */
@@ -373,15 +386,18 @@ public class UnidadProyectosBean implements Serializable {
         idProgramaActual = null;
         idAsignaturaActual = null;
         siglaMateriaActual = null;
+        cohorteCursoActual = 0;
     }
     
     public void changePrograma() {
         idAsignaturaActual = null;
         siglaMateriaActual = null;
+        cohorteCursoActual = 0;
     }
     
     public void changeAsignatura() {
         siglaMateriaActual = null;
+        cohorteCursoActual = 0;
     }
     
     public void setIdAsignaturaActual(String idAsignaturaActual) {

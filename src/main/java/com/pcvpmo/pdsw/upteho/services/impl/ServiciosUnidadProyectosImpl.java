@@ -28,8 +28,6 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Clase de Servicios necesarios para la aplicacion de Unidad de Proyectos
@@ -308,6 +306,15 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             return daoPeriodo.consultarPeriodos();
         } catch (PersistenceException ex) {
             throw new UnidadProyectosException("Error al consultar todos los periodos", ex);
+        }
+    }
+
+    @Override
+    public void registrarCurso(Curso cursoActual) throws UnidadProyectosException {
+        try {
+            daoCurso.registrarCurso(cursoActual.getId(), 1, cursoActual.getMateria().getSigla(), cursoActual.getPeriodo().getNombre());
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al registrar el curso " + cursoActual.getId(), ex);
         }
     }
 }

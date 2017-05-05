@@ -36,5 +36,17 @@ public interface CursoMapper {
      */
     int getNextCurso();
     
+    /**
+     * Registra un curso
+     * @param id id del curso
+     * @param idProfesor id del profesor
+     * @param siglaMateria sigla de la materia
+     * @param nombrePeriodo nombre del periodo
+     */
+    public void registrarCurso(@Param("idCurso")int id,
+                               @Param("idProfesor")int idProfesor,
+                               @Param("siglaMateria")String siglaMateria,
+                               @Param("nombrePeriodo")String nombrePeriodo);
+    
    
 }

@@ -36,4 +36,9 @@ public class MyBATISCursoDAO implements CursoDAO {
         return cursoMapper.getNextCurso();
     }
 
+    @Override
+    public void registrarCurso(int id, int idProfesor, String siglaMateria, String nombrePeriodo) throws PersistenceException {
+        cursoMapper.registrarCurso(id, idProfesor, siglaMateria, nombrePeriodo);
+    }
+
 }
