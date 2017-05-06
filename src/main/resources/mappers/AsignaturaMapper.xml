@@ -15,5 +15,8 @@
         left join programas as pro on asi.programas_id=pro.id;
     </select>
     
+    <insert parameterType="map" id="registrarAsignatura">
+        insert into asignaturas (id, nombre, programas_id) values((select max(id)+1 from asignaturas),#{nombreAsig},#{idProg});
+     </insert>
     
 </mapper>

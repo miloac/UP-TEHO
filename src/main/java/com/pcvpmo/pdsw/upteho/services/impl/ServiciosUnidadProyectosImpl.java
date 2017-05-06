@@ -252,4 +252,19 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
       numeroDia=cal.get(Calendar.DAY_OF_WEEK);
       return dias[numeroDia -1];
     }
+
+    @Override
+    public void registrarAsignatura(String nombreAsig, int idProg) throws UnidadProyectosException {
+        try{
+            List<Asignatura> asig = daoAsignatura.consultarAsignaturas();
+            boolean noRepite = true;
+            nombreAsig = nombreAsig.trim();
+            for(int i=0; i< asig.size() && noRepite; i++){
+                if(asig.get(i).getNombre().equals(nombreAsig)) noRepite = false;
+            }
+            if (noRepite) daoAsignatura.registrarAsignatura(nombreAsig, idProg);
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al insertar la asignatura", ex);
+        }
+    }
 }

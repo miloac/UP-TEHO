@@ -29,16 +29,18 @@ and open the template in the editor.
             <h:form id="registrarAsig">
             <div align="center">
                 <br/>
-                <p:inputText  id="nombreAsig">Nombre de la nueva asignatura </p:inputText>
+                <p:inputText  id="nombreAsig" binding="#{nombreAsig}">Nombre de la nueva asignatura </p:inputText>
                 <br/>
                 <br/>
-                <p:selectOneMenu id="programas" style="width:300px">
+                <p:selectOneMenu id="programas" style="width:300px" binding="#{programas}">
                     <f:selectItem itemLabel="Seleccione Programa" itemValue="" noSelectionOption="true"/>
                     <f:selectItems value="#{UnidadProyectosBean.consultarProgramasNombres()}" />
                 </p:selectOneMenu>
                 <br/>
                 <br/>
-                <p:commandButton id="aceptar" value="REGISTRAR" update="asig" actionListener="#{UnidadProyectosBean.registrarAsignatura()}">
+                <p:commandButton id="aceptar" value="REGISTRAR ASIGNATURA" update="asig" action="#{UnidadProyectosBean.registrarAsignatura(nombreAsig.value,programas.value)}">
+                </p:commandButton>
+                <p:commandButton id="regresar" value="REGRESAR">
                 </p:commandButton>
                 <br/>
                 <br/>

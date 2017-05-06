@@ -273,6 +273,22 @@ public class UnidadProyectosBean implements Serializable {
         
         return nombres;
     }
+    
+    public void registrarAsignatura(String nombre, String nomPrograma) throws UnidadProyectosException{
+        int idprograma =0;
+        if(!(nomPrograma.equals("") || nombre.equals(""))){
+            try{
+                List<Programa> prog = sp.consultarProgramas();
+                for(int i=0; i<prog.size(); i++){
+                    if (prog.get(i).getNombre().equals(nomPrograma))idprograma = prog.get(i).getId();
+                 }
+                 sp.registrarAsignatura(nombre, idprograma);
+            }
+            catch (UnidadProyectosException ex) {
+                Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
         
     /**
      * Get the value of programa

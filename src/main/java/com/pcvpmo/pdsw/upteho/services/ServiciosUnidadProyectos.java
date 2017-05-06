@@ -210,4 +210,12 @@ public interface ServiciosUnidadProyectos {
      * @throws UnidadProyectosException si el identificador del curso o el identificador del profesor no existe
      */
     public void agregarClase(int idCurso, Date fecha, Time hora, String tSalon,int idProfesor)throws UnidadProyectosException;
+    
+    /**
+     * Registra una nueva asignatura para un programa de la Unidad de Proyectos
+     * @param nombreAsig
+     * @param idProg
+     * @throws UnidadProyectosException Si el nombre ingresado ya existe
+     */
+    public void registrarAsignatura(String nombreAsig, int idProg)throws UnidadProyectosException;
 }
