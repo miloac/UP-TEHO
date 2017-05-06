@@ -20,6 +20,4 @@ public class MyBATISProgramaDAO implements ProgramaDAO {
     public List<Programa> consultarProgramas() throws PersistenceException {
         return programaMapper.consultarProgramas();
     }
-    
-
 }

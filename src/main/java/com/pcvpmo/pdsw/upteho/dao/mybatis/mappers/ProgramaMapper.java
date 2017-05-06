@@ -13,5 +13,5 @@ public interface ProgramaMapper {
      * Consulta los programas de la Unidad del Proyectos
      * @return Lista de Programas
      */
-    public List<Programa> consultarProgramas();
+    List<Programa> consultarProgramas();
 }

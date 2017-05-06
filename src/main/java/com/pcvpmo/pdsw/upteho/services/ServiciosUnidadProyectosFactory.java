@@ -74,6 +74,8 @@ public class ServiciosUnidadProyectosFactory {
                 bind(AsignaturaDAO.class).to(MyBATISAsignaturaDAO.class);
                 bind(MateriaDAO.class).to(MyBATISMateriaDAO.class);
                 bind(PeriodoDAO.class).to(MyBATISPeriodoDAO.class);
+                bind(AsignaturaDAO.class).to(MyBATISAsignaturaDAO.class);
+                bind(ProgramaDAO.class).to(MyBATISProgramaDAO.class);
                 //TODO agregar binds Daos MyBatis
             }
         });

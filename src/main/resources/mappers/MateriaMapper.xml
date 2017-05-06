@@ -15,7 +15,7 @@
     <resultMap type='Asignatura' id='AsignaturaResult'>
         <id property='id' column='id'/>
         <result property='nombre' column='nombre'/>
-        <association property="programa" javaType="Programa" column="pro_" resultMap="ProgramaResult"/>
+        <association property="programa" javaType="Programa" columnPrefix="pro_" resultMap="ProgramaResult"/>
     </resultMap>
     
     <resultMap type="Programa" id="ProgramaResult">

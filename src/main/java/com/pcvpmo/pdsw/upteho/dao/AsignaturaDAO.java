@@ -10,4 +10,7 @@ import java.util.List;
 public interface AsignaturaDAO {
     
     List<Asignatura> consultarAsignaturasxPrograma(Integer idPrograma) throws PersistenceException;
+
+    List<Asignatura> consultarAsignaturas() throws PersistenceException;
+    void registrarAsignatura(String nombreAsig,int idProg) throws PersistenceException;;
 }

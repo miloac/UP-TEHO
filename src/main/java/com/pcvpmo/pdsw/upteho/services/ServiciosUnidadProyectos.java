@@ -298,5 +298,13 @@ public interface ServiciosUnidadProyectos {
      * @throws UnidadProyectosException 
      */
     public void cancelarClase(int id)throws UnidadProyectosException;
+    
+    /**
+     * Registra una nueva asignatura para un programa de la Unidad de Proyectos
+     * @param nombreAsig
+     * @param idProg
+     * @throws UnidadProyectosException Si el nombre ingresado ya existe
+     */
+    public void registrarAsignatura(String nombreAsig, int idProg)throws UnidadProyectosException;
 }
 

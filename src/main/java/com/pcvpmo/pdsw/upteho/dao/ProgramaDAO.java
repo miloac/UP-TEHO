@@ -5,10 +5,9 @@ import java.util.List;
 
 /**
  * DAO de Programa utilizado para Injection
- * @author Daniel Ospina
+ * @author Daniel Ospina, Juan Camilo mantilla
  */
 public interface ProgramaDAO {
 
-    public List<Programa> consultarProgramas() throws PersistenceException;
-    
+    List<Programa> consultarProgramas() throws PersistenceException;
 }

@@ -33,7 +33,7 @@ import java.util.logging.Logger;
 
 /**
  * Clase de Servicios necesarios para la aplicacion de Unidad de Proyectos
- * @author Daniel Ospina, Felipe Pardo
+ * @author Daniel Ospina, Felipe Pardo, Juan Camilo Mantilla
  */
 @Singleton
 public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
@@ -105,8 +105,12 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     }
 
     @Override
-    public List<Asignatura> consultarAsignaturas(){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Asignatura> consultarAsignaturas() throws UnidadProyectosException{
+        try {
+            return daoAsignatura.consultarAsignaturas();
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar las asignaturas"+ ex);
+        }
     }
 
     @Override
@@ -209,7 +213,7 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
         } catch (PersistenceException ex) {
             throw new UnidadProyectosException("Error al consultar las clases en el periodo" + periodo, ex);
         }
-    }  
+    } 
 
     @Override
     public List<Asignatura> consultarAsignaturasxPrograma(Integer idPrograma) throws UnidadProyectosException {
@@ -359,6 +363,21 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             daoClase.cancelarClase(id);
         }catch (PersistenceException ex) {
             throw new UnidadProyectosException("Error al cancelar la clase "+id, ex);
+        }
+    }
+
+    @Override
+    public void registrarAsignatura(String nombreAsig, int idProg) throws UnidadProyectosException {
+        try{
+            List<Asignatura> asig = daoAsignatura.consultarAsignaturas();
+            boolean noRepite = true;
+            nombreAsig = nombreAsig.trim();
+            for(int i=0; i< asig.size() && noRepite; i++){
+                if(asig.get(i).getNombre().equals(nombreAsig)) noRepite = false;
+            }
+            if (noRepite) daoAsignatura.registrarAsignatura(nombreAsig, idProg);
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al insertar la asignatura", ex);
         }
     }
 }

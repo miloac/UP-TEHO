@@ -3,10 +3,13 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.ProgramaMapper">
+<mapper namespace="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.ProgramaMapper">    
+        
     <select parameterType="map" id="consultarProgramas" resultMap="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.MateriaMapper.ProgramaResult">
-        select id, nombre
-        from programas;
+        select pro.id as id,
+        pro.nombre as nombre
+        from programas as pro;
     </select>
-</mapper> 
     
+    
+</mapper>

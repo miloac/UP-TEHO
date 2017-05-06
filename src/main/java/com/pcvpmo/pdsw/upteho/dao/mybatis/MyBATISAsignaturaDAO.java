@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Implementacion de AsignaturaDAO MyBATIS
- * @author Daniel Ospina
+ * @author Daniel Ospina - Juan Camilo Mantilla
  */
 public class MyBATISAsignaturaDAO implements AsignaturaDAO {
     
@@ -20,6 +20,13 @@ public class MyBATISAsignaturaDAO implements AsignaturaDAO {
     public List<Asignatura> consultarAsignaturasxPrograma(Integer idPrograma) throws PersistenceException {
         return asignaturaMapper.consultarAsignaturasxPrograma(idPrograma);
     }
-    
 
+    public List<Asignatura> consultarAsignaturas() throws PersistenceException {
+        return asignaturaMapper.consultarAsignaturas();
+    }
+
+    @Override
+    public void registrarAsignatura(String nombreAsig, int idProg) throws PersistenceException {
+        asignaturaMapper.registrarAsignatura(nombreAsig, idProg);
+    }
 }
