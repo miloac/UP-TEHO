@@ -16,6 +16,7 @@ import com.pcvpmo.pdsw.upteho.entities.Recurso;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -43,16 +44,30 @@ public class UnidadProyectosBean implements Serializable {
     private String idProgramaActual;
     private String idAsignaturaActual;
     private String siglaMateriaActual;
+    private String idRequisito;
     private List<Programa> selectedPrograms;
+    private List<String> selectedSignatures;
+    private Integer programaActualID; 
     
     public UnidadProyectosBean() {
+        selectedPrograms=new ArrayList<>();
     }
-    public void showID(String p){
-        System.out.println(p);
-    }
+    
     public String irPaginaCurso(Curso curso_actual) {
         cursoActual = curso_actual;
         return "InfoCurso";
+    }
+    
+    public String irPaginaAsignaturaXprog(Programa prog) {
+        System.out.println("se selecciono el programa con id: "+prog.getId()+" y nombre: "+prog.getNombre());
+        if (prog!=null){
+            programa = prog ;
+        }
+        return "InfoAsignaturas.xhtml";
+    }
+    
+    public String regresar(){
+        return "RegistrarNuevaMateria.xhtml";
     }
     
     public String irPaginaRegistrarMateria() {
@@ -115,7 +130,13 @@ public class UnidadProyectosBean implements Serializable {
      * @return una lista de Materia
      */
     public List<Materia> consultarMaterias() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<Materia> materias = null;
+        try{
+            materias = sp.consultarMaterias();
+        }catch(UnidadProyectosException ex){
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return materias;
     }
     
     /**
@@ -157,22 +178,7 @@ public class UnidadProyectosBean implements Serializable {
         //TODO comprobar que es String para una lista desplegable
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-    /**
-     * consulta las asginaturas por programa
-     * @param prog programa
-     * @return asignaturas del programa
-     */
-    public List<Asignatura> consultarAsignaturasPorPrograma(int prog){
-        List<Asignatura> lista = null;
-        try{
-            lista=sp.consultarAsignaturasXProg(prog);
-        }catch(UnidadProyectosException ex){
-            
-        }
-        return lista;
-    }
-    
+        
     /**
      * Consulta los periodos academicos
      * @return una lista de Periodos academicos
@@ -280,6 +286,22 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     /**
+     * get the current requisito
+     * @return 
+     */
+    public String getIdRequisito(){
+        return idRequisito;
+    }
+    
+    /**
+     * set the requisito
+     * @param currentr requisito for sets
+     */
+    public void setIdRequisito(String currentr){
+        idRequisito=currentr;
+    }
+    
+    /**
      * Get the value of programa
      *
      * @return the value of programa
@@ -308,11 +330,69 @@ public class UnidadProyectosBean implements Serializable {
 
     /**
      * Set the value of selectedPrograms
+     * @param p
      */
-    public void setSelectedPrograms() {
-        this.selectedPrograms = null;
+    public void setSelectedPrograms(List<Programa> p) {
+        this.selectedPrograms = p;
     }    
-
+    
+    /**
+     * registra las asignaturas a las que se asociara la materia
+     */
+    public void rowSelect(){
+        if (selectedSignatures!=null){
+            selectedSignatures.add(idAsignaturaActual);
+        }else{
+            selectedSignatures = new ArrayList<>();
+        }
+    }  
+    
+    /**
+     * quita las materias que se des-seleccionen
+    */
+     public void rowUnSelect(){
+         if (selectedSignatures != null){
+            if (selectedSignatures.contains(idAsignaturaActual)){
+                selectedSignatures.remove(idAsignaturaActual);
+            }
+        }
+        else{
+            selectedSignatures = new ArrayList<>();
+        }
+    } 
+    
+    /**
+     * listener for the select on registrarNuevaMateria.xhtml
+    */
+    public void rowSelectCheckBox(){
+        programaActualID = selectedPrograms.get(selectedPrograms.size()-1).getId();
+    }
+     
+    /**
+     * listener for the unselect to update the values on view
+     */
+    public void rowUnSelectCheckBox(){
+        if (selectedPrograms.isEmpty()){
+            programaActualID = null;
+        }else{
+            programaActualID = selectedPrograms.get(selectedPrograms.size()-1).getId();
+        }
+    }
+    
+     public List<Asignatura> getAsignaturasXprog(){
+        List<Asignatura> lista = null;
+        try {
+            if (programa==null){
+                lista = sp.consultarAsignaturasxPrograma(null);
+            }else{
+                lista = sp.consultarAsignaturasxPrograma(programa.getId());
+            }
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
+    }
+     
     /**
      * Get the value of asignatura
      *

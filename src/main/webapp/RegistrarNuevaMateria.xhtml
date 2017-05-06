@@ -7,9 +7,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     
     <h:head>
-        <h:outputStylesheet library="css" name="estilo.css" />        
+        <h:outputStylesheet library="css" name="estilo.css" />   
         <title>Registrar Nueva Materia</title>
-        
     </h:head>
     <h:body>
             <!-- Encabezado -->
@@ -27,33 +26,35 @@
         <div style="max-width:100%;min-height:300px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:10px;margin:auto;" >
                 <h:form id="tabla_programacion">
+                    
                     <p:dataTable id="checkboxDT" var="prog" value="#{UnidadProyectosBean.consultarProgramas()}" selection="#{UnidadProyectosBean.selectedPrograms}" rowKey="#{prog.id}" style="margin-bottom:0">
-                    <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-                    <p:column headerText="Programa">
-                        <h:outputText value="#{prog.nombre}"/>
-                    </p:column>
-                    <p:column headerText="asignatura">
-                        <p:selectOneMenu id="asig" value="" style="width:250px">
-                            <f:selectItem itemLabel="Seleccione una asignatura" itemValue="" noSelectionOption="true" />
-                            <f:selectItems value="#{UnidadProyectosBean.consultarAsignaturasPorPrograma(Integer.parseInt(prog.id))}" var="as" itemLabel="#{as.nombre}" />
-                            <p:ajax listener="#{UnidadProyectosBean.showID(prog.id)}" event="change"/>
-                        </p:selectOneMenu>
-                    </p:column>
-                    <p:column headerText="Accion">
-                        <center><h:commandButton value="Crear Nueva Asignatura" action="#{UnidadProyectosBean.irPaginaCurso(curso)}"/></center>
-                    </p:column>
+                        
+                        <p:ajax event="rowSelectCheckbox" listener="#{UnidadProyectosBean.rowSelectCheckBox()}" />
+                        <p:ajax event="rowUnselectCheckbox" listener="#{UnidadProyectosBean.rowUnSelectCheckBox()}"/>
+      
+                        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                        <p:column headerText="Programa">
+                            <h:outputText value="#{prog.nombre}"/>
+                        </p:column>
+                        <p:column headerText="asignatura">
+                                <h:commandLink action="#{UnidadProyectosBean.irPaginaAsignaturaXprog(prog)}" value="consultar asginaturas"/>
+                            </p:column>
+                        <p:column headerText="Accion">
+                             <center><h:commandButton value="Crear Nueva Asignatura" action="#{UnidadProyectosBean.irPaginaCurso(curso)}"/></center>
+                        </p:column>
                     </p:dataTable>
+                    
                 </h:form>
                 <p:separator/>
                 <h:panelGrid columns="3" cellpadding="10">
                     <h:outputText value="Pre-requisitos:"></h:outputText>
                     
-                    <p:selectOneMenu id="requisitos" value="" style="width:250px">
+                    <p:selectOneMenu id="requisitos" value="#{UnidadProyectosBean.idRequisito}" style="width:250px">
                         <f:selectItem itemLabel="Sin requisitos" itemValue="" noSelectionOption="true" />
-                        <f:selectItems value="#{UnidadProyectosBean}" var="as" itemLabel="" />
+                        <f:selectItems value="#{UnidadProyectosBean.consultarMaterias()}" var="materias" itemLabel="#{materias.nombre}" />
                     </p:selectOneMenu>
                     
-                    <p:selectOneRadio id="requisito" value="">
+                    <p:selectOneRadio id="requisito">
                         <f:selectItem itemLabel="Co-requisito" itemValue="co" />
                         <f:selectItem itemLabel="Requisito Completo" itemValue="re" />
                     </p:selectOneRadio>

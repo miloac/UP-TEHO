@@ -80,8 +80,12 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     }
 
     @Override
-    public List<Materia> consultarMaterias() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Materia> consultarMaterias() throws UnidadProyectosException{
+       try{
+            return daoMateria.consultarMaterias();
+        }catch(PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar todos las materias", ex);
+        }
     }
 
     @Override
@@ -107,8 +111,12 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     }
     
     @Override
-    public List<Asignatura> consultarAsignaturasXProg(int programa){
-        return daoMateria.consultarAsigPorPrograma(programa);
+    public List<Asignatura> consultarAsignaturasXProg(int programa) throws UnidadProyectosException{
+        try {
+            return daoAsignatura.consultarAsignaturasxPrograma(programa);
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar asignatura con el programa: " + programa, ex);
+        }
     }
 
     @Override

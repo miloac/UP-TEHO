@@ -46,9 +46,19 @@ public interface MateriaMapper {
      * @param programa
      * @return lista de asignaturas
      */
-    List<Asignatura> getAsigXProg(@Param("programa")int programa);
+    List<Asignatura> getAsigXProg(@Param("programa") int programa);
     
+    /**
+     * consulta las materias de determinada asignatura
+     * @param idAsignatura
+     * @return 
+     */
     List<Materia> consultarMateriasxAsignatura(@Param("idAsignatura")Integer idAsignatura);
 
+    /**
+     * consulta las materias registradas
+     * @return listado materias
+     */
+    List<Materia> consultarMaterias();
 }
 

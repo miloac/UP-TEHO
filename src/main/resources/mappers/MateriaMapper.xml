@@ -28,7 +28,23 @@
         <result property="nombre" column="nombre"/>
     </resultMap>
     
-
+    <resultMap type="Materia" id="MateriasResult">
+        <id property='sigla' column='sigla'/>
+        <result property='nombre' column='nombre'/>
+        <result property="creditos" column="creditos"/>
+        <result property="descripcion" column="descripcion"/>
+    </resultMap>
+    
+    <select parameterType="map" id="consultarMaterias" resultMap="MateriasResult">
+        
+        select
+        
+        sigla
+        nombre
+        
+        from Materias
+    </select>
+    
     <select parameterType="map" id="consultarProgramas" resultMap="ProgramaResult">
         select
         
@@ -45,7 +61,7 @@
         nombre  
               
         from Asignaturas
-        where Programas_id = #{programa}
+        where Asignaturas.programas_id = #{programa}
         
     </select>
     
