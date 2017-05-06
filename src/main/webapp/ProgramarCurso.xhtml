@@ -48,7 +48,7 @@
                             <f:selectItems value="#{UnidadProyectosBean.getAsignaturas()}"/>
                             <p:ajax listener="#{UnidadProyectosBean.changeAsignatura()}" event="change" update="materia"/>
                         </p:selectOneMenu>
-                        <p:commandButton value="Registrar Nueva Asignatura"/>
+                        <p:commandButton value="Registrar Nueva Asignatura" action="RegistrarAsignatura" actionListener="#{UnidadProyectosBean.setPaginaPrevia('ProgramarCurso')}"/>
                         <p:outputLabel for="materia" value="Materia: "/>
                         <p:selectOneMenu id="materia" value="#{UnidadProyectosBean.siglaMateriaActual}" style="width:250px">
                             <f:selectItem itemLabel="Seleccionar Materia" itemValue="" noSelectionOption="true"/>
@@ -56,7 +56,8 @@
                             <p:ajax event="change" update=":#{p:component('boton_registrar')}"/>
                         </p:selectOneMenu>
                         <p:commandButton value="Registrar Nueva Materia"/>
-                        <p:outputLabel for="botoncohorte" value="Cohorte: #{UnidadProyectosBean.cohorteCursoActual}"/>
+                        <p:outputLabel for="cohortelabel" value="Cohorte:"/>
+                        <p:outputLabel id="cohortelabel" for="botoncohorte" value="#{UnidadProyectosBean.cohorteCursoActual}"/>
                         <p:commandButton id="botoncohorte" value="Seleccionar Cohorte y Profesor" action="#{UnidadProyectosBean.irPaginaCohorte()}"/>
                     </h:panelGrid>
                     <p:separator/>

@@ -59,6 +59,7 @@ public class UnidadProyectosBean implements Serializable {
     private String mensaje;
     private boolean registroClase;
     private boolean errorRegistroCurso;
+    private String paginaPrevia;
     //Curso que se haya seleccionado en la pagina, este atributo puede cambiar por id o String dependiendo de como lo implementemos
     
     public UnidadProyectosBean() {
@@ -213,9 +214,7 @@ public class UnidadProyectosBean implements Serializable {
      * Consulta las asignaturas (de un programa especifico)
      * @return Lista de Asignaturas
      */
-    public List<Asignatura> consultarAsignaturas() throws UnidadProyectosException {
-        //TODO confirmar si se puede de un programa especifico (segun lo seleccionado en la lista desplegable de programa)
-        //TODO comprobar que es String para una lista desplegable
+    public List<Asignatura> consultarAsignaturas(){
         List<Asignatura> lista = null;
         try {
             lista = sp.consultarAsignaturas();
@@ -236,11 +235,15 @@ public class UnidadProyectosBean implements Serializable {
     /**
      * Consulta los profesores filtrados segun la busqueda
      * @return Lista de profesores segun el filtrado por busqueda
-     * @throws com.pcvpmo.pdsw.upteho.services.UnidadProyectosException excepsion en caso de que el nombre del 
-     * profesor no se encuentre registrado 
      */
-    public List<Profesor> consultarProfesores() throws UnidadProyectosException {
-            return sp.consultarProfesores(getNameProf());        
+    public List<Profesor> consultarProfesores() {
+        List<Profesor> lista = null;
+        try {        
+            lista = sp.consultarProfesores(getNameProf());
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
     }
     
     /**
@@ -375,9 +378,8 @@ public class UnidadProyectosBean implements Serializable {
     /**
      * Consulta los nombres de lor Programas registrados
      * @return Lista de String con los nombres de los Programas
-     * @throws UnidadProyectosException 
      */
-    public ArrayList<String> consultarProgramasNombres() throws UnidadProyectosException{
+    public ArrayList<String> consultarProgramasNombres() {
         //TODO Encontrar error que no permite que funcione
         ArrayList<String> nombres = new ArrayList<String>();
         List<Programa> programas = this.consultarProgramas();
@@ -388,7 +390,7 @@ public class UnidadProyectosBean implements Serializable {
         return nombres;
     }
     
-    public void registrarAsignatura(String nombre, String nomPrograma) throws UnidadProyectosException{
+    public void registrarAsignatura(String nombre, String nomPrograma) {
         int idprograma =0;
         if(!(nomPrograma.equals("") || nombre.equals(""))){
             try{
@@ -655,6 +657,14 @@ public class UnidadProyectosBean implements Serializable {
 
     public void setErrorRegistroCurso(boolean errorRegistroCurso) {
         this.errorRegistroCurso = errorRegistroCurso;
+    }
+
+    public String getPaginaPrevia() {
+        return paginaPrevia;
+    }
+
+    public void setPaginaPrevia(String paginaPrevia) {
+        this.paginaPrevia = paginaPrevia;
     }
     
     public String getResumen() {

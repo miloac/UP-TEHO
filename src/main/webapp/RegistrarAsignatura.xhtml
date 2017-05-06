@@ -40,7 +40,7 @@ and open the template in the editor.
                 <br/>
                 <p:commandButton id="aceptar" value="REGISTRAR ASIGNATURA" update="asig" action="#{UnidadProyectosBean.registrarAsignatura(nombreAsig.value,programas.value)}">
                 </p:commandButton>
-                <p:commandButton id="regresar" value="REGRESAR">
+                <p:commandButton id="regresar" value="REGRESAR" action="#{UnidadProyectosBean.getPaginaPrevia()}">
                 </p:commandButton>
                 <br/>
                 <br/>
