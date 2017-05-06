@@ -62,11 +62,11 @@
                     <p:separator/>
                     <h:outputText value="#{UnidadProyectosBean.getResumen()}"/>
                     <div></div>
-                    <p:commandButton id="boton_registrar" value="Registrar Curso para la Materia" action="#{UnidadProyectosBean.registrarCursoActual()}" onclick="PF('dlg3').show" update="mensaje"/>
+                    <p:commandButton id="boton_registrar" value="Registrar Curso para la Materia" action="#{UnidadProyectosBean.registrarCursoActual()}" onclick="PF('dlg3').show();" update="mensaje, boton_aceptar"/>
                     <p:dialog id="dialog" header="Aviso" widgetVar="dlg3" modal="true" height="100">
-                        <h:outputText id="mensaje" value="mensaje //TODO"/>
+                        <h:outputText id="mensaje" value="#{UnidadProyectosBean.mensaje}"/>
                         <br></br>
-                        <p:commandButton value="Aceptar" action="#{UnidadProyectosBean.irProgramarCurso()}" onclick="PF('dlg3').hide()"/>
+                        <p:commandButton id="boton_aceptar" value="Aceptar" action="#{UnidadProyectosBean.irProgramarCurso()}" onclick="PF('dlg3').hide();"/>
                     </p:dialog>
                     </h:form>
                     </center>

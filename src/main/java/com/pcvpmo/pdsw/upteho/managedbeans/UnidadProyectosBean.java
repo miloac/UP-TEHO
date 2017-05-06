@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
+import org.apache.ibatis.exceptions.PersistenceException;
 
 /**
  * Managed Bean encargado de la comunicacion entre capa logica y presentacion
@@ -55,8 +56,9 @@ public class UnidadProyectosBean implements Serializable {
     private String horaClase;
     private List<String> horas=null;
     private String tipoSalon;
-    private String mensajeAgregarClase;
+    private String mensaje;
     private boolean registroClase;
+    private boolean errorRegistroCurso;
     //Curso que se haya seleccionado en la pagina, este atributo puede cambiar por id o String dependiendo de como lo implementemos
     
     public UnidadProyectosBean() {
@@ -74,6 +76,12 @@ public class UnidadProyectosBean implements Serializable {
     public String irProgramacionClase() {
         return "ProgramacionClase";
     }
+    
+    public String irProgramarCurso() {
+        if (errorRegistroCurso) return "programarCurso";
+        return "reporteProgramacion";
+    }
+    
     public String irProgramarClases() {
         String pagina;
         if(registroClase)
@@ -151,12 +159,18 @@ public class UnidadProyectosBean implements Serializable {
      */
     public void registrarCursoActual()  {
         try {
+            errorRegistroCurso = false;
             sp.registrarCurso(cursoActual);
             sp.registrarCohorte(Integer.parseInt(idProgramaActual), cursoActual.getId(), cohorteCursoActual);
+            mensaje = "Registro exitoso";
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NullPointerException ex) {
-            throw new UnsupportedOperationException("No implementado, no se pudo insertar");
+            errorRegistroCurso = true;
+            mensaje = "Faltan datos, No se ha podido registrar un nuevo Curso";
+        } catch (PersistenceException ex) {
+            errorRegistroCurso = true;
+            mensaje = "El curso o el cohorte ya existe\nError: \n" + ex.getMessage();
         }
     }
     
@@ -315,9 +329,9 @@ public class UnidadProyectosBean implements Serializable {
             Date sqlFecha=new Date(fechaClase.getTime());
             boolean resp=sp.agregarClase(cursoActual.getId(),sqlFecha, horaT, tipoSalon,profesorSelect.getId());
             registroClase=resp;
-            if(resp)mensajeAgregarClase="La clase se registro";
-            else mensajeAgregarClase="El profesor no tiene horario disponible";
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", mensajeAgregarClase);
+            if(resp)mensaje="La clase se registro";
+            else mensaje="El profesor no tiene horario disponible";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", mensaje);
             nPagina= irProgramarClases();
         } catch (Exception ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -532,20 +546,69 @@ public class UnidadProyectosBean implements Serializable {
         return tipoSalon;
     }
     
-    public void setMensajeAgregarClase(String nMensaje){
+    public void setMensaje(String nMensaje){
         
-        mensajeAgregarClase=nMensaje;
+        mensaje=nMensaje;
     }
-    public String getMensajeAgregarClase(){
+    public String getMensaje(){
         
-        return mensajeAgregarClase;
+        return mensaje;
     }
+    
     public String irProgramarClaseSinValidar(){
         return "ProgramarClases";
     }
 
     public void setIdPeriodoActual(String idPeriodoActual) {
         this.idPeriodoActual = idPeriodoActual;
+    }
+
+    public Asignatura getAsignatura() {
+        return asignatura;
+    }
+
+    public void setAsignatura(Asignatura asignatura) {
+        this.asignatura = asignatura;
+    }
+
+    public Periodo getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(Periodo periodo) {
+        this.periodo = periodo;
+    }
+
+    public List<Profesor> getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(List<Profesor> profesor) {
+        this.profesor = profesor;
+    }
+
+    public Materia getMateria() {
+        return materia;
+    }
+
+    public void setMateria(Materia materia) {
+        this.materia = materia;
+    }
+
+    public boolean isRegistroClase() {
+        return registroClase;
+    }
+
+    public void setRegistroClase(boolean registroClase) {
+        this.registroClase = registroClase;
+    }
+
+    public boolean isErrorRegistroCurso() {
+        return errorRegistroCurso;
+    }
+
+    public void setErrorRegistroCurso(boolean errorRegistroCurso) {
+        this.errorRegistroCurso = errorRegistroCurso;
     }
     
     public String getResumen() {
