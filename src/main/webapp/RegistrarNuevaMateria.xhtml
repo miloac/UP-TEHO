@@ -7,7 +7,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     
     <h:head>
-        <h:outputStylesheet library="css" name="estilo.css" />   
+        <h:outputStylesheet library="css" name="estilo.css" /> 
         <title>Registrar Nueva Materia</title>
     </h:head>
     <h:body>
@@ -22,7 +22,8 @@
             <div style="padding:15px;margin:auto;" >
                 <center><font color="#FFF" size="+2">REGISTRO NUEVA MATERIA</font></center>
             </div>
-        </div></center>
+            </div></center>
+        
         <div style="max-width:100%;min-height:300px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:10px;margin:auto;" >
                 <h:form id="tabla_programacion">
@@ -37,14 +38,24 @@
                             <h:outputText value="#{prog.nombre}"/>
                         </p:column>
                         <p:column headerText="asignatura">
-                                <h:commandLink action="#{UnidadProyectosBean.irPaginaAsignaturaXprog(prog)}" value="consultar asginaturas"/>
-                            </p:column>
+                            <center>
+                                <p:commandButton action="#{UnidadProyectosBean.setPrograma(prog)}" id="selector" update="asignaRutas" value="asignaturas del programa #{prog.nombre}"/>
+                                <p:overlayPanel id="asigpanel" for="selector" style="width: auto; height: auto;">
+                                    <p:selectOneMenu id="asignaRutas" value="#{UnidadProyectosBean.idAsignaturaActual}" style="width:300px;">
+                                        <f:selectItem itemLabel="Seleccione una Asignatura" itemValue="" noSelectionOption="true" />
+                                        <f:selectItems value="#{UnidadProyectosBean.getAsignaturasXprog()}" var="asig" itemLabel="#{asig.nombre}"/>
+                                        <p:ajax listener="#{UnidadProyectosBean.onSelectSignature()}" event="change" />
+                                    </p:selectOneMenu>
+                                </p:overlayPanel>
+                            </center>
+                        </p:column>
                         <p:column headerText="Accion">
                              <center><h:commandButton value="Crear Nueva Asignatura" action="#{UnidadProyectosBean.irPaginaCurso(curso)}"/></center>
                         </p:column>
                     </p:dataTable>
                     
                 </h:form>
+                        
                 <p:separator/>
                 <h:panelGrid columns="3" cellpadding="10">
                     <h:outputText value="Pre-requisitos:"></h:outputText>

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.view.ViewScoped;
 
 /**
  * Managed Bean encargado de la comunicacion entre capa logica y presentacion
@@ -28,12 +29,13 @@ import java.util.logging.Logger;
  */
 @ManagedBean(name = "UnidadProyectosBean")
 @SessionScoped
+@ViewScoped
 public class UnidadProyectosBean implements Serializable {
     
     ServiciosUnidadProyectos sp = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectos();
     
     private Curso cursoActual; 
-    private  int cohorteCursoActual;    
+    private int cohorteCursoActual;    
     private Programa programa;
     private Asignatura asignatura;
     private Periodo periodo;    
@@ -47,7 +49,9 @@ public class UnidadProyectosBean implements Serializable {
     private String idRequisito;
     private List<Programa> selectedPrograms;
     private List<String> selectedSignatures;
-    private Integer programaActualID; 
+    private Integer asignaturaActualID;
+    private String currentLink;
+    private HashMap<Integer,Integer> asSelectedXprog;
     
     public UnidadProyectosBean() {
         selectedPrograms=new ArrayList<>();
@@ -58,26 +62,33 @@ public class UnidadProyectosBean implements Serializable {
         return "InfoCurso";
     }
     
-    public String irPaginaAsignaturaXprog(Programa prog) {
-        System.out.println("se selecciono el programa con id: "+prog.getId()+" y nombre: "+prog.getNombre());
-        if (prog!=null){
-            programa = prog ;
-        }
-        return "InfoAsignaturas.xhtml";
+    /**
+     * gets the link for the views
+     * @param link to save 
+     */
+    public void setCurrentLink(String link){
+        currentLink=link;
     }
-    
-    public String regresar(){
-        return "RegistrarNuevaMateria.xhtml";
-    }
-    
-    public String irPaginaRegistrarMateria() {
-        return "RegistrarNuevaMateria";
+    /**
+     * gets the link for the views
+     * @return 
+     */
+    public String getCurrentLink(){
+        return currentLink;
     }
         
+    /**
+     * gets the name of curse that are enfoqued on program
+     * @return  name curse selected
+     */
     public String nombreCursoActual() {
         return cursoActual.getMateria().getNombre();
     }
     
+    /**
+     * gets the id of curse that are enfoqued on program
+     * @return  id curse selected
+     */
     public int idCursoActual() {
         return cursoActual.getId();
     }
@@ -287,7 +298,7 @@ public class UnidadProyectosBean implements Serializable {
     
     /**
      * get the current requisito
-     * @return 
+     * @return requisito selected
      */
     public String getIdRequisito(){
         return idRequisito;
@@ -304,7 +315,7 @@ public class UnidadProyectosBean implements Serializable {
     /**
      * Get the value of programa
      *
-     * @return the value of programa
+     * @return the value of programa selected
      */
     public Programa getPrograma() {
         return programa;
@@ -361,24 +372,10 @@ public class UnidadProyectosBean implements Serializable {
         }
     } 
     
-    /**
-     * listener for the select on registrarNuevaMateria.xhtml
-    */
-    public void rowSelectCheckBox(){
-        programaActualID = selectedPrograms.get(selectedPrograms.size()-1).getId();
-    }
-     
-    /**
-     * listener for the unselect to update the values on view
-     */
-    public void rowUnSelectCheckBox(){
-        if (selectedPrograms.isEmpty()){
-            programaActualID = null;
-        }else{
-            programaActualID = selectedPrograms.get(selectedPrograms.size()-1).getId();
-        }
-    }
-    
+     /**
+      * gets all sigantures of program currently selected
+      * @return list of selected program's signatures
+      */
      public List<Asignatura> getAsignaturasXprog(){
         List<Asignatura> lista = null;
         try {
@@ -417,7 +414,6 @@ public class UnidadProyectosBean implements Serializable {
     
     /**
      * Get the value of periodo
-     *
      * @return the value of periodo
      */
     public Periodo getPeriodo() {
@@ -432,6 +428,14 @@ public class UnidadProyectosBean implements Serializable {
         Curso cu = new Curso(56, ma, pe);
         return cu;
 
+    }
+    
+    public void setAsignaturaActualID(Integer asig){
+        this.asignaturaActualID = asig;
+    }
+    
+    public Integer getAsignaturaActualID(){
+        return this.asignaturaActualID;
     }
     
     public String getIdAsignaturaActual(){
@@ -515,6 +519,11 @@ public class UnidadProyectosBean implements Serializable {
         return res;
     }
     
+    public void onSelectSignature(){
+        if (programa!=null && !asSelectedXprog.containsKey(Integer.parseInt(idAsignaturaActual))){
+            asSelectedXprog.put(Integer.parseInt(idAsignaturaActual),programa.getId());
+        }
+    }
     
     public void changePrograma() {
         idAsignaturaActual = null;
