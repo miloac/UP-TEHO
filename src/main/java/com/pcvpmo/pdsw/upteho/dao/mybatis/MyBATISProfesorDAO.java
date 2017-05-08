@@ -15,8 +15,13 @@ public class MyBATISProfesorDAO implements ProfesorDAO{
     @Inject
     private ProfesorMapper profesorMapper;
     
-     @Override
+    @Override
     public List<Profesor> consultarProfesores(String nombre) throws PersistenceException {
         return profesorMapper.consultarProfesoresxNombre(nombre);
+    }
+
+    @Override
+    public void registrarProfesor(int id, String nombre, String correo) throws PersistenceException {
+        profesorMapper.registrarProfesor(id, nombre, correo);
     }
 }

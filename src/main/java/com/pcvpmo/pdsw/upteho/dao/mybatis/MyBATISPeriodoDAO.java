@@ -6,6 +6,7 @@ import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.PeriodoMapper;
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Periodo;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -25,6 +26,11 @@ public class MyBATISPeriodoDAO implements PeriodoDAO {
     @Override
     public List<Periodo> consultarPeriodos() throws PersistenceException {
         return periodoMapper.consultarPeriodos();
+    }
+
+    @Override
+    public void registrarPeriodo(String nombre, Date fechaInicial, Date fechaFin) {
+        periodoMapper.registrarPeriodo(nombre, fechaInicial, fechaFin);
     }
     
 

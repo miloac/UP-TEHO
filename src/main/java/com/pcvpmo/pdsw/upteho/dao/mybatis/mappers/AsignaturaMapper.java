@@ -11,10 +11,12 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface AsignaturaMapper {
 
-    public List<Asignatura> consultarAsignaturasxPrograma(@Param("idPrograma")Integer idPrograma);
+    List<Asignatura> consultarAsignaturasxPrograma(@Param("idPrograma")Integer idPrograma);
     
     List<Asignatura> consultarAsignaturas();
     
     void registrarAsignatura(@Param("nombreAsig")String nombreAsig,@Param("idProg")int idProg);
+
+    void registrarAsignaturaFull(@Param("idAsignatura")int idAsignatura, @Param("nombreAsig")String nombreAsig, @Param("idProg")int idProg);
 
 }

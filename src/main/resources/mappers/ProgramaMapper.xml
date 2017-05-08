@@ -11,5 +11,8 @@
         from programas as pro;
     </select>
     
-    
+    <insert parameterType="map" id="registrarPrograma">
+        insert into programas
+        values(#{id}, #{nombre});
+    </insert>
 </mapper>

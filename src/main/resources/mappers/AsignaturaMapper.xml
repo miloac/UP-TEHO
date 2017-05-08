@@ -23,7 +23,11 @@
     </select>
     
     <insert parameterType="map" id="registrarAsignatura">
-        insert into asignaturas (id, nombre, programas_id) values((select max(id)+1 from asignaturas),#{nombreAsig},#{idProg});
-     </insert>
+        insert into asignaturas (id, nombre, programas_id) values((select COALESCE(max(id)+1, 1) from asignaturas), #{nombreAsig}, #{idProg});
+    </insert>
+     
+    <insert parameterType="map" id="registrarAsignaturaFull">
+        insert into asignaturas (id, nombre, programas_id) values(#{idAsignatura}, #{nombreAsig}, #{idProg});
+    </insert>
     
 </mapper>

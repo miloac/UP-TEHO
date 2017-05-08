@@ -21,6 +21,7 @@ public class MyBATISAsignaturaDAO implements AsignaturaDAO {
         return asignaturaMapper.consultarAsignaturasxPrograma(idPrograma);
     }
 
+    @Override
     public List<Asignatura> consultarAsignaturas() throws PersistenceException {
         return asignaturaMapper.consultarAsignaturas();
     }
@@ -28,5 +29,10 @@ public class MyBATISAsignaturaDAO implements AsignaturaDAO {
     @Override
     public void registrarAsignatura(String nombreAsig, int idProg) throws PersistenceException {
         asignaturaMapper.registrarAsignatura(nombreAsig, idProg);
+    }
+
+    @Override
+    public void registrarAsignatura(int idAsignatura, String nombreAsig, int idProg) throws PersistenceException {
+        asignaturaMapper.registrarAsignaturaFull(idAsignatura, nombreAsig, idProg);
     }
 }

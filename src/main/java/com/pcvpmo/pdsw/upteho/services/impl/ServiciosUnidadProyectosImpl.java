@@ -30,6 +30,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.mybatis.guice.transactional.Transactional;
 
 /**
  * Clase de Servicios necesarios para la aplicacion de Unidad de Proyectos
@@ -162,7 +163,7 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     public List<Curso> consultarCursosPorPeriodo(String nombre) throws UnidadProyectosException {
         if(nombre != null) {
             String[] valores = nombre.split("-");
-            if(valores.length != 2){
+            if(valores.length == 2){
                 try{
                     int valor1 = Integer.parseInt(valores[0]);
                     int valor2 = Integer.parseInt(valores[1]);
@@ -171,17 +172,18 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
                     throw new UnidadProyectosException("El formato del periodo no es correcto",e);
                 }
             }
+            else {
+                throw new UnidadProyectosException("El formato del periodo no es correcto");
+            }
         }
         try {
             return daoCurso.consultarCursosPorPeriodo(nombre);
         } catch (PersistenceException e) {
             throw new UnidadProyectosException("Error al consultar los cursos por el periodo " + nombre, e);
         }
+        
     }
     
-   
-
-
     @Override
     public int consultarCohorte(Curso curso, Programa programa) throws UnidadProyectosException {
         Cohorte cohorte;
@@ -198,7 +200,7 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     public List<Clase> consultarClasesxPeriodo(String periodo) throws UnidadProyectosException {
         if(periodo != null) {
             String[] valores = periodo.split("-");
-            if(valores.length != 2){
+            if(valores.length == 2){
                 try{
                     int valor1 = Integer.parseInt(valores[0]);
                     int valor2 = Integer.parseInt(valores[1]);
@@ -206,6 +208,9 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
                 catch(Exception e){
                     throw new UnidadProyectosException("El formato del periodo no es correcto",e);
                 }
+            }
+            else {
+                throw new UnidadProyectosException("El formato del periodo no es correcto");
             }
         }
         try {
@@ -329,7 +334,8 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             throw new UnidadProyectosException("Error al consultar todos los periodos", ex);
         }
     }
-
+    
+    @Transactional
     @Override
     public void registrarCurso(Curso cursoActual) throws UnidadProyectosException {
         try {
@@ -338,7 +344,8 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             throw new UnidadProyectosException("Error al registrar el curso " + cursoActual.getId(), ex);
         }
     }
-
+    
+    @Transactional
     @Override
     public void registrarCohorte(int idPrograma, int idCurso, int cohorte) throws UnidadProyectosException{
         try {
@@ -365,7 +372,8 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             throw new UnidadProyectosException("Error al cancelar la clase "+id, ex);
         }
     }
-
+    
+    @Transactional
     @Override
     public void registrarAsignatura(String nombreAsig, int idProg) throws UnidadProyectosException {
         try{
@@ -378,6 +386,77 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             if (noRepite) daoAsignatura.registrarAsignatura(nombreAsig, idProg);
         } catch (PersistenceException ex) {
             throw new UnidadProyectosException("Error al insertar la asignatura", ex);
+        }
+    }
+    
+    @Transactional
+    @Override
+    public void registrarAsignatura(int idAsignatura, String nombreAsig, int idProg) throws UnidadProyectosException {
+        try{
+            List<Asignatura> asig = daoAsignatura.consultarAsignaturas();
+            boolean noRepite = true;
+            nombreAsig = nombreAsig.trim();
+            for(int i=0; i< asig.size() && noRepite; i++){
+                if(asig.get(i).getNombre().equals(nombreAsig)) noRepite = false;
+            }
+            if (noRepite) daoAsignatura.registrarAsignatura(idAsignatura, nombreAsig, idProg);
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al insertar la asignatura", ex);
+        }
+    }
+    
+    @Transactional
+    @Override
+    public void registrarPeriodo(Periodo periodo) throws UnidadProyectosException {
+        if(periodo.getNombre() != null) {
+            String[] valores = periodo.getNombre().split("-");
+            if(valores.length == 2){
+                try{
+                    int valor1 = Integer.parseInt(valores[0]);
+                    int valor2 = Integer.parseInt(valores[1]);
+                }
+                catch(Exception e){
+                    throw new UnidadProyectosException("El formato del periodo no es correcto",e);
+                }
+            }
+            else {
+                throw new UnidadProyectosException("El formato del periodo no es correcto");
+            }
+        }
+        try {
+            daoPeriodo.registrarPeriodo(periodo.getNombre(), periodo.getFechaInicial(), periodo.getFechaFin());
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al registrar un nuevo periodo", ex);
+        }
+    }
+    
+    @Transactional
+    @Override
+    public void registrarProfesor(Profesor profesor) throws UnidadProyectosException {
+        try {
+            daoProfesor.registrarProfesor(profesor.getId(), profesor.getNombre(), profesor.getCorreo());
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al registrar un nuevo profesor", ex);
+        }
+    }
+    
+    @Transactional
+    @Override
+    public void registrarMateria(Materia materia) throws UnidadProyectosException {
+        try {
+            daoMateria.registrarMateria(materia.getSigla(), materia.getNombre(), materia.getCreditos(), materia.getDescripcion(), materia.getAsignatura().getId());
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al registrar una nueva materia", ex);
+        }
+    }
+    
+    @Transactional
+    @Override
+    public void registrarPrograma(Programa programa) throws UnidadProyectosException {
+        try {
+            daoPrograma.registrarPrograma(programa.getId(), programa.getNombre());
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al registrar un Programa con id: " + programa.getId(), ex);
         }
     }
 }

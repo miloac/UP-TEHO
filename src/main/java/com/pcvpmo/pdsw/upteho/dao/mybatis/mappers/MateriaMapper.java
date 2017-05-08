@@ -12,4 +12,10 @@ public interface MateriaMapper {
     List<Materia> consultarMateriasxAsignatura(@Param("idAsignatura")Integer idAsignatura);
 
     Materia consultarMateria(@Param("siglaMateria")String siglaMateria);
+
+    void registrarMateria(@Param("sigla")String sigla,
+                                 @Param("nombre")String nombre, 
+                                 @Param("creditos")int creditos, 
+                                 @Param("descripcion")String descripcion, 
+                                 @Param("idAsignatura")int idAsignatura);
 }

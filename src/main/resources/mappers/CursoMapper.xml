@@ -133,7 +133,7 @@
     </select>
     
     <select parameterType="map" id="getNextCurso" resultType="int">
-        SELECT COALESCE(MAX(id)+1, 0) FROM Cursos;
+        SELECT COALESCE(MAX(id)+1, 1) FROM Cursos;
     </select>
     
     <insert id="registrarCurso" parameterType="map">

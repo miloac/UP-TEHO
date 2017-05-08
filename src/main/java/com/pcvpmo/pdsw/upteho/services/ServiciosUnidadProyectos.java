@@ -184,12 +184,13 @@ public interface ServiciosUnidadProyectos {
     
     /**
      * Consulta el cohorte dado un Curso y un Programa
+     * POS: Retorna 0 si el cohorte no existe
      * @param curso curso a consultar
      * @param programa programa a consultar
      * @return entero del cohorte
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public int consultarCohorte(Curso curso,Programa programa)throws UnidadProyectosException;
+    public int consultarCohorte(Curso curso,Programa programa) throws UnidadProyectosException;
     
     /**
      * Consulta las clases dado un periodo especifico
@@ -228,7 +229,7 @@ public interface ServiciosUnidadProyectos {
      * @return booleano si fue posible agregar la clase
      * @throws UnidadProyectosException si el identificador del curso o el identificador del profesor no existe
      */
-    public boolean agregarClase(int idCurso, Date fecha, Time hora, String tSalon,int idProfesor)throws UnidadProyectosException;
+    public boolean agregarClase(int idCurso, Date fecha, Time hora, String tSalon,int idProfesor) throws UnidadProyectosException;
 
     /**
      * Consulta el siguiente id disponible de los cursos ya registrados
@@ -236,7 +237,7 @@ public interface ServiciosUnidadProyectos {
      * @throws UnidadProyectosException Excepcion con datos del error
      */
     public int getNextCurso() throws UnidadProyectosException;
-
+    
     /**
      * Consulta una materia dada una sigla
      * @param siglaMateriaActual sigla de la materia a consultar
@@ -298,14 +299,53 @@ public interface ServiciosUnidadProyectos {
      * @param id ud de la clase a cancelar
      * @throws UnidadProyectosException  Excepcion con datos del error
      */
-    public void cancelarClase(int id)throws UnidadProyectosException;
+    public void cancelarClase(int id) throws UnidadProyectosException;
     
     /**
      * Registra una nueva asignatura para un programa de la Unidad de Proyectos
+     * //PRE: se espera que el programa ya este registrado
      * @param nombreAsig nombre de la asignatura a registrar
      * @param idProg id del programa al que pertenece la asignatura
      * @throws UnidadProyectosException Si el nombre ingresado ya existe
      */
-    public void registrarAsignatura(String nombreAsig, int idProg)throws UnidadProyectosException;
+    public void registrarAsignatura(String nombreAsig, int idProg) throws UnidadProyectosException;
+    
+    /**
+     * Registra una nueva asignatura para un programa de la Unidad de Proyectos
+     * @param idAsignatura id de la asignatura
+     * @param nombreAsig nombre de la asignatura
+     * @param idProg Id del programa
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public void registrarAsignatura(int idAsignatura, String nombreAsig, int idProg) throws UnidadProyectosException;
+    
+    /**
+     * Registra un nuevo periodo
+     * @param periodo Periodo a registrar
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public void registrarPeriodo(Periodo periodo) throws UnidadProyectosException;
+    
+    /**
+     * Registra un nuevo profesor
+     * @param profesor profesor a registrar
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public void registrarProfesor(Profesor profesor) throws UnidadProyectosException;
+    
+    /**
+     * Registra una nueva materia con sus datos
+     * //PRE: se espera que la asignatura este previamente registrada
+     * @param materia materia a registrar
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public void registrarMateria(Materia materia) throws UnidadProyectosException;
+    
+    /**
+     * Registra un nuevo Programa
+     * @param programa programa a registrar
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public void registrarPrograma(Programa programa) throws UnidadProyectosException;
 }
 

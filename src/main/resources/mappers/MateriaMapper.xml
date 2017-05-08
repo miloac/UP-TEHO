@@ -51,4 +51,8 @@
         where mat.sigla=#{siglaMateria};
     </select>
     
+    <insert parameterType="map" id="registrarMateria">
+        insert into materias
+        values (#{sigla}, #{nombre}, #{creditos}, #{descripcion}, #{idAsignatura});
+    </insert>
 </mapper>

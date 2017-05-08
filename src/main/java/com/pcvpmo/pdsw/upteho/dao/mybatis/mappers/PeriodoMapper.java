@@ -1,6 +1,7 @@
 package com.pcvpmo.pdsw.upteho.dao.mybatis.mappers;
 
 import com.pcvpmo.pdsw.upteho.entities.Periodo;
+import java.sql.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,8 +11,10 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface PeriodoMapper {
 
-    public Periodo consultarPeriodo(@Param("idPeriodo") String idPeriodo);
+    Periodo consultarPeriodo(@Param("idPeriodo") String idPeriodo);
 
-    public List<Periodo> consultarPeriodos();
+    List<Periodo> consultarPeriodos();
+
+    void registrarPeriodo(@Param("nombre")String nombre, @Param("fechaInicial")Date fechaInicial, @Param("fechaFin")Date fechaFin);
 
 }

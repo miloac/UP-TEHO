@@ -1,6 +1,7 @@
 package com.pcvpmo.pdsw.upteho.dao;
 
 import com.pcvpmo.pdsw.upteho.entities.Periodo;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -12,5 +13,7 @@ public interface PeriodoDAO {
     public Periodo consultarPeriodo(String idPeriodoActual) throws PersistenceException;
 
     public List<Periodo> consultarPeriodos() throws PersistenceException;
+
+    public void registrarPeriodo(String nombre, Date fechaInicial, Date fechaFin) throws PersistenceException;
     
 }

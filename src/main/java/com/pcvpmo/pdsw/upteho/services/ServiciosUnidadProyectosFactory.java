@@ -55,15 +55,15 @@ public class ServiciosUnidadProyectosFactory {
                 bind(AsignaturaDAO.class).to(MyBATISAsignaturaDAO.class);
                 bind(MateriaDAO.class).to(MyBATISMateriaDAO.class);
                 bind(PeriodoDAO.class).to(MyBATISPeriodoDAO.class);
-                //TODO agregar bind de DAOS MyBatis
             }
         });
         
         testInjector = createInjector(new XMLMyBatisModule() {
+            
             @Override
             protected void initialize() {
                 install(JdbcHelper.PostgreSQL);
-                setEnvironmentId("mybatis-config-h2.xml");
+                setClassPathResource("mybatis-config-h2.xml");
                 bind(ServiciosUnidadProyectos.class).to(ServiciosUnidadProyectosImpl.class);
                 bind(CursoDAO.class).to(MyBATISCursoDAO.class);
                 bind(ClaseDAO.class).to(MyBATISClaseDAO.class);
@@ -74,9 +74,6 @@ public class ServiciosUnidadProyectosFactory {
                 bind(AsignaturaDAO.class).to(MyBATISAsignaturaDAO.class);
                 bind(MateriaDAO.class).to(MyBATISMateriaDAO.class);
                 bind(PeriodoDAO.class).to(MyBATISPeriodoDAO.class);
-                bind(AsignaturaDAO.class).to(MyBATISAsignaturaDAO.class);
-                bind(ProgramaDAO.class).to(MyBATISProgramaDAO.class);
-                //TODO agregar binds Daos MyBatis
             }
         });
     }

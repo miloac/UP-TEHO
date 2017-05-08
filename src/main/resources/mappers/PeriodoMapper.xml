@@ -22,5 +22,9 @@
         fecha_fin
         from periodos
     </select>
-</mapper> 
     
+    <insert parameterType="map" id="registrarPeriodo">
+        insert into periodos
+        values(#{nombre}, #{fechaInicial}, #{fechaFin});
+    </insert>
+</mapper> 
