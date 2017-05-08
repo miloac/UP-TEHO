@@ -51,7 +51,7 @@ public class UnidadProyectosBean implements Serializable {
     private List<Programa> selectedProgramsToCompare;
     private Integer asignaturaActualID;
     private String currentLink;
-    private MultiMap asSelectedXprog;
+    private final MultiMap asSelectedXprog;
     private DataTable dataTable;
     private String mesageForUser;
     public boolean alertOfInvalidProgram;
