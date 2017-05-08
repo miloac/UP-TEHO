@@ -8,5 +8,11 @@
         select id, nombre
         from programas;
     </select>
+    
+    <select parameterType="map" id="consultarPrograma" resultMap="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.MateriaMapper.ProgramaResult">
+        select id, nombre
+        from programas
+        where programas.id = #{programaId};
+    </select>
 </mapper> 
     

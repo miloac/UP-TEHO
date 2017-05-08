@@ -11,4 +11,6 @@ public interface ProgramaDAO {
 
     public List<Programa> consultarProgramas() throws PersistenceException;
     
+    public Programa consultarPrograma(Integer id) throws PersistenceException;
+    
 }

@@ -8,6 +8,14 @@
     
     <h:head>
         <h:outputStylesheet library="css" name="estilo.css" /> 
+        <script type="text/javascript">
+            function tryAlert(){
+                if (${UnidadProyectosBean.alertOfInvalidProgram}){
+                    alert("#{UnidadProyectosBean.getMesageForUser()}");
+                }
+            }
+           
+        </script>
         <title>Registrar Nueva Materia</title>
     </h:head>
     <h:body>
@@ -26,36 +34,34 @@
         
         <div style="max-width:100%;min-height:300px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:10px;margin:auto;" >
-                <h:form id="tabla_programacion">
+                <h:form id="tabla_registro">
                     
-                    <p:dataTable id="checkboxDT" var="prog" value="#{UnidadProyectosBean.consultarProgramas()}" selection="#{UnidadProyectosBean.selectedPrograms}" rowKey="#{prog.id}" style="margin-bottom:0">
-                        
-                        <p:ajax event="rowSelectCheckbox" listener="#{UnidadProyectosBean.rowSelectCheckBox()}" />
-                        <p:ajax event="rowUnselectCheckbox" listener="#{UnidadProyectosBean.rowUnSelectCheckBox()}"/>
-      
-                        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-                        <p:column headerText="Programa">
+                    <p:dataTable id="checkboxDT" var="prog" value="#{UnidadProyectosBean.consultarProgramas()}"  selection="#{UnidadProyectosBean.selectedPrograms}" rowKey="#{prog.id}" style="margin-bottom:0" rowIndexVar="rowIndex">
+                        <p:column selectionMode="multiple" style="width:16px;text-align:center" />
+                        <p:ajax event="rowSelectCheckbox" listener="#{UnidadProyectosBean.rowSelectCheckBox()}" oncomplete="alert('continue')" />
+                        <p:ajax event="rowUnselectCheckbox" listener="#{UnidadProyectosBean.rowUnSelectCheckBox()}" oncomplete="alert('continue')"/>
+                        <p:remoteCommand name="updateList" update="select"/>
+                        <p:column headerText="Programa" >
                             <h:outputText value="#{prog.nombre}"/>
                         </p:column>
-                        <p:column headerText="asignatura">
-                            <center>
-                                <p:commandButton action="#{UnidadProyectosBean.setPrograma(prog)}" id="selector" update="asignaRutas" value="asignaturas del programa #{prog.nombre}"/>
-                                <p:overlayPanel id="asigpanel" for="selector" style="width: auto; height: auto;">
-                                    <p:selectOneMenu id="asignaRutas" value="#{UnidadProyectosBean.idAsignaturaActual}" style="width:300px;">
-                                        <f:selectItem itemLabel="Seleccione una Asignatura" itemValue="" noSelectionOption="true" />
-                                        <f:selectItems value="#{UnidadProyectosBean.getAsignaturasXprog()}" var="asig" itemLabel="#{asig.nombre}"/>
-                                        <p:ajax listener="#{UnidadProyectosBean.onSelectSignature()}" event="change" />
-                                    </p:selectOneMenu>
-                                </p:overlayPanel>
-                            </center>
+                        
+                        <p:column headerText="asignatura"> 
+                            <p:selectOneMenu id="select" widgetVar="select#{rowIndex}" value="#{UnidadProyectosBean.idAsignaturaActual}" style="width:250px">
+                                <f:selectItem itemLabel="Seleccionar Asignatura"  itemValue="0" noSelectionOption="true" />
+                                <f:selectItems value="#{UnidadProyectosBean.getAsignaturasXprog(prog)}"/>
+                                <p:ajax oncomplete="alert('continue')" listener="#{UnidadProyectosBean.changeOption(prog)}" event="change"/>
+                            </p:selectOneMenu>
                         </p:column>
+                        
                         <p:column headerText="Accion">
-                             <center><h:commandButton value="Crear Nueva Asignatura" action="#{UnidadProyectosBean.irPaginaCurso(curso)}"/></center>
+                             <center><h:commandButton value="Crear Nueva Asignatura" action="#{UnidadProyectosBean.irPaginaAsginatura()}"/></center>
                         </p:column>
                     </p:dataTable>
-                    
                 </h:form>
-                        
+                <p:separator/>
+                <center>
+                    <p:commandButton value="Ver su seleccion" action="#{UnidadProyectosBean.irPaginaConsultarSeleccion('RegistrarNuevaMateria.xhtml')}"  title="vea su seleccion de materias y programas"/>                       
+                </center>
                 <p:separator/>
                 <h:panelGrid columns="3" cellpadding="10">
                     <h:outputText value="Pre-requisitos:"></h:outputText>

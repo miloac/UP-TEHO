@@ -97,6 +97,7 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
         }
     }
     
+    @Override
     public List<Programa> consultarProgramas() throws UnidadProyectosException {
         try {
             return daoPrograma.consultarProgramas();
@@ -104,10 +105,28 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             throw new UnidadProyectosException("Error al consultar todos los programas", ex);
         }
     }
+    
+    @Override
+    public Programa consultarPrograma(Integer id)throws UnidadProyectosException{
+        try{
+            return daoPrograma.consultarPrograma(id);
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar el programa por id"+id, ex);
+        }
+    }
 
     @Override
     public List<Asignatura> consultarAsignaturas(){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public Asignatura consultarAsignatura(Integer id)throws UnidadProyectosException{
+        try{
+            return daoAsignatura.consultarAsignaturaPorID(id);
+        }catch (PersistenceException ex){
+            throw new UnidadProyectosException("no se pudo consultar la asignatura",ex);
+        }
     }
     
     @Override

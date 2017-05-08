@@ -14,4 +14,6 @@ public interface AsignaturaMapper {
 
     public List<Asignatura> consultarAsignaturasxPrograma(@Param("idPrograma")Integer idPrograma);
     
+    public Asignatura getAsignaturaPorID(@Param("idAsig") Integer id);
+    
 }

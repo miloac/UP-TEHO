@@ -5,7 +5,6 @@ import com.pcvpmo.pdsw.upteho.entities.Clase;
 import com.pcvpmo.pdsw.upteho.entities.Cohorte;
 import com.pcvpmo.pdsw.upteho.entities.Curso;
 import java.io.Serializable;
-import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import com.pcvpmo.pdsw.upteho.entities.Materia; 
@@ -16,12 +15,13 @@ import com.pcvpmo.pdsw.upteho.entities.Recurso;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.view.ViewScoped;
+import org.apache.commons.collections.MultiHashMap;
+import org.apache.commons.collections.MultiMap;
+import org.primefaces.component.datatable.DataTable;
+
 
 /**
  * Managed Bean encargado de la comunicacion entre capa logica y presentacion
@@ -29,7 +29,7 @@ import javax.faces.view.ViewScoped;
  */
 @ManagedBean(name = "UnidadProyectosBean")
 @SessionScoped
-@ViewScoped
+
 public class UnidadProyectosBean implements Serializable {
     
     ServiciosUnidadProyectos sp = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectos();
@@ -48,13 +48,18 @@ public class UnidadProyectosBean implements Serializable {
     private String siglaMateriaActual;
     private String idRequisito;
     private List<Programa> selectedPrograms;
-    private List<String> selectedSignatures;
+    private List<Programa> selectedProgramsToCompare;
     private Integer asignaturaActualID;
     private String currentLink;
-    private HashMap<Integer,Integer> asSelectedXprog;
+    private MultiMap asSelectedXprog;
+    private DataTable dataTable;
+    private String mesageForUser;
+    public boolean alertOfInvalidProgram;
     
     public UnidadProyectosBean() {
+        asSelectedXprog = new MultiHashMap();
         selectedPrograms=new ArrayList<>();
+        selectedProgramsToCompare=new ArrayList<>();
     }
     
     public String irPaginaCurso(Curso curso_actual) {
@@ -62,21 +67,14 @@ public class UnidadProyectosBean implements Serializable {
         return "InfoCurso";
     }
     
-    /**
-     * gets the link for the views
-     * @param link to save 
-     */
-    public void setCurrentLink(String link){
-        currentLink=link;
-    }
-    /**
-     * gets the link for the views
-     * @return 
-     */
-    public String getCurrentLink(){
-        return currentLink;
+    public String irPaginaAsginatura(){
+        return "RegistrarAsignatura";
     }
         
+    public String irPaginaConsultarSeleccion(String link){
+        currentLink = link;
+        return "SeleccionEnRegistrarMateria.xhtml";
+    }
     /**
      * gets the name of curse that are enfoqued on program
      * @return  name curse selected
@@ -179,6 +177,38 @@ public class UnidadProyectosBean implements Serializable {
         }
         return lista;
     }
+    /**
+     * retorna todas las asginaturas y su programa en el registro de materias
+     * @return un mapa con las asignaturas y programas seleccionados
+     */
+    public HashMap<String,String> getAsignaturasYProgramas(){
+        HashMap<String,String> resp = new HashMap<>();
+        Set values = asSelectedXprog.keySet();
+        Iterator keys = values.iterator();
+        while(keys.hasNext()){
+            int prog = (int) keys.next();
+            Collection asginaturas = (Collection) asSelectedXprog.get(prog);
+            Iterator keyAsigs = asginaturas.iterator();
+            while (keyAsigs.hasNext()){
+                resp.put("una", "selected");
+                //int asigId = (int) keyAsigs.next();
+                //Asignatura asig = obtenerAsignatura(asigId);
+                //Programa prg = obtenerPrograma(prog);
+                //resp.put(asig.getNombre(),prg.getNombre());
+            }
+        }
+        return resp;
+    }
+    
+    /**
+     * quita una asignatua y programa selccionados para registrar materia
+     * @param a asignatura 
+     * @param p programa (llave del multimap)
+     */
+    public void quitarFila(Asignatura a, Programa p){
+        asSelectedXprog.remove(p.getId(),a.getId());
+    }
+    
     
     /**
      * Consulta las asignaturas (de un programa especifico)
@@ -286,14 +316,14 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     public int consultarCohorte(Curso curso,Programa programa){
-        int cohorte=0;
+        int cohort=0;
         try{
-          cohorte= sp.consultarCohorte(curso,programa); 
+          cohort= sp.consultarCohorte(curso,programa); 
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        cohorteCursoActual=cohorte;
-        return cohorte;
+        cohorteCursoActual=cohort;
+        return cohort;
     }
     
     /**
@@ -347,48 +377,134 @@ public class UnidadProyectosBean implements Serializable {
         this.selectedPrograms = p;
     }    
     
-    /**
-     * registra las asignaturas a las que se asociara la materia
-     */
-    public void rowSelect(){
-        if (selectedSignatures!=null){
-            selectedSignatures.add(idAsignaturaActual);
-        }else{
-            selectedSignatures = new ArrayList<>();
-        }
-    }  
+    public List<Asignatura> consultaAsginaturasXprog(Programa prog){
+        List<Asignatura> lista = new ArrayList<>();
+        try{
+            if (prog==null){lista = sp.consultarAsignaturasXProg(0);}
+            else{lista = sp.consultarAsignaturasXProg(prog.getId());}
+        }catch (UnidadProyectosException ex){}
+       
+        return lista;
+    }
+   
+    public void setDataTable(DataTable dt){
+        this.dataTable=dt;
+    }
+    
+    public DataTable getDataTable(){
+        return this.dataTable;
+    }
     
     /**
-     * quita las materias que se des-seleccionen
-    */
-     public void rowUnSelect(){
-         if (selectedSignatures != null){
-            if (selectedSignatures.contains(idAsignaturaActual)){
-                selectedSignatures.remove(idAsignaturaActual);
+      * indexes the selected signatures
+     * @param prog to verify the selection
+      */
+     public void changeOption(Programa prog){
+         
+        if (prog!=null && (idAsignaturaActual!=null || !idAsignaturaActual.equals("0"))){
+           
+            Asignatura sig = obtenerAsignatura(Integer.parseInt(idAsignaturaActual));
+            if(sig!=null){
+                if(asSelectedXprog.containsKey(prog.getId())){
+                    Collection signa = (Collection) asSelectedXprog.get(prog.getId());
+                    if (!signa.contains(sig.getId())){
+                        asSelectedXprog.put(prog.getId(),prog.getId());
+                        System.out.println("added succesfully ");
+                    }else{
+                        System.out.println("the signature is currently added");
+                    }
+                }else{
+                    System.out.println("non-selected program "+prog);
+                }
             }
         }
-        else{
-            selectedSignatures = new ArrayList<>();
+     }
+    
+     /**
+     * listener for the select on registrarNuevaMateria.xhtml
+    */
+    public void rowSelectCheckBox(){
+        selectedProgramsToCompare = selectedPrograms;
+        System.out.println(selectedPrograms.size());
+        programa=selectedPrograms.get(selectedPrograms.size()-1);
+        if (!asSelectedXprog.containsKey(programa.getId())){
+            if(idAsignaturaActual==null || idAsignaturaActual.equals("0")){
+                idAsignaturaActual="0";
+                asSelectedXprog.put(programa.getId(), null);
+                System.out.println("added programa without sig");
+            }else{
+                Asignatura sig = obtenerAsignatura(Integer.parseInt(idAsignaturaActual));
+                asSelectedXprog.put(programa.getId(), sig.getId());
+                System.out.println("added succesfully with sig");
+            }
+       }  
+    }
+     
+    /**
+     * listener for the unselect to update the values on view
+     */
+    public void rowUnSelectCheckBox(){
+        for (Programa p: selectedProgramsToCompare){
+            if (!selectedPrograms.contains(p)){
+                programa = p;
+                break;
+            }
         }
-    } 
+        if (programa!=null){
+            asSelectedXprog.remove(programa.getId());
+            System.out.println("quito el programa ");
+        }
+        selectedProgramsToCompare=selectedPrograms;
+        programa=null;
+    }
+    
     
      /**
       * gets all sigantures of program currently selected
+     * @param prog
       * @return list of selected program's signatures
       */
-     public List<Asignatura> getAsignaturasXprog(){
-        List<Asignatura> lista = null;
-        try {
-            if (programa==null){
-                lista = sp.consultarAsignaturasxPrograma(null);
-            }else{
-                lista = sp.consultarAsignaturasxPrograma(programa.getId());
+     public HashMap<String,String> getAsignaturasXprog(Programa prog){
+        List<Asignatura> lista;
+        HashMap<String,String> result=new HashMap<>();
+        if (prog!=null){
+            lista=consultaAsginaturasXprog(prog);
+            if (lista!=null){
+                for (Asignatura asig: lista) {
+                    result.put(asig.getNombre(), String.valueOf(asig.getId()));
+                }
             }
-        } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return lista;
+        return result;
     }
+     
+     /**
+      * gets the signature by his ID
+     * @param id
+     * @return asignatura consultada
+      */
+     public Asignatura obtenerAsignatura(Integer id){
+         Asignatura resp = null;
+         try{
+             resp = sp.consultarAsignatura(id);
+         }catch(UnidadProyectosException ex){
+         }
+         return resp;
+     }
+     
+     /**
+      * gets the program by his ID
+     * @param id del programa
+     * @return programa consultada
+      */
+     public Programa obtenerPrograma(Integer id){
+         Programa resp = null;
+         try{
+             resp = sp.consultarPrograma(id);
+         }catch(UnidadProyectosException ex){
+         }
+         return resp;
+     }
      
     /**
      * Get the value of asignatura
@@ -429,6 +545,68 @@ public class UnidadProyectosBean implements Serializable {
         return cu;
 
     }
+    
+    /**
+     * gets the link for the views
+     * @param link to save 
+     */
+    public void setCurrentLink(String link){
+        currentLink=link;
+    }
+    
+    /**
+     * get the string value of parameter
+     * @param prog
+     * @return yes or no active the list
+     */
+    public boolean isntActived(Programa prog){
+        boolean ans=true;
+        if (selectedPrograms.contains(prog)){
+            ans=false;
+        }
+        return ans;
+    }
+    
+    /**
+     * 
+     */
+    public void conocer(){
+        System.out.println("si esta activando el remotecommand");
+    }
+    /**
+     * gets the link for the views
+     * @return 
+     */
+    public String getCurrentLink(){
+        return currentLink;
+    }
+    
+    public boolean getAlertOfInvalidProgram(){
+        
+        return alertOfInvalidProgram;
+    }
+    
+    public void setAlertOfInvalidProgram(boolean st){
+        this.alertOfInvalidProgram=st;
+    }
+    
+    /**
+     *mesage of error or some happend
+     * @return the mesage to view
+     */
+    public String getMesageForUser(){
+        return mesageForUser;
+    }
+    
+    /**
+     * sets the mesage to be shown
+     * @param mesage 
+     */
+    public void setMesageForUser(String mesage){
+        this.mesageForUser=mesage;
+    }
+    
+    
     
     public void setAsignaturaActualID(Integer asig){
         this.asignaturaActualID = asig;
@@ -482,9 +660,10 @@ public class UnidadProyectosBean implements Serializable {
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        for (Programa programa: lista) {
-            res.put(programa.getNombre(), String.valueOf(programa.getId()));
+        if (lista!=null){
+            for (Programa prog: lista) {
+                res.put(prog.getNombre(), String.valueOf(prog.getId()));
+            }
         }
         return res;
     }
@@ -498,8 +677,10 @@ public class UnidadProyectosBean implements Serializable {
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        for (Asignatura asignatura: lista) {
-            res.put(asignatura.getNombre(), String.valueOf(asignatura.getId()));
+        if (lista!=null){
+            for (Asignatura asig: lista) {
+                res.put(asig.getNombre(), String.valueOf(asig.getId()));
+            }
         }
         return res;
     }
@@ -513,16 +694,12 @@ public class UnidadProyectosBean implements Serializable {
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        for (Materia materia: lista) {
-            res.put(materia.getNombre(), String.valueOf(materia.getSigla()));
+        if(lista!=null){
+            for (Materia materia: lista) {
+                res.put(materia.getNombre(), String.valueOf(materia.getSigla()));
+            }
         }
         return res;
-    }
-    
-    public void onSelectSignature(){
-        if (programa!=null && !asSelectedXprog.containsKey(Integer.parseInt(idAsignaturaActual))){
-            asSelectedXprog.put(Integer.parseInt(idAsignaturaActual),programa.getId());
-        }
     }
     
     public void changePrograma() {
@@ -544,11 +721,11 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     public String getResumen() {
-        String programa = idProgramaActual;
-        String asignatura = idAsignaturaActual;
+        String prog = idProgramaActual;
+        String asig = idAsignaturaActual;
         String materia = siglaMateriaActual;
-        int cohorte = cohorteCursoActual;
-        return programa + " " + asignatura + " " + materia + " " + cohorte;
+        int cohort = cohorteCursoActual;
+        return prog + " " + asig + " " + materia + " " + cohort;
         
     }
     

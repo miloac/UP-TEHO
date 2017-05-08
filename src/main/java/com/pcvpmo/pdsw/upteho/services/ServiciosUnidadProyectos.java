@@ -91,12 +91,28 @@ public interface ServiciosUnidadProyectos {
    public List<Programa> consultarProgramas() throws UnidadProyectosException;
    
    /**
+    *  Consulta  programa por su id
+     * @param id frl programa
+    * @return Programa de la unidad de proyectos
+    * @throws UnidadProyectosException Excepcion con datos del error
+    */
+   public Programa consultarPrograma(Integer id) throws UnidadProyectosException;
+   
+   /**
     *  Consulta las asignaturas 
     * @return lista con de las Asignaturas
     * //pos:List con  las asignaturas registradas en la base de datos
     * @throws UnidadProyectosException Excepcion con datos del error
     */
    public List<Asignatura> consultarAsignaturas()throws UnidadProyectosException;
+   
+   /**
+    * consulta una asignatura dado su id
+    * @param id de la asignatura
+    * @return asignatura
+     * @throws com.pcvpmo.pdsw.upteho.services.UnidadProyectosException
+    */
+   public Asignatura consultarAsignatura(Integer id)throws UnidadProyectosException;
    
    /**
     *  Consulta las asignaturas por programa 

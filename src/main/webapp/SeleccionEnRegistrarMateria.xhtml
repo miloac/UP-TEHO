@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <h:head>
+        <h:outputStylesheet library="css" name="estilo.css" />
+        <title>Su selección</title>
+    </h:head>
+    <h:body>
+        <div style="max-width:100%;min-height:300px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
+            <div style="padding:10px;margin:auto;" >
+                <h:form id="dataTable">
+                    <p:dataTable id="consult" value="#{UnidadProyectosBean.getAsignaturasYProgramas()}" var="consulta">   
+                        <p:remoteCommand name="updateTabla" id="updateTabla" update="consult"/>
+                        <p:column headerText="Asignatura">
+                            <h:outputText value="#{consulta.a.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Programa">
+                            <h:outputText value="#{consulta.p.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Quitar">
+                            <center>
+                                <p:commandButton value="quitar esta fila" action="#{UnidadProyectosBean.quitarFila(a,p)}" oncomplete="updateTabla()"/>
+                            </center>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+            <center>
+                <p:commandButton value="volver" action="#{UnidadProyectosBean.getCurrentLink()}" />
+            </center>                    
+        </div>
+        <ui:include src="resources/inc/footer.xhtml" />
+    </h:body>
+</html>
