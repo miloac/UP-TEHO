@@ -31,6 +31,13 @@ public interface MateriaMapper {
     Materia consultarMateria(@Param("sigla") String sigla);
     
     /**
+     * consultar una materia por su sigla
+     * @param sigla
+     * @return Materia
+     */
+    Materia consultarMateriaSigla(@Param ("sigla") String sigla);
+    
+    /**
      * consulta los programas para poder asignar alguno a una nueva materia
      * @return programas 
      */

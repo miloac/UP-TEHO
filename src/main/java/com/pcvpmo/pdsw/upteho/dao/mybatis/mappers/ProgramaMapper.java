@@ -14,7 +14,7 @@ public interface ProgramaMapper {
      * Consulta los programas de la Unidad del Proyectos
      * @return Lista de Programas
      */
-<<<<<<< HEAD
+
     public List<Programa> consultarProgramas();
     
     /**
@@ -23,8 +23,6 @@ public interface ProgramaMapper {
      * @return programa obtenido
      */
     public Programa consultarPrograma(@Param("programaId") int id);
-=======
-    List<Programa> consultarProgramas();
     
     /**
      * Registra un nuevo Programa de la Unidad de Proyectos
@@ -32,5 +30,5 @@ public interface ProgramaMapper {
      * @param nombre nombre del programa
      */
     void registrarPrograma(@Param("id")int id, @Param("nombre")String nombre);
->>>>>>> b6a8a44ec1056e283918b7ff529628ec170c60b0
+
 }

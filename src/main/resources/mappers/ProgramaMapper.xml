@@ -11,18 +11,15 @@
         from programas as pro;
     </select>
     
-<<<<<<< HEAD
     <select parameterType="map" id="consultarPrograma" resultMap="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.MateriaMapper.ProgramaResult">
         select id, nombre
         from programas
         where programas.id = #{programaId};
     </select>
-</mapper> 
-    
-=======
+
     <insert parameterType="map" id="registrarPrograma">
         insert into programas
         values(#{id}, #{nombre});
     </insert>
 </mapper>
->>>>>>> b6a8a44ec1056e283918b7ff529628ec170c60b0
+

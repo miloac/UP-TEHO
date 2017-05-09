@@ -14,14 +14,11 @@ public interface AsignaturaMapper {
     List<Asignatura> consultarAsignaturasxPrograma(@Param("idPrograma")Integer idPrograma);
     
     List<Asignatura> consultarAsignaturas();
-    
-<<<<<<< HEAD
+
     public Asignatura getAsignaturaPorID(@Param("idAsig") Integer id);
-    
-=======
+
     void registrarAsignatura(@Param("nombreAsig")String nombreAsig,@Param("idProg")int idProg);
 
     void registrarAsignaturaFull(@Param("idAsignatura")int idAsignatura, @Param("nombreAsig")String nombreAsig, @Param("idProg")int idProg);
 
->>>>>>> b6a8a44ec1056e283918b7ff529628ec170c60b0
 }

@@ -61,6 +61,11 @@ public class MyBATISMateriaDAO implements MateriaDAO{
     public Materia consultarMateria(String siglaMateria) throws PersistenceException {
         return materiaMapper.consultarMateria(siglaMateria);
     }
+    
+    @Override
+    public Materia consultarMateriaSigla(String sigla)throws PersistenceException {
+        return materiaMapper.consultarMateriaSigla(sigla);
+    }
 
     @Override
     public void registrarMateria(String sigla, String nombre, int creditos, String descripcion, int idAsignatura) throws PersistenceException {
@@ -71,10 +76,5 @@ public class MyBATISMateriaDAO implements MateriaDAO{
     @Override
     public List<Materia> consultarMaterias() throws PersistenceException {
         return materiaMapper.consultarMaterias();
-    }
-
-    @Override
-    public Materia consultarPorSigla(String sigla) throws PersistenceException {
-        return materiaMapper.consultarMateria(sigla);
     }
 }

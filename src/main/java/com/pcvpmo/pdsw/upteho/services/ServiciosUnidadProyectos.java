@@ -280,14 +280,7 @@ public interface ServiciosUnidadProyectos {
      */
     public int getNextCurso() throws UnidadProyectosException;
     
-    /**
-     * Consulta una materia dada una sigla
-     * @param siglaMateriaActual sigla de la materia a consultar
-     * @return Materia con sus datos
-     * @throws UnidadProyectosException  Excepcion con datos del error
-     */
-    public Materia consultarMateria(String siglaMateriaActual) throws UnidadProyectosException;
-    
+        
     /**
      * Consulta un periodo dado su id
      * @param idPeriodoActual id del periodo a consultar

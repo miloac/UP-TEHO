@@ -26,8 +26,7 @@
         from asignaturas as asi
         left join programas as pro on asi.programas_id=pro.id;
     </select>
-    
-<<<<<<< HEAD
+
     <select parameterType="map" id="getAsignaturaPorID" resultMap="OnlyAsignaturaResult">
         select
                 
@@ -36,9 +35,7 @@
         
         where asignaturas.id = #{idAsig};
     </select>
-</mapper> 
-    
-=======
+
     <insert parameterType="map" id="registrarAsignatura">
         insert into asignaturas (id, nombre, programas_id) values((select COALESCE(max(id)+1, 1) from asignaturas), #{nombreAsig}, #{idProg});
     </insert>
@@ -48,4 +45,4 @@
     </insert>
     
 </mapper>
->>>>>>> b6a8a44ec1056e283918b7ff529628ec170c60b0
+
