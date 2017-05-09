@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.AsignaturaMapper">
+    <select parameterType="map" id="consultarAsignaturasxPrograma" resultMap="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.MateriaMapper.AsignaturaResult">
+        select
+                
+        id, nombre
+        from asignaturas as asi
+        where Programas_id=COALESCE(#{idPrograma}, programas_id);
+    </select>  
+        
+    <select parameterType="map" id="consultarAsignaturas" resultMap="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.MateriaMapper.AsignaturaResult">
+        select  asi.id as id,
+        asi.nombre as nombre,
+        asi.programas_id as Programas_id,
+        pro.id as pro_id,
+        pro.nombre as pro_nombre
+        from asignaturas as asi
+        left join programas as pro on asi.programas_id=pro.id;
+    </select>
+    
+    <insert parameterType="map" id="registrarAsignatura">
+        insert into asignaturas (id, nombre, programas_id) values((select COALESCE(max(id)+1, 1) from asignaturas), #{nombreAsig}, #{idProg});
+    </insert>
+     
+    <insert parameterType="map" id="registrarAsignaturaFull">
+        insert into asignaturas (id, nombre, programas_id) values(#{idAsignatura}, #{nombreAsig}, #{idProg});
+    </insert>
+    
+</mapper>

@@ -1,7 +1,6 @@
 package com.pcvpmo.pdsw.upteho.dao;
 
 import com.pcvpmo.pdsw.upteho.entities.Curso;
-import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import java.util.List;
 
 /**
@@ -14,6 +13,10 @@ public interface CursoDAO {
     Curso consultarCurso(int cohorte) throws PersistenceException;
     
     List<Curso> consultarCursosPorPeriodo(String nombre) throws PersistenceException;
+
+    int getNextCurso() throws PersistenceException;
+
+    void registrarCurso(int id, int idProfesor, String siglaMateria, String nombrePeriodo) throws PersistenceException;
     
    
 }

@@ -10,8 +10,10 @@ import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.transaction.Transactional;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -35,7 +37,13 @@ import static org.junit.Assert.*;
  * CE9: no se puede consultar los curso 
  * CE10: al consultar un curso, el cohorte no puede ser negativo; resultado esperado: error
  * CE11: al consultar cursos por periodo, el periodo debe tener un formato adecuado de: año, guion y numero del semestre: AAAA-N; resultado esperado: error si no se sigue el formato
- *
+ * CE12: Al registrar un nuevo Periodo con todos los datos correctos se debe agregar correctamente. TIPO: Normal; Resultado Esperado: Se registra el periodo
+ * CE13: Al registrar un periodo nuevo se debe tener un formato adecuado: año, guion y numero del semestre: AAAA-N; TIPO: Normal; Resultado Esperado: error si el formato es incorrecto
+ * CE14: Al consultar los periodos se debe obtener una lista de periodos con los datos correctos;  TIPO:  Normal; Resultado Esperado: Lista de Periodos
+ * CE15: Al registrar un cohorte con datos correctos se agrega correctamente; TIPO: Normal; Resultado Esperado: Se agrega el cohorte correctamente
+ * CE16: Al consultarAsignaturasxPrograma se debe obtener la asignatura requerida TIPO: Normal, Resultado Esperado: Se obtienen las asignaturas esperadas
+ * CE17: Al consultarAsignaturaxPrograma con idPrograma == null, se deben obtener todas las asignaturas RE: Lista de Todas las asignaturas
+ * CE18: Se debe poder registrar Un Nuevo Programa sin problemas; tipo: Normal; Resultado Esperado: La asignatura queda registrada y se puede consultar
  */
 public class UpTehoTest {
     
@@ -347,6 +355,141 @@ public class UpTehoTest {
             fail("No debe consultar un periodo con formato erroneo");
         } catch (UnidadProyectosException ex) {
             
+        }
+    }
+    
+    /**
+     *  * CE12: Al registrar un nuevo Periodo con todos los datos correctos se debe agregar correctamente. TIPO: Normal; Resultado Esperado: Se registra el periodo
+     */
+    @Test
+    public void registrarPeriodoCorrectamente() {
+        ServiciosUnidadProyectos s = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        try {
+            s.registrarPeriodo(new Periodo("2015-1", java.sql.Date.valueOf("2015-01-12"), java.sql.Date.valueOf("2015-05-27")));
+            s.registrarPeriodo(new Periodo("2015-2", java.sql.Date.valueOf("2015-06-20"), java.sql.Date.valueOf("2015-11-11")));
+            s.registrarPeriodo(new Periodo("2016-1", java.sql.Date.valueOf("2016-01-12"), java.sql.Date.valueOf("2015-05-27")));
+            assertTrue("Se agregaron 3 valores correctamente", s.consultarPeriodos().size() == 3);
+        } catch (UnidadProyectosException ex) {
+        }
+    }
+    
+    /**
+     * CE13: Al registrar un periodo nuevo se debe tener un formato adecuado: año, guion y numero del semestre: AAAA-N; TIPO: Normal; Resultado Esperado: error si el formato es incorrecto
+     */
+    @Test
+    public void formatoAdecuadoAlRegistrarPeriodo() {
+        ServiciosUnidadProyectos s = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        try {
+            s.registrarPeriodo(new Periodo("201581", java.sql.Date.valueOf("2015-01-12"), java.sql.Date.valueOf("2015-05-27")));
+            fail("Se registro un periodo con formato incorrecto");
+        } catch (UnidadProyectosException ex) {
+        }
+    }
+    
+    /**
+     * CE14: Al consultar los periodos se debe obtener una lista de periodos con todos los datos;  TIPO:  Normal; Resultado Esperado: Lista de Periodos
+     */
+    @Test
+    public void consultarTodosLosPeriodosCorrectamente() {
+        ServiciosUnidadProyectos s = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        try {
+            List<Periodo> lista = s.consultarPeriodos();
+            s.registrarPeriodo(new Periodo("2013-1", java.sql.Date.valueOf("2013-01-12"), java.sql.Date.valueOf("2013-05-27")));
+            lista = s.consultarPeriodos();
+            assertTrue("Se comprueba que los datos (nombre) son correctos", lista.get(lista.size() - 1).getNombre().equals("2013-1"));
+            assertTrue("Se comprueba que los datos (fechaInicial) son correctos)", lista.get(lista.size() - 1).getFechaInicial().equals(java.sql.Date.valueOf("2013-01-12")));
+            assertTrue("Se comprueba que los datos (fechaFin) son correctos)", lista.get(lista.size() - 1).getFechaFin().equals(java.sql.Date.valueOf("2013-05-27")));
+        } catch (UnidadProyectosException ex) {
+            fail("Se lanzo una excepcion no esperada" + ex.getMessage());
+        }
+        
+    }
+    
+    /**
+     * CE15: Al registrar un cohorte con datos correctos se agrega correctamente; TIPO: Normal; Resultado Esperado: Se agrega el cohorte correctamente
+     */
+    @Test
+    public void registrarCohorteCorrectamente() {
+        ServiciosUnidadProyectos s = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        try {
+            Profesor profesor = new Profesor(74, "Camilo Sanchez", "camilo.sanchez@mail.com");
+            s.registrarProfesor(profesor);
+            Programa programa = new Programa(6, "Programa Test");
+            s.registrarPrograma(programa);
+            Asignatura asignatura = new Asignatura(9, "Asignatura Test", programa);
+            s.registrarAsignatura(asignatura.getId(), asignatura.getNombre(), asignatura.getPrograma().getId());
+            Materia materia = new Materia("MATE", "Materia TEST", 3, "descripcion test", asignatura);
+            s.registrarMateria(materia);
+            Periodo periodo = new Periodo("2014-1", java.sql.Date.valueOf("2015-01-03"), java.sql.Date.valueOf("2015-06-05"));
+            s.registrarPeriodo(periodo);
+            Curso curso = new Curso(48, profesor, materia, periodo);
+            s.registrarCurso(curso);
+            int coh = 17;
+            s.registrarCohorte(programa.getId(), curso.getId(), coh);
+            int cohorte = s.consultarCohorte(curso, programa);
+            if (cohorte == 0) fail("El cohorte no se registro correctamente");
+            assertTrue("Comprobando que el cohorte fue el registrado", cohorte == coh);
+        } catch (UnidadProyectosException ex) {
+            fail("Se lanzo una excepcion no esperada" + ex.getMessage());
+        }
+    }
+    
+    /**
+     * CE16: Al consultarAsignaturasxPrograma se debe obtener las asignaturas requerida TIPO: Normal, Resultado Esperado: Se obtienen las asignaturas esperadas
+     */
+    @Test
+    public void consultarAsignaturasxProgramaCorrecta() {
+        ServiciosUnidadProyectos s = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        try {
+            Programa programa = new Programa(32, "Programa Test 32");
+            s.registrarPrograma(programa);
+            Asignatura asignatura = new Asignatura(65, "Asignatura Test 65", programa);
+            s.registrarAsignatura(asignatura.getId(), asignatura.getNombre(), programa.getId());
+            Programa programa2 = new Programa(30, "Programa Test 30");
+            s.registrarPrograma(programa2);
+            Asignatura asignatura2 = new Asignatura(66, "Asignatura Test 66", programa2);
+            s.registrarAsignatura(asignatura2.getId(), asignatura2.getNombre(), programa2.getId());
+            List<Asignatura> lista= s.consultarAsignaturasxPrograma(programa2.getId());
+            assertEquals("Se comprueba que el id es el esperado", lista.get(lista.size() - 1).getId(), asignatura2.getId());
+            assertEquals("Se comprueba que el nombre es el esperado", lista.get(lista.size() - 1).getNombre(), asignatura2.getNombre());
+        } catch (UnidadProyectosException ex) {
+            fail("Se lanzo una excepcion no esperada" + ex.getMessage());
+        }
+    }
+    
+    /**
+     * * CE17: Al consultarAsignaturaxPrograma con idPrograma == null, se deben obtener todas las asignaturas RE: Lista de Todas las asignaturas
+     */
+    @Test
+    public void testConsultarAsignaturasxProgramaConNull() {
+        ServiciosUnidadProyectos s = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        try {
+            Programa programa = new Programa(34, "Programa Test 34");
+            s.registrarPrograma(programa);
+            Asignatura asignatura = new Asignatura(67, "Asignatura Test 67", programa);
+            s.registrarAsignatura(asignatura.getId(), asignatura.getNombre(), programa.getId());
+            Programa programa2 = new Programa(37, "Programa Test 37");
+            s.registrarPrograma(programa2);
+            Asignatura asignatura2 = new Asignatura(68, "Asignatura Test 68", programa2);
+            s.registrarAsignatura(asignatura2.getId(), asignatura2.getNombre(), programa2.getId());
+            List<Asignatura> lista= s.consultarAsignaturasxPrograma(null);
+            assertTrue("Se comprueba que se insertaron dos asignaturas", lista.size() >= 2);
+        } catch (UnidadProyectosException ex) {
+            fail("Se lanzo una excepcion no esperada" + ex.getMessage());
+        }
+    }
+    
+    /**
+     * * CE18: Se debe poder registrar Un Nuevo Programa sin problemas; tipo: Normal; Resultado Esperado: El programa queda registrado y se puede consultar
+     */
+    @Test
+    public void registroCorrectoDeProgramas() {
+        ServiciosUnidadProyectos s = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        Programa programa = new Programa(40, "Programa Test 40");
+        try {
+            s.registrarPrograma(programa);
+        } catch (UnidadProyectosException ex) {
+            fail("Se lanzo una excepcion y no se registro el programa " + ex.getMessage());
         }
     }
 }

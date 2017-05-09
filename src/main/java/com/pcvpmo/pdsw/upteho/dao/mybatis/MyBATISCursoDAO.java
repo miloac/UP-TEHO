@@ -5,7 +5,6 @@ import com.pcvpmo.pdsw.upteho.dao.CursoDAO;
 import com.pcvpmo.pdsw.upteho.dao.PersistenceException;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.CursoMapper;
 import com.pcvpmo.pdsw.upteho.entities.Curso;
-import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import java.util.List;
 
 /**
@@ -30,6 +29,16 @@ public class MyBATISCursoDAO implements CursoDAO {
     @Override
     public List<Curso> consultarCursosPorPeriodo(String nombre) throws PersistenceException {
         return cursoMapper.consultarCursosPorPeriodo(nombre);       
+    }
+
+    @Override
+    public int getNextCurso() throws PersistenceException {
+        return cursoMapper.getNextCurso();
+    }
+
+    @Override
+    public void registrarCurso(int id, int idProfesor, String siglaMateria, String nombrePeriodo) throws PersistenceException {
+        cursoMapper.registrarCurso(id, idProfesor, siglaMateria, nombrePeriodo);
     }
 
 }

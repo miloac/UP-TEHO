@@ -9,11 +9,17 @@
         <result property="nombre" column="nombre"/>
         <result property="correo" column="correo"/>
     </resultMap>
-     <select parameterType="map" id="consultarProfesoresxNombre" resultMap="ProfesorResult">
+    
+    <select parameterType="map" id="consultarProfesoresxNombre" resultMap="ProfesorResult">
         select
         id, nombre, correo
         from profesores
         where nombre like '%${nombrePro}%' 
     </select>
+    
+    <insert parameterType="map" id="registrarProfesor">
+        insert into profesores
+        values (#{id}, #{nombre}, #{correo});
+    </insert>
 </mapper> 
     
