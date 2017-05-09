@@ -22,6 +22,12 @@ public class MyBATISProgramaDAO implements ProgramaDAO {
     }
 
     @Override
+    public Programa consultarPrograma(Integer id) throws PersistenceException {
+        return programaMapper.consultarPrograma(id);
+    }   
+
+
+    @Override
     public void registrarPrograma(int id, String nombre) throws PersistenceException {
         programaMapper.registrarPrograma(id, nombre);
     }

@@ -87,13 +87,21 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     }
 
     @Override
-    public List<Materia> consultarMaterias() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Materia> consultarMaterias() throws UnidadProyectosException{
+       try{
+            return daoMateria.consultarMaterias();
+        }catch(PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar todos las materias", ex);
+        }
     }
 
     @Override
-    public List<Materia> consultarMaterias(int idAsignatura){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Materia> consultarMaterias(int idAsignatura) throws UnidadProyectosException {
+        try{
+            return daoMateria.consultarMateriasxAsignatura(idAsignatura);
+        }catch(PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar todos las materias", ex);
+        }
     }
     
     @Override
@@ -113,6 +121,15 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             throw new UnidadProyectosException("Error al consultar todos los programas", ex);
         }
     }
+    
+    @Override
+    public Programa consultarPrograma(Integer id)throws UnidadProyectosException{
+        try{
+            return daoPrograma.consultarPrograma(id);
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar el programa por id"+id, ex);
+        }
+    }
 
     @Override
     public List<Asignatura> consultarAsignaturas() throws UnidadProyectosException{
@@ -120,6 +137,24 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             return daoAsignatura.consultarAsignaturas();
         } catch (PersistenceException ex) {
             throw new UnidadProyectosException("Error al consultar las asignaturas"+ ex);
+        }
+    }
+    
+    @Override
+    public Asignatura consultarAsignatura(Integer id)throws UnidadProyectosException{
+        try{
+            return daoAsignatura.consultarAsignaturaPorID(id);
+        }catch (PersistenceException ex){
+            throw new UnidadProyectosException("no se pudo consultar la asignatura",ex);
+        }
+    }
+    
+    @Override
+    public List<Asignatura> consultarAsignaturasXProg(int programa) throws UnidadProyectosException{
+        try {
+            return daoAsignatura.consultarAsignaturasxPrograma(programa);
+        } catch (PersistenceException ex) {
+            throw new UnidadProyectosException("Error al consultar asignatura con el programa: " + programa, ex);
         }
     }
 
@@ -486,5 +521,10 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
         }catch (PersistenceException ex){
             throw new UnidadProyectosException("Error al consultar horario del profesor con id: " + id, ex);
         }
+    }
+    
+    @Override
+    public void registrarRequisito(String mat, String matReq, String tipo) throws UnidadProyectosException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

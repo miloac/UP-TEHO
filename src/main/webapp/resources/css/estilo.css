@@ -19,7 +19,6 @@
     margin:auto;
     max-width:80%;
     height:auto;
-    
 }
 
 .pie {
@@ -44,7 +43,7 @@
     font-size:18px;
     padding:15px 35px;
     list-style:none;
-    color: grey;
+    color: gray;
     background-color: #f0f0f0;
     background-image: -webkit-gradient(linear,left top, left bottom,from(#fefefe), color-stop(0.5,#f0f0f0), color-stop(0.51, #e6e6e6));
     background-image: -moz-linear-gradient(#fefefe 0%, #f0f0f0 50%, #e6e6e6 51%);
@@ -96,9 +95,7 @@
 	color: #2E3133;
 	border-color: #FBFFAD;
 }
-
 /*Secion de tabla*/
-
 tr:nth-child(even) {background-color: #f2f2f2}
 
 th {
@@ -127,3 +124,22 @@ th {
     background: -ms-linear-gradient(top, rgba(242,246,248,1) 0%, rgba(216,225,231,1) 50%, rgba(181,198,208,1) 51%, rgba(224,239,249,1) 100%);
     background: linear-gradient(to bottom, rgba(242,246,248,1) 0%, rgba(216,225,231,1) 50%, rgba(181,198,208,1) 51%, rgba(224,239,249,1) 100%);
 }
+
+.infoProg{
+    width: 90%;
+    border-radius: 8px;
+    box-shadow: 0px 0px 12px #1170da;
+    background-color: white;
+    padding: 4px;
+    text-shadow: 0px 0px 5px skyblue;
+    
+}
+
+.olink{
+    font-size: 35px;
+    font-family: cursive;
+    font-style: italic;
+    font: Comic Sams MS;
+    text-shadow: 0px 2px 5px black;
+}
+
