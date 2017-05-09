@@ -224,6 +224,20 @@ public class UnidadProyectosBean implements Serializable {
         return lista;
     }
     
+    public List<Materia> consultaMateriasXprog(){
+        List<Materia> lista = new ArrayList<>();
+        try{
+            if (idProgramaActual==null){lista = sp.consultarMateriasxPrograma(0);}
+            else{lista = sp.consultarMateriasxPrograma(Integer.parseInt(idProgramaActual));}
+        }catch (UnidadProyectosException ex){}
+        if (lista.size()!=0){
+            System.out.println(lista.get(0).getNombre());
+        }
+        
+        return lista;
+    }
+    
+    
     /**
      * Consulta los periodos academicos
      * @return una lista de Periodos academicos

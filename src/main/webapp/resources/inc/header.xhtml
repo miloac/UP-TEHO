@@ -1,9 +1,28 @@
-<html xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<html xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
     <ui:composition>
         <header class="encabezado">
              <header class="subencabezado">
                 <h1>UP-TEHO</h1>
+                
+                <!-- SECCION DE LOGIN -->
+                <div style="position: relative; top:-55px; left:85%;" >
+                    <p:commandButton class="boton" value="Iniciar Sesion" type="button" onclick="PF('dlg2').show();" />
+                    
+                    <p:dialog header="Bienvenido, Inicia Sesion" widgetVar="dlg2" modal="true" height="100">
+                        <h:outputText value="Iniciar Sesion como:" />
+                        <p:separator></p:separator>
+                        <p:commandButton value="Coordinador" type="button" icon="ui-icon-person" />
+                        <p:commandButton value="Administrador" type="button" icon="ui-icon-pencil" />
+                        <p:commandButton value="Profesor" type="button" icon="ui-icon-search" />
+                    </p:dialog> 
+                    
+                </div>  
+                
             </header>
+            
+             
         </header>
     </ui:composition>
 </html>

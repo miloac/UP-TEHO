@@ -18,4 +18,11 @@ public interface MateriaMapper {
                                  @Param("creditos")int creditos, 
                                  @Param("descripcion")String descripcion, 
                                  @Param("idAsignatura")int idAsignatura);
+    
+    /**
+     * consulta las materias segun el programa
+     * @param programa
+     * @return 
+     */
+    List<Materia> consultarMateriasxPrograma(@Param("programa")Integer programa);
 }

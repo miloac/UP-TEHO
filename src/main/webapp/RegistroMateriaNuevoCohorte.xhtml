@@ -15,40 +15,44 @@
        
         <!-- MENU -->
         <ui:include src="resources/inc/menu.xhtml" />
-        <center><div style="max-width:97%;min-height:20px;background:#444 ;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
+        <center><div style="max-width:97%;min-height:20px;background:rgba(69, 212, 3, 0.94) ;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:15px;margin:auto;" >
                 <center><font color="#FFF" size="+2">SELECCIONAR COHORTE Y PROFESOR PARA NUEVO CURSO</font></center>
             </div>
-        </div>            
-            <h:form id="rema">
-            <h:panelGrid columns="2" cellpadding="5">
-                <h:outputText value="Programa:" />
-                <h:outputText id="pro" value="#{UnidadProyectosBean.cursoActual.materia.asignatura.programa.nombre}" />
-                <h:outputText value="Asignatura:" />
-                <h:outputText id="asi" value="#{UnidadProyectosBean.cursoActual.materia.asignatura.nombre}" />
-                <h:outputText value="Materia:" />
-                <h:outputText id="mat" value="#{UnidadProyectosBean.cursoActual.materia.nombre}" />
-                <h:outputText value="Periodo:" />
-                <h:outputText id="per" value="#{UnidadProyectosBean.cursoActual.periodo.nombre}" />
-                <h:outputText value="Numero de cohorte" />
-                <h:inputText id="cohorte" binding="#{cohorte}" /> 
-            </h:panelGrid>
-            <h:panelGrid columns="3" cellpadding="5">
-                <h:outputLabel for="prof" value="Profesor:" />
-                <p:inputText id="prof" value="#{UnidadProyectosBean.nameProf}" />
-                <p:commandButton value="Buscar" update=":rema:tablaProf"/>
-            </h:panelGrid>
-                <p:dataTable id="tablaProf" var="prof" value="#{UnidadProyectosBean.consultarProfesores()}" selection="#{UnidadProyectosBean.profesorSelect}" rowKey="#{prof.id}" >
-                <p:column headerText="nombre" >
-                    <h:outputText value="#{prof.nombre}" />
-                </p:column>    
-                <p:column selectionMode="single" style="width: 16px;text-align: center"/>
-            </p:dataTable>
-            <h:panelGrid columns="2" cellpadding="5">
-                <p:commandButton value="Continuar" actionListener="#{UnidadProyectosBean.setCohorteCursoActual(cohorte.value)}" action="#{UnidadProyectosBean.volverPaginaCurso()}"/>
-                <p:commandButton value="Cancelar" action="ProgramarCurso"/>
-            </h:panelGrid>
-        </h:form>
+        </div>
+        <div style="max-width:100%;min-height:400px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
+            <div style="padding:10px;margin:auto;" >
+                <h:form id="rema">
+                    <h:panelGrid columns="2" cellpadding="5" class="tabla">
+                        <h:outputText value="Programa:" />
+                        <h:outputText id="pro" value="#{UnidadProyectosBean.cursoActual.materia.asignatura.programa.nombre}" />
+                        <h:outputText value="Asignatura:" />
+                        <h:outputText id="asi" value="#{UnidadProyectosBean.cursoActual.materia.asignatura.nombre}" />
+                        <h:outputText value="Materia:" />
+                        <h:outputText id="mat" value="#{UnidadProyectosBean.cursoActual.materia.nombre}" />
+                        <h:outputText value="Periodo:" />
+                        <h:outputText id="per" value="#{UnidadProyectosBean.cursoActual.periodo.nombre}" />
+                        <h:outputText value="Numero de cohorte" />
+                        <h:inputText class="textbox" id="cohorte" binding="#{cohorte}" /> 
+                    </h:panelGrid>
+                    <h:panelGrid columns="3" cellpadding="5">
+                        <h:outputLabel for="prof" value="Profesor:" />
+                        <p:inputText id="prof" value="#{UnidadProyectosBean.nameProf}" />
+                        <p:commandButton value="Buscar" update=":rema:tablaProf"/>
+                    </h:panelGrid>
+                        <p:dataTable id="tablaProf" var="prof" value="#{UnidadProyectosBean.consultarProfesores()}" selection="#{UnidadProyectosBean.profesorSelect}" rowKey="#{prof.id}" >
+                        <p:column headerText="nombre" >
+                            <h:outputText value="#{prof.nombre}" />
+                        </p:column>    
+                        <p:column selectionMode="single" style="width: 16px;text-align: center"/>
+                    </p:dataTable>
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <p:commandButton value="Continuar" actionListener="#{UnidadProyectosBean.setCohorteCursoActual(cohorte.value)}" action="#{UnidadProyectosBean.volverPaginaCurso()}"/>
+                        <p:commandButton value="Cancelar" action="ProgramarCurso"/>
+                    </h:panelGrid>
+                </h:form>
+            </div>
+        </div>    
             </center>
         <ui:include src="resources/inc/footer.xhtml" />
     </h:body>

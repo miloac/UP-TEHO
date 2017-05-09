@@ -31,5 +31,9 @@ public class MyBATISMateriaDAO implements MateriaDAO {
         materiaMapper.registrarMateria(sigla, nombre, creditos, descripcion, idAsignatura);
     }
     
+    @Override
+    public List<Materia> consultarMateriasxPrograma(Integer programa) throws PersistenceException {
+        return materiaMapper.consultarMateriasxPrograma(programa);
+    }
 
 }

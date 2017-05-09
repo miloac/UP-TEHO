@@ -55,4 +55,20 @@
         insert into materias
         values (#{sigla}, #{nombre}, #{creditos}, #{descripcion}, #{idAsignatura});
     </insert>
+    
+    
+    <select parameterType="map" id="consultarMateriasxPrograma" resultMap="MateriaResult">
+        select
+        mat.sigla as sigla, mat.nombre as nombre,
+        asi.id as asi_id, asi.nombre as asi_nombre,
+        pro.id as asi_pro_id, pro.nombre as asi_pro_nombre
+        
+        
+        
+        
+        from materias as mat
+        right join asignaturas as asi on mat.Asignaturas_id=asi.id
+        right join programas as pro on asi.Programas_id=pro.id
+        where pro.id=#{programa};     
+    </select>
 </mapper>
