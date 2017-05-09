@@ -10,10 +10,10 @@ import java.util.List;
  */
 public interface PeriodoDAO {
 
-    public Periodo consultarPeriodo(String idPeriodoActual) throws PersistenceException;
+    Periodo consultarPeriodo(String idPeriodoActual) throws PersistenceException;
 
-    public List<Periodo> consultarPeriodos() throws PersistenceException;
+    List<Periodo> consultarPeriodos() throws PersistenceException;
 
-    public void registrarPeriodo(String nombre, Date fechaInicial, Date fechaFin) throws PersistenceException;
+    void registrarPeriodo(String nombre, Date fechaInicial, Date fechaFin) throws PersistenceException;
     
 }
