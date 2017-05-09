@@ -43,7 +43,8 @@ import static org.junit.Assert.*;
  * CE15: Al registrar un cohorte con datos correctos se agrega correctamente; TIPO: Normal; Resultado Esperado: Se agrega el cohorte correctamente
  * CE16: Al consultarAsignaturasxPrograma se debe obtener la asignatura requerida TIPO: Normal, Resultado Esperado: Se obtienen las asignaturas esperadas
  * CE17: Al consultarAsignaturaxPrograma con idPrograma == null, se deben obtener todas las asignaturas RE: Lista de Todas las asignaturas
- * CE18: Se debe poder registrar Un Nuevo Programa sin problemas; tipo: Normal; Resultado Esperado: La asignatura queda registrada y se puede consultar
+ * CE18: Se debe poder registrar Un Nuevo Programa sin problemas; tipo: Normal; Resultado Esperado: El programa queda registrada y se puede consultar
+ * CE19: Se debe poder registrar una nueva Asignatura sin problemas; tipo: Normal; Resultado Esperado: La asignatura queda registrada y se puede consultar
  */
 public class UpTehoTest {
     
@@ -490,6 +491,23 @@ public class UpTehoTest {
             s.registrarPrograma(programa);
         } catch (UnidadProyectosException ex) {
             fail("Se lanzo una excepcion y no se registro el programa " + ex.getMessage());
+        }
+    }
+    
+    /**
+     * CE19: Se debe poder registrar una nueva Asignatura sin problemas; tipo: Normal; Resultado Esperado: La asignatura queda registrada y se puede consultar
+     */
+    @Test
+    public void registroCorrectoDeAsignatura() {
+        ServiciosUnidadProyectos s = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        int idprograma = 1;
+        Programa programa = new Programa(idprograma, "Programa Test");
+        Asignatura asignatura = new Asignatura(65,"Asignatura Test 65", programa);
+        try {
+            s.registrarPrograma(programa);
+            s.registrarAsignatura(asignatura.getNombre(), programa.getId());
+        } catch (UnidadProyectosException ex) {
+            fail("Se lanzo una excepcion y no se registro la asignatura " + ex.getMessage());
         }
     }
 }
