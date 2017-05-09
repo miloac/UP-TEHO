@@ -8,6 +8,7 @@ import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
+import com.pcvpmo.pdsw.upteho.entities.HorarioDisponible;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
@@ -347,5 +348,29 @@ public interface ServiciosUnidadProyectos {
      * @throws UnidadProyectosException Excepcion con datos del error
      */
     public void registrarPrograma(Programa programa) throws UnidadProyectosException;
+    
+    /**
+     * Inserta a un profesor dado un nuevo horario
+     * @param id
+     * @param diaDisp
+     * @param horaDisp
+     * @throws UnidadProyectosException con datos incorrectos
+     */
+    public void insertarHorarioProfesor(int id, String diaDisp, Time horaDisp) throws UnidadProyectosException;
+    
+    /**
+     * Consulta los horarios disponibles de un profesor
+     * @param id
+     * @return
+     * @throws UnidadProyectosException 
+     */
+    public List<HorarioDisponible> consultarHorarioProfesor(int id) throws UnidadProyectosException;
+    
+    /**
+     * devuelve el dia de la semana correspondiente a una fecha
+     * @param fecha
+     * @return 
+     */
+    public String obtenerDiaSemana(Date fecha);
 }
 

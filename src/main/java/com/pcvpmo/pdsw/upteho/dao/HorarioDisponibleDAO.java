@@ -6,6 +6,7 @@
 package com.pcvpmo.pdsw.upteho.dao;
 
 import com.pcvpmo.pdsw.upteho.entities.HorarioDisponible;
+import java.sql.Time;
 import java.util.List;
 
 /**
@@ -14,4 +15,5 @@ import java.util.List;
  */
 public interface HorarioDisponibleDAO {
     List<HorarioDisponible> consultarHorarioProfesor(int id)throws PersistenceException;
+    void insertarHorarioProfesor(int id,String diaDisp,Time horaDisp)throws PersistenceException;
 }
