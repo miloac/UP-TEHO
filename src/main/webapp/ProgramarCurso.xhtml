@@ -26,32 +26,53 @@
         <div style="max-width:100%;min-height:600px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:10px;margin:auto;" >
                 <p:panel header="Datos del Curso">
+                    <center>
                     <h:form id="formita">
-                    <h:panelGrid columns="2" cellpadding="10">
+                    <h:panelGrid columns="3" cellpadding="10">
+                        <p:outputLabel for="periodo" value="Periodo: "/>
+                        <p:selectOneMenu id="periodo" value="#{UnidadProyectosBean.idPeriodoActual}" style="width:250px">
+                            <f:selectItem itemLabel="Seleccionar Periodo" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{UnidadProyectosBean.getPeriodos()}"/>
+                            <p:ajax listener="#{UnidadProyectosBean.changePeriodo()}" event="change" update="programa, asignatura, materia"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value=""/>
                         <p:outputLabel for="programa" value="Programa: "/>
                         <p:selectOneMenu id="programa" value="#{UnidadProyectosBean.idProgramaActual}" style="width:250px">
                             <f:selectItem itemLabel="Seleccionar Programa" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{UnidadProyectosBean.getProgramas()}"/>
-                            <p:ajax listener="#{UnidadProyectosBean.changePrograma()}" event="change" update=":#{p:component('datos')}, asignatura, materia"/>
+                            <p:ajax listener="#{UnidadProyectosBean.changePrograma()}" event="change" update="asignatura, materia"/>
                         </p:selectOneMenu>
+                        <p:outputLabel value=""/>
                         <p:outputLabel for="asignatura" value="Asignatura: " />
                         <p:selectOneMenu id="asignatura" value="#{UnidadProyectosBean.idAsignaturaActual}" style="width:250px">
                             <f:selectItem itemLabel="Seleccionar Asignatura" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{UnidadProyectosBean.getAsignaturas()}"/>
-                            <p:ajax listener="#{UnidadProyectosBean.changeAsignatura()}" event="change" update=":#{p:component('datos')}, materia"/>
+                            <p:ajax listener="#{UnidadProyectosBean.changeAsignatura()}" event="change" update="materia"/>
                         </p:selectOneMenu>
+                        <p:commandButton value="Registrar Nueva Asignatura" action="RegistrarAsignatura" actionListener="#{UnidadProyectosBean.setPaginaPrevia('ProgramarCurso')}"/>
                         <p:outputLabel for="materia" value="Materia: "/>
                         <p:selectOneMenu id="materia" value="#{UnidadProyectosBean.siglaMateriaActual}" style="width:250px">
                             <f:selectItem itemLabel="Seleccionar Materia" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{UnidadProyectosBean.getMaterias()}"/>
-                            <p:ajax event="change" update=":#{p:component('datos')}"/>
+                            <p:ajax event="change" update=":#{p:component('boton_registrar')}"/>
                         </p:selectOneMenu>
+                        <p:commandButton value="Registrar Nueva Materia"/>
+                        <p:outputLabel for="cohortelabel" value="Cohorte:"/>
+                        <p:outputLabel id="cohortelabel" for="botoncohorte" value="#{UnidadProyectosBean.cohorteCursoActual}"/>
+                        <p:commandButton id="botoncohorte" value="Seleccionar Cohorte y Profesor" action="#{UnidadProyectosBean.irPaginaCohorte()}"/>
                     </h:panelGrid>
+                    <p:separator/>
+                    <h:outputText value="#{UnidadProyectosBean.getResumen()}"/>
+                    <div></div>
+                    <p:commandButton id="boton_registrar" value="Registrar Curso para la Materia" action="#{UnidadProyectosBean.registrarCursoActual()}" onclick="PF('dlg3').show();" update="mensaje, boton_aceptar"/>
+                    <p:dialog id="dialog" header="Aviso" widgetVar="dlg3" modal="true" height="100">
+                        <h:outputText id="mensaje" value="#{UnidadProyectosBean.mensaje}"/>
+                        <br></br>
+                        <p:commandButton id="boton_aceptar" value="Aceptar" action="#{UnidadProyectosBean.irProgramarCurso()}" onclick="PF('dlg3').hide();"/>
+                    </p:dialog>
                     </h:form>
+                    </center>
                 </p:panel>
-                <h:form id="datos">
-                    <h:outputText value="Resumen: #{UnidadProyectosBean.getResumen()}"/>
-                </h:form>
             </div>
         </div>
         

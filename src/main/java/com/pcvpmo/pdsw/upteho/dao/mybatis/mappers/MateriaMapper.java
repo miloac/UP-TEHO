@@ -22,11 +22,6 @@ public interface MateriaMapper {
     * @param descripcion
     * @param asignatura a la que pertenece
     */
-    void registrarMateria(@Param("sigla") String sigla,
-            @Param("nombre") String nombre, 
-            @Param("creditos") int creditos, 
-            @Param("descripcion")String desc, 
-            @Param("asignatura") int idAsig);
     
     /**
      * consultar una materia por su sigla
@@ -55,10 +50,17 @@ public interface MateriaMapper {
      */
     List<Materia> consultarMateriasxAsignatura(@Param("idAsignatura")Integer idAsignatura);
 
+    
+    void registrarMateria(@Param("sigla")String sigla,
+                                 @Param("nombre")String nombre, 
+                                 @Param("creditos")int creditos, 
+                                 @Param("descripcion")String descripcion, 
+                                 @Param("idAsignatura")int idAsignatura);
+
     /**
-     * consulta las materias registradas
-     * @return listado materias
+     * consulta todas las materias
+     * @return 
      */
-    List<Materia> consultarMaterias();
+    public List<Materia> consultarMaterias();
 }
 

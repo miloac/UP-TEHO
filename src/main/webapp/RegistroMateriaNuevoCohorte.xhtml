@@ -6,7 +6,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         
-        <title>Registro nueva materia con nuevo cohorte</title>
+        <title>Seleccionar profesor y Cohorte</title>
         <h:outputStylesheet library="css" name="estilo.css" />
     </h:head>
     <h:body>
@@ -17,19 +17,19 @@
         <ui:include src="resources/inc/menu.xhtml" />
         <center><div style="max-width:97%;min-height:20px;background:#444 ;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:15px;margin:auto;" >
-                <center><font color="#FFF" size="+2">Registro nueva materia con nuevo cohorte</font></center>
+                <center><font color="#FFF" size="+2">SELECCIONAR COHORTE Y PROFESOR PARA NUEVO CURSO</font></center>
             </div>
         </div>            
             <h:form id="rema">
             <h:panelGrid columns="2" cellpadding="5">
                 <h:outputText value="Programa:" />
-                <h:outputText id="pro" value="#{UnidadProyectosBean.cursoTemp().materia.asignatura.programa.nombre}" />
+                <h:outputText id="pro" value="#{UnidadProyectosBean.cursoActual.materia.asignatura.programa.nombre}" />
                 <h:outputText value="Asignatura:" />
-                <h:outputText id="asi" value="#{UnidadProyectosBean.cursoTemp().materia.asignatura.nombre}" />
+                <h:outputText id="asi" value="#{UnidadProyectosBean.cursoActual.materia.asignatura.nombre}" />
                 <h:outputText value="Materia:" />
-                <h:outputText id="mat" value="#{UnidadProyectosBean.cursoTemp().materia.nombre}" />
+                <h:outputText id="mat" value="#{UnidadProyectosBean.cursoActual.materia.nombre}" />
                 <h:outputText value="Periodo:" />
-                <h:outputText id="per" value="#{UnidadProyectosBean.cursoTemp().periodo.nombre}" />
+                <h:outputText id="per" value="#{UnidadProyectosBean.cursoActual.periodo.nombre}" />
                 <h:outputText value="Numero de cohorte" />
                 <h:inputText id="cohorte" binding="#{cohorte}" /> 
             </h:panelGrid>
@@ -38,15 +38,15 @@
                 <p:inputText id="prof" value="#{UnidadProyectosBean.nameProf}" />
                 <p:commandButton value="Buscar" update=":rema:tablaProf"/>
             </h:panelGrid>
-                <p:dataTable id="tablaProf" var="prof" value="#{UnidadProyectosBean.consultarProfesores()}" selection="#{UnidadProyectosBean.profesorSelect}" rowKey="prof.id" >
+                <p:dataTable id="tablaProf" var="prof" value="#{UnidadProyectosBean.consultarProfesores()}" selection="#{UnidadProyectosBean.profesorSelect}" rowKey="#{prof.id}" >
                 <p:column headerText="nombre" >
                     <h:outputText value="#{prof.nombre}" />
                 </p:column>    
                 <p:column selectionMode="single" style="width: 16px;text-align: center"/>
             </p:dataTable>
             <h:panelGrid columns="2" cellpadding="5">
-                <h:commandButton value="Registrar materia en nuevo cohorte" action="#{UnidadProyectosBean.registrarMateriaNuevoCohorte(cohorte.value)}"/>
-                <h:commandButton value="Cancelar" />
+                <p:commandButton value="Continuar" actionListener="#{UnidadProyectosBean.setCohorteCursoActual(cohorte.value)}" action="#{UnidadProyectosBean.volverPaginaCurso()}"/>
+                <p:commandButton value="Cancelar" action="ProgramarCurso"/>
             </h:panelGrid>
         </h:form>
             </center>

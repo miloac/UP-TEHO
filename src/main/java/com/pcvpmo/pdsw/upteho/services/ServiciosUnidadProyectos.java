@@ -8,6 +8,7 @@ import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
+import com.pcvpmo.pdsw.upteho.entities.HorarioDisponible;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
@@ -159,7 +160,7 @@ public interface ServiciosUnidadProyectos {
 
     /**
      *  Consulta los recursos disponibles que pueden ser asignados a una clase 
-     * @return
+     * @return Lista de Recursos
      * //pos: List de tipo Recurso con los Recursos que estan disponibles.
      * @throws UnidadProyectosException Excepcion con datos del error
      */
@@ -225,12 +226,13 @@ public interface ServiciosUnidadProyectos {
     
     /**
      * Consulta el cohorte dado un Curso y un Programa
+     * POS: Retorna 0 si el cohorte no existe
      * @param curso curso a consultar
      * @param programa programa a consultar
      * @return entero del cohorte
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public int consultarCohorte(Curso curso,Programa programa)throws UnidadProyectosException;
+    public int consultarCohorte(Curso curso,Programa programa) throws UnidadProyectosException;
     
     /**
      * Consulta las clases dado un periodo especifico
@@ -253,7 +255,7 @@ public interface ServiciosUnidadProyectos {
     /**
      * Consulta las Materias dada una asignatura especifica
      * //pos: si la sigla es null, debe retornar todas las materias
-     * @param sigla Sigla de la asignatura
+     * @param idAsignatura id de la asignatura por la cual filtrar
      * @return Lista de Materias
      * @throws UnidadProyectosException Excepcion con datos del error
      */
@@ -261,12 +263,155 @@ public interface ServiciosUnidadProyectos {
 
     /**
      * Agrega una clase a un curso especifico, si el horario del profesor coincide
-     * @param idCurso
-     * @param fecha
-     * @param hora
-     * @param tSalon
-     * @param idProfesor
+     * @param idCurso id del  Curso al cual se le agregara una clase
+     * @param fecha fecha de la clase
+     * @param hora hora de la clase
+     * @param tSalon tipo de salon de la clase
+     * @param idProfesor id del profesor que dictara la clase
+     * @return booleano si fue posible agregar la clase
      * @throws UnidadProyectosException si el identificador del curso o el identificador del profesor no existe
      */
-    public void agregarClase(int idCurso, Date fecha, Time hora, String tSalon,int idProfesor)throws UnidadProyectosException;
+    public boolean agregarClase(int idCurso, Date fecha, Time hora, String tSalon,int idProfesor) throws UnidadProyectosException;
+
+    /**
+     * Consulta el siguiente id disponible de los cursos ya registrados
+     * @return id disponible de un curso
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public int getNextCurso() throws UnidadProyectosException;
+    
+    /**
+     * Consulta una materia dada una sigla
+     * @param siglaMateriaActual sigla de la materia a consultar
+     * @return Materia con sus datos
+     * @throws UnidadProyectosException  Excepcion con datos del error
+     */
+    public Materia consultarMateria(String siglaMateriaActual) throws UnidadProyectosException;
+    
+    /**
+     * Consulta un periodo dado su id
+     * @param idPeriodoActual id del periodo a consultar
+     * @return Periodo con sus datos
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public Periodo consultarPeriodo(String idPeriodoActual) throws UnidadProyectosException;
+    
+    /**
+     * Consulta todos los periodos en la Unidad de Proyectos
+     * @return Lista de Periodos
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public List<Periodo> consultarPeriodos() throws UnidadProyectosException;
+    
+    /**
+     * Registra un Curso
+     * // PRE: Se espera que el programa, la asignatura, el periodo y el profesor ya esten registrados
+     * // POS: El curso es registrado correctamente
+     * @param cursoActual curso a registrar 
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public void registrarCurso(Curso cursoActual) throws UnidadProyectosException;
+    
+    /**
+     * consulta si un cohorte ya se encuentra registrado
+     * @param id numero id de un cohorte
+     * @throws UnidadProyectosException si el numero id del cohorte no existe
+     */
+    public void consultarCohorte(int id) throws UnidadProyectosException;
+    
+    /**
+     * Registra un nuevo cohorte para un curso y programa especifico
+     * @param idPrograma id del programa
+     * @param idCurso id del curso
+     * @param cohorte id del cohorte
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public void registrarCohorte(int idPrograma, int idCurso, int cohorte) throws UnidadProyectosException;
+    
+    /**
+     * Consulta las clases de un profesor dado 
+     * @param idProf id del profesor a consultar
+     * @return lista de clases de un profesor dado
+     * @throws UnidadProyectosException cuando el id del profesor no existe
+     */
+    public List<Clase> consultarClasesProfesor(int idProf) throws UnidadProyectosException;
+    
+    /**
+     * Cancela  la clase dado su id
+     * @param id ud de la clase a cancelar
+     * @throws UnidadProyectosException  Excepcion con datos del error
+     */
+    public void cancelarClase(int id) throws UnidadProyectosException;
+    
+    /**
+     * Registra una nueva asignatura para un programa de la Unidad de Proyectos
+     * //PRE: se espera que el programa ya este registrado
+     * @param nombreAsig nombre de la asignatura a registrar
+     * @param idProg id del programa al que pertenece la asignatura
+     * @throws UnidadProyectosException Si el nombre ingresado ya existe
+     */
+    public void registrarAsignatura(String nombreAsig, int idProg) throws UnidadProyectosException;
+    
+    /**
+     * Registra una nueva asignatura para un programa de la Unidad de Proyectos
+     * @param idAsignatura id de la asignatura
+     * @param nombreAsig nombre de la asignatura
+     * @param idProg Id del programa
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public void registrarAsignatura(int idAsignatura, String nombreAsig, int idProg) throws UnidadProyectosException;
+    
+    /**
+     * Registra un nuevo periodo
+     * @param periodo Periodo a registrar
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public void registrarPeriodo(Periodo periodo) throws UnidadProyectosException;
+    
+    /**
+     * Registra un nuevo profesor
+     * @param profesor profesor a registrar
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public void registrarProfesor(Profesor profesor) throws UnidadProyectosException;
+    
+    /**
+     * Registra una nueva materia con sus datos
+     * //PRE: se espera que la asignatura este previamente registrada
+     * @param materia materia a registrar
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public void registrarMateria(Materia materia) throws UnidadProyectosException;
+    
+    /**
+     * Registra un nuevo Programa
+     * @param programa programa a registrar
+     * @throws UnidadProyectosException Excepcion con datos del error
+     */
+    public void registrarPrograma(Programa programa) throws UnidadProyectosException;
+    
+    /**
+     * Inserta a un profesor dado un nuevo horario
+     * @param id
+     * @param diaDisp
+     * @param horaDisp
+     * @throws UnidadProyectosException con datos incorrectos
+     */
+    public void insertarHorarioProfesor(int id, String diaDisp, Time horaDisp) throws UnidadProyectosException;
+    
+    /**
+     * Consulta los horarios disponibles de un profesor
+     * @param id
+     * @return
+     * @throws UnidadProyectosException 
+     */
+    public List<HorarioDisponible> consultarHorarioProfesor(int id) throws UnidadProyectosException;
+    
+    /**
+     * devuelve el dia de la semana correspondiente a una fecha
+     * @param fecha
+     * @return 
+     */
+    public String obtenerDiaSemana(Date fecha);
 }
+

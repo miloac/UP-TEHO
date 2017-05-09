@@ -7,7 +7,7 @@
     <resultMap type='Curso' id='CursoResult'>
         <id property='id' column='id'/>
         <association property="materia" javaType="Materia" columnPrefix="mat_" resultMap="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.MateriaMapper.MateriaResult"></association>
-         <association property="periodo" javaType="Periodo" columnPrefix="per_" resultMap="PeriodoResult"></association>
+        <association property="periodo" javaType="Periodo" columnPrefix="per_" resultMap="PeriodoResult"></association>
         <association property='profesor' javaType="Profesor" columnPrefix="prf_" resultMap="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.ProfesorMapper.ProfesorResult"/>
        
     </resultMap>
@@ -94,7 +94,7 @@
         where cur.id= #{idCur}
     </select>
     
-      <select parameterType="map" id="consultarCursosPorPeriodo" resultMap="CursoResult">
+    <select parameterType="map" id="consultarCursosPorPeriodo" resultMap="CursoResult">
         select
         cur.id,
         cur.Profesor_id,
@@ -132,5 +132,12 @@
         where per.nombre=COALESCE(#{nombrePeriodo}, per.nombre)
     </select>
     
-   
+    <select parameterType="map" id="getNextCurso" resultType="int">
+        SELECT COALESCE(MAX(id)+1, 1) FROM Cursos;
+    </select>
+    
+    <insert id="registrarCurso" parameterType="map">
+        INSERT INTO Cursos
+        VALUES (#{idCurso}, #{idProfesor}, #{siglaMateria}, #{nombrePeriodo})
+    </insert>
 </mapper>

@@ -30,5 +30,23 @@ public interface CursoMapper {
      */
     List<Curso> consultarCursosPorPeriodo(@Param("nombrePeriodo")String nombre);
     
+    /**
+     * Consulta el siguiente id disponible de los cursos ya registrados
+     * @return entero del id del curso disponible
+     */
+    int getNextCurso();
+    
+    /**
+     * Registra un curso
+     * @param id id del curso
+     * @param idProfesor id del profesor
+     * @param siglaMateria sigla de la materia
+     * @param nombrePeriodo nombre del periodo
+     */
+    public void registrarCurso(@Param("idCurso")int id,
+                               @Param("idProfesor")int idProfesor,
+                               @Param("siglaMateria")String siglaMateria,
+                               @Param("nombrePeriodo")String nombrePeriodo);
+    
    
 }

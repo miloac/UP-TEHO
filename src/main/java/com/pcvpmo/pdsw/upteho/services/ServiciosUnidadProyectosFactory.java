@@ -2,8 +2,31 @@ package com.pcvpmo.pdsw.upteho.services;
 
 import com.google.inject.Injector;
 import static com.google.inject.Guice.createInjector;
+<<<<<<< HEAD
 import com.pcvpmo.pdsw.upteho.dao.*;
 import com.pcvpmo.pdsw.upteho.dao.mybatis.*;
+=======
+import com.pcvpmo.pdsw.upteho.dao.AsignaturaDAO;
+import com.pcvpmo.pdsw.upteho.dao.ClaseDAO;
+import com.pcvpmo.pdsw.upteho.dao.CohorteDAO;
+import com.pcvpmo.pdsw.upteho.dao.CursoDAO;
+import com.pcvpmo.pdsw.upteho.dao.HorarioDisponibleDAO;
+import com.pcvpmo.pdsw.upteho.dao.MateriaDAO;
+import com.pcvpmo.pdsw.upteho.dao.PeriodoDAO;
+import com.pcvpmo.pdsw.upteho.dao.ProfesorDAO;
+import com.pcvpmo.pdsw.upteho.dao.ProgramaDAO;
+import com.pcvpmo.pdsw.upteho.dao.RecursoDAO;
+import com.pcvpmo.pdsw.upteho.dao.RequisitoDAO;
+import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISAsignaturaDAO;
+import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISClaseDAO;
+import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISCohorteDAO;
+import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISCursoDAO;
+import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISHorarioDisponibleDAO;
+import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISMateriaDAO;
+import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISPeriodoDAO;
+import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISProfesorDAO;
+import com.pcvpmo.pdsw.upteho.dao.mybatis.MyBATISProgramaDAO;
+>>>>>>> b6a8a44ec1056e283918b7ff529628ec170c60b0
 import com.pcvpmo.pdsw.upteho.services.impl.ServiciosUnidadProyectosImpl;
 import org.mybatis.guice.XMLMyBatisModule;
 import org.mybatis.guice.datasource.helper.JdbcHelper;
@@ -36,16 +59,21 @@ public class ServiciosUnidadProyectosFactory {
                 bind(ProgramaDAO.class).to(MyBATISProgramaDAO.class);
                 bind(AsignaturaDAO.class).to(MyBATISAsignaturaDAO.class);
                 bind(MateriaDAO.class).to(MyBATISMateriaDAO.class);
+<<<<<<< HEAD
                
                 //TODO agregar bind de DAOS MyBatis
+=======
+                bind(PeriodoDAO.class).to(MyBATISPeriodoDAO.class);
+>>>>>>> b6a8a44ec1056e283918b7ff529628ec170c60b0
             }
         });
         
         testInjector = createInjector(new XMLMyBatisModule() {
+            
             @Override
             protected void initialize() {
                 install(JdbcHelper.PostgreSQL);
-                setEnvironmentId("mybatis-config-h2.xml");
+                setClassPathResource("mybatis-config-h2.xml");
                 bind(ServiciosUnidadProyectos.class).to(ServiciosUnidadProyectosImpl.class);
                 bind(CursoDAO.class).to(MyBATISCursoDAO.class);
                 bind(ClaseDAO.class).to(MyBATISClaseDAO.class);
@@ -55,7 +83,7 @@ public class ServiciosUnidadProyectosFactory {
                 bind(ProgramaDAO.class).to(MyBATISProgramaDAO.class);
                 bind(AsignaturaDAO.class).to(MyBATISAsignaturaDAO.class);
                 bind(MateriaDAO.class).to(MyBATISMateriaDAO.class);
-                //TODO agregar binds Daos MyBatis
+                bind(PeriodoDAO.class).to(MyBATISPeriodoDAO.class);
             }
         });
     }

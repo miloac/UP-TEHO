@@ -15,8 +15,19 @@
         id, nombre
         from asignaturas as asi
         where Programas_id=COALESCE(#{idPrograma}, programas_id);
+    </select>  
+        
+    <select parameterType="map" id="consultarAsignaturas" resultMap="com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.MateriaMapper.AsignaturaResult">
+        select  asi.id as id,
+        asi.nombre as nombre,
+        asi.programas_id as Programas_id,
+        pro.id as pro_id,
+        pro.nombre as pro_nombre
+        from asignaturas as asi
+        left join programas as pro on asi.programas_id=pro.id;
     </select>
     
+<<<<<<< HEAD
     <select parameterType="map" id="getAsignaturaPorID" resultMap="OnlyAsignaturaResult">
         select
                 
@@ -27,3 +38,14 @@
     </select>
 </mapper> 
     
+=======
+    <insert parameterType="map" id="registrarAsignatura">
+        insert into asignaturas (id, nombre, programas_id) values((select COALESCE(max(id)+1, 1) from asignaturas), #{nombreAsig}, #{idProg});
+    </insert>
+     
+    <insert parameterType="map" id="registrarAsignaturaFull">
+        insert into asignaturas (id, nombre, programas_id) values(#{idAsignatura}, #{nombreAsig}, #{idProg});
+    </insert>
+    
+</mapper>
+>>>>>>> b6a8a44ec1056e283918b7ff529628ec170c60b0
