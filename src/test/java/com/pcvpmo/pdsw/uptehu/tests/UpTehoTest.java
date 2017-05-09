@@ -1,7 +1,9 @@
 package com.pcvpmo.pdsw.uptehu.tests;
 
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
+import com.pcvpmo.pdsw.upteho.entities.Clase;
 import com.pcvpmo.pdsw.upteho.entities.Curso;
+import com.pcvpmo.pdsw.upteho.entities.HorarioDisponible;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 
 import com.pcvpmo.pdsw.upteho.entities.Materia;
@@ -10,6 +12,11 @@ import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
+import java.sql.Date;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,16 +50,47 @@ import static org.junit.Assert.*;
  * CE15: Al registrar un cohorte con datos correctos se agrega correctamente; TIPO: Normal; Resultado Esperado: Se agrega el cohorte correctamente
  * CE16: Al consultarAsignaturasxPrograma se debe obtener la asignatura requerida TIPO: Normal, Resultado Esperado: Se obtienen las asignaturas esperadas
  * CE17: Al consultarAsignaturaxPrograma con idPrograma == null, se deben obtener todas las asignaturas RE: Lista de Todas las asignaturas
- * CE18: Se debe poder registrar Un Nuevo Programa sin problemas; tipo: Normal; Resultado Esperado: El programa queda registrada y se puede consultar
- * CE19: Se debe poder registrar una nueva Asignatura sin problemas; tipo: Normal; Resultado Esperado: La asignatura queda registrada y se puede consultar
+ * CE18: Se debe poder registrar Un Nuevo Programa sin problemas; tipo: Normal; Resultado Esperado: La asignatura queda registrada y se puede consultar
+ * CE19:Se debe poder insertar un nuevo horario a un profesor;tipo:Normal;resultado esperado : el profesor tiene el nuevo horario deseado 
+ * CE20: Se debe poder agregar una clase a un curso; tipo :Normal ;resultado esperado : se agrega una nueva clase a un curso dado
+ * CE21 No debe agregar si el profesor no tiene diponibilidad para la clase;tipo:frontera; resultado esperado: no se agrega la clase al profesor ni al curso
+ * CE22 Se deben poder consultar las clases de un profesor; tipo: Normal ;resultado esperado: se pueden consultar las clases de un profesor dado
+ * CE23 Se deben poder consultar las clases de un curso; tipo:Normal;resultado esperado : se pueden consultar las clases de un curso especifico
+ * CE24 Se debe poder cancelar una clase;tipo:Normal;resultado esperado: se elimina  la clase  referenciada
+ * CE25: Se debe poder registrar Un Nuevo Programa sin problemas; tipo: Normal; Resultado Esperado: El programa queda registrada y se puede consultar
+ * CE26: Se debe poder registrar una nueva Asignatura sin problemas; tipo: Normal; Resultado Esperado: La asignatura queda registrada y se puede consultar
  */
 public class UpTehoTest {
+    private ServiciosUnidadProyectos serv;
+    private Curso cursoTest;
+    private Profesor profesorTest;
+    private Materia materiaTest;
+    private Periodo periodoTest;
+    private Asignatura asignaturaTest;
+    private Programa programaTest;
+    private Date fechaTest;
+    private Time horaTest;
     
     public UpTehoTest(){
     }
 
     @Before
     public void setUp(){
+        serv = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        programaTest=new Programa(12,"PROGRAMADEPRUEBA");
+        asignaturaTest=new Asignatura(58,"ASIGNATURADEPRUEBA",programaTest);
+        materiaTest=new Materia("MDPR","MATERIADEPRUEBA",5,"PRUEBA",asignaturaTest);
+        profesorTest=new Profesor(1014,"PROFESORDEPRUEBA","EMAILPRUEBA");
+        java.util.Date fecha = new java.util.Date();
+        fechaTest=new Date(fecha.getTime());
+        DateFormat formatter = new SimpleDateFormat("HH:mm");
+        try{
+            horaTest = new Time(formatter.parse("08:00").getTime());
+        }catch(Exception e){
+            fail("no se  pudo crear Time"+e);
+        }
+        periodoTest=new Periodo("2017-1",fechaTest,fechaTest);
+        cursoTest=new Curso(56,profesorTest,materiaTest,periodoTest);   
     }
     
     /**
@@ -386,9 +424,104 @@ public class UpTehoTest {
             fail("Se lanzo una excepcion y no se registro el programa " + ex.getMessage());
         }
     }
+    /**
+     *  CE19:Se debe poder insertar un nuevo horario a un profesor;tipo:Normal;resultado esperado : el profesor tiene el nuevo horario deseado
+     */
+    @Test
+    public void debeInsertarHorarioProfesor(){
+        try{
+            serv.registrarPeriodo(periodoTest);
+            serv.registrarProfesor(profesorTest);
+            serv.insertarHorarioProfesor(profesorTest.getId(),serv.obtenerDiaSemana(fechaTest), horaTest);
+            List<HorarioDisponible> horarios=serv.consultarHorarioProfesor(profesorTest.getId());
+            assertEquals("no se agregan los horarios",horarios.size(),1);
+            assertEquals("no se agrego el horario correctamente",horarios.get(0).getDia(),serv.obtenerDiaSemana(fechaTest));
+            assertEquals("no se agrego el horario correctamente",horarios.get(0).getHora(),horaTest);
+            assertEquals("no se agrego el horario correctamente",horarios.get(0).getProfesor().getId(),profesorTest.getId());
+        }catch(UnidadProyectosException ex){
+            fail("No se inserto horario a el profesor " + ex.getMessage());
+        }
+    }
+    /**
+     * CE20: Se debe poder agregar una clase a un curso; tipo :Normal ;resultado esperado : se agrega una nueva clase a un curso dado
+     */
+    @Test
+    public void debeAgregarClase(){
+        try{
+           
+            serv.registrarPrograma(programaTest);
+            serv.registrarAsignatura(asignaturaTest.getId(),asignaturaTest.getNombre() ,asignaturaTest.getPrograma().getId());
+            serv.registrarMateria(materiaTest);
+            serv.registrarCurso(cursoTest);
+            serv.agregarClase(cursoTest.getId(),fechaTest , horaTest, "SalonDePrueba", profesorTest.getId());
+            List<Clase> clases=serv.consultarClasesCurso(cursoTest.getId());
+            assertEquals("no se agregan las clases",clases.size(),1);
+            assertEquals("no se agrego la clase correctamente",clases.get(0).getCursoId(),cursoTest.getId());
+            assertEquals("no se agrego la clase correctamente fecha",clases.get(0).getFecha().toString(),fechaTest.toString());
+            assertEquals("no se agrego la clase correctamente",clases.get(0).getHora(),horaTest);
+            assertEquals("no se agrego la clase correctamente",clases.get(0).getTipo_salon(),"SalonDePrueba");
+            
+        }catch(UnidadProyectosException ex){
+            fail("No se agrego la clase debido a una inconsistencia" + ex.getMessage());
+        }
+    }
+    /**
+     * CE21 No debe agregar si el profesor no tiene diponibilidad para la clase;tipo:frontera; resultado esperado: no se agrega la clase al profesor ni al curso
+     */
+     @Test
+    public void noDebeAgregarSiNoHayDiponibilidad(){
+        try{
+            DateFormat formatter = new SimpleDateFormat("HH:mm");
+            horaTest = new Time(formatter.parse("07:00").getTime());
+            serv.agregarClase(cursoTest.getId(),fechaTest , horaTest, "SalonDePrueba", profesorTest.getId());
+            List<Clase> clases=serv.consultarClasesCurso(cursoTest.getId());
+            assertEquals(" se agregan las clases",clases.size(),1);          
+        }catch(Exception ex){
+            fail("Ocurrio una inconsistencia" + ex.getMessage());
+        }
+    }
+    /**
+     * CE22 Se deben poder consultar las clases de un profesor; tipo: Normal ;resultado esperado: se pueden consultar las clases de un profesor dado
+     */
+     @Test
+    public void seDebeConsultarClasesProfesor(){
+        try{
+            List<Clase> clases=serv.consultarClasesProfesor(profesorTest.getId());
+            assertEquals("no se consultan las clases",clases.size(),1);          
+        }catch(Exception ex){
+            fail("No se consultaron las clases debido a una inconsistencia" + ex.getMessage());
+        }
+    }
+    /**
+     * CE23 Se deben poder consultar las clases de un curso; tipo:Normal;resultado esperado : se pueden consultar las clases de un curso especifico
+     */
+    @Test
+    public void seDebeConsultarClasesDeUnCurso(){
+        try{
+            List<Clase> clases=serv.consultarClasesCurso(cursoTest.getId());
+            assertEquals("no se consultan las clases",clases.size(),1);         
+        }catch(Exception ex){
+            fail("No se consultaron las clases debido a una inconsistencia" + ex.getMessage());
+        }
+    }
+    @Test
+    /**
+     * CE24 Se debe poder cancelar una clase;tipo:Normal;resultado esperado: se elimina  la clase  referenciada
+     */
+    public void deberiaCancelarClase(){
+        try{
+            List<Clase> clases=serv.consultarClasesCurso(cursoTest.getId());
+            serv.cancelarClase(1);
+            clases=serv.consultarClasesCurso(cursoTest.getId());
+             assertEquals("no se cancelo la clase",clases.size(),0);  
+        }catch(Exception ex){
+            fail("No se cancelo la clase debido a una inconsistencia" + ex.getMessage());
+        }
+    }
+    
     
     /**
-     * CE19: Se debe poder registrar una nueva Asignatura sin problemas; tipo: Normal; Resultado Esperado: La asignatura queda registrada y se puede consultar
+     * CE26: Se debe poder registrar una nueva Asignatura sin problemas; tipo: Normal; Resultado Esperado: La asignatura queda registrada y se puede consultar
      */
     @Test
     public void registroCorrectoDeAsignatura() {

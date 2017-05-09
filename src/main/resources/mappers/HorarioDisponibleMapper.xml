@@ -26,5 +26,8 @@
         
         where prf.id=#{idProfesor}
     </select>
+    <insert parameterType="map" id="insertarHorarioProfesor">
+        insert into HorarioDisponible (profesores_id,dia,hora) values (#{profesorId},#{diaDisp},#{horaDisp})
+    </insert>
 </mapper> 
     

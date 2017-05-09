@@ -1,6 +1,7 @@
 package com.pcvpmo.pdsw.upteho.dao.mybatis.mappers;
 
 import com.pcvpmo.pdsw.upteho.entities.HorarioDisponible;
+import java.sql.Time;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -15,4 +16,12 @@ public interface HorarioDisponibleMapper {
      * @return lista con los horarios disponibles de un profesor dado
      */
     List<HorarioDisponible> consultarHorarioProfesor(@Param("idProfesor")int id);
+    
+    /**
+     * inserta el horario disponible de un profesor dado
+     * @param id
+     * @param diaDisp
+     * @param horaDisp 
+     */
+    void insertarHorarioProfesor(@Param("profesorId")int id,@Param("diaDisp")String diaDisp,@Param("horaDisp")Time horaDisp);
 }

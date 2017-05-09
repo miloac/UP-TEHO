@@ -285,7 +285,8 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
         }
     }
     
-    private String obtenerDiaSemana(Date fecha){
+    @Override
+    public String obtenerDiaSemana(Date fecha){
       String[] dias={"DO","LU","MA", "MI","JU","VI","SA"};
       int numeroDia=0;
       Calendar cal= Calendar.getInstance();
@@ -457,6 +458,24 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             daoPrograma.registrarPrograma(programa.getId(), programa.getNombre());
         } catch (PersistenceException ex) {
             throw new UnidadProyectosException("Error al registrar un Programa con id: " + programa.getId(), ex);
+        }
+    }
+
+    @Override
+    public void insertarHorarioProfesor(int id, String diaDisp, Time horaDisp) throws UnidadProyectosException {
+        try{
+            daoHorarioDisponible.insertarHorarioProfesor(id, diaDisp, horaDisp);
+        }catch (PersistenceException ex){
+            throw new UnidadProyectosException("Error al insertar horario al profesor con id: " + id, ex);
+        }
+    }
+
+    @Override
+    public List<HorarioDisponible> consultarHorarioProfesor(int id) throws UnidadProyectosException {
+        try{
+            return daoHorarioDisponible.consultarHorarioProfesor(id);
+        }catch (PersistenceException ex){
+            throw new UnidadProyectosException("Error al consultar horario del profesor con id: " + id, ex);
         }
     }
 }
