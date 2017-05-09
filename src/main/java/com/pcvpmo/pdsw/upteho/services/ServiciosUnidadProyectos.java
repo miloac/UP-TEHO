@@ -74,6 +74,13 @@ public interface ServiciosUnidadProyectos {
    public List<Materia> consultarMaterias() throws UnidadProyectosException;
    
    /**
+    * retorna la materia dada su sigla
+    * @param sigla
+    * @return materia
+    * @throws UnidadProyectosException
+    */
+   public Materia consultarMateria(String sigla)throws UnidadProyectosException;
+   /**
     *  consulta las materias de una asignatura
     * @param idAsignatura id de la asignatura
     * @return lista con Materias 
@@ -81,6 +88,15 @@ public interface ServiciosUnidadProyectos {
     * @throws UnidadProyectosException Excepcion con datos del error
     */
    public List<Materia> consultarMaterias(int idAsignatura) throws UnidadProyectosException;
+   
+   /**
+    * registra un requisito
+     * @param mat
+     * @param matReq
+     * @param tipo
+     * @throws com.pcvpmo.pdsw.upteho.services.UnidadProyectosException
+    */
+   public void registrarRequisito(String mat,String matReq,String tipo)throws UnidadProyectosException;
    
    /**
     *  Consulta los programas de la Unidad de Proyectos

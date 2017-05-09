@@ -8,14 +8,11 @@
     
     <h:head>
         <h:outputStylesheet library="css" name="estilo.css" /> 
+        <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script type="text/javascript">
-            function tryAlert(){
-                if (${UnidadProyectosBean.alertOfInvalidProgram}){
-                    alert("#{UnidadProyectosBean.getMesageForUser()}");
-                }
-            }
-           
-        </script>
+            jQuery.noConflict();
+        </script-->
+        <h:outputScript library="scriptTeho" name="UpTeho.js" />
         <title>Registrar Nueva Materia</title>
     </h:head>
     <h:body>
@@ -34,66 +31,110 @@
         
         <div style="max-width:100%;min-height:300px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:10px;margin:auto;" >
+                
+                
                 <h:form id="tabla_registro">
                     
-                    <p:dataTable id="checkboxDT" var="prog" value="#{UnidadProyectosBean.consultarProgramas()}"  selection="#{UnidadProyectosBean.selectedPrograms}" rowKey="#{prog.id}" style="margin-bottom:0" rowIndexVar="rowIndex">
-                        <p:column selectionMode="multiple" style="width:16px;text-align:center" />
-                        <p:ajax event="rowSelectCheckbox" listener="#{UnidadProyectosBean.rowSelectCheckBox()}" oncomplete="alert('continue')" />
-                        <p:ajax event="rowUnselectCheckbox" listener="#{UnidadProyectosBean.rowUnSelectCheckBox()}" oncomplete="alert('continue')"/>
-                        <p:remoteCommand name="updateList" update="select"/>
-                        <p:column headerText="Programa" >
-                            <h:outputText value="#{prog.nombre}"/>
+                    <p:dataTable id="checkboxDT" var="prog" value="#{UnidadProyectosBean.consultarProgramas()}"  rowIndexVar="rowIndex">
+                        
+                        <p:column headerText="Programa">
+                            <center> 
+                                <p:commandButton id="d" value="#{prog.nombre}" onclick="verifyThisButton(this)" action="#{UnidadProyectosBean.rowSelectCheckBox(prog)}" process="@this"/>
+                            </center>
                         </p:column>
                         
                         <p:column headerText="asignatura"> 
-                            <p:selectOneMenu id="select" widgetVar="select#{rowIndex}" value="#{UnidadProyectosBean.idAsignaturaActual}" style="width:250px">
-                                <f:selectItem itemLabel="Seleccionar Asignatura"  itemValue="0" noSelectionOption="true" />
-                                <f:selectItems value="#{UnidadProyectosBean.getAsignaturasXprog(prog)}"/>
-                                <p:ajax oncomplete="alert('continue')" listener="#{UnidadProyectosBean.changeOption(prog)}" event="change"/>
-                            </p:selectOneMenu>
+                            <center>
+                                <p:selectOneMenu id="select" widgetVar="select#{rowIndex}" value="#{UnidadProyectosBean.idAsignaturaActual}" style="width:250px">
+                                    <f:selectItem itemLabel="Seleccionar Asignatura"  itemValue="00" noSelectionOption="true" />
+                                    <f:selectItems value="#{UnidadProyectosBean.getAsignaturasXprog(prog)}"/>
+                                    <p:ajax listener="#{UnidadProyectosBean.changeOption(prog)}" event="change" oncomplete="alert('asignatura seleccionada')"/>
+                                </p:selectOneMenu>
+                            </center>
                         </p:column>
                         
                         <p:column headerText="Accion">
                              <center><h:commandButton value="Crear Nueva Asignatura" action="#{UnidadProyectosBean.irPaginaAsginatura()}"/></center>
                         </p:column>
+                        
                     </p:dataTable>
+                    
+                    
+                    <p:separator/>
+                    <p:separator/>
+                    
+                    <center>
+                        <p:lightBox id="lighbox2" iframe="true">
+                            <h:outputLink value="SeleccionEnRegistrarMateria.xhtml" onmouseover="decore(this)" onmouseout="undecore(this)" onclick="changeColor(this)">
+                                <h:outputText value="Vea su seleccion" class="olink"/>
+                            </h:outputLink>
+                        </p:lightBox>
+                    </center>
+                    
                 </h:form>
+                
+                
                 <p:separator/>
+                <p:separator/>
+                
+                
                 <center>
-                    <p:commandButton value="Ver su seleccion" action="#{UnidadProyectosBean.irPaginaConsultarSeleccion('RegistrarNuevaMateria.xhtml')}"  title="vea su seleccion de materias y programas"/>                       
+                    <h:panelGrid columns="4" cellpadding="10">
+                        
+                        <h:outputText value="Pre-requisitos:"></h:outputText>
+
+                        <p:selectOneMenu id="requisitos" value="#{UnidadProyectosBean.idRequisito}"  style="width:250px">
+                            <f:selectItem itemLabel="Sin requisitos" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{UnidadProyectosBean.consultarMaterias()}" var="materias" itemLabel="#{materias.nombre}"/>
+                            <p:ajax listener="#{UnidadProyectosBean.changeOptionReq(materias)}" event="change" oncomplete="alert('requisito seleccionado')"/>
+                        </p:selectOneMenu>
+
+                        <p:selectOneRadio id="requisito">
+                            <f:selectItem itemLabel="Co-requisito" itemValue="co" value="#{UnidadProyectosBean.tipoRequisito}" />
+                            <f:selectItem itemLabel="Requisito Completo" itemValue="re" value="#{UnidadProyectosBean.tipoRequisito}"/>
+                            <p:ajax listener="#{UnidadProyectosBean.selectTipoRequisito()}" event="select" oncomplete="alert('tipo seleccionado')"/>
+                        </p:selectOneRadio>
+                        
+                        <p:commandButton value="Agregar Requisito" action="#{UnidadProyectosBean.addRequisito()}" oncomplete="alert('requisito agregado');"/>
+                        
+                    </h:panelGrid>
                 </center>
+                
                 <p:separator/>
-                <h:panelGrid columns="3" cellpadding="10">
-                    <h:outputText value="Pre-requisitos:"></h:outputText>
-                    
-                    <p:selectOneMenu id="requisitos" value="#{UnidadProyectosBean.idRequisito}" style="width:250px">
-                        <f:selectItem itemLabel="Sin requisitos" itemValue="" noSelectionOption="true" />
-                        <f:selectItems value="#{UnidadProyectosBean.consultarMaterias()}" var="materias" itemLabel="#{materias.nombre}" />
-                    </p:selectOneMenu>
-                    
-                    <p:selectOneRadio id="requisito">
-                        <f:selectItem itemLabel="Co-requisito" itemValue="co" />
-                        <f:selectItem itemLabel="Requisito Completo" itemValue="re" />
-                    </p:selectOneRadio>
-                </h:panelGrid>
-                <p:separator/>
+                
                 <center>
-                <h:panelGrid columns="2" cellpadding="10">
-                    <p:outputLabel for="nombreMateria" value="Nombre Materia" />
-                    <h:inputText class="textbox" id="nombreMateria" binding="#{nombreMateria}"/>
-                    
-                    <p:outputLabel for="siglas" value="Codigo (mnemonico)" />
-                    <h:inputText class="textbox" id="siglas" binding="#{siglas}"/>
-                    
-                    <p:outputLabel for="descripcion" value="Descripcion" />
-                    <p:inputTextarea class="textbox" id="descripcion" binding="#{descripcion}" rows="6" cols="33" />
-                    
-                    <h:commandButton value="Registrar" class="boton" action="#{UnidadProyectosBean.irPaginaCurso(curso)}"/>
-                    <h:commandButton value="Cancelar" class="boton" action="#{UnidadProyectosBean.irPaginaCurso(curso)}"/>
-                </h:panelGrid>
+                    <p:lightBox id="lighbox3" iframe="true">
+                        <h:outputLink value="ListaRequisitosSeleccionados.xhtml" onmouseover="decore(this)" onmouseout="undecore(this)" onclick="changeColor(this)">
+                            <h:outputText value="Vea su seleccion" class="olink"/>
+                        </h:outputLink>
+                    </p:lightBox>
                 </center>
+                
+                <p:separator/>
+                
+                <center>
+                    
+                    <h:panelGrid columns="2" cellpadding="10">
+                        <p:outputLabel for="nombreMateria" value="Nombre Materia" />
+                        <p:inputText class="textbox" id="nombreMateria" value="#{UnidadProyectosBean.nombreMateria}"/>
+
+                        <p:outputLabel for="siglas" value="Codigo (mnemonico)" />
+                        <p:inputText class="textbox" id="siglas" value="#{UnidadProyectosBean.siglaMateria}"/>
+
+                        <p:outputLabel for="descripcion" value="Descripcion" />
+                        <p:inputTextarea class="textbox" id="descripcion" value="#{UnidadProyectosBean.descripcion}" rows="5" cols="30" counter="display" maxlength="10" counterTemplate="{0} characters remaining."/>
+
+                        <h:commandButton value="Registrar" class="boton" action="#{UnidadProyectosBean.registrarMateria()}"/>
+                        <h:commandButton value="Cancelar" class="boton" action="#{UnidadProyectosBean.cancelarRegistroMateria()}"/>
+                        <h:outputText id="display" />
+                    </h:panelGrid>
+                    
+                </center>
+                
             </div>
+            
         </div>
+            
         <ui:include src="resources/inc/footer.xhtml" />
     </h:body>
 </html>

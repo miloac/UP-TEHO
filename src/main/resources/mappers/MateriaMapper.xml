@@ -76,5 +76,11 @@
         from materias
         where Asignaturas_id=COALESCE(#{idAsignatura}, Asignaturas_id);     
     </select>
+    
+    <select parameterType = "map" id="consultarMateria" resultMap="MateriaResult">
+        select sigla, nombre, creditos, descripcion
+        from materias
+        where materias.sigla = #{sigla}
+    </select>
 
 </mapper>

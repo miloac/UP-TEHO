@@ -303,4 +303,19 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
       numeroDia=cal.get(Calendar.DAY_OF_WEEK);
       return dias[numeroDia -1];
     }
+    
+
+    @Override
+    public Materia consultarMateria(String sigla) throws UnidadProyectosException {
+        try{
+            return daoMateria.consultarPorSigla(sigla);
+        }catch(PersistenceException ex){
+            throw new UnidadProyectosException("Error al consultar la materia", ex);
+        }
+    }
+
+    @Override
+    public void registrarRequisito(String mat, String matReq, String tipo) throws UnidadProyectosException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

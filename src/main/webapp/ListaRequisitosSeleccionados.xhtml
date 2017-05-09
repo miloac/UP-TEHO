@@ -13,30 +13,25 @@
         <div style="max-width:100%;min-height:300px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:10px;margin:auto;" >
                 <h:form id="dataTable">
-                    <p:dataTable id="consult" value="#{UnidadProyectosBean.getAsignaturasYProgramas().entrySet().toArray()}" var="consulta" rowIndexVar="rowIndx">   
+                    <p:dataTable id="consult" value="#{UnidadProyectosBean.getRequisitosEscogidos().entrySet().toArray()}" var="consulta" rowIndexVar="rowIndx">   
                         <p:remoteCommand name="updateTabla" id="updateTabla" update="consult"/>
-                        <p:column headerText="Asignatura">
+                        <p:column headerText="Materia">
                             <center>
                                 <h:outputText value="#{consulta.value.nombre}"/>
                             </center>
                         </p:column>
-                        <p:column headerText="Programa">
+                        <p:column headerText="tipo">
                             <center>
-                                <h:outputText value="#{consulta.key.nombre}"/>
+                                <h:outputText value="#{consulta.key}"/>
                             </center>
                         </p:column>
                         <p:column headerText="Quitar">
                             <center>
-                                <h:commandButton value="quitar esta fila" action="#{UnidadProyectosBean.quitarFila(consulta.key.id)}"/>
+                                <h:commandButton value="quitar esta seleccion" action="#{UnidadProyectosBean.quitarRequisito(consulta.key.id)}"/>
                             </center>
                         </p:column>
                     </p:dataTable>
                 </h:form>
-                <p:separator/>
-                <p:separator/>
-                <center>
-                    <h:commandButton value="¿problema para visualizar? actualice aqui" action="#{UnidadProyectosBean.irPaginaConsultarSeleccion('RegistrarNuevaMateria.xhtml')}"/>
-                </center>
                 <p:separator/>
                 <p:separator/>
             </div>                 
