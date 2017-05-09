@@ -43,7 +43,7 @@ public interface CursoMapper {
      * @param siglaMateria sigla de la materia
      * @param nombrePeriodo nombre del periodo
      */
-    public void registrarCurso(@Param("idCurso")int id,
+    void registrarCurso(@Param("idCurso")int id,
                                @Param("idProfesor")int idProfesor,
                                @Param("siglaMateria")String siglaMateria,
                                @Param("nombrePeriodo")String nombrePeriodo);

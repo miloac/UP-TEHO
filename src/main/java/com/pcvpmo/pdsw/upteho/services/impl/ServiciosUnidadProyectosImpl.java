@@ -28,8 +28,6 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.mybatis.guice.transactional.Transactional;
 
 /**
@@ -165,15 +163,14 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             String[] valores = nombre.split("-");
             if(valores.length == 2){
                 try{
-                    int valor1 = Integer.parseInt(valores[0]);
-                    int valor2 = Integer.parseInt(valores[1]);
-                }
-                catch(Exception e){
-                    throw new UnidadProyectosException("El formato del periodo no es correcto",e);
+                    Integer.parseInt(valores[0]);
+                    Integer.parseInt(valores[1]);
+                } catch(NumberFormatException e){
+                    throw new UnidadProyectosException("El formato del periodo no es correcto [parseInt fallo]",e);
                 }
             }
             else {
-                throw new UnidadProyectosException("El formato del periodo no es correcto");
+                throw new UnidadProyectosException("El formato del periodo no es correcto [split fallo]");
             }
         }
         try {
@@ -202,15 +199,15 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             String[] valores = periodo.split("-");
             if(valores.length == 2){
                 try{
-                    int valor1 = Integer.parseInt(valores[0]);
-                    int valor2 = Integer.parseInt(valores[1]);
+                    Integer.parseInt(valores[0]);
+                    Integer.parseInt(valores[1]);
                 }
-                catch(Exception e){
-                    throw new UnidadProyectosException("El formato del periodo no es correcto",e);
+                catch(NumberFormatException e){
+                    throw new UnidadProyectosException("El formato del periodo no es correcto [parseInt fallo]",e);
                 }
             }
             else {
-                throw new UnidadProyectosException("El formato del periodo no es correcto");
+                throw new UnidadProyectosException("El formato del periodo no es correcto [split fallo]");
             }
         }
         try {
@@ -266,16 +263,14 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             for(int i=0;i<horarios.size()&& !isPosible;i++){
                 HorarioDisponible hor=horarios.get(i);
           
-                if(hor.getDia().equals(obtenerDiaSemana(fecha)))
-                    if(hor.getHora().equals(hora))
-                        isPosible=true;
+                if(hor.getDia().equals(obtenerDiaSemana(fecha)) && hor.getHora().equals(hora))
+                    isPosible=true;
             }
             List<Clase> horariosC;
             horariosC=consultarClasesProfesor(idProfesor);
             for(int i=0;i<horariosC.size() && isPosible;i++){
-                if(horariosC.get(i).getFecha().equals(fecha))
-                    if(horariosC.get(i).getHora().equals(hora))
-                        isPosible=false;
+                if(horariosC.get(i).getFecha().equals(fecha) && horariosC.get(i).getHora().equals(hora))
+                    isPosible=false;
             }
           
             if(isPosible)daoClase.agregarClase(idCurso, fecha, hora, tSalon);
@@ -287,12 +282,12 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     
     @Override
     public String obtenerDiaSemana(Date fecha){
-      String[] dias={"DO","LU","MA", "MI","JU","VI","SA"};
-      int numeroDia=0;
-      Calendar cal= Calendar.getInstance();
-      cal.setTime(fecha);
-      numeroDia=cal.get(Calendar.DAY_OF_WEEK);
-      return dias[numeroDia -1];
+        String[] dias={"DO","LU","MA", "MI","JU","VI","SA"};
+        int numeroDia;
+        Calendar cal= Calendar.getInstance();
+        cal.setTime(fecha);
+        numeroDia=cal.get(Calendar.DAY_OF_WEEK);
+        return dias[numeroDia -1];
     }    
 
     @Override
@@ -413,15 +408,15 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             String[] valores = periodo.getNombre().split("-");
             if(valores.length == 2){
                 try{
-                    int valor1 = Integer.parseInt(valores[0]);
-                    int valor2 = Integer.parseInt(valores[1]);
+                    Integer.parseInt(valores[0]);
+                    Integer.parseInt(valores[1]);
                 }
-                catch(Exception e){
-                    throw new UnidadProyectosException("El formato del periodo no es correcto",e);
+                catch(NumberFormatException e){
+                    throw new UnidadProyectosException("El formato del periodo no es correcto [parseInt fallo]",e);
                 }
             }
             else {
-                throw new UnidadProyectosException("El formato del periodo no es correcto");
+                throw new UnidadProyectosException("El formato del periodo no es correcto [split fallo]");
             }
         }
         try {
