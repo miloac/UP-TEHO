@@ -23,6 +23,7 @@ import java.util.Map;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -95,6 +96,7 @@ public class UnidadProyectosBean implements Serializable {
         materia=cursoActual.getMateria();
         profesorSelect=cursoActual.getProfesor();
         periodo=cursoActual.getPeriodo();
+        cohorteCursoActual = consultarCohorte(cursoActual, programa);
         return "ProgramarClases";
     }
     public String irProgramacionClase() {
@@ -103,7 +105,7 @@ public class UnidadProyectosBean implements Serializable {
     
     public String irProgramarCurso() {
         if (errorRegistroCurso) return "programarCurso";
-        return "reporteProgramacion";
+        return "ReporteProgramacion";
     }
     
     public String irProgramarClases() {
@@ -697,8 +699,7 @@ public class UnidadProyectosBean implements Serializable {
         return nameProf;
     }
     
-    public void  agregarClase(){
-        String nPagina=null;
+    public void agregarClase(){
         try{
             DateFormat formatter = new SimpleDateFormat("HH:mm");
             Time horaT = new Time(formatter.parse(horaClase).getTime());
@@ -707,12 +708,9 @@ public class UnidadProyectosBean implements Serializable {
             registroClase=resp;
             if(resp)mensaje="La clase se registro";
             else mensaje="El profesor no tiene horario disponible";
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", mensaje);
-            nPagina= irProgramarClases();
-        } catch (Exception ex) {
+        } catch (UnidadProyectosException | ParseException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //return nPagina;
     }
     
     

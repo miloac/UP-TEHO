@@ -31,7 +31,7 @@ public interface ServiciosUnidadProyectos {
      * //pos la materia es registrada debe estar en la base de datos.
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public void registrarMateria(int idPrograma, int idAsignatura, String siglaRequisito, int tipoRequisito, String nombreMateria, String siglaMateria, String descripcionMateria) throws UnidadProyectosException;
+    void registrarMateria(int idPrograma, int idAsignatura, String siglaRequisito, int tipoRequisito, String nombreMateria, String siglaMateria, String descripcionMateria) throws UnidadProyectosException;
     
     /**
      *  Cancela una clase de un Curso especifico
@@ -40,7 +40,7 @@ public interface ServiciosUnidadProyectos {
      * //pos se cancela la clase del curso especifico, se eliminan los recursos de la clase y la reserva del salon
      * @throws UnidadProyectosException Excepcion con datos del error
     **/
-    public void cancelarClase(int cohorte, int idClase) throws UnidadProyectosException;
+    void cancelarClase(int cohorte, int idClase) throws UnidadProyectosException;
 
     /**
      * 
@@ -51,7 +51,7 @@ public interface ServiciosUnidadProyectos {
      * //pos si la fecha y la hora son correctas se programa la clase en el horario dado.
      * @throws UnidadProyectosException Excepcion con datos del error
      */ 
-    public void programarClase(String fecha, String hora, Curso curso) throws UnidadProyectosException;
+    void programarClase(String fecha, String hora, Curso curso) throws UnidadProyectosException;
     //TODO: Cambiar parametros dependiendo como se diseñe el bean.
     // Los paranetros inicialmente puestos era fecha y hora unicamente
     
@@ -64,7 +64,7 @@ public interface ServiciosUnidadProyectos {
      * @throws UnidadProyectosException Excepcion con datos del error
      * 
      */
-    public void registrarCurso(int idAsignatura, String siglaMateria, int idProfesor) throws UnidadProyectosException ;
+    void registrarCurso(int idAsignatura, String siglaMateria, int idProfesor) throws UnidadProyectosException ;
    
    /**
     *  Consulta las materia registradas en el sistema
@@ -72,7 +72,7 @@ public interface ServiciosUnidadProyectos {
     * //pos List con todas las Materias registradas en la base de datos
     * @throws UnidadProyectosException Excepcion con datos del error
     */ 
-   public List<Materia> consultarMaterias() throws UnidadProyectosException;
+    List<Materia> consultarMaterias() throws UnidadProyectosException;
    
    /**
     * retorna la materia dada su sigla
@@ -88,7 +88,7 @@ public interface ServiciosUnidadProyectos {
     * //pos List con las materias que contiene una Asignatura 
     * @throws UnidadProyectosException Excepcion con datos del error
     */
-   public List<Materia> consultarMaterias(int idAsignatura) throws UnidadProyectosException;
+    List<Materia> consultarMaterias(int idAsignatura) throws UnidadProyectosException;
    
    /**
     * registra un requisito
@@ -105,7 +105,7 @@ public interface ServiciosUnidadProyectos {
     * //pos List con los programas registrados en la base de datos
     * @throws UnidadProyectosException Excepcion con datos del error
     */
-   public List<Programa> consultarProgramas() throws UnidadProyectosException;
+    List<Programa> consultarProgramas() throws UnidadProyectosException;
    
    /**
     *  Consulta  programa por su id
@@ -121,7 +121,7 @@ public interface ServiciosUnidadProyectos {
     * //pos:List con  las asignaturas registradas en la base de datos
     * @throws UnidadProyectosException Excepcion con datos del error
     */
-   public List<Asignatura> consultarAsignaturas()throws UnidadProyectosException;
+    List<Asignatura> consultarAsignaturas()throws UnidadProyectosException;
    
    /**
     * consulta una asignatura dado su id
@@ -147,7 +147,7 @@ public interface ServiciosUnidadProyectos {
     * //pos: List de tipo Profesor ,donde el nombre de los profesores contiene el String dado en la busqueda
     * @throws UnidadProyectosException Excepcion con datos del error
     */
-    public List<Profesor> consultarProfesores(String busqueda) throws UnidadProyectosException;
+    List<Profesor> consultarProfesores(String busqueda) throws UnidadProyectosException;
 
     /**
      *  Consulta las clases programadas para un curso especifico
@@ -156,7 +156,7 @@ public interface ServiciosUnidadProyectos {
      * //pos: List de tipo Clase con las Clases que corresponden a un curso especifico
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public List<Clase> consultarClases(String cohorte) throws UnidadProyectosException;
+    List<Clase> consultarClases(String cohorte) throws UnidadProyectosException;
 
     /**
      *  Consulta los recursos disponibles que pueden ser asignados a una clase 
@@ -164,7 +164,7 @@ public interface ServiciosUnidadProyectos {
      * //pos: List de tipo Recurso con los Recursos que estan disponibles.
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public List<Recurso> consultarRecursosDisponibles() throws UnidadProyectosException;
+    List<Recurso> consultarRecursosDisponibles() throws UnidadProyectosException;
 
     /**
      * objetivo: consulta los recursos de una clase dada
@@ -173,14 +173,14 @@ public interface ServiciosUnidadProyectos {
      * //pos: List de tipo Recurso que tiene los recursos usados en la clase dada
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public List<Recurso> consultarRecursosClase(String cohorte) throws UnidadProyectosException;
+    List<Recurso> consultarRecursosClase(String cohorte) throws UnidadProyectosException;
 
     /**
      *  consulta los cursos registrados en la base de datos
      * @return Lista con todos los cursos registrados
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public List<Curso> consultarCursos() throws UnidadProyectosException;
+    List<Curso> consultarCursos() throws UnidadProyectosException;
 
     /**
      *  se consulta un  curso especifico dado su numero de id
@@ -189,7 +189,7 @@ public interface ServiciosUnidadProyectos {
      * @return Curso correspondiente a el numero de id
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public Curso consultarCurso(int id) throws UnidadProyectosException;
+    Curso consultarCurso(int id) throws UnidadProyectosException;
 
     /**
      * Consulta Consulta todos los cursos de un periodo especifico
@@ -198,7 +198,7 @@ public interface ServiciosUnidadProyectos {
      * @return lista de cursos del periodo
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public List<Curso> consultarCursosPorPeriodo(String nombre) throws UnidadProyectosException;
+    List<Curso> consultarCursosPorPeriodo(String nombre) throws UnidadProyectosException;
 
     /**
      *  Consulta las clases dado el periodo academico
@@ -207,14 +207,14 @@ public interface ServiciosUnidadProyectos {
      * @return lista con los clases que corresponden al periodo academico
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public List<Clase> consultarClasesPeriodo(Periodo periodo) throws UnidadProyectosException; 
+    List<Clase> consultarClasesPeriodo(Periodo periodo) throws UnidadProyectosException; 
 
     /**
      * Consultar las clases registrados en  la base de datos
      * @return lista con todos los clases registrados
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public List<Clase> consultarClases() throws UnidadProyectosException; 
+    List<Clase> consultarClases() throws UnidadProyectosException; 
 
     /**
      * Consultar las clases correspondientes a un curso especifico
@@ -222,7 +222,7 @@ public interface ServiciosUnidadProyectos {
      * @return lista de clases que corresponden a un curso especifico
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public List<Clase> consultarClasesCurso(int id) throws UnidadProyectosException;
+    List<Clase> consultarClasesCurso(int id) throws UnidadProyectosException;
     
     /**
      * Consulta el cohorte dado un Curso y un Programa
@@ -232,7 +232,7 @@ public interface ServiciosUnidadProyectos {
      * @return entero del cohorte
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public int consultarCohorte(Curso curso,Programa programa) throws UnidadProyectosException;
+    int consultarCohorte(Curso curso,Programa programa) throws UnidadProyectosException;
     
     /**
      * Consulta las clases dado un periodo especifico
@@ -241,7 +241,7 @@ public interface ServiciosUnidadProyectos {
      * @return Lista de clases
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public List<Clase> consultarClasesxPeriodo(String periodo) throws UnidadProyectosException;
+    List<Clase> consultarClasesxPeriodo(String periodo) throws UnidadProyectosException;
     
     /**
      * Consulta las asignaturas dado un programa especifico
@@ -250,7 +250,7 @@ public interface ServiciosUnidadProyectos {
      * @return Lista de asignaturas
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public List<Asignatura> consultarAsignaturasxPrograma(Integer idPrograma) throws UnidadProyectosException;
+    List<Asignatura> consultarAsignaturasxPrograma(Integer idPrograma) throws UnidadProyectosException;
     
     /**
      * Consulta las Materias dada una asignatura especifica
@@ -259,7 +259,7 @@ public interface ServiciosUnidadProyectos {
      * @return Lista de Materias
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public List<Materia> consultarMateriasxAsignatura(Integer idAsignatura) throws UnidadProyectosException;
+    List<Materia> consultarMateriasxAsignatura(Integer idAsignatura) throws UnidadProyectosException;
 
     /**
      * Consulta las Materias dado un programa especifico
@@ -280,30 +280,29 @@ public interface ServiciosUnidadProyectos {
      * @return booleano si fue posible agregar la clase
      * @throws UnidadProyectosException si el identificador del curso o el identificador del profesor no existe
      */
-    public boolean agregarClase(int idCurso, Date fecha, Time hora, String tSalon,int idProfesor) throws UnidadProyectosException;
+    boolean agregarClase(int idCurso, Date fecha, Time hora, String tSalon,int idProfesor) throws UnidadProyectosException;
 
     /**
      * Consulta el siguiente id disponible de los cursos ya registrados
      * @return id disponible de un curso
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public int getNextCurso() throws UnidadProyectosException;
-    
-        
+    int getNextCurso() throws UnidadProyectosException;
+
     /**
      * Consulta un periodo dado su id
      * @param idPeriodoActual id del periodo a consultar
      * @return Periodo con sus datos
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public Periodo consultarPeriodo(String idPeriodoActual) throws UnidadProyectosException;
+    Periodo consultarPeriodo(String idPeriodoActual) throws UnidadProyectosException;
     
     /**
      * Consulta todos los periodos en la Unidad de Proyectos
      * @return Lista de Periodos
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public List<Periodo> consultarPeriodos() throws UnidadProyectosException;
+    List<Periodo> consultarPeriodos() throws UnidadProyectosException;
     
     /**
      * Registra un Curso
@@ -312,14 +311,14 @@ public interface ServiciosUnidadProyectos {
      * @param cursoActual curso a registrar 
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public void registrarCurso(Curso cursoActual) throws UnidadProyectosException;
+    void registrarCurso(Curso cursoActual) throws UnidadProyectosException;
     
     /**
      * consulta si un cohorte ya se encuentra registrado
      * @param id numero id de un cohorte
      * @throws UnidadProyectosException si el numero id del cohorte no existe
      */
-    public void consultarCohorte(int id) throws UnidadProyectosException;
+    void consultarCohorte(int id) throws UnidadProyectosException;
     
     /**
      * Registra un nuevo cohorte para un curso y programa especifico
@@ -328,7 +327,7 @@ public interface ServiciosUnidadProyectos {
      * @param cohorte id del cohorte
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public void registrarCohorte(int idPrograma, int idCurso, int cohorte) throws UnidadProyectosException;
+    void registrarCohorte(int idPrograma, int idCurso, int cohorte) throws UnidadProyectosException;
     
     /**
      * Consulta las clases de un profesor dado 
@@ -336,14 +335,14 @@ public interface ServiciosUnidadProyectos {
      * @return lista de clases de un profesor dado
      * @throws UnidadProyectosException cuando el id del profesor no existe
      */
-    public List<Clase> consultarClasesProfesor(int idProf) throws UnidadProyectosException;
+    List<Clase> consultarClasesProfesor(int idProf) throws UnidadProyectosException;
     
     /**
      * Cancela  la clase dado su id
      * @param id ud de la clase a cancelar
      * @throws UnidadProyectosException  Excepcion con datos del error
      */
-    public void cancelarClase(int id) throws UnidadProyectosException;
+    void cancelarClase(int id) throws UnidadProyectosException;
     
     /**
      * Registra una nueva asignatura para un programa de la Unidad de Proyectos
@@ -352,7 +351,7 @@ public interface ServiciosUnidadProyectos {
      * @param idProg id del programa al que pertenece la asignatura
      * @throws UnidadProyectosException Si el nombre ingresado ya existe
      */
-    public void registrarAsignatura(String nombreAsig, int idProg) throws UnidadProyectosException;
+    void registrarAsignatura(String nombreAsig, int idProg) throws UnidadProyectosException;
     
     /**
      * Registra una nueva asignatura para un programa de la Unidad de Proyectos
@@ -361,21 +360,21 @@ public interface ServiciosUnidadProyectos {
      * @param idProg Id del programa
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public void registrarAsignatura(int idAsignatura, String nombreAsig, int idProg) throws UnidadProyectosException;
+    void registrarAsignatura(int idAsignatura, String nombreAsig, int idProg) throws UnidadProyectosException;
     
     /**
      * Registra un nuevo periodo
      * @param periodo Periodo a registrar
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public void registrarPeriodo(Periodo periodo) throws UnidadProyectosException;
+    void registrarPeriodo(Periodo periodo) throws UnidadProyectosException;
     
     /**
      * Registra un nuevo profesor
      * @param profesor profesor a registrar
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public void registrarProfesor(Profesor profesor) throws UnidadProyectosException;
+    void registrarProfesor(Profesor profesor) throws UnidadProyectosException;
     
     /**
      * Registra una nueva materia con sus datos
@@ -383,14 +382,14 @@ public interface ServiciosUnidadProyectos {
      * @param materia materia a registrar
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public void registrarMateria(Materia materia) throws UnidadProyectosException;
+    void registrarMateria(Materia materia) throws UnidadProyectosException;
     
     /**
      * Registra un nuevo Programa
      * @param programa programa a registrar
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public void registrarPrograma(Programa programa) throws UnidadProyectosException;
+    void registrarPrograma(Programa programa) throws UnidadProyectosException;
     
     /**
      * Inserta a un profesor dado un nuevo horario
@@ -399,7 +398,7 @@ public interface ServiciosUnidadProyectos {
      * @param horaDisp
      * @throws UnidadProyectosException con datos incorrectos
      */
-    public void insertarHorarioProfesor(int id, String diaDisp, Time horaDisp) throws UnidadProyectosException;
+    void insertarHorarioProfesor(int id, String diaDisp, Time horaDisp) throws UnidadProyectosException;
     
     /**
      * Consulta los horarios disponibles de un profesor
@@ -407,13 +406,13 @@ public interface ServiciosUnidadProyectos {
      * @return
      * @throws UnidadProyectosException 
      */
-    public List<HorarioDisponible> consultarHorarioProfesor(int id) throws UnidadProyectosException;
+    List<HorarioDisponible> consultarHorarioProfesor(int id) throws UnidadProyectosException;
     
     /**
      * devuelve el dia de la semana correspondiente a una fecha
      * @param fecha
      * @return 
      */
-    public String obtenerDiaSemana(Date fecha);
+    String obtenerDiaSemana(Date fecha);
 }
 
