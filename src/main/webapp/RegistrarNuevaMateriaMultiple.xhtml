@@ -45,44 +45,50 @@
                 
                 
                 <h:form id="tabla_registro">
-                    <center>
-                        <h:panelGrid columns="8" cellpadding="10">                   
-                            <center>
-                                <p:selectOneMenu id="selectProgram" widgetVar="select#{rowIndex}" value="#{UnidadProyectosBean.idProgramaActual}" style="width:250px">
-                                    <f:selectItem itemLabel="Seleccionar programa"  itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{UnidadProyectosBean.getProgramas()}"/>
-                                    <p:ajax  onstart="cargar()" listener="#{UnidadProyectosBean.rowSelectSingleMode()}" event="change" update="select" oncomplete="ocultar()"/>
-                                </p:selectOneMenu>
+                    
+                    <p:dataTable id="checkboxDT" var="prog" value="#{UnidadProyectosBean.consultarProgramas()}"  rowIndexVar="rowIndex">
+                        
+                        <p:column headerText="Programa">
+                            <center> 
+                                <p:commandButton class="listButton" id="d" value="#{prog.nombre}" onclick="verifyThisButton(this)" oncomplete="ocultar()" action="#{UnidadProyectosBean.rowSelectCheckBox(prog)}" process="@this"/>
                             </center>
+                        </p:column>
+                        
+                        <p:column headerText="asignatura"> 
                             <center>
                                 <p:selectOneMenu id="select" value="#{UnidadProyectosBean.idAsignaturaActual}" style="width:250px">
-                                    <f:selectItem itemLabel="Seleccionar Asignatura"  itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{UnidadProyectosBean.getAsignaturasProgramaActual()}"/>
-                                    <p:ajax onstart="cargar()"  listener="#{UnidadProyectosBean.changeOptionSingleMode()}" event="change" oncomplete="ocultar()"/>
+                                    <f:selectItem itemLabel="Seleccionar Asignatura"  itemValue="000011" noSelectionOption="true" />
+                                    <f:selectItems value="#{UnidadProyectosBean.getAsignaturasXprog(prog)}"/>
+                                    <p:ajax  onstart="cargar()" listener="#{UnidadProyectosBean.changeOption(prog)}" event="change" oncomplete="ocultar()"/>
                                 </p:selectOneMenu>
                             </center>
-
-                            <center>
-                                <h:commandButton value="Crear Nueva Asignatura" action="#{UnidadProyectosBean.irPaginaAsginatura()}"/>
-                            </center>
-                        </h:panelGrid> 
-                    </center>
+                        </p:column>
+                        
+                        <p:column headerText="Accion">
+                             <center><h:commandButton value="Crear Nueva Asignatura" action="#{UnidadProyectosBean.irPaginaAsginatura()}"/></center>
+                        </p:column>
+                        
+                    </p:dataTable>
+                    
                     
                     <p:separator/>
                     <p:separator/>
-                    <div id="lightframe"/>
-                    <div class="cf" id="progAsig">
-                        <p:commandButton type="button" onclick="cerrarIframe('mostrarSeleccionProgAsig','progAsig')" value="CERRAR"/>
-                    </div>
-                    <iframe id="mostrarSeleccionProgAsig" src="SeleccionEnRegistrarMateria.xhtml" title="su Seleccion" scrolling="yes"/>
+                    
                     <center>
-                        <p:commandButton type="button" onclick="mostrarIframe('mostrarSeleccionProgAsig','progAsig')" value="Ver su Seleccion"/>
+                        <p:lightBox id="lighbox2" iframe="true">
+                            <h:outputLink value="SeleccionEnRegistrarMateria.xhtml" onclick="changeColor(this)">
+                                <h:outputText value="Vea su seleccion" class="olink"/>
+                            </h:outputLink>
+                        </p:lightBox>
                     </center>
+                    
                 </h:form>
-         
+                
+                
                 <p:separator/>
                 <p:separator/>
-
+                
+                
                 <center>
                     <h:panelGrid columns="4" cellpadding="10">
                         
@@ -95,8 +101,8 @@
                         </p:selectOneMenu>
 
                         <p:selectOneRadio id="requisito">
-                            <!--f:selectItem itemLabel="Co-requisito" itemValue="co" value="#{UnidadProyectosBean.tipoRequisito}" />
-                            <f:selectItem itemLabel="Requisito Completo" itemValue="re" value="#{UnidadProyectosBean.tipoRequisito}"/-->
+                            <f:selectItem itemLabel="Co-requisito" itemValue="co" value="#{UnidadProyectosBean.tipoRequisito}" />
+                            <f:selectItem itemLabel="Requisito Completo" itemValue="re" value="#{UnidadProyectosBean.tipoRequisito}"/>
                             <p:ajax listener="#{UnidadProyectosBean.selectTipoRequisito()}" event="select" oncomplete="alert('tipo seleccionado')"/>
                         </p:selectOneRadio>
                         
@@ -141,6 +147,5 @@
         </div>
             
         <ui:include src="resources/inc/footer.xhtml" />
-        
     </h:body>
 </html>

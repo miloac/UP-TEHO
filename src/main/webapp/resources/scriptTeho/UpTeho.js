@@ -22,19 +22,10 @@ function verifyThisButton(obj){
         obj.id = "d";
         obj.style.textShadow="0px 2px 2px white";
         obj.style.backgroundColor= "gainsboro";
+        obj.style.boxShadow = "0px 0px 0px black";
     }
     cargar();
     
-}
-
-function decore(ob){
-    ob.style.textShadow= "0px 0px 16px blue";
-    ob.style.textDecoration="underline";
-}
-
-function undecore(ob){
-    ob.style.textShadow= "0px 0px 5px black";
-    ob.style.textDecoration="none";
 }
 
 function changeColor(ob){
@@ -57,4 +48,29 @@ function cargar(){
 function ocultar(){
     document.getElementById("loading").style.visibility= "hidden";
     document.getElementById("loading").style.zIndex = "-1";
+}
+
+function mostrarIframe(but, obj){
+   var lf = document.getElementById("lightframe");
+   var butt = document.getElementById(but);
+   var objeto =  document.getElementById(obj);
+   lf.style.visibility="visible";
+   lf.style.zIndex = "1";
+   butt.style.visibility="visible";
+   butt.style.zIndex = "1";
+   objeto.style.visibility="visible";
+   objeto.style.zIndex = "1";
+    
+}
+
+function cerrarIframe(obj,but){
+   var lf = document.getElementById("lightframe");
+   var butt = document.getElementById(but);
+   var objeto =  document.getElementById(obj);
+   lf.style.visibility="hidden";
+   lf.style.zIndex = "-1";
+   objeto.style.visibility="hidden";
+   objeto.style.zIndex = "-1";
+   butt.style.visibility="hidden";
+   butt.style.zIndex = "-1";
 }

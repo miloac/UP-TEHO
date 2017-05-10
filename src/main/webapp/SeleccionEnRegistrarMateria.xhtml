@@ -13,7 +13,7 @@
         <div style="max-width:100%;min-height:300px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:10px;margin:auto;" >
                 <h:form id="dataTable">
-                    <p:dataTable id="consult" value="#{UnidadProyectosBean.getAsignaturasYProgramas().entrySet().toArray()}" var="consulta" rowIndexVar="rowIndx">   
+                    <p:dataTable id="consult" value="#{UnidadProyectosBean.consultaSimple().entrySet().toArray()}" var="consulta" rowIndexVar="rowIndx">   
                         <p:remoteCommand name="updateTabla" id="updateTabla" update="consult"/>
                         <p:column headerText="Asignatura">
                             <center>
@@ -35,7 +35,10 @@
                 <p:separator/>
                 <p:separator/>
                 <center>
-                    <h:commandButton value="¿problema para visualizar? actualice aqui" action="#{UnidadProyectosBean.irPaginaConsultarSeleccion('RegistrarNuevaMateria.xhtml')}"/>
+                    <a id="linkRefresh" href="SeleccionEnRegistrarMateria.xhtml">
+                        ¿no visualiza lo que selecciono?, 
+                        pruebe refrescando la pagina ¡¡¡aqui!!!
+                    </a>
                 </center>
                 <p:separator/>
                 <p:separator/>
