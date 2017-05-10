@@ -7,6 +7,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     
     <h:head>
+        <link rel="icon" type="image/png" href="resources/image/teho.png" />
         <h:outputStylesheet library="css" name="estilo.css" /> 
         <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script type="text/javascript">
@@ -16,6 +17,10 @@
         <title>Registrar Nueva Materia</title>
     </h:head>
     <h:body>
+            <!--cargando control-->
+            <div id="loading">
+                <center><img id="anim_load" src="resources/image/loading.gif" name="espere un momento..." ></img></center>
+            </div>
             <!-- Encabezado -->
             <ui:include src="resources/inc/header.xhtml" />
 
@@ -39,7 +44,7 @@
                         
                         <p:column headerText="Programa">
                             <center> 
-                                <p:commandButton id="d" value="#{prog.nombre}" onclick="verifyThisButton(this)" action="#{UnidadProyectosBean.rowSelectCheckBox(prog)}" process="@this"/>
+                                <p:commandButton class="listButton" id="d" value="#{prog.nombre}" onclick="verifyThisButton(this)" oncomplete="ocultar()" action="#{UnidadProyectosBean.rowSelectCheckBox(prog)}" process="@this"/>
                             </center>
                         </p:column>
                         
@@ -48,7 +53,7 @@
                                 <p:selectOneMenu id="select" widgetVar="select#{rowIndex}" value="#{UnidadProyectosBean.idAsignaturaActual}" style="width:250px">
                                     <f:selectItem itemLabel="Seleccionar Asignatura"  itemValue="00" noSelectionOption="true" />
                                     <f:selectItems value="#{UnidadProyectosBean.getAsignaturasXprog(prog)}"/>
-                                    <p:ajax listener="#{UnidadProyectosBean.changeOption(prog)}" event="change" oncomplete="alert('asignatura seleccionada')"/>
+                                    <p:ajax  onstart="cargar()" listener="#{UnidadProyectosBean.changeOption(prog)}" event="change" oncomplete="ocultar()"/>
                                 </p:selectOneMenu>
                             </center>
                         </p:column>
@@ -65,7 +70,7 @@
                     
                     <center>
                         <p:lightBox id="lighbox2" iframe="true">
-                            <h:outputLink value="SeleccionEnRegistrarMateria.xhtml" onmouseover="decore(this)" onmouseout="undecore(this)" onclick="changeColor(this)">
+                            <h:outputLink value="SeleccionEnRegistrarMateria.xhtml" onclick="changeColor(this)">
                                 <h:outputText value="Vea su seleccion" class="olink"/>
                             </h:outputLink>
                         </p:lightBox>
@@ -104,7 +109,7 @@
                 
                 <center>
                     <p:lightBox id="lighbox3" iframe="true">
-                        <h:outputLink value="ListaRequisitosSeleccionados.xhtml" onmouseover="decore(this)" onmouseout="undecore(this)" onclick="changeColor(this)">
+                        <h:outputLink value="ListaRequisitosSeleccionados.xhtml" onclick="changeColor(this)">
                             <h:outputText value="Vea su seleccion" class="olink"/>
                         </h:outputLink>
                     </p:lightBox>

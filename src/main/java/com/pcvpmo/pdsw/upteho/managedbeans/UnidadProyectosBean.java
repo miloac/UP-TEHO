@@ -141,7 +141,13 @@ public class UnidadProyectosBean implements Serializable {
         
     public String irPaginaConsultarSeleccion(String link){
         currentLink = link;
-        return "SeleccionEnRegistrarMateria.xhtml";
+        String resp;
+        if(asSelectedXprog.isEmpty()){
+            resp="EmptySource.xhtml";
+        }else{
+            resp="SeleccionEnRegistrarMateria.xhtml";
+        }
+        return resp;
     }
     /**
      * gets the name of curse that are enfoqued on program

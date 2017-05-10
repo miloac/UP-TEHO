@@ -9,6 +9,7 @@
  * @param {type} obj
  * @returns {undefined}
  */
+
 function verifyThisButton(obj){
     var id = obj.id;
     var subs = id.substr(id.length-1, id.length);
@@ -16,14 +17,13 @@ function verifyThisButton(obj){
         obj.id = "a";
         obj.style.backgroundColor = "skyblue";
         obj.style.boxShadow = "0px 0px 15px skyblue";
-        alert("Ha seleccionado el programa..");
         }
     else{
         obj.id = "d";
-        obj.style.backgroundColor = "white";
-        obj.style.boxShadow = "0px 0px 5px #1170da";
-        alert("Ha des-seleccionado el programa..");
+        obj.style.textShadow="0px 2px 2px white";
+        obj.style.backgroundColor= "gainsboro";
     }
+    cargar();
     
 }
 
@@ -47,4 +47,14 @@ function habilitar(ob){
 
 function inhabilitar(ob){
     ob.disabled=true;
+}
+
+function cargar(){
+    document.getElementById("loading").style.visibility= "visible";
+    document.getElementById("loading").style.zIndex = "1";
+}
+
+function ocultar(){
+    document.getElementById("loading").style.visibility= "hidden";
+    document.getElementById("loading").style.zIndex = "-1";
 }
