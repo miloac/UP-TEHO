@@ -45,6 +45,8 @@
                                 <h4>MATERIA       </h4>
                                 <h:outputText value="#{UnidadProyectosBean.materia.nombre}"/>
                             </td>
+                            <td></td>
+                            <td></td>
                             <td>
                                 <h4>COHORTE      </h4>
                                 <h:outputText value="#{UnidadProyectosBean.cohorteCursoActual}"/>
@@ -62,7 +64,7 @@
                     
                         <h:form id="tabla_salones">
                             <p:layoutUnit position="west" resizable="true" minSize="10" maxSize="200">
-                                <p:dataTable var="clasesProf" value="#{UnidadProyectosBean.consultarClasesProfesor(UnidadProyectosBean.profesorSelect.id)}">
+                                <p:dataTable var="clasesProf" value="#{UnidadProyectosBean.consultarClasesCurso()}">
                                     <p:column headerText="TIPO">
                                         <h:outputText value="#{clasesProf.tipo_salon}"/>
                                     </p:column>
@@ -81,7 +83,7 @@
                             <br></br>
                             <br></br>
                             <h3>TOTAL HORAS:</h3>
-                            <h:outputText value="#{UnidadProyectosBean.numeroHorasPrf}"/>
+                            <h:outputText value="#{UnidadProyectosBean.numeroHorasCur}"/>
                             <center><p:commandButton value="Agregar Clase" action="#{UnidadProyectosBean.irProgramacionClase()}"/></center>
                         </h:form> 
                    

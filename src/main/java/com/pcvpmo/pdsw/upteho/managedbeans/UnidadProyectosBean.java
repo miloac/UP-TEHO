@@ -71,6 +71,7 @@ public class UnidadProyectosBean implements Serializable {
     private String idPeriodoActual;   
     private Materia materia;
     private double numeroHorasPrf=0;
+    private double numeroHorasCur=0;
     private java.util.Date fechaClase;
     private String horaClase;
     private List<String> horas=null;
@@ -478,6 +479,7 @@ public class UnidadProyectosBean implements Serializable {
         List<Clase> lista = null;
         try {
             lista = sp.consultarClasesCurso(cursoActual.getId());
+             numeroHorasCur=lista.size()*1.5;
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1064,6 +1066,13 @@ public class UnidadProyectosBean implements Serializable {
     
     public double getNumeroHorasPrf(){
         return numeroHorasPrf;
+    }
+    public void setNumeroHorasCur(double nHoras){
+        numeroHorasCur=nHoras;
+    }
+    
+    public double getNumeroHorasCur(){
+        return numeroHorasCur;
     }
     
     public void setFechaClase(java.util.Date nFecha){
