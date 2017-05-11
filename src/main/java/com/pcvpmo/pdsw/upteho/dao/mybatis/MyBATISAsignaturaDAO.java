@@ -22,6 +22,12 @@ public class MyBATISAsignaturaDAO implements AsignaturaDAO {
     }
 
     @Override
+    public Asignatura consultarAsignaturaPorID(Integer id) throws PersistenceException {
+        return asignaturaMapper.getAsignaturaPorID(id);
+    }
+
+
+    @Override
     public List<Asignatura> consultarAsignaturas() throws PersistenceException {
         return asignaturaMapper.consultarAsignaturas();
     }

@@ -11,7 +11,7 @@ and open the template in the editor.
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       >
     <h:head>
-        
+        <link rel="icon" type="image/png" href="resources/image/teho.png" />
         <title>Registro Asignaturas</title>
         <h:outputStylesheet library="css" name="estilo.css" />
     </h:head>
@@ -21,41 +21,47 @@ and open the template in the editor.
        
         <!-- MENU -->
         <ui:include src="resources/inc/menu.xhtml" />
-        <center><div style="max-width:97%;min-height:20px;background:#444 ;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
+        <center><div style="max-width:97%;min-height:20px;background:rgba(75, 177, 243, 0.85) ;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:15px;margin:auto;" >
                 <center><font color="#FFF" size="+2">Registrar una nueva asignatura</font></center>
             </div>
-        </div>            
-            <h:form id="registrarAsig">
-            <div align="center">
-                <br/>
-                <p:inputText  id="nombreAsig" binding="#{nombreAsig}">Nombre de la nueva asignatura </p:inputText>
-                <br/>
-                <br/>
-                <p:selectOneMenu id="programas" style="width:300px" binding="#{programas}">
-                    <f:selectItem itemLabel="Seleccione Programa" itemValue="" noSelectionOption="true"/>
-                    <f:selectItems value="#{UnidadProyectosBean.consultarProgramasNombres()}" />
-                </p:selectOneMenu>
-                <br/>
-                <br/>
-                <p:commandButton id="aceptar" value="REGISTRAR ASIGNATURA" update="asig" action="#{UnidadProyectosBean.registrarAsignatura(nombreAsig.value,programas.value)}">
-                </p:commandButton>
-                <p:commandButton id="regresar" value="REGRESAR" action="#{UnidadProyectosBean.getPaginaPrevia()}">
-                </p:commandButton>
-                <br/>
-                <br/>
-                <p:dataTable id="asig" var="asig" value="#{UnidadProyectosBean.consultarAsignaturas()}">
-                    <p:column headerText="NOMBRE" >
-                        <h:outputText value="#{asig.nombre}" />
-                    </p:column>
-                    <p:column headerText="PROGRAMA" >
-                        <h:outputText value="#{asig.programa.nombre}" />
-                    </p:column>
-                </p:dataTable>
-                <br/>
-                <br/>
+        </div>
+        <div style="max-width:100%;min-height:400px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
+            <div style="padding:10px;margin:auto;" >
+                <h:form id="registrarAsig">
+                    <div align="center">
+                        <br/>
+                        <p:inputText class="textbox"  id="nombreAsig" binding="#{nombreAsig}">Nombre de la nueva asignatura </p:inputText>
+                        <br/>
+                        <br/>
+                        <p:selectOneMenu id="programas" style="width:300px" binding="#{programas}">
+                            <f:selectItem itemLabel="Seleccione Programa" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{UnidadProyectosBean.consultarProgramasNombres()}" />
+                        </p:selectOneMenu>
+                        <br/>
+                        <br/>
+                        <p:commandButton id="aceptar" value="REGISTRAR ASIGNATURA" update="asig" action="#{UnidadProyectosBean.registrarAsignatura(nombreAsig.value,programas.value)}">
+                        </p:commandButton>
+                        <p:spacer width="20" height="20"/>
+                        <p:commandButton id="regresar" value="REGRESAR" action="#{UnidadProyectosBean.getPaginaPrevia()}">
+                        </p:commandButton>
+                        <br/>
+                        <br/>
+                        <p:dataTable id="asig" var="asig" value="#{UnidadProyectosBean.consultarAsignaturas()}">
+                            <p:column headerText="NOMBRE" >
+                                <h:outputText value="#{asig.nombre}" />
+                            </p:column>
+                            <p:column headerText="PROGRAMA" >
+                                <h:outputText value="#{asig.programa.nombre}" />
+                            </p:column>
+                        </p:dataTable>
+                        <br/>
+                        <br/>
+                    </div>
+                </h:form>
             </div>
-        </h:form>
+        </div>
+            
             </center>
         <ui:include src="resources/inc/footer.xhtml" />
     </h:body>

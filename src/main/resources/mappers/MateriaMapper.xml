@@ -18,10 +18,51 @@
         <association property="programa" javaType="Programa" columnPrefix="pro_" resultMap="ProgramaResult"/>
     </resultMap>
     
+    <resultMap type='Asignatura' id='AsignaturaPorProgramaResult'>
+        <id property='id' column='id'/>
+        <result property='nombre' column='nombre'/>
+    </resultMap>
+    
     <resultMap type="Programa" id="ProgramaResult">
         <id property="id" column="id"/>
         <result property="nombre" column="nombre"/>
     </resultMap>
+    
+    <resultMap type="Materia" id="MateriasResult">
+        <id property='sigla' column='sigla'/>
+        <result property='nombre' column='nombre'/>
+        <result property="creditos" column="creditos"/>
+        <result property="descripcion" column="descripcion"/>
+    </resultMap>
+    
+    <select parameterType="map" id="consultarMaterias" resultMap="MateriasResult">
+        
+        select
+        
+        *
+                
+        from Materias
+    </select>
+    
+    <select parameterType="map" id="consultarProgramas" resultMap="ProgramaResult">
+        select
+        
+        *
+        from Programas
+        
+    </select>
+    
+    <select parameterType="map" id="getAsigXProg" resultMap="AsignaturaPorProgramaResult">
+        
+        select
+        
+        id
+        nombre  
+              
+        from Asignaturas
+        where Asignaturas.programas_id = #{programa}
+        
+    </select>
     
     <select parameterType="map" id="consultarMateriasxAsignatura" resultMap="MateriaResult">
         select sigla, nombre, creditos, descripcion
@@ -29,6 +70,13 @@
         where Asignaturas_id=COALESCE(#{idAsignatura}, Asignaturas_id);     
     </select>
     
+
+    <select parameterType = "map" id="consultarMateriaSigla" resultMap="MateriaResult">
+        select sigla, nombre, creditos, descripcion
+        from materias
+        where materias.sigla = #{sigla}
+    </select>
+
     <select parameterType="map" id="consultarMateria" resultMap="MateriaResult">
         select
         mat.sigla as sigla,
@@ -48,11 +96,33 @@
         left join Asignaturas as asi on mat.Asignaturas_id=asi.id
         left join Programas as pro on asi.Programas_id=pro.id
         
-        where mat.sigla=#{siglaMateria};
+        where mat.sigla=#{sigla};
     </select>
     
     <insert parameterType="map" id="registrarMateria">
         insert into materias
         values (#{sigla}, #{nombre}, #{creditos}, #{descripcion}, #{idAsignatura});
-    </insert>
+    </insert>    
+    
+    <insert parameterType="map" id="registrarRequisito">
+        insert into requisitos
+        values (#{materia}, #{materiaReq}, #{tipo});
+    </insert>   
+    
+    <delete parameterType="map" id="remover">
+        delete from materias
+        where materias.sigla = #{sigla};
+    </delete>
+    
+    <select parameterType="map" id="consultarMateriasxPrograma" resultMap="MateriaResult">
+        select
+        mat.sigla as sigla, mat.nombre as nombre,
+        asi.id as asi_id, asi.nombre as asi_nombre,
+        pro.id as asi_pro_id, pro.nombre as asi_pro_nombre
+        
+        from materias as mat
+        right join asignaturas as asi on mat.Asignaturas_id=asi.id
+        right join programas as pro on asi.Programas_id=pro.id
+        where pro.id=#{programa};     
+    </select>
 </mapper>
