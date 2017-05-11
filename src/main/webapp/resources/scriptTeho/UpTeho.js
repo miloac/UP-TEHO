@@ -10,6 +10,15 @@
  * @returns {undefined}
  */
 
+/**
+ * 
+ * @param {type} string mensaje para mostrar
+ * @returns none
+ */
+function alertaError(string){
+    alert(string);
+}
+
 function verifyThisButton(obj){
     var id = obj.id;
     var subs = id.substr(id.length-1, id.length);
@@ -41,11 +50,17 @@ function inhabilitar(ob){
 }
 
 function cargar(){
+    var lf = document.getElementById("lightframe");
+    lf.style.visibility="visible";
+    lf.style.zIndex = "1";
     document.getElementById("loading").style.visibility= "visible";
     document.getElementById("loading").style.zIndex = "1";
 }
 
 function ocultar(){
+    var lf = document.getElementById("lightframe");
+    lf.style.visibility="hidden";
+    lf.style.zIndex = "-1";
     document.getElementById("loading").style.visibility= "hidden";
     document.getElementById("loading").style.zIndex = "-1";
 }

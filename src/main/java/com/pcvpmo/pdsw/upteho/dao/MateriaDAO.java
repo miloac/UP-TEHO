@@ -34,5 +34,10 @@ public interface MateriaDAO {
     public void registrarMateria(String sigla, String nombre, int creditos, String descripcion, int idAsignatura) throws PersistenceException;
     
     List<Materia> consultarMateriasxPrograma(Integer programa) throws PersistenceException;
+    
+    void registrarRequisito(String mat, String matReq, int tipo) throws PersistenceException;
+    
+    void remover(String sigla) throws PersistenceException;
+    
 
 }

@@ -489,7 +489,7 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             throw new UnidadProyectosException("Error al registrar una nueva materia", ex);
         }
     }
-    
+        
     @Transactional
     @Override
     public void registrarPrograma(Programa programa) throws UnidadProyectosException {
@@ -519,7 +519,20 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     }
     
     @Override
-    public void registrarRequisito(String mat, String matReq, String tipo) throws UnidadProyectosException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void registrarRequisito(String mat, String matReq, int tipo) throws UnidadProyectosException {
+        try{
+            daoMateria.registrarRequisito(mat,matReq,tipo);
+        }catch(PersistenceException ex){
+            throw new UnidadProyectosException("Error al consultar al registrar el requisito " + mat, ex);
+        }
+    }
+
+    @Override
+    public void removerMateria(String sigla) throws UnidadProyectosException {
+        try{
+            daoMateria.remover(sigla);
+        }catch(PersistenceException ex){
+            throw new UnidadProyectosException("Error al consultar eliminar la materia " + sigla, ex);
+        }
     }
 }

@@ -19,9 +19,9 @@ public interface HorarioDisponibleMapper {
     
     /**
      * inserta el horario disponible de un profesor dado
-     * @param id
-     * @param diaDisp
-     * @param horaDisp 
+     * @param id del profesor
+     * @param diaDisp dia de disponibilidad
+     * @param horaDisp horario disponibilidad
      */
     void insertarHorarioProfesor(@Param("profesorId")int id,@Param("diaDisp")String diaDisp,@Param("horaDisp")Time horaDisp);
 }

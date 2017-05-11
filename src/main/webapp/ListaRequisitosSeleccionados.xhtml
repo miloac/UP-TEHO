@@ -15,23 +15,31 @@
                 <h:form id="dataTable">
                     <p:dataTable id="consult" value="#{UnidadProyectosBean.getRequisitosEscogidos().entrySet().toArray()}" var="consulta" rowIndexVar="rowIndx">   
                         <p:remoteCommand name="updateTabla" id="updateTabla" update="consult"/>
-                        <p:column headerText="Materia">
-                            <center>
-                                <h:outputText value="#{consulta.value.nombre}"/>
-                            </center>
-                        </p:column>
                         <p:column headerText="tipo">
                             <center>
-                                <h:outputText value="#{consulta.key}"/>
+                                <h:outputText value="#{consulta.value}"/>
+                            </center>
+                        </p:column>
+                        <p:column headerText="Nombre">
+                            <center>
+                                <h:outputText value="#{consulta.key.nombre}"/>
                             </center>
                         </p:column>
                         <p:column headerText="Quitar">
                             <center>
-                                <h:commandButton value="quitar esta seleccion" action="#{UnidadProyectosBean.quitarRequisito(consulta.key.id)}"/>
+                                <h:commandButton value="quitar esta seleccion" action="#{UnidadProyectosBean.quitarRequisito(consulta.key.sigla)}"/>
                             </center>
                         </p:column>
                     </p:dataTable>
                 </h:form>
+                <p:separator/>
+                <p:separator/>
+                <center>
+                    <a id="linkRefresh" href="ListaRequisitosSeleccionados.xhtml">
+                        ¿no visualiza lo que selecciono?, 
+                        pruebe refrescando la pagina ¡¡¡aqui!!!
+                    </a>
+                </center>
                 <p:separator/>
                 <p:separator/>
             </div>                 

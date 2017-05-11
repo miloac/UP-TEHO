@@ -82,4 +82,14 @@ public class MyBATISMateriaDAO implements MateriaDAO{
     public List<Materia> consultarMaterias() throws PersistenceException {
         return materiaMapper.consultarMaterias();
     }
+
+    @Override
+    public void registrarRequisito(String mat, String matReq, int tipo) throws PersistenceException {
+        materiaMapper.registrarRequisito(mat,matReq,tipo);
+    }
+
+    @Override
+    public void remover(String sigla) throws PersistenceException {
+        materiaMapper.remover(sigla);
+    }
 }

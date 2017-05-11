@@ -34,6 +34,13 @@ public interface ServiciosUnidadProyectos {
     void registrarMateria(int idPrograma, int idAsignatura, String siglaRequisito, int tipoRequisito, String nombreMateria, String siglaMateria, String descripcionMateria) throws UnidadProyectosException;
     
     /**
+     * remueve una materia dada su sigla
+     * @param sigla de la materia a ser removida
+     * @throws UnidadProyectosException indicando el error de la consulta
+     */
+    void removerMateria(String sigla)throws UnidadProyectosException;
+    
+    /**
      *  Cancela una clase de un Curso especifico
      * @param cohorte cohorte de  la materia
      * @param idClase id de la clase
@@ -76,9 +83,9 @@ public interface ServiciosUnidadProyectos {
    
    /**
     * retorna la materia dada su sigla
-    * @param sigla
+    * @param sigla de la materia que se quiere consultar
     * @return materia
-    * @throws UnidadProyectosException
+    * @throws UnidadProyectosException indicando que no se pudo consultar
     */
    public Materia consultarMateria(String sigla)throws UnidadProyectosException;
    /**
@@ -92,12 +99,12 @@ public interface ServiciosUnidadProyectos {
    
    /**
     * registra un requisito
-     * @param mat
-     * @param matReq
-     * @param tipo
-     * @throws com.pcvpmo.pdsw.upteho.services.UnidadProyectosException
+     * @param mat sigla materia en registro
+     * @param matReq sigla de su requisito o corequisito
+     * @param tipo si es completo el requisito o no
+     * @throws UnidadProyectosException indicando que no se completo el registro
     */
-   public void registrarRequisito(String mat,String matReq,String tipo)throws UnidadProyectosException;
+   public void registrarRequisito(String mat,String matReq,int tipo)throws UnidadProyectosException;
    
    /**
     *  Consulta los programas de la Unidad de Proyectos
@@ -127,7 +134,7 @@ public interface ServiciosUnidadProyectos {
     * consulta una asignatura dado su id
     * @param id de la asignatura
     * @return asignatura
-     * @throws com.pcvpmo.pdsw.upteho.services.UnidadProyectosException
+     * @throws UnidadProyectosException no se pudo consultar la asignatura
     */
    public Asignatura consultarAsignatura(Integer id)throws UnidadProyectosException;
    
@@ -393,25 +400,25 @@ public interface ServiciosUnidadProyectos {
     
     /**
      * Inserta a un profesor dado un nuevo horario
-     * @param id
-     * @param diaDisp
-     * @param horaDisp
+     * @param id del profesor 
+     * @param diaDisp dia disp del profesor
+     * @param horaDisp hora disp del profesor
      * @throws UnidadProyectosException con datos incorrectos
      */
     void insertarHorarioProfesor(int id, String diaDisp, Time horaDisp) throws UnidadProyectosException;
     
     /**
      * Consulta los horarios disponibles de un profesor
-     * @param id
-     * @return
-     * @throws UnidadProyectosException 
+     * @param id del profesor para consultar sus horarios
+     * @return horario del profesor
+     * @throws UnidadProyectosException no se completo la consulta 
      */
     List<HorarioDisponible> consultarHorarioProfesor(int id) throws UnidadProyectosException;
     
     /**
      * devuelve el dia de la semana correspondiente a una fecha
-     * @param fecha
-     * @return 
+     * @param fecha fecha del dia de la semana
+     * @return dato de la fecha
      */
     String obtenerDiaSemana(Date fecha);
 }
