@@ -138,7 +138,7 @@ public class UnidadProyectosBean implements Serializable {
     
     public String volverPaginaCurso() {
         cursoActual.setProfesor(profesorSelect);
-        setProfesorSelect(new Profesor(0, "", ""));
+        setProfesorSelect(null);
         return "ProgramarCurso";
     }
     
