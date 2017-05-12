@@ -127,6 +127,9 @@ public class UnidadProyectosBean implements Serializable {
             materia = sp.consultarMateria(siglaMateriaActual);
             periodo = sp.consultarPeriodo(idPeriodoActual);
             cursoActual = new Curso(idCurso, materia, periodo);
+            if(cursoActual.getProfesor()!=null){
+                cursoActual.setProfesor(null);
+            }
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -135,6 +138,7 @@ public class UnidadProyectosBean implements Serializable {
     
     public String volverPaginaCurso() {
         cursoActual.setProfesor(profesorSelect);
+        setProfesorSelect(null);
         return "ProgramarCurso";
     }
     
