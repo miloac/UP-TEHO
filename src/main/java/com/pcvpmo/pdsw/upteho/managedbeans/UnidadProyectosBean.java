@@ -391,7 +391,6 @@ public class UnidadProyectosBean implements Serializable {
             int id_asig = (int) asSelectedXprog.get(id_prog);
             Programa prog = obtenerPrograma(id_prog);
             Asignatura asig = obtenerAsignatura(id_asig);
-            System.out.println(prog.getNombre()+", "+asig.getNombre());
             resp.put(prog, asig);
         }
         return resp;
@@ -470,10 +469,7 @@ public class UnidadProyectosBean implements Serializable {
             if (idProgramaActual==null || !isNumeric(idProgramaActual)){lista = sp.consultarMateriasxPrograma(0);}
             else{lista = sp.consultarMateriasxPrograma(Integer.parseInt(idProgramaActual));}
         }catch (UnidadProyectosException ex){}
-        if (lista.size()!=0){
-            System.out.println(lista.get(0).getNombre());
-        }
-        
+                
         return lista;
     }
 
