@@ -21,7 +21,7 @@
         <!-- CUERPO -->
         <center><div style="max-width:97%;min-height:20px;background:rgba(232, 188, 6, 0.87) ;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:15px;margin:auto;" >
-                <center><font color="#FFF" size="+2">AGREGAR CLASE</font></center>
+                <center><font color="#FFF" size="+2">AGREGAR SESIÓN</font></center>
             </div>
         </div></center>
        
@@ -114,7 +114,7 @@
                             <center>
                              
                                 <p:commandButton value="Agregar"  actionListener="#{UnidadProyectosBean.agregarClase()}" onclick="PF('dlg2').show();" update="mensaje"/>
-                                <p:dialog id="dialog" header="Agregar Clase" widgetVar="dlg2" modal="true" height="100">
+                                <p:dialog id="dialog" header="Agregar Sesión" widgetVar="dlg2" modal="true" height="100">
                                     <h:outputText id="mensaje" value="#{UnidadProyectosBean.mensaje}" />
                                     <br></br>
                                     <p:commandButton value="Aceptar" action="#{UnidadProyectosBean.irProgramarClases()}" onclick="PF('dlg2').hide();"/>

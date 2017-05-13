@@ -65,7 +65,7 @@
                     <p:separator/>
                     <h:outputText value="#{UnidadProyectosBean.getResumen()}"/>
                     <div></div>
-                    <p:commandButton class="boton" id="boton_registrar" value="Registrar Curso para la Materia" action="#{UnidadProyectosBean.registrarCursoActual()}" onclick="PF('dlg3').show();" update="mensaje, boton_aceptar"/>
+                    <p:commandButton class="boton" id="boton_registrar" value="Programar Curso para la Materia" action="#{UnidadProyectosBean.registrarCursoActual()}" onclick="PF('dlg3').show();" update="mensaje, boton_aceptar"/>
                     <p:dialog id="dialog" header="Aviso" widgetVar="dlg3" modal="true" height="100">
                         <h:outputText id="mensaje" value="#{UnidadProyectosBean.mensaje}"/>
                         <br></br>

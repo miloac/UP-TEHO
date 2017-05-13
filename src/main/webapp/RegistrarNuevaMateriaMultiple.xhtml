@@ -65,7 +65,7 @@
                         </p:column>
                         
                         <p:column headerText="Accion">
-                             <center><h:commandButton value="Crear Nueva Asignatura" action="#{UnidadProyectosBean.irPaginaAsginatura()}"/></center>
+                             <center><h:commandButton value="Crear Nueva Asignatura" action="RegistrarAsignatura" actionListener="#{UnidadProyectosBean.setPaginaPrevia('RegistrarNuevaMateriaMultiple')}"/></center>
                         </p:column>
                         
                     </p:dataTable>
