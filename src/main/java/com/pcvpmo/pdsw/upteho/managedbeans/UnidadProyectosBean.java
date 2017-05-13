@@ -167,20 +167,19 @@ public class UnidadProyectosBean implements Serializable {
      * esta funcion serciora que tambien la parte logica de RegistrarMateria se reinicie
      */
     public void resetForRegistrarMateria(){
-        String s = cancelarRegistroMateria();
+        String s = finalizarRegistroMateria();
     }
     
     /**
      * reinicia todas las variables que estaban involucradas con el registro de una materia que se decidio no ser registrada
      * @return si es ejecutado desde el commandButton de cancelar, retorna el link de redireccionamiento a la pagina de inicio
      */
-    public String cancelarRegistroMateria(){
+    public String finalizarRegistroMateria(){
         idProgramaActual="";
         idAsignaturaActual="";
         siglaMateriaActual="";
         idRequisito="";
         asignaturaActualID=null;
-        currentLink="";
         asSelectedXprog=new HashMap<>();
         mesageForUser="";
         tipoRequisito="";
@@ -189,19 +188,21 @@ public class UnidadProyectosBean implements Serializable {
         nombreMateria="";
         descripcion="";
         
-        return "index.xhtml";
+        return "ConsultarMaterias.xhtml";
     }
     
     /**
      * Registra una Materia nueva con los datos necesarios respectivos
+     * @return link to refresh the page
      */
-    public void registrarMateria() {
+    public String registrarMateria() {
         RequestContext rq = RequestContext.getCurrentInstance();
         Materia noRegistred = obtenerMateria(siglaMateria);
         boolean continuar=false;
         //si la sigla no es igual que la de alguna materia ya registrada
         if (noRegistred==null){
-            if( asignatura!=null && programa!=null && nombreMateria!=null && isNumeric(creditos) && descripcion!=null){
+            boolean noInvalidMateria = (nombreMateria.length()>0 && descripcion.length()>20 && siglaMateria.length()==4 && !requisitosEscogidos.isEmpty());
+            if( asignatura!=null && programa!=null && noInvalidMateria && isNumeric(creditos)){
                 try{
                         Materia toRegistry = new Materia(siglaMateria,nombreMateria,Integer.parseInt(creditos),descripcion,asignatura);
                         sp.registrarMateria(toRegistry);
@@ -211,7 +212,7 @@ public class UnidadProyectosBean implements Serializable {
                     continuar=false;
                     rq.execute("alertaError('Error al registrar la materia ')");
                 }
-                if (continuar && !requisitosEscogidos.isEmpty()){
+                if (continuar){
                     Set req = requisitosEscogidos.keySet();
                     Iterator siglas = req.iterator();
                     while(siglas.hasNext()){
@@ -221,16 +222,26 @@ public class UnidadProyectosBean implements Serializable {
                     }
                 }else{
                     rq.execute("alertaError('verifique si ha seleccionado requisitos')");
+                    continuar=false;
+                    currentLink = "";
                 }
             }else{
                 rq.execute("alertaError('verifique que ha completado los formularios y las selecciones')");
             }
         }else{
-            rq.execute("alertaError('la sigla que esta intentando registrar ya existe para otra materia')");
+            if(noRegistred.getNombre().equals(nombreMateria)){
+                rq.execute("alertaError('el nombre de esta materia ya esta registrado')");
+            }else{
+                rq.execute("alertaError('la sigla que esta intentando registrar ya esta ocupada por otra materia')");
+            }
+            currentLink = "";
         }
         if(continuar){
+            finalizarRegistroMateria();
+            currentLink = "RegistroNuevaMateria.xhtml";
             rq.execute("alertaError('se ha registrado la materia con exito')");
         }
+        return currentLink;
     }
     /**
      * metodo para quitar lo que se halla alcanzado a registrar en la base de datos
@@ -239,6 +250,7 @@ public class UnidadProyectosBean implements Serializable {
     private void cancelarInsercion(RequestContext rq){
         try{
             sp.removerMateria(siglaMateria);
+            finalizarRegistroMateria();
         }catch(UnidadProyectosException ex){
             
         }
@@ -455,7 +467,7 @@ public class UnidadProyectosBean implements Serializable {
     public List<Materia> consultaMateriasXprog(){
         List<Materia> lista = new ArrayList<>();
         try{
-            if (idProgramaActual==null){lista = sp.consultarMateriasxPrograma(0);}
+            if (idProgramaActual==null || !isNumeric(idProgramaActual)){lista = sp.consultarMateriasxPrograma(0);}
             else{lista = sp.consultarMateriasxPrograma(Integer.parseInt(idProgramaActual));}
         }catch (UnidadProyectosException ex){}
         if (lista.size()!=0){

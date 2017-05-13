@@ -70,7 +70,7 @@
                     </div>
                     <iframe id="mostrarSeleccionProgAsig" src="SeleccionEnRegistrarMateria.xhtml" title="su Seleccion" scrolling="yes"/>
                     <center>
-                        <p:commandButton id="abrirProg" type="button" onclick="mostrarIframe('mostrarSeleccionProgAsig','progAsig')" value="Ver su Seleccion"/>
+                        <p:commandButton id="abrirProg" type="button" onclick="mostrarIframe('mostrarSeleccionProgAsig','progAsig')" value="Ver su Selección" title="verifique su selección, en caso de haber cometido un error podra borrarlo"/>
                     </center>
                 </h:form>
                 <p:separator/>
@@ -89,8 +89,6 @@
                                 <p:ajax event="change" listener="#{UnidadProyectosBean.addRequisito()}" onstart="cargar()" oncomplete="ocultar()"/>
                             </p:selectOneRadio>
                             
-                            <!--p:commandButton id="anotherButton" value="seleccionar"  onstart="cargar()" oncomplete="ocultar()"/-->
-
                         </h:panelGrid>
                     </center>
                 
@@ -100,9 +98,9 @@
                         <div class="cf" id="proReq">
                             <p:commandButton id="cerraReq" type="button" onclick="cerrarIframe('mostrarSeleccionProReq','proReq')" value="CERRAR"/>
                         </div>
-                        <iframe id="mostrarSeleccionProReq" src="ListaRequisitosSeleccionados.xhtml" title="su Seleccion" scrolling="yes"/>
+                        <iframe id="mostrarSeleccionProReq" src="ListaRequisitosSeleccionados.xhtml" title="su Selección" scrolling="yes"/>
                         <center>
-                            <p:commandButton id="abrirReq" type="button" onclick="mostrarIframe('mostrarSeleccionProReq','proReq')" value="Ver su Seleccion"/>
+                            <p:commandButton id="abrirReq" type="button" onclick="mostrarIframe('mostrarSeleccionProReq','proReq')" value="Ver su Selección" title="verifique su selección, en caso de haber cometido un error podra borrarlo"/>
                         </center>
                     </center>
                 </h:form>
@@ -115,22 +113,22 @@
                         <p:inputText class="textbox" id="nombreMateria" value="#{UnidadProyectosBean.nombreMateria}"/>
                         <h:outputText />
                         
-                        <p:outputLabel for="cred" value="creditos" />
-                        <p:inputTextarea class="textbox" id="cred" value="#{UnidadProyectosBean.creditos}" rows="1" cols="10" counter="creditos" maxlength="2" counterTemplate="{0} characters remaining."/>
+                        <p:outputLabel for="cred" value="Créditos" />
+                        <p:inputTextarea class="textbox" id="cred" value="#{UnidadProyectosBean.creditos}" rows="1" cols="10" counter="creditos" maxlength="2" counterTemplate="{0} Caracteres restantes."/>
                         <h:outputText id="creditos" />
                         
-                        <p:outputLabel for="sigl" value="Codigo (mnemonico)" />
-                        <p:inputTextarea class="textbox" id="sigl" value="#{UnidadProyectosBean.siglaMateria}" rows="1" cols="10" counter="sigla" maxlength="4" counterTemplate="{0} characters remaining."/>
+                        <p:outputLabel for="sigl" value="Código (mnemónico)" />
+                        <p:inputTextarea class="textbox" id="sigl" value="#{UnidadProyectosBean.siglaMateria}" rows="1" cols="10" counter="sigla" maxlength="4" counterTemplate="{0} Caracteres restantes."/>
                         <h:outputText id="sigla" />
 
-                        <p:outputLabel for="desc" value="Descripcion" />
-                        <p:inputTextarea class="textbox" id="desc" value="#{UnidadProyectosBean.descripcion}" rows="4" cols="25" counter="display" maxlength="100" counterTemplate="{0} characters remaining."/>
+                        <p:outputLabel for="desc" value="Descripción" />
+                        <p:inputTextarea class="textbox" id="desc" value="#{UnidadProyectosBean.descripcion}" rows="4" cols="25" counter="display" maxlength="100" counterTemplate="{0} Caracteres restantes."/>
                         <h:outputText id="display" />
                         
                         
-                        <p:commandButton value="Registrar" class="boton" action="#{UnidadProyectosBean.registrarMateria()}" onstart="cargar()" oncomplete="ocultar()"/>
+                        <p:commandButton value="Registrar" class="boton" action="#{UnidadProyectosBean.registrarMateria()}" onstart="cargar()" oncomplete="ocultar()" title="verifique los datos antes de proceder"/>
                         <p/>
-                        <p:commandButton value="Cancelar" class="boton" action="#{UnidadProyectosBean.cancelarRegistroMateria()}"/>
+                        <p:commandButton value="Cancelar" class="boton" action="#{UnidadProyectosBean.finalizarRegistroMateria()}" title="Regresar a la pagina anterior"/>
                     </h:panelGrid>
                     
                     </center>
