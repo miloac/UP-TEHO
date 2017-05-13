@@ -82,7 +82,6 @@ public class UnidadProyectosBean implements Serializable {
     private boolean registroClase;
     private boolean errorRegistroCurso;
     private String paginaPrevia;
-    //Curso que se haya seleccionado en la pagina, este atributo puede cambiar por id o String dependiendo de como lo implementemos
     
 
     public UnidadProyectosBean() {
@@ -105,7 +104,7 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     public String irProgramarCurso() {
-        if (errorRegistroCurso) return "programarCurso";
+        if (errorRegistroCurso) return "ProgramarCurso";
         return "ReporteProgramacion";
     }
     
@@ -142,7 +141,7 @@ public class UnidadProyectosBean implements Serializable {
         return "ProgramarCurso";
     }
     
-    public String irPaginaAsginatura(){
+    public String irPaginaAsignatura(){
         return "RegistrarAsignatura";
     }
     
@@ -1291,7 +1290,8 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     public String getResumen() {
-        if (cursoActual == null || siglaMateriaActual == null || idPeriodoActual == null || idAsignaturaActual == null || profesorSelect == null)        {
+        if (cursoActual == null || siglaMateriaActual == null || idPeriodoActual == null || idAsignaturaActual == null || profesorSelect == null ||
+                cursoActual.getProfesor() == null || cursoActual.getPeriodo() ==  null || cursoActual.getMateria() == null)        {
             return "";
         }
         else {
