@@ -2,6 +2,31 @@
  * 
  * @author Jefferson David Castañeda Carreño
  */
+jQuery(document).ready(function(){
+        
+    jQuery(".selectButton").click(function(){
+        var object = jQuery(this).attr("id");
+        var subsub = object.substr(0,27).substr(26,27);
+        var sub = object.substr(28,29);
+        if (sub==="d"){
+            if (subsub%2===0){
+                jQuery(this).parent().parent().parent().removeClass("rowSelectedClass1");
+                jQuery(this).parent().parent().parent().addClass("rowUnSelectedClass1");
+            }else{
+                jQuery(this).parent().parent().parent().removeClass("rowSelectedClass2");
+                jQuery(this).parent().parent().parent().addClass("rowUnSelectedClass2");
+            }
+        }else{
+            if (subsub%2===0){
+                jQuery(this).parent().parent().parent().removeClass("rowUnSelectedClass1");
+                jQuery(this).parent().parent().parent().addClass("rowSelectedClass1");
+            }else{
+                jQuery(this).parent().parent().parent().removeClass("rowUnSelectedClass2");
+                jQuery(this).parent().parent().parent().addClass("rowSelectedClass2");
+            }
+        }
+    });
+});
 
 //javascript
 /**
@@ -19,50 +44,45 @@ function alertaError(string){
     alert(string);
 }
 
-function verifyThisButton(obj){
+function clickedOff(rowIndex){
+    var p2 = "tabla_registro:checkboxDT:"+rowIndex+":a";
+    var obj = parent.document.getElementById(p2);
+    obj.click();
+}
+
+function verifyThis(obj){
     var id = obj.id;
-    var subs = id.substr(id.length-1, id.length);
-    if (subs=="d" ){
-        obj.id = "a";
+    var sub = id.substr(0,28);
+    var subs = id.substr(28,29);
+    if (subs==="d" ){
+        obj.id =sub+"a";
         obj.style.backgroundColor = "skyblue";
         obj.style.boxShadow = "0px 0px 15px skyblue";
         }
     else{
-        obj.id = "d";
+        obj.id =sub+"d";
         obj.style.textShadow="0px 2px 2px white";
         obj.style.backgroundColor= "gainsboro";
         obj.style.boxShadow = "0px 0px 0px black";
     }
-    cargar();
-    
-}
-
-function changeColor(ob){
-    ob.style.color="red";
-}
-
-function habilitar(ob){
-    ob.disabled=false;
-}
-
-function inhabilitar(ob){
-    ob.disabled=true;
+    cargar();  
 }
 
 function cargar(){
     var lf = document.getElementById("lightframe");
     lf.style.visibility="visible";
     lf.style.zIndex = "1";
-    document.getElementById("loading").style.visibility= "visible";
-    document.getElementById("loading").style.zIndex = "1";
+    document.getElementById("anim_load").style.visibility= "visible";
+    document.getElementById("anim_load").style.zIndex = "1";
 }
 
 function ocultar(){
+
     var lf = document.getElementById("lightframe");
     lf.style.visibility="hidden";
     lf.style.zIndex = "-1";
-    document.getElementById("loading").style.visibility= "hidden";
-    document.getElementById("loading").style.zIndex = "-1";
+    document.getElementById("anim_load").style.visibility= "hidden";
+    document.getElementById("anim_load").style.zIndex = "-1";
 }
 
 function mostrarIframe(but, obj){
