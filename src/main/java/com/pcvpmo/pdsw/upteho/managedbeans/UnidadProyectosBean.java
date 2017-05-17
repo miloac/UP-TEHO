@@ -28,9 +28,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 import org.apache.ibatis.exceptions.PersistenceException;
+import org.apache.log4j.Level;
 import org.primefaces.context.RequestContext;
 
 
@@ -87,6 +87,7 @@ public class UnidadProyectosBean implements Serializable {
     public UnidadProyectosBean() {
         asSelectedXprog = new HashMap<>();
         requisitosEscogidos=new HashMap<>();
+        Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.INFO, "Bean Inicializado");
     }
     
     public String irPaginaCurso(Curso curso_actual) {
@@ -130,7 +131,7 @@ public class UnidadProyectosBean implements Serializable {
                 cursoActual.setProfesor(null);
             }
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         return "RegistroMateriaNuevoCohorte";
     }
@@ -308,7 +309,7 @@ public class UnidadProyectosBean implements Serializable {
             sp.registrarCohorte(Integer.parseInt(idProgramaActual), cursoActual.getId(), cohorteCursoActual);
             mensaje = "Registro exitoso";
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         } catch (NullPointerException ex) {
             errorRegistroCurso = true;
             mensaje = "Faltan datos, No se ha podido registrar un nuevo Curso";
@@ -327,7 +328,7 @@ public class UnidadProyectosBean implements Serializable {
         try{
             materias = sp.consultarMaterias();
         }catch(UnidadProyectosException ex){
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         return materias;
     }
@@ -358,7 +359,7 @@ public class UnidadProyectosBean implements Serializable {
         try{
             materias = sp.consultarMaterias(idAsignatura);
         }catch(UnidadProyectosException ex){
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         return materias;
      }
@@ -373,7 +374,7 @@ public class UnidadProyectosBean implements Serializable {
         try{
             lista=sp.consultarProgramas();
         }catch (UnidadProyectosException ex){
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);          
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);          
         }
         return lista;
     }
@@ -457,7 +458,7 @@ public class UnidadProyectosBean implements Serializable {
         try {
             lista = sp.consultarAsignaturas();
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         return lista;
     }
@@ -489,7 +490,7 @@ public class UnidadProyectosBean implements Serializable {
         try {        
             lista = sp.consultarProfesores(getNameProf());
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         return lista;
     }
@@ -505,7 +506,7 @@ public class UnidadProyectosBean implements Serializable {
         try {
             lista = sp.consultarClasesxPeriodo(periodo);
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         return lista;
     }
@@ -536,7 +537,7 @@ public class UnidadProyectosBean implements Serializable {
         try {
             lista = sp.consultarCursos();
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         return lista;
     }
@@ -552,7 +553,7 @@ public class UnidadProyectosBean implements Serializable {
         try {
             lista = sp.consultarCursosPorPeriodo(nombre);
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         return lista;
     }
@@ -567,7 +568,7 @@ public class UnidadProyectosBean implements Serializable {
             lista = sp.consultarClasesCurso(cursoActual.getId());
              numeroHorasCur=lista.size()*1.5;
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         return lista;
     }
@@ -577,7 +578,7 @@ public class UnidadProyectosBean implements Serializable {
         try{
           cohort= sp.consultarCohorte(curso,programa); 
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         cohorteCursoActual=cohort;
         return cohort;
@@ -890,7 +891,7 @@ public class UnidadProyectosBean implements Serializable {
             if(resp)mensaje="La clase se registro";
             else mensaje="El profesor no tiene horario disponible";
         } catch (UnidadProyectosException | ParseException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
     }
     
@@ -901,7 +902,7 @@ public class UnidadProyectosBean implements Serializable {
             clases= sp.consultarClasesProfesor(idProf);
              numeroHorasPrf=clases.size()*1.5;
          } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
          }
          return clases;
      }
@@ -909,7 +910,7 @@ public class UnidadProyectosBean implements Serializable {
          try{
              sp.cancelarClase(id);
          }catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
          }
      }
 
@@ -939,7 +940,7 @@ public class UnidadProyectosBean implements Serializable {
                  sp.registrarAsignatura(nombre, idprograma);
             }
             catch (UnidadProyectosException ex) {
-                Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
             }
         }
     }
@@ -1080,7 +1081,7 @@ public class UnidadProyectosBean implements Serializable {
         try {
             lista = sp.consultarProgramas();
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         if (lista!=null){
             for (Programa prog: lista) {
@@ -1097,7 +1098,7 @@ public class UnidadProyectosBean implements Serializable {
             if (idPeriodoActual == null || idPeriodoActual.equals("")) lista = sp.consultarPeriodos();
             else lista = sp.consultarPeriodos();
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         for (Periodo periodo: lista) {
             res.put(periodo.getNombre(), String.valueOf(periodo.getNombre()));
@@ -1113,7 +1114,7 @@ public class UnidadProyectosBean implements Serializable {
             if (idProgramaActual == null || idProgramaActual.equals("")) lista = sp.consultarAsignaturasxPrograma(null);
             else lista = sp.consultarAsignaturasxPrograma(Integer.parseInt(idProgramaActual));
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         if (lista!=null){
             for (Asignatura asig: lista) {
@@ -1131,7 +1132,7 @@ public class UnidadProyectosBean implements Serializable {
             if (idAsignaturaActual == null || idAsignaturaActual.equals("")) lista = sp.consultarMateriasxAsignatura(null);
             else lista = sp.consultarMateriasxAsignatura(Integer.parseInt(idAsignaturaActual));
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         if(lista!=null){
             for (Materia materia: lista) {
