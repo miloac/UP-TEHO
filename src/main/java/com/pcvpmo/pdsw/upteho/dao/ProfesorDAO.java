@@ -8,6 +8,7 @@ import java.util.List;
  * @author Daniel Ospina
  */
 public interface ProfesorDAO {
+    
     List<Profesor> consultarProfesores(String nombre) throws PersistenceException;
 
     void registrarProfesor(int id, String nombre, String correo) throws PersistenceException;

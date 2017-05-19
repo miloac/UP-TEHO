@@ -9,9 +9,9 @@ import java.util.List;
  */
 public interface ProgramaDAO {
 
-    public List<Programa> consultarProgramas() throws PersistenceException;
+    List<Programa> consultarProgramas() throws PersistenceException;
     
-    public Programa consultarPrograma(Integer id) throws PersistenceException;
+    Programa consultarPrograma(Integer id) throws PersistenceException;
 
     void registrarPrograma(int id, String nombre) throws PersistenceException;
 

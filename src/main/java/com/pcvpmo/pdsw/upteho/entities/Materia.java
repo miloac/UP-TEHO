@@ -7,6 +7,7 @@ import java.io.Serializable;
  * @author Juan Camilo Mantilla
  */
 public class Materia implements Serializable {
+    
     private String sigla;
     private String nombre;
     private int creditos;

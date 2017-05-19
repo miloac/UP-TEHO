@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
  * @author Andres Felipe Pardo - Daniel Ospina
  */
 public interface ProfesorMapper {
+    
      /**
      * Consulta los profesores con el nombre dado
      * @param nombre texto con el nombre de los profesores a buscar
