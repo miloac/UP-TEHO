@@ -58,18 +58,14 @@ public class UnidadProyectosBean implements Serializable {
     private String idAsignaturaActual;
     private String siglaMateriaActual;
     //variables para el registro de una mateira--------------------------------------------
-    //para control visual---------
-    private int rowButton;
-    private Map<Integer, Integer> mapButtons;
     //-----------------------------
-    private Integer asignaturaActualID;
     private String currentLink;
     private HashMap<Integer,Integer> asSelectedXprog;
     private String mesageForUser;
     private HashMap<String,String> requisitosEscogidos;
+    private String idRequisito;
+    private String tipoRequisito;
     //--fundamental--
-    private List<Programa> selectedPrograms;
-    private List<Programa> compareSelected;
     private String siglaMateria;
     private String nombreMateria;
     private String descripcion;
@@ -91,7 +87,6 @@ public class UnidadProyectosBean implements Serializable {
     
 
     public UnidadProyectosBean() {
-        mapButtons = new HashMap<>();
         asSelectedXprog = new HashMap<>();
         requisitosEscogidos=new HashMap<>();
     }
@@ -173,7 +168,7 @@ public class UnidadProyectosBean implements Serializable {
      * esta funcion serciora que tambien la parte logica de RegistrarMateria se reinicie
      */
     public void resetForRegistrarMateria(){
-        String s = finalizarRegistroMateria();
+        finalizarRegistroMateria();
     }
     
     /**
@@ -181,16 +176,16 @@ public class UnidadProyectosBean implements Serializable {
      * @return si es ejecutado desde el commandButton de cancelar, retorna el link de redireccionamiento a la pagina de inicio
      */
     public String finalizarRegistroMateria(){
-        idProgramaActual="";
-        idAsignaturaActual="";
-        siglaMateriaActual="";
-        asignaturaActualID=null;
+        idProgramaActual=null;
+        idRequisito=null;
+        idAsignaturaActual=null;
+        siglaMateriaActual=null;
         asSelectedXprog=new HashMap<>();
-        mesageForUser="";
+        mesageForUser=null;
         requisitosEscogidos=new HashMap<>();
-        siglaMateria="";
-        nombreMateria="";
-        descripcion="";
+        siglaMateria=null;
+        nombreMateria=null;
+        descripcion=null;
         
         return "ConsultarMaterias.xhtml";
     }
@@ -378,16 +373,6 @@ public class UnidadProyectosBean implements Serializable {
         }catch(UnidadProyectosException ex){}
         return resp;
     }
-   
-    /**
-     * quita una asignatua y programa selccionados para registrar materia
-     * @param p programa (llave del multimap)
-     */
-    public void quitarFila(int p){
-        rowButton = mapButtons.get(p);
-        mapButtons.remove(p);
-        asSelectedXprog.remove(p);
-    }
     
     /**
      * quita una asignatua y programa selccionados para registrar materia
@@ -564,23 +549,7 @@ public class UnidadProyectosBean implements Serializable {
     public void setPrograma(Programa programa) {
         this.programa = programa;
     }  
-    
-    /**
-     * set the selected programs
-     * @param listprog of setter programs
-     */
-    public void setSelectedPrograms(List<Programa> listprog){
-        selectedPrograms=listprog;
-    }
-    
-    /**
-     * get the selected programs from registrarMateria
-     * @return lista de programas
-     */
-    public List<Programa> getSelectedPrograms(){
-        return selectedPrograms;
-    }
-    
+        
     /**
      * retorna las asignaturas asociadas a un programa dado prog
      * @param prog programa del que se obtendran sus asignaturas
@@ -597,8 +566,8 @@ public class UnidadProyectosBean implements Serializable {
     }  
     
     /**
-     * get the requisitos  escogidos
-     * @return map of requisitos
+     * devuelve los requisitos que se hallan seleccionado con la finalidad de verificar que la seleccion es correcta antes de proceder
+     * @return mapeo de los requisitos
      */
     public HashMap<Materia,String> getRequisitosEscogidos(){
         HashMap<Materia,String> resp = new HashMap<>();
@@ -617,25 +586,21 @@ public class UnidadProyectosBean implements Serializable {
         }
         return resp;
     }
-    
+           
     /**
-     * retorna un map con las materias registradas en el sistema
-     * @return HashMa con el conteniendo las materias y su sigla
+     * retorna las materias de una asignatura (la actual escogida)
+     * @return mapeado de las materias 
      */
-    public Map<String, String> getAllMaterias() {
-        List<Materia> lista;
-        HashMap<String, String> res = new HashMap<>();
-        lista = consultarMaterias();
-        if(lista!=null){
-            for (Materia m: lista) {
-                res.put(m.getNombre(),String.valueOf(m.getSigla()));
-            }
+    public Map<String,String> getMateriasActualAsignatura(){
+        if (isNumeric(idAsignaturaActual)){
+            return getMaterias();
+        }else{
+            return null;
         }
-        return res;
-    }   
+    }
     
      /**
-     * retorna todas las asginaturas y su programa en el registro de materias
+     * retorna todas las asginaturas y su programa escogidos en el registro de materias
      * @return un mapa con las asignaturas y programas seleccionados
      */
     public HashMap<Programa,Asignatura> getAsignaturasYProgramas(){
@@ -656,7 +621,6 @@ public class UnidadProyectosBean implements Serializable {
         }
         return resp;
     }
-    
     
      /**
       * gets all sigantures of program currently selected
@@ -708,9 +672,9 @@ public class UnidadProyectosBean implements Serializable {
     //-------------------------------------listener de la vista registrar Materia-----------------------------------------------------------------------------------------------------
     
     /**
-     * implemented to skip exception of Integer.parseInt()
-     * @param st to verify
-     * @return true or false if st is a number represented in string
+     * verifica si una cadena es numero para anticipar errores de operaciones sobre esta misma
+     * @param st cadena a verificar si es numero
+     * @return true si es un numero false si son solo caracteres no numericos
      */
      public boolean isNumeric(String st){
          boolean ans;
@@ -731,22 +695,43 @@ public class UnidadProyectosBean implements Serializable {
          }
          return ans;
      }
-
+     
+      /**
+     * agrega un requisito escogido
+     */
+    public void addRequisito(){
+        System.out.println("entrando a agregar req");
+        if(requisitosEscogidos.containsKey(idRequisito)){
+            requisitosEscogidos.replace(idRequisito,tipoRequisito);
+        }else if (isNumeric(idRequisito) && isNumeric(tipoRequisito)){
+            requisitosEscogidos.put(idRequisito,tipoRequisito);
+        }
+        idRequisito=null;
+        tipoRequisito=null;
+    }
+    
+    /**
+     * retorna el link de requisitos seleccionados
+     * @return link de la pagina
+     */
+    public String getLinkRequisitos(){
+        return "ListaRequisitosSeleccionados.xhtml";
+    }
      /**
-      * define el estado de un select 
-     * @param prog programa que tiene la misma linea que el select
+      * define el estado de un select para darle acceso 
+     * @param prog programa al que se le quieren seleccionar las asginaturas
      * @return si se ha escogido el programa se puede escoger la asignatura, si no, estara deshabilitada la opcion
       */
      public boolean enable(Programa prog){
          boolean ans;
-         ans = !asSelectedXprog.containsKey(prog.getId());
+         ans = !asSelectedXprog.containsKey(prog.getId()) && (idAsignaturaActual==null || idAsignaturaActual.equals(""));
          return ans;
      }
      
      
     /**
-      * indexes the selected signatures
-     * @param prog
+      * funcion logica que soporta el funcionamiento de seleccion de asignaturas de un programa en RegistrarNuevaMateria
+     * @param prog programa al que pertenecen las asignaturas escogibles en esa seccion
       */
      public void changeOption(Programa prog){
          if(isNumeric(idAsignaturaActual)){
@@ -754,28 +739,28 @@ public class UnidadProyectosBean implements Serializable {
          }else{
              asSelectedXprog.replace(prog.getId(),null);
          }
-         
+         idRequisito=null;
+         tipoRequisito=null;         
      }    
-     
-          
+            
      /**
       * another listener
      * @param prog programa que se esta seleccionando
-     * @param rowIndex identificador de la fila de la tabla, (solo importante para presentacion)
+     * @param rowIndex identificador de la fila de la tabla, donde esta el programa (solo importante para presentacion)
       */
      public void clickButtonSelect(Programa prog, int rowIndex){
          if (prog!=null){
             if(!asSelectedXprog.containsKey(prog.getId())){
-                mapButtons.put(prog.getId(), rowIndex);
                 asSelectedXprog.put(prog.getId(),null);
             }
             else{
                 asSelectedXprog.remove(prog.getId());
+                idAsignaturaActual=null;
+                idRequisito=null;
+                tipoRequisito=null;
             }
          }
      }
-     
-       
          
     //---------------------------------------------------------listener registrar materia fin ------------------------------------------------------------------------------
              
@@ -940,16 +925,7 @@ public class UnidadProyectosBean implements Serializable {
     public void setDescripcion(String var){
         this.descripcion=var;
     }
-    
-    
-    public void setAsignaturaActualID(Integer asig){
-        this.asignaturaActualID = asig;
-    }
-    
-    public Integer getAsignaturaActualID(){
-        return this.asignaturaActualID;
-    }
-    
+        
     public String getIdAsignaturaActual(){
         return this.idAsignaturaActual;
     }
@@ -1035,7 +1011,10 @@ public class UnidadProyectosBean implements Serializable {
         return res;
     }
     
-    
+    /**
+     * obtiene las materias de una asignatura (la actualmente escogida)
+     * @return mapeo de las materias de la asginatura escogida
+     */
     public Map<String, String> getMaterias() {
         List<Materia> lista = null;
         HashMap<String, String> res = new HashMap<>();
@@ -1071,7 +1050,22 @@ public class UnidadProyectosBean implements Serializable {
         cohorteCursoActual = 0;
     }
  
-
+    public void setTipoRequisito(String tr){
+        this.tipoRequisito = tr;
+    }
+    
+    public String getTipoRequisito(){
+        return this.tipoRequisito;
+    }
+    
+    public void setIdRequisito(String idR) {
+        this.idRequisito = idR;
+    }
+    
+    public String getIdRequisito(){
+        return this.idRequisito;
+    }
+    
     public String getSiglaMateriaActual() {
         return siglaMateriaActual;
     }
@@ -1200,14 +1194,6 @@ public class UnidadProyectosBean implements Serializable {
 
     public void setPaginaPrevia(String paginaPrevia) {
         this.paginaPrevia = paginaPrevia;
-    }
-    
-    public int getRowButton(){
-        return this.rowButton;
-    }
-    
-    public void setRowButton(int rb){
-        this.rowButton = rb;
     }
     
     public String getResumen() {
