@@ -997,7 +997,7 @@ public class UnidadProyectosBean implements Serializable {
     
     /**
      * Obtiene el profosor seleccionado en el bean
-     * @return 
+     * @return profesor seleccionado
      */
     public Profesor getProfesorSelect() {
         return profesorSelect;
