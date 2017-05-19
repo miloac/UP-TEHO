@@ -68,7 +68,7 @@
                                     <td>
                                         <p:outputLabel for="button" value="Fecha: " />
                                         <br></br>
-                                        <p:calendar id="button" value="#{UnidadProyectosBean.fechaClase}" showOn="button" />                                  
+                                        <p:calendar   id="button" value="#{UnidadProyectosBean.fechaClase}" mode="inline" showOn="button" />                                  
                                     </td>
                                     <td></td>
                                     <td></td>
@@ -80,6 +80,9 @@
                                             <f:selectItems value="#{UnidadProyectosBean.horas}" />
                                         </p:selectOneMenu>
                                     </td>
+                                </tr>
+                                <tr>
+                                    <p:commandButton  value="Cronograma Curso" action="#{UnidadProyectosBean.irHorarioCurso()}"></p:commandButton>
                                 </tr>
                             </table>
                             <table>

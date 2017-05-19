@@ -27,11 +27,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javax.annotation.PostConstruct;
 
 import org.apache.log4j.Logger;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.log4j.Level;
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleModel;
 
 
 /**
@@ -82,14 +86,50 @@ public class UnidadProyectosBean implements Serializable {
     private boolean registroClase;
     private boolean errorRegistroCurso;
     private String paginaPrevia;
-    
+    private ScheduleModel eventModel;
 
     public UnidadProyectosBean() {
         asSelectedXprog = new HashMap<>();
         requisitosEscogidos=new HashMap<>();
         Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.INFO, "Bean Inicializado");
     }
-    
+     public ScheduleModel getEventModel() {
+        eventModel = new DefaultScheduleModel();
+        Calendar cini =Calendar.getInstance();
+        Calendar cfin=Calendar.getInstance();
+        List<Clase> clases=consultarClasesProfesor(profesorSelect.getId());
+        for(Clase i:clases){
+            java.util.Date fecha=new java.util.Date(i.getFecha().getTime());
+            cini.setTime(fecha);
+            cfin.setTime(fecha);
+            int hora=i.getHora().toLocalTime().getHour();
+            int min=i.getHora().toLocalTime().getMinute();
+            
+            
+            cini.set(Calendar.HOUR_OF_DAY,hora-5);
+            cini.set(Calendar.MINUTE,min);
+            
+            if(min==30){              
+                cfin.set(Calendar.HOUR_OF_DAY,hora-3);
+                cfin.set(Calendar.MINUTE,0);
+            }
+            else {
+                cfin.set(Calendar.HOUR_OF_DAY,hora-4);
+                cfin.set(Calendar.MINUTE,30);
+            }
+            String id="clases";
+            DefaultScheduleEvent evento=new DefaultScheduleEvent(cursoActual.getMateria().getSigla(),cini.getTime(),cfin.getTime(),id);
+            eventModel.addEvent(evento);  
+            
+            
+         
+        }
+        return eventModel;
+    }
+     
+    public String irHorarioCurso(){
+        return "HorarioCurso";
+    }
     public String irPaginaCurso(Curso curso_actual) {
         cursoActual = curso_actual;
         programa=cursoActual.getMateria().getAsignatura().getPrograma();
