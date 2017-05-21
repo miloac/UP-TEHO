@@ -58,6 +58,8 @@ public class UnidadProyectosBean implements Serializable {
     private String idAsignaturaActual;
     private String siglaMateriaActual;
     //variables para el registro de una mateira--------------------------------------------
+    private String asignaturaSeleccionada;
+    private String programaSeleccionado;
     //-----------------------------
     private String currentLink;
     private HashMap<Integer,Integer> asSelectedXprog;
@@ -630,7 +632,7 @@ public class UnidadProyectosBean implements Serializable {
      public HashMap<String,String> getAsignaturasXprog(Programa prog){
         List<Asignatura> lista;
         HashMap<String,String> result=new HashMap<>();
-        if (prog!=null){
+         if (prog!=null){
             lista=consultaAsginaturasXprog(prog);
             if (lista!=null){
                 for (Asignatura asig: lista) {
@@ -696,6 +698,18 @@ public class UnidadProyectosBean implements Serializable {
          return ans;
      }
      
+     /**
+      * 
+      * @return nombre de la asignatura escogida
+      */
+     public String getAsignaturaSeleccionada(){
+         String ans = "No se ha seleccionado alguna Asignatura";
+         if (isNumeric(idAsignaturaActual)){
+             ans= "Requisitos dentro de la asignatura: "+obtenerAsignatura(Integer.parseInt(idAsignaturaActual)).getNombre();
+         }
+        return ans;
+     }
+     
       /**
      * agrega un requisito escogido
      */
@@ -755,9 +769,11 @@ public class UnidadProyectosBean implements Serializable {
             }
             else{
                 asSelectedXprog.remove(prog.getId());
-                idAsignaturaActual=null;
-                idRequisito=null;
-                tipoRequisito=null;
+                if(asSelectedXprog.isEmpty()){
+                    idAsignaturaActual=null;
+                    idRequisito=null;
+                    tipoRequisito=null;
+                }
             }
          }
      }

@@ -43,13 +43,13 @@
             <div style="padding:10px;margin:auto;" >
                                 
                 <h:form id="regNuevaMateria">
-                  
-                    <p:dataTable id="checkRegistroMateria" var="prog" value="#{UnidadProyectosBean.consultarProgramas()}" rowIndexVar="rowIndex"> 
+                    <center>
+                    <p:dataTable id="checkRegistroMateria" var="prog" value="#{UnidadProyectosBean.consultarProgramas()}" rowIndexVar="rowIndex" style="width:80%;"> 
                       
                         <p:column style="width:40px">
                             <center>
                                 <p:commandButton id="d" class="selectButton" type="button" onclick="cargar()" value="+" style="background-color: gainsboro; width:38px; height: 35px;font-size: 15px;" title="Seleccionar Programa">
-                                    <p:ajax event="click" listener="#{UnidadProyectosBean.clickButtonSelect(prog,rowIndex)}" oncomplete="ocultar()" update="@(.mySelector#{rowIndex})"/>
+                                    <p:ajax event="click" listener="#{UnidadProyectosBean.clickButtonSelect(prog,rowIndex)}" oncomplete="ocultar();requisitosUpdate()" update="@(.mySelector#{rowIndex})"/>
                                 </p:commandButton>
                             </center>
                         </p:column>
@@ -60,14 +60,15 @@
                             </center>  
                         </p:column>
                         
-                        <p:column headerText="asignatura"> 
+                        <p:column headerText="asignatura">
                             <center>
-                                <p:selectOneMenu id="select" class="mySelector#{rowIndex}" value="#{UnidadProyectosBean.idAsignaturaActual}" style="width:250px" disabled="#{UnidadProyectosBean.enable(prog)}">
-                                    <p:ajax event="change" listener="#{UnidadProyectosBean.changeOption(prog)}" onstart="cargar()" oncomplete="ocultar();requisitosUpdate()"/>
+                                <h:selectOneMenu id="select" class="mySelector#{rowIndex}" value="#{UnidadProyectosBean.idAsignaturaActual}" disabled="#{UnidadProyectosBean.enable(prog)}" title="Seleccione la asginatura de la materia que quiere registrar">
+                                    <p:ajax event="change" listener="#{UnidadProyectosBean.changeOption(prog)}" onstart="cargar();setOtherSelects('#{rowIndex}')" oncomplete="ocultar();requisitosUpdate()"/>
                                     <f:selectItem itemLabel="Seleccionar Asignatura"  itemValue="" noSelectionOption="true"/>
                                     <f:selectItems value="#{UnidadProyectosBean.getAsignaturasXprog(prog)}"/> 
-                                </p:selectOneMenu>
+                                </h:selectOneMenu>
                             </center>
+                            
                         </p:column>  
                         
                         <p:column headerText="Accion">
@@ -75,6 +76,7 @@
                         </p:column>
                    
                     </p:dataTable>
+                    </center>
                     <br/>                    
                      <div class="cf" id="progAsig">
                          <button id="cerrarProg" type="button" class="closeButton" onclick="cerrarIframe('mostrarSeleccionProgAsig','progAsig')">X</button>
@@ -90,9 +92,10 @@
                 <p:separator class="sombra"/>
                 
                 <h:form id="areaRequisitos">
-                    <p:remoteCommand name="requisitosUpdate" update="requisitosSeleccion"/>
+                    <p:remoteCommand name="requisitosUpdate" update="requisitosSeleccion,seleccionado"/>
                     <center>
-                        <h:panelGrid columns="5" cellpadding="10">
+                        <h:outputText id="seleccionado" value="#{UnidadProyectosBean.getAsignaturaSeleccionada()}"/>
+                        <h:panelGrid columns="6" cellpadding="10">
                             <h:outputText value="Listado Requisitos:"></h:outputText>
                             <p:selectOneMenu id="requisitosSeleccion"  value="#{UnidadProyectosBean.idRequisito}" style="width:250px">
                                 <f:selectItem itemLabel="Sin requisitos" itemValue="" noSelectionOption="true" />
@@ -100,7 +103,7 @@
                                 <p:ajax event="change" onstart="cargar()" oncomplete="ocultar()"/>
                             </p:selectOneMenu>
                             
-                            <p:selectOneRadio id="requis" value="#{UnidadProyectosBean.tipoRequisito}">
+                            <p:selectOneRadio id="requis" value="#{UnidadProyectosBean.tipoRequisito}" >
                                 <f:selectItem itemLabel="co-Requisito" itemValue="1" />
                                 <f:selectItem itemLabel="Pre-Requisito" itemValue="0" />
                                 <p:ajax event="change" onstart="cargar()" oncomplete="ocultar()"/>

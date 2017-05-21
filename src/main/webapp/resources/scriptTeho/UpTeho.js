@@ -49,6 +49,15 @@ function forButton(boton,valor,titulo){
     boton.title = titulo;
 }
 
+function setOtherSelects(rInd){
+    var elements = document.getElementsByTagName("select");
+    for (i=0; i<elements.length;i++){
+        if(i!=rInd){
+            elements[i].selectedIndex="0";
+        }
+    }
+}
+
 function cargar(){
     var lf = document.getElementById("lightframe");
     lf.style.visibility="visible";
