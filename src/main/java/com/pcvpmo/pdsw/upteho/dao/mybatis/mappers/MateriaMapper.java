@@ -80,7 +80,7 @@ public interface MateriaMapper {
      * consulta todas las materias
      * @return todas las  materias del sistema
      */
-    public List<Materia> consultarMaterias();
+    List<Materia> consultarMaterias();
     
     /**
      * registra los requisitos de una materia 
@@ -110,6 +110,5 @@ public interface MateriaMapper {
      * @param sigla materia que puede ser vista por el programa
      */
     public void registrarPrograma(@Param("idPrograma") Integer idPrograma, @Param("sigla") String sigla);
-    
 }
 

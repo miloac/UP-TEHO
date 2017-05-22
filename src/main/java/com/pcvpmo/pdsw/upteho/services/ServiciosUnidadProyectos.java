@@ -90,8 +90,6 @@ public interface ServiciosUnidadProyectos {
      * @throws UnidadProyectosException Excepcion con datos del error
      */ 
     void programarClase(String fecha, String hora, Curso curso) throws UnidadProyectosException;
-    //TODO: Cambiar parametros dependiendo como se diseñe el bean.
-    // Los paranetros inicialmente puestos era fecha y hora unicamente
     
     /**
      *  Se registra un curso dada su asignatura ,materia y profesor correspondiente
@@ -118,7 +116,7 @@ public interface ServiciosUnidadProyectos {
     * @return materia
     * @throws UnidadProyectosException indicando que no se pudo consultar
     */
-   public Materia consultarMateria(String sigla)throws UnidadProyectosException;
+   Materia consultarMateria(String sigla)throws UnidadProyectosException;
    /**
     *  consulta las materias de una asignatura
     * @param idAsignatura id de la asignatura
@@ -135,7 +133,7 @@ public interface ServiciosUnidadProyectos {
      * @param tipo si es completo el requisito o no
      * @throws UnidadProyectosException indicando que no se completo el registro
     */
-   public void registrarRequisito(String mat,String matReq,int tipo)throws UnidadProyectosException;
+   void registrarRequisito(String mat,String matReq,int tipo)throws UnidadProyectosException;
    
    /**
     *  Consulta los programas de la Unidad de Proyectos
@@ -151,7 +149,7 @@ public interface ServiciosUnidadProyectos {
     * @return Programa de la unidad de proyectos
     * @throws UnidadProyectosException Excepcion con datos del error
     */
-   public Programa consultarPrograma(Integer id) throws UnidadProyectosException;
+   Programa consultarPrograma(Integer id) throws UnidadProyectosException;
    
    /**
     *  Consulta las asignaturas 
@@ -167,7 +165,7 @@ public interface ServiciosUnidadProyectos {
     * @return asignatura
      * @throws UnidadProyectosException no se pudo consultar la asignatura
     */
-   public Asignatura consultarAsignatura(Integer id)throws UnidadProyectosException;
+   Asignatura consultarAsignatura(Integer id)throws UnidadProyectosException;
    
    /**
     *  Consulta las asignaturas por programa 
@@ -176,7 +174,7 @@ public interface ServiciosUnidadProyectos {
     * //pos:List con  las asignaturas registradas en la base de datos
     * @throws UnidadProyectosException Excepcion con datos del error
     */
-   public List<Asignatura> consultarAsignaturasXProg(int programa)throws UnidadProyectosException;
+   List<Asignatura> consultarAsignaturasXProg(int programa)throws UnidadProyectosException;
    
    /**
     *  Consulta los profesores segun el filtro de busqueda
@@ -306,7 +304,7 @@ public interface ServiciosUnidadProyectos {
      * @return Lista de Materias
      * @throws UnidadProyectosException Excepcion con datos del error
      */
-    public List<Materia> consultarMateriasxPrograma(Integer idPrograma) throws UnidadProyectosException;
+    List<Materia> consultarMateriasxPrograma(Integer idPrograma) throws UnidadProyectosException;
     
     /**
      * Agrega una clase a un curso especifico, si el horario del profesor coincide

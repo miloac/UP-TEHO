@@ -41,7 +41,7 @@
                         <p:commandButton value="Buscar" update=":rema:tablaProf"/>
                     </h:panelGrid>
                         <p:dataTable id="tablaProf" var="prof" value="#{UnidadProyectosBean.consultarProfesores()}" selection="#{UnidadProyectosBean.profesorSelect}" rowKey="#{prof.id}" >
-                        <p:column headerText="nombre" >
+                        <p:column headerText="Nombre" >
                             <h:outputText value="#{prof.nombre}" />
                         </p:column>    
                         <p:column selectionMode="single" style="width: 16px;text-align: center"/>

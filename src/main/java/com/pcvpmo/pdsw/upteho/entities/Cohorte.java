@@ -3,10 +3,11 @@ package com.pcvpmo.pdsw.upteho.entities;
 import java.io.Serializable;
 
 /**
- *
- * @author andres
+ * Una clase simple que representa un Cohorte en la Unidad de Proyectos y sus detalles
+ * @author Andres Felipe Pardo
  */
-public class Cohorte implements Serializable{
+public class Cohorte implements Serializable {
+    
     private Programa programa;
     private Curso curso;
     private int cohorte;

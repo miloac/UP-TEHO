@@ -6,6 +6,7 @@ import java.io.Serializable;
  * @author Juan Camilo Mantilla
  */
 public class Curso implements Serializable {
+    
     private int id;
     private Profesor profesor;
     private Materia materia;
@@ -26,8 +27,6 @@ public class Curso implements Serializable {
         this.materia = materia;
         this.periodo = periodo;
     }
-    
-    
     
     public int getId(){
         return this.id;

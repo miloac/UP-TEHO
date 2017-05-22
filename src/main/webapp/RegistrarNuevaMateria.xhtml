@@ -62,11 +62,13 @@
                         
                         <p:column headerText="asignatura">
                             <center>
+
                                 <h:selectOneMenu id="select" class="mySelector#{rowIndex}" value="#{UnidadProyectosBean.idAsignaturaActual}" disabled="#{UnidadProyectosBean.enable(prog)}" title="Seleccione la asginatura de la materia que quiere registrar">
                                     <p:ajax event="change" listener="#{UnidadProyectosBean.changeOption(prog)}" onstart="cargar();setOtherSelects('#{rowIndex}')" oncomplete="ocultar()"/>
                                     <f:selectItem itemLabel="Seleccionar Asignatura"  itemValue="" noSelectionOption="true"/>
                                     <f:selectItems value="#{UnidadProyectosBean.getAsignaturasXprog(prog)}"/> 
                                 </h:selectOneMenu>
+
                             </center>
                             
                         </p:column>  

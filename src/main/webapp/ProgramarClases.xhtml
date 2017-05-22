@@ -8,7 +8,7 @@
       
     <h:head>
         <link rel="icon" type="image/png" href="resources/image/teho.png" />
-        <title>Programaci&oacute;n de clases</title>
+        <title>Programaci&oacute;n de sesiones</title>
         <h:outputStylesheet library="css" name="estilo.css" />
     </h:head>
     <h:body>
@@ -21,7 +21,7 @@
         <!-- CUERPO -->
         <center><div style="max-width:97%;min-height:20px;background:brown ;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:15px;margin:auto;" >
-                <center><font color="#FFF" size="+2">PROGRAMACI&Oacute;N CLASES</font></center>
+                <center><font color="#FFF" size="+2">PROGRAMACI&Oacute;N DE SESIONES</font></center>
             </div>
         </div></center>
        
@@ -75,7 +75,7 @@
                                         <h:outputText value="#{clasesProf.hora.toString()}"/>
                                     </p:column>
                                     <p:column headerText="ACCION">
-                                        <center><p:commandButton value="Cancelar Clase" update=":tabla_salones" action="#{UnidadProyectosBean.cancelarClase(clasesProf.id)}"/></center>
+                                        <center><p:commandButton value="Cancelar Sesión" update=":tabla_salones" action="#{UnidadProyectosBean.cancelarClase(clasesProf.id)}"/></center>
                                     </p:column>
                                 </p:dataTable>
                             </p:layoutUnit>
@@ -84,7 +84,7 @@
                             <br></br>
                             <h3>TOTAL HORAS:</h3>
                             <h:outputText value="#{UnidadProyectosBean.numeroHorasCur}"/>
-                            <center><p:commandButton value="Agregar Clase" action="#{UnidadProyectosBean.irProgramacionClase()}"/></center>
+                            <center><p:commandButton value="Agregar Sesión" action="#{UnidadProyectosBean.irProgramacionClase()}"/></center>
                         </h:form> 
                    
                     

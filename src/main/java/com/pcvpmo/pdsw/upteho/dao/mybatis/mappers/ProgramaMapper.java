@@ -15,14 +15,14 @@ public interface ProgramaMapper {
      * @return Lista de Programas
      */
 
-    public List<Programa> consultarProgramas();
+    List<Programa> consultarProgramas();
     
     /**
      * consulta un programa por id
      * @param id del programa a ser consultado
      * @return programa obtenido
      */
-    public Programa consultarPrograma(@Param("programaId") int id);
+    Programa consultarPrograma(@Param("programaId") int id);
     
     /**
      * Registra un nuevo Programa de la Unidad de Proyectos

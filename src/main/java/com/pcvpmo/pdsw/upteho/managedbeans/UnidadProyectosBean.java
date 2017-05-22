@@ -2,7 +2,6 @@ package com.pcvpmo.pdsw.upteho.managedbeans;
 
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
-import com.pcvpmo.pdsw.upteho.entities.Cohorte;
 import com.pcvpmo.pdsw.upteho.entities.Curso;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
@@ -16,8 +15,6 @@ import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
 
-import java.util.*;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.sql.Date;
@@ -27,10 +24,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 import org.apache.ibatis.exceptions.PersistenceException;
+import org.apache.log4j.Level;
 import org.primefaces.context.RequestContext;
 
 
@@ -49,8 +49,7 @@ public class UnidadProyectosBean implements Serializable {
     private int cohorteCursoActual;    
     private Programa programa;
     private Asignatura asignatura;
-    private Periodo periodo;    
-    private Cohorte cohorte;
+    private Periodo periodo;
     private List<Profesor> profesor;      
     private Profesor profesorSelect;
     private String nameProf;
@@ -85,14 +84,13 @@ public class UnidadProyectosBean implements Serializable {
     private boolean registroClase;
     private boolean errorRegistroCurso;
     private String paginaPrevia;
-    //Curso que se haya seleccionado en la pagina, este atributo puede cambiar por id o String dependiendo de como lo implementemos
     
-
     public UnidadProyectosBean() {
         selectedPrograms = new ArrayList<>();
         requisitosEscogidos=new HashMap<>();
+        Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.INFO, "Bean Inicializado");
     }
-    
+
     public String irPaginaCurso(Curso curso_actual) {
         cursoActual = curso_actual;
         programa=cursoActual.getMateria().getAsignatura().getPrograma();
@@ -108,7 +106,7 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     public String irProgramarCurso() {
-        if (errorRegistroCurso) return "programarCurso";
+        if (errorRegistroCurso) return "ProgramarCurso";
         return "ReporteProgramacion";
     }
     
@@ -134,7 +132,7 @@ public class UnidadProyectosBean implements Serializable {
                 cursoActual.setProfesor(null);
             }
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         return "RegistroMateriaNuevoCohorte";
     }
@@ -145,7 +143,7 @@ public class UnidadProyectosBean implements Serializable {
         return "ProgramarCurso";
     }
     
-    public String irPaginaAsginatura(){
+    public String irPaginaAsignatura(){
         return "RegistrarAsignatura";
     }
     
@@ -325,7 +323,7 @@ public class UnidadProyectosBean implements Serializable {
             sp.removerMateria(siglaMateria);
             finalizarRegistroMateria();
         }catch(UnidadProyectosException ex){
-            
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         request.execute("alertaError('removiendo datos')");
     }
@@ -382,7 +380,7 @@ public class UnidadProyectosBean implements Serializable {
             sp.registrarCohorte(Integer.parseInt(idProgramaActual), cursoActual.getId(), cohorteCursoActual);
             mensaje = "Registro exitoso";
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         } catch (NullPointerException ex) {
             errorRegistroCurso = true;
             mensaje = "Faltan datos, No se ha podido registrar un nuevo Curso";
@@ -401,7 +399,7 @@ public class UnidadProyectosBean implements Serializable {
         try{
             materias = sp.consultarMaterias();
         }catch(UnidadProyectosException ex){
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         return materias;
     }
@@ -416,7 +414,7 @@ public class UnidadProyectosBean implements Serializable {
         try{
             materias = sp.consultarMaterias(idAsignatura);
         }catch(UnidadProyectosException ex){
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         return materias;
      }
@@ -431,7 +429,7 @@ public class UnidadProyectosBean implements Serializable {
         try{
             lista=sp.consultarProgramas();
         }catch (UnidadProyectosException ex){
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);          
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);          
         }
         return lista;
     }
@@ -445,7 +443,9 @@ public class UnidadProyectosBean implements Serializable {
         Materia resp=null;
         try{
             resp=sp.consultarMateria(sigla);
-        }catch(UnidadProyectosException ex){}
+        }catch(UnidadProyectosException ex){
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
+        }
         return resp;
     }
     
@@ -466,21 +466,23 @@ public class UnidadProyectosBean implements Serializable {
         try {
             lista = sp.consultarAsignaturas();
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         return lista;
     }
     
     /**
      * consulta las materias de un programa (el seleccionado actualmente)
-     * @return 
+     * @return listado de materias de cierto programa
      */
     public List<Materia> consultaMateriasXprog(){
         List<Materia> lista = new ArrayList<>();
         try{
             if (idProgramaActual==null || !isNumeric(idProgramaActual)){lista = sp.consultarMateriasxPrograma(0);}
             else{lista = sp.consultarMateriasxPrograma(Integer.parseInt(idProgramaActual));}
-        }catch (UnidadProyectosException ex){}
+        }catch (UnidadProyectosException ex){
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
+        }
                 
         return lista;
     }
@@ -502,7 +504,7 @@ public class UnidadProyectosBean implements Serializable {
         try {        
             lista = sp.consultarProfesores(getNameProf());
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         return lista;
     }
@@ -518,7 +520,7 @@ public class UnidadProyectosBean implements Serializable {
         try {
             lista = sp.consultarClasesxPeriodo(periodo);
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         return lista;
     }
@@ -549,7 +551,7 @@ public class UnidadProyectosBean implements Serializable {
         try {
             lista = sp.consultarCursos();
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         return lista;
     }
@@ -565,7 +567,7 @@ public class UnidadProyectosBean implements Serializable {
         try {
             lista = sp.consultarCursosPorPeriodo(nombre);
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         return lista;
     }
@@ -580,17 +582,23 @@ public class UnidadProyectosBean implements Serializable {
             lista = sp.consultarClasesCurso(cursoActual.getId());
              numeroHorasCur=lista.size()*1.5;
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         return lista;
     }
     
+    /**
+     * Consulta un cohorte dado un curso y un programa
+     * @param curso curso del cohorte
+     * @param programa programa del cohorte
+     * @return Cohorte
+     */
     public int consultarCohorte(Curso curso,Programa programa){
         int cohort=0;
         try{
           cohort= sp.consultarCohorte(curso,programa); 
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         cohorteCursoActual=cohort;
         return cohort;
@@ -639,7 +647,9 @@ public class UnidadProyectosBean implements Serializable {
         try{
             if (prog==null){lista = sp.consultarAsignaturasXProg(0);}
             else{lista = sp.consultarAsignaturasXProg(prog.getId());}
-        }catch (UnidadProyectosException ex){}
+        }catch (UnidadProyectosException ex){
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
+        }
        
         return lista;
     }  
@@ -872,11 +882,18 @@ public class UnidadProyectosBean implements Serializable {
     public Asignatura getAsignatura() {
         return asignatura;
     }
-
+    
+    /**
+     * Obtiene el nombre del profesor seleccionado en el bean 
+     * @return Cadena con el nombre del profesor
+     */
     public String getNameProf() {
         return nameProf;
     }
     
+    /**
+     * Agrega una nueva clase segun lo seleccionado en el bean
+     */
     public void agregarClase(){
         try{
             DateFormat formatter = new SimpleDateFormat("HH:mm");
@@ -887,28 +904,37 @@ public class UnidadProyectosBean implements Serializable {
             if(resp)mensaje="La clase se registro";
             else mensaje="El profesor no tiene horario disponible";
         } catch (UnidadProyectosException | ParseException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
     }
     
+    /**
+     * Consulta las clases de un profesor especificado
+     * @param idProf id del profesor a consultar
+     * @return Lista de clases
+     */
+    public List<Clase> consultarClasesProfesor(int idProf) {
+        List<Clase> clases=null;
+        try{
+           clases= sp.consultarClasesProfesor(idProf);
+            numeroHorasPrf=clases.size()*1.5;
+        } catch (UnidadProyectosException ex) {
+           Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
+        }
+        return clases;
+    }
     
-     public List<Clase> consultarClasesProfesor(int idProf) {
-         List<Clase> clases=null;
-         try{
-            clases= sp.consultarClasesProfesor(idProf);
-             numeroHorasPrf=clases.size()*1.5;
-         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
-         }
-         return clases;
-     }
-     public void cancelarClase(int id){
-         try{
-             sp.cancelarClase(id);
-         }catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
-         }
-     }
+    /**
+     * Cancela un a clase segun su id
+     * @param id id de la clase
+     */
+    public void cancelarClase(int id){
+        try{
+            sp.cancelarClase(id);
+        }catch (UnidadProyectosException ex) {
+           Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
+        }
+    }
 
     /**
      * Consulta los nombres de lor Programas registrados
@@ -916,7 +942,7 @@ public class UnidadProyectosBean implements Serializable {
      */
     public ArrayList<String> consultarProgramasNombres() {
         //TODO Encontrar error que no permite que funcione
-        ArrayList<String> nombres = new ArrayList<String>();
+        ArrayList<String> nombres = new ArrayList<>();
         List<Programa> programas = this.consultarProgramas();
         for(int i=0; i<programas.size(); i++){
             nombres.add(programas.get(i).getNombre());
@@ -925,6 +951,11 @@ public class UnidadProyectosBean implements Serializable {
         return nombres;
     }
     
+    /**
+     * Registra un nueva asginatura dado su nombre y su programa
+     * @param nombre nombre de la asignatura
+     * @param nomPrograma nombre del programa
+     */
     public void registrarAsignatura(String nombre, String nomPrograma) {
         int idprograma =0;
         if(!(nomPrograma.equals("") || nombre.equals(""))){
@@ -936,16 +967,24 @@ public class UnidadProyectosBean implements Serializable {
                  sp.registrarAsignatura(nombre, idprograma);
             }
             catch (UnidadProyectosException ex) {
-                Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
             }
         }
     }
-
+    
+    /**
+     * Establece el nombre del profesor actual en el bean 
+     * @param nameProf nombre del profesor
+     */
     public void setNameProf(String nameProf) {
         this.nameProf = nameProf;
 
     }
-
+    
+    /**
+     * Obtiene el profosor seleccionado en el bean
+     * @return profesor seleccionado
+     */
     public Profesor getProfesorSelect() {
         return profesorSelect;
     }
@@ -956,16 +995,6 @@ public class UnidadProyectosBean implements Serializable {
      */
     public Periodo getPeriodo() {
         return periodo;
-    }
-    
-    public Curso cursoTemp(){
-        Programa pro=new Programa(5, "especializacion en proyectos");
-        Asignatura as=new Asignatura(69, "fundamentos", pro);
-        Materia ma=new Materia("INFU", "Introduccion a fundamentos", 4, "sdgb", as);
-        Periodo pe=new Periodo("2020-1", java.sql.Date.valueOf("2020-05-03"), java.sql.Date.valueOf("2020-05-15"));
-        Curso cu = new Curso(56, ma, pe);
-        return cu;
-
     }
     
     /**
@@ -986,7 +1015,7 @@ public class UnidadProyectosBean implements Serializable {
 
     
     /**
-     *mesage of error or some happend
+     * mesage of error or some happened
      * @return the mesage to view
      */
     public String getMesageForUser(){
@@ -1024,8 +1053,8 @@ public class UnidadProyectosBean implements Serializable {
     
     public void setDescripcion(String var){
         this.descripcion=var;
-    }
-        
+    }        
+
     public String getIdAsignaturaActual(){
         return this.idAsignaturaActual;
     }
@@ -1061,14 +1090,18 @@ public class UnidadProyectosBean implements Serializable {
     public void setIdProgramaActual(String idProgramaActual) {
         this.idProgramaActual = idProgramaActual;
     }
-
+    
+    /**
+     * Consulta todos los programas y los Agrega a un Map utilizado en la capa de presentacion
+     * @return Map de Programas
+     */
     public Map<String, String> getProgramas() {
         List<Programa> lista = null;
         HashMap<String, String> res = new HashMap<>();
         try {
             lista = sp.consultarProgramas();
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         if (lista!=null){
             for (Programa prog: lista) {
@@ -1078,6 +1111,10 @@ public class UnidadProyectosBean implements Serializable {
         return res;
     }
     
+    /**
+     * Consulta todos los Periodos y los Agrega a un Map utilizado en la capa de presentacion
+     * @return Map de Periodos
+     */
     public Map<String, String> getPeriodos() {
         List<Periodo> lista = null;
         HashMap<String, String> res = new HashMap<>();
@@ -1085,7 +1122,7 @@ public class UnidadProyectosBean implements Serializable {
             if (idPeriodoActual == null || idPeriodoActual.equals("")) lista = sp.consultarPeriodos();
             else lista = sp.consultarPeriodos();
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         for (Periodo periodo: lista) {
             res.put(periodo.getNombre(), String.valueOf(periodo.getNombre()));
@@ -1094,6 +1131,10 @@ public class UnidadProyectosBean implements Serializable {
         
     }
     
+    /**
+     * Consulta todos las asignaturas y las Agrega a un Map utilizado en la capa de presentacion
+     * @return Map de Asignaturas
+     */
     public Map<String, String> getAsignaturas() {
         List<Asignatura> lista = null;
         HashMap<String, String> res = new HashMap<>();
@@ -1101,7 +1142,7 @@ public class UnidadProyectosBean implements Serializable {
             if (idProgramaActual == null || idProgramaActual.equals("")) lista = sp.consultarAsignaturasxPrograma(null);
             else lista = sp.consultarAsignaturasxPrograma(Integer.parseInt(idProgramaActual));
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         if (lista!=null){
             for (Asignatura asig: lista) {
@@ -1122,7 +1163,7 @@ public class UnidadProyectosBean implements Serializable {
             if (idAsignaturaActual == null || idAsignaturaActual.equals("")) lista = sp.consultarMateriasxAsignatura(null);
             else lista = sp.consultarMateriasxAsignatura(Integer.parseInt(idAsignaturaActual));
         } catch (UnidadProyectosException ex) {
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         if(lista!=null){
             for (Materia materia: lista) {
@@ -1215,7 +1256,7 @@ public class UnidadProyectosBean implements Serializable {
     
     public List<String> getHoras(){
         if(horas==null){
-        horas=new ArrayList<String>(Arrays.asList("07:00","08:30","10:00","11:30","13:00","14:30","16:00","17:30"));
+        horas=new ArrayList<>(Arrays.asList("07:00","08:30","10:00","11:30","13:00","14:30","16:00","17:30"));
         }
        
        return horas;
@@ -1296,8 +1337,13 @@ public class UnidadProyectosBean implements Serializable {
         this.paginaPrevia = paginaPrevia;
     }
     
+    /**
+     * Obtiene un resumen de la Materia, Curso y Profesor actuales seleccionados
+     * @return Cadena con datos de Materia, Curso y Profesor seleccionados
+     */
     public String getResumen() {
-        if (cursoActual == null || siglaMateriaActual == null || idPeriodoActual == null || idAsignaturaActual == null || profesorSelect == null)        {
+        if (cursoActual == null || siglaMateriaActual == null || idPeriodoActual == null || idAsignaturaActual == null || profesorSelect == null ||
+                cursoActual.getProfesor() == null || cursoActual.getPeriodo() ==  null || cursoActual.getMateria() == null)        {
             return "";
         }
         else {
