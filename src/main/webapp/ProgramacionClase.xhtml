@@ -61,7 +61,8 @@
                     </table>
                     <br></br>
                     <br></br>
-                    
+                    <p:layout>
+                        <p:layoutUnit position="center" >
                         <h:form id="formulario_clase">
                             <table>
                                 <tr>
@@ -125,7 +126,22 @@
                                 <p:commandButton value="Cancelar" action="#{UnidadProyectosBean.irProgramarClaseSinValidar()}"/>
                             </center>
                         </h:form> 
-                   
+                        </p:layoutUnit>
+                        <p:layoutUnit position="west"  size="300">
+                    <h:form>
+                        
+                        
+                        <p:dataTable var="horarioProf" value="#{UnidadProyectosBean.consultarHorarioProfesor()}">
+                                    <p:column headerText="TIPO">
+                                        <h:outputText value="#{horarioProf.dia}"/>
+                                    </p:column>
+                                    <p:column headerText="FECHA">
+                                        <h:outputText value="#{horarioProf.hora}"/>
+                                    </p:column>
+                        </p:dataTable>
+                    </h:form>
+                        </p:layoutUnit>
+                    </p:layout>   
                     
                 </div>
             </div>

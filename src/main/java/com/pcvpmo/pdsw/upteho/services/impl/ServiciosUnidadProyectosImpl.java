@@ -535,4 +535,5 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             throw new UnidadProyectosException("Error al consultar eliminar la materia " + sigla, ex);
         }
     }
+    
 }

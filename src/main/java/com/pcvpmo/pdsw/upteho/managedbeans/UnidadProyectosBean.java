@@ -4,6 +4,7 @@ import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
 import com.pcvpmo.pdsw.upteho.entities.Cohorte;
 import com.pcvpmo.pdsw.upteho.entities.Curso;
+import com.pcvpmo.pdsw.upteho.entities.HorarioDisponible;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -1342,4 +1343,16 @@ public class UnidadProyectosBean implements Serializable {
         }
     }
     
+    public List<HorarioDisponible> consultarHorarioProfesor(){
+        List<HorarioDisponible> horarios=new ArrayList<HorarioDisponible>();
+        try{
+            horarios= sp.consultarHorarioProfesor(profesorSelect.getId());
+            for(HorarioDisponible i:horarios){
+                i.getDia();
+            }
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
+        }
+        return horarios;
+    }
 }
