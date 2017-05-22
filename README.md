@@ -21,19 +21,19 @@ El proyecto fue planteado como una solución para el registro de los programas d
 Su propósito principal es el de poder mantener un control más organizado de las planeaciones que se llevan y se hacen para la programación semanal de los cursos, automatizando el proceso actual, permitiendo un manejo de registros historicos a largo plazo.  
 
 La función principal del proyecto permite ver un reporte de programación semestral, detallando las diferentes materias inscritas, con sus datos respectivos.
-![](img/ReporteProgramacion.png?raw=true)  
+![](img/ReporteProgramacion.PNG?raw=true)  
 
 El botón de consultar permite conocer los datos especificos para las sesiones existentes de la materia seleccionada, con la opcion de agregar una nueva sesion, acorde al horario del profesor.
-![](img/ProgramarSesion.png?raw=true)  
+![](img/ProgramarSesion.PNG?raw=true)  
 
 Se tiene un reporte de salones, el cual permite ver que tipo de salones de cada tipo están disponibles en diferentes fechas, permitiendo buscar por periodo.
-![](img/ReporteSalones.png?raw=true)  
+![](img/ReporteSalones.PNG?raw=true)  
 
 También hay un reporte de las Materias, organizadas por el programa.
-![](img/ReporteMaterias.png?raw=true)  
+![](img/ReporteMaterias.PNG?raw=true)  
 
 Para la programación de los cursos, se tiene su registro propio, al registrar un curso, este aparece disponible en el reporte de programación, donde es posible definir sus sesiones.
-![](img/ProgramarCurso.png?raw=true)
+![](img/ProgramarCurso.PNG?raw=true)
 
 ## ARQUITECTURA Y DISEÑO DETALLADO
 ### Modelo Entidad Relación
@@ -60,11 +60,11 @@ El modelo se encuentra seccionado en sus partes más importantes
 ### Tecnologías utilizadas
 
 #### Apache Shiro
-![](img/ApacheShiro.png?raw=true)  
+![](img/ApacheShiro.PNG?raw=true)  
 Un poderoso y sencillo Framework de seguridad de Java. Cuenta con funciones de autenticación, autorización, criptografía, y manejo de sesiones. Es versatil y permite asegurar desde aplicaciones móviles hasta grandes aplicaciones web. [Página oficial.](https://shiro.apache.org/)
 
 #### PrimeFaces
-![](img/PrimeFaces.png?raw=true)  
+![](img/PrimeFaces.PNG?raw=true)  
 Una biblioteca de JavaServerFaces que facilita el desarrollo de aplicaciones web con una gran variedad de componentes disponibles para diseño web. [Página oficial.](https://www.primefaces.org/)
 
 #### Google Guice
@@ -72,11 +72,11 @@ Una biblioteca de JavaServerFaces que facilita el desarrollo de aplicaciones web
 Framework de inyección de dependencias de Java, la cual pretende evitar el uso de fabricas, al automatizarlas haciendo que el código no sea dependiente de estas, y que sea más flexible en su edicion, manejo de pruebas y reusabilidad. [Repositorio oficial.](https://github.com/google/guice)
 
 #### Postgres SQL
-![](img/Postgres.png?raw=true)  
+![](img/Postgres.PNG?raw=true)  
 Sistema de gestión de bases de datos objeto-relacionales, de código abierto y el más potente del mercado. [Página oficial.](https://www.postgresql.org/)
 
 ### Aplicación
-![](img/Inicio.png?raw=true)  
+![](img/Inicio.PNG?raw=true)  
 La aplicación se puede acceder haciendo [click aqui.](https://up-teho.herokuapp.com/UnidadProyectos/index.xhtml "UP-TEHO")
 
 ## DESCRIPCION DEL PROCESO
@@ -89,7 +89,7 @@ Para el trabajo del proyecto, se utilizó la funcionalidad de github conocida co
 El backlog del proyecto puede accederse haciendo [click aqui.](https://trello.com/b/bZFNLwbJ/2017-1-proypdsw-pcvpmo "Backlog UP-TEHO")
 
 ### Release Burndown Chart
-![](img/BurndownChart.png?raw=true)  
+![](img/BurndownChart.PNG?raw=true)  
 Las historias de usuario realizadas fueron:
 * Generar reporte de programación semestral
 * Generar reporte de salones
@@ -106,33 +106,33 @@ Los faltantes fueron:
 ### Sprint 1
 
 #### Backlog
-![](img/BacklogS1.png?raw=true)
+![](img/BacklogS1.PNG?raw=true)
 
 #### Burndown Chart
-![](img/BurndownS1.png?raw=true)
+![](img/BurndownS1.PNG?raw=true)
 
 #### Reporte GIT
-![](img/GraficaS1.png?raw=true)  
+![](img/GraficaS1.PNG?raw=true)  
 
 Para este primer Sprint se dedicó mucho tiempo al diseño de la base de datos y al final se tuvo que trabajar apresuradamente para terminar los requerimientos, fue una etapa de adaptación al estilo de trabajo del SCRUM y nos dejó ver que debiamos mejorar para los siguientes Sprints.
 
 ### Sprint 2
 
 #### Backlog
-![](img/BacklogS2.png?raw=true)
+![](img/BacklogS2.PNG?raw=true)
 
 #### Burndown Chart
-![](img/BurndownS2.png?raw=true)
+![](img/BurndownS2.PNG?raw=true)
 
 #### Reporte GIT
-![](img/GraficaS2.png?raw=true)  
+![](img/GraficaS2.PNG?raw=true)  
 
 En este Sprint el trabajo distribuido entre el equipo fue mejor que en el anterior, pues cada persona estuvo a cargo de diferentes funcionalidades, lo cual permitió un trabajo más eficaz y arduo entre todos.
 
 ### Sprint 3
 
 #### Backlog
-![](img/BacklogS3.png?raw=true)
+![](img/BacklogS3.PNG?raw=true)
 
 #### Burndown Chart
 
