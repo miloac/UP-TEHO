@@ -58,7 +58,7 @@
                         <h:outputText value="#{curso.periodo.nombre}"/>
                     </p:column>
                     <p:column headerText="HORAS">
-                        <h:outputText value="//TODO"/>
+                        <h:outputText value="#{UnidadProyectosBean.consultaHoraCurso(curso.id)}"/>
                     </p:column>
                     </p:dataTable>
                 </h:form>

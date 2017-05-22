@@ -78,7 +78,7 @@ public class UnidadProyectosBean implements Serializable {
     private String idPeriodoActual;   
     private Materia materia;
     private double numeroHorasPrf=0;
-    private double numeroHorasCur=0;
+    private String numeroHorasCur="00:00";
     private java.util.Date fechaClase;
     private String horaClase;
     private List<String> horas=null;
@@ -607,7 +607,13 @@ public class UnidadProyectosBean implements Serializable {
         List<Clase> lista = null;
         try {
             lista = sp.consultarClasesCurso(cursoActual.getId());
-             numeroHorasCur=lista.size()*1.5;
+            double numero=lista.size()*1.5;
+            int entera=(int) numero;
+            String decimal;
+            if(numero-entera>0)decimal="30";
+            else decimal="00";
+            
+             numeroHorasCur=entera+" HORAS Y "+decimal+" MINUTOS";
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
@@ -927,10 +933,14 @@ public class UnidadProyectosBean implements Serializable {
             DateFormat formatter = new SimpleDateFormat("HH:mm");
             Time horaT = new Time(formatter.parse(horaClase).getTime());
             Date sqlFecha=new Date(fechaClase.getTime());
-            boolean resp=sp.agregarClase(cursoActual.getId(),sqlFecha, horaT, tipoSalon,profesorSelect.getId());
+            boolean resp;
+            if(horaT!=null && tipoSalon !=null)
+                resp=sp.agregarClase(cursoActual.getId(),sqlFecha, horaT, tipoSalon,profesorSelect.getId());
+            else
+                resp=false;
             registroClase=resp;
             if(resp)mensaje="La clase se registro";
-            else mensaje="El profesor no tiene horario disponible";
+            else mensaje="El profesor no tiene horario disponible \n o no diligencio todos los datos";
         } catch (UnidadProyectosException | ParseException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
@@ -1221,11 +1231,11 @@ public class UnidadProyectosBean implements Serializable {
     public double getNumeroHorasPrf(){
         return numeroHorasPrf;
     }
-    public void setNumeroHorasCur(double nHoras){
+    public void setNumeroHorasCur(String nHoras){
         numeroHorasCur=nHoras;
     }
     
-    public double getNumeroHorasCur(){
+    public String getNumeroHorasCur(){
         return numeroHorasCur;
     }
     
@@ -1342,17 +1352,48 @@ public class UnidadProyectosBean implements Serializable {
                                + cursoActual.getProfesor().getNombre();
         }
     }
-    
+    /**
+     * Consulta los horarios disponibles del profesor que fue elegido 
+     * @return lista con HorarioDisponible
+     */
     public List<HorarioDisponible> consultarHorarioProfesor(){
         List<HorarioDisponible> horarios=new ArrayList<HorarioDisponible>();
         try{
             horarios= sp.consultarHorarioProfesor(profesorSelect.getId());
             for(HorarioDisponible i:horarios){
-                i.getDia();
+                String dia=i.getDia();
+                if(dia.equals("LU"))i.setDia("LUNES");
+                if(dia.equals("MA"))i.setDia("MARTES");
+                if(dia.equals("MI"))i.setDia("MIERCOLES");
+                if(dia.equals("JU"))i.setDia("JUEVES");
+                if(dia.equals("VI"))i.setDia("VIERNES");
+                if(dia.equals("SA"))i.setDia("SABADO");
+                
             }
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         return horarios;
+    }
+    /**
+     * Consulta el total de horas de clase de un curso especifico
+     * @param idCur identificador del curso 
+     * @return String con numero de horas total de clase de un curso
+     */
+    public String consultaHoraCurso(int idCur){
+         List<Clase> lista = null;
+         String horas="";
+        try {
+            lista = sp.consultarClasesCurso(idCur);
+            double numero=lista.size()*1.5;
+            int entera=(int) numero;
+            String decimal;
+            if(numero-entera>0)decimal="30";
+            else decimal="00";
+            horas= entera+":"+decimal;
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
+        }
+        return horas;
     }
 }
