@@ -13,9 +13,12 @@
                     <p:dialog header="Bienvenido, Inicia Sesión" widgetVar="dlg2" modal="true" height="100">
                         <h:outputText value="Iniciar Sesión como:" />
                         <p:separator></p:separator>
-                        <p:commandButton value="Coordinador" type="button" icon="ui-icon-person" />
-                        <p:commandButton value="Administrador" type="button" icon="ui-icon-pencil" />
-                        <p:commandButton value="Profesor" type="button" icon="ui-icon-search" />
+                        <h:form>
+                            <h:outputLink value="login.xhtml">profesor</h:outputLink>
+                            <p:commandButton value="Coordinador" type="button" icon="ui-icon-person"  />
+                            <p:commandButton value="Administrador" type="button" icon="ui-icon-pencil" />
+                            <p:commandButton value="Profesor" action="areaProfesor/index.xhtml" type="button" icon="ui-icon-search" />
+                        </h:form>
                     </p:dialog> 
                     
                 </div>  

@@ -81,6 +81,7 @@ public class UnidadProyectosBean implements Serializable {
     private boolean registroClase;
     private boolean errorRegistroCurso;
     private String paginaPrevia;
+    private String sessionUser;
     
     public UnidadProyectosBean() {
         asSelectedXprog = new HashMap<>();

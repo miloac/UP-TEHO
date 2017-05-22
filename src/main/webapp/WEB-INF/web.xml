@@ -18,12 +18,8 @@
             30
         </session-timeout>
     </session-config>
-    <welcome-file-list>
-        <welcome-file>UnidadProyectos/index.xhtml</welcome-file>
-    </welcome-file-list>
     
-    <!-- Apache Shiro
-    
+    <!-- Apache Shiro -->
     <listener>
         <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
     </listener>
@@ -40,5 +36,7 @@
         <dispatcher>ERROR</dispatcher>
     </filter-mapping>
     
-    <Apache Shiro -->
+    <welcome-file-list>
+        <welcome-file>UnidadProyectos/index.xhtml</welcome-file>
+    </welcome-file-list>
 </web-app>
