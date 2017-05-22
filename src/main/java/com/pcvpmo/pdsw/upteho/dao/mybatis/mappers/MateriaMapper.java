@@ -79,7 +79,7 @@ public interface MateriaMapper {
      * consulta todas las materias
      * @return todas las  materias del sistema
      */
-    public List<Materia> consultarMaterias();
+    List<Materia> consultarMaterias();
     
     /**
      * 
@@ -87,6 +87,6 @@ public interface MateriaMapper {
      * @param matReq requisito a registrar
      * @param tipo co o requisito 
      */
-    public void registrarRequisito(@Param("materia") String mat, @Param("materiaReq") String matReq, @Param("tipo") Integer tipo);
+    void registrarRequisito(@Param("materia") String mat, @Param("materiaReq") String matReq, @Param("tipo") Integer tipo);
 }
 

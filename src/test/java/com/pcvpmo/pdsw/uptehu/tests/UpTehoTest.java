@@ -266,6 +266,7 @@ public class UpTehoTest {
             fail("Se lanzo una excepcion y no se registro el programa " + ex.getMessage());
         }
     }
+    
     /**
      *  CE19:Se debe poder insertar un nuevo horario a un profesor;tipo:Normal;resultado esperado : el profesor tiene el nuevo horario deseado
      */
@@ -284,6 +285,7 @@ public class UpTehoTest {
             fail("No se inserto horario a el profesor " + ex.getMessage());
         }
     }
+    
     /**
      * CE20: Se debe poder agregar una clase a un curso; tipo :Normal ;resultado esperado : se agrega una nueva clase a un curso dado
      */
@@ -307,6 +309,7 @@ public class UpTehoTest {
             fail("No se agrego la clase debido a una inconsistencia" + ex.getMessage());
         }
     }
+    
     /**
      * CE21 No debe agregar si el profesor no tiene diponibilidad para la clase;tipo:frontera; resultado esperado: no se agrega la clase al profesor ni al curso
      */
@@ -324,6 +327,7 @@ public class UpTehoTest {
             fail("Error de parsing" + ex.getMessage());
         }
     }
+    
     /**
      * CE22 Se deben poder consultar las clases de un profesor; tipo: Normal ;resultado esperado: se pueden consultar las clases de un profesor dado
      */
@@ -336,6 +340,7 @@ public class UpTehoTest {
             fail("No se consultaron las clases debido a una inconsistencia" + ex.getMessage());
         }
     }
+    
     /**
      * CE23 Se deben poder consultar las clases de un curso; tipo:Normal;resultado esperado : se pueden consultar las clases de un curso especifico
      */
@@ -348,10 +353,11 @@ public class UpTehoTest {
             fail("No se consultaron las clases debido a una inconsistencia" + ex.getMessage());
         }
     }
-    @Test
+    
     /**
      * CE24 Se debe poder cancelar una clase;tipo:Normal;resultado esperado: se elimina  la clase  referenciada
      */
+    @Test
     public void deberiaCancelarClase(){
         try{
             List<Clase> clases;

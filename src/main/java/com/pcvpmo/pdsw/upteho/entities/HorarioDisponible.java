@@ -1,26 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pcvpmo.pdsw.upteho.entities;
 
 import java.io.Serializable;
 import java.sql.Time;
 
 /**
- *
- * @author andres
+ * Una clase simple que representa un Horario Disponible en la Unidad de Proyectos y sus detalles
+ * @author Andres Felipe Pardo
  */
 public class HorarioDisponible implements Serializable{
+    
     private Profesor profesor;
     private String dia; 
     private Time hora;
     
-    public HorarioDisponible(){
-        
+    public HorarioDisponible(){   
     }
-    public HorarioDisponible(Profesor profesor,String dia,Time hora){
+    
+    public HorarioDisponible(Profesor profesor,String dia,Time hora) {
         this.profesor=profesor;
         this.dia=dia;
         this.hora=hora;
