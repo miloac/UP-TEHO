@@ -20,6 +20,8 @@ jQuery(document).ready(function(){
             }
             jQuery(this).parent().parent().parent().addClass("rowSelectedClass");
         }else{
+            var select =rowIndexe;
+            resetSelect(select);
             jQuery(this).attr("id",newId+"d");
             jQuery(this).css({"background-color":"gainsboro","box-shadow":"0px 0px 0px #BDBDBD"});
             forButton(this,"+","Seleccionar");
@@ -42,6 +44,11 @@ jQuery(document).ready(function(){
  */
 function alertaError(string){
     alert(string);
+}
+
+function resetSelect(id){
+    var sid = "regNuevaMateria:checkRegistroMateria:"+id+":select";
+    document.getElementById(sid).selectedIndex="0";
 }
 
 function forButton(boton,valor,titulo){

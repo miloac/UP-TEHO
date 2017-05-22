@@ -3,6 +3,7 @@ package com.pcvpmo.pdsw.upteho.dao.mybatis.mappers;
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Materia;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
+import com.pcvpmo.pdsw.upteho.entities.Requisito;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -82,11 +83,33 @@ public interface MateriaMapper {
     public List<Materia> consultarMaterias();
     
     /**
-     * 
+     * registra los requisitos de una materia 
      * @param mat materia a la que se le quiere asignar el requisito
      * @param matReq requisito a registrar
      * @param tipo co o requisito 
      */
     public void registrarRequisito(@Param("materia") String mat, @Param("materiaReq") String matReq, @Param("tipo") Integer tipo);
+    
+    /**
+     * consulta los requisitos de cierta materia
+     * @param sigla de la materia
+     * @return listado de requisitos de dicha materia
+     * 
+     */
+    public List<Requisito> consultarRequisitos(@Param("siglaMateria") String sigla);
+    
+    /**
+     * quitar un requisito de requisitos
+     * @param sigla del requisito que se quiere quitar
+     */
+    public void quitarRequisito(@Param("siglaReq") String sigla);
+    
+    /**
+     * registra el programa asociado que puede ver cierta materia
+     * @param idPrograma programa que puede ver cierta materia
+     * @param sigla materia que puede ser vista por el programa
+     */
+    public void registrarPrograma(@Param("idPrograma") Integer idPrograma, @Param("sigla") String sigla);
+    
 }
 

@@ -30,5 +30,10 @@ public interface ProgramaMapper {
      * @param nombre nombre del programa
      */
     void registrarPrograma(@Param("id")int id, @Param("nombre")String nombre);
-
+  
+    /**
+     * quitar un requisito de requisitos
+     * @param idprog programa que se tiene que remover de la relacion materiasporporgrama
+     */
+    public void quitarPrograma(@Param("idprog") Integer idprog);
 }

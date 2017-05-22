@@ -22,6 +22,7 @@ import com.pcvpmo.pdsw.upteho.entities.Periodo;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
+import com.pcvpmo.pdsw.upteho.entities.Requisito;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
 import java.sql.Date;
@@ -483,8 +484,17 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     @Transactional
     @Override
     public void registrarMateria(Materia materia) throws UnidadProyectosException {
+        boolean permiso = true;
+        try{
+            List<Materia> lista = daoMateria.consultarMaterias();
+            for (Materia m:lista){
+                if (m.getSigla().equals(materia.getSigla()) || m.getNombre().equals(materia.getNombre())){
+                    permiso=false;
+                }
+            }
+        }catch (PersistenceException ex){}
         try {
-            daoMateria.registrarMateria(materia.getSigla(), materia.getNombre(), materia.getCreditos(), materia.getDescripcion(), materia.getAsignatura().getId());
+            if (permiso) daoMateria.registrarMateria(materia.getSigla(), materia.getNombre(), materia.getCreditos(), materia.getDescripcion(), materia.getAsignatura().getId());
         } catch (PersistenceException ex) {
             throw new UnidadProyectosException("Error al registrar una nueva materia", ex);
         }
@@ -534,5 +544,43 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
         }catch(PersistenceException ex){
             throw new UnidadProyectosException("Error al consultar eliminar la materia " + sigla, ex);
         }
+    }
+
+    @Override
+    public void registrarProgramasPorMateria(Integer idPrograma, String sigla) throws UnidadProyectosException {
+        try{
+            daoMateria.registrarProgramaMateria(idPrograma,sigla);
+        }catch(PersistenceException ex){
+            throw new UnidadProyectosException("no se pudo Registrar el programa con id " + idPrograma + "error: ", ex);
+        }
+    }
+    
+    @Override
+    public void removerRequisito(String sigla)throws UnidadProyectosException{
+        try{
+            daoMateria.removerRequisito(sigla);
+        }catch(PersistenceException ex){
+            throw new UnidadProyectosException("no se pudo eliminar el requisito con id " + sigla + "error: ", ex);
+        }
+    }
+    
+    @Override
+    public void removerProgramaPorMateria(int id) throws UnidadProyectosException{
+        try{
+            daoPrograma.removerPrograma(id);
+        }catch (PersistenceException ex){
+            throw new UnidadProyectosException("no se pudo eliminar la relacion" +ex);
+        }
+    }
+
+    @Override
+    public List<Requisito> consultarRequisitos(String sigla) throws UnidadProyectosException {
+        List<Requisito> ans;
+        try{
+            ans = daoMateria.consultarRequisitos(sigla);
+        }catch (PersistenceException ex){
+            ans=null;
+        }
+        return ans;
     }
 }

@@ -14,6 +14,7 @@ import com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.MateriaMapper;
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Materia;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
+import com.pcvpmo.pdsw.upteho.entities.Requisito;
 import java.util.List;
 
 /**
@@ -91,5 +92,20 @@ public class MyBATISMateriaDAO implements MateriaDAO{
     @Override
     public void remover(String sigla) throws PersistenceException {
         materiaMapper.remover(sigla);
+    }
+
+    @Override
+    public void registrarProgramaMateria(Integer idPrograma, String sigla) throws PersistenceException {
+        materiaMapper.registrarPrograma(idPrograma,sigla);
+    }
+
+    @Override
+    public void removerRequisito(String sigla) throws PersistenceException {
+        materiaMapper.quitarRequisito(sigla);
+    }
+    
+    @Override
+    public List<Requisito> consultarRequisitos(String sigla) throws PersistenceException{
+        return materiaMapper.consultarRequisitos(sigla);
     }
 }

@@ -324,3 +324,9 @@ iframe{
     background: linear-gradient(to bottom, rgba(242,252,255,1) 0%, rgba(199,239,252,1) 50%, rgba(166,234,255,1) 51%, rgba(222,246,255,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2fcff', endColorstr='#def6ff', GradientType=0 );
 }
+
+.etiqueta{
+    font: arial;
+    font-family: sans-serif;
+    font-size: 105%;
+}

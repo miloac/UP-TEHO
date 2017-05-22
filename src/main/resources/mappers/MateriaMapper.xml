@@ -35,6 +35,12 @@
         <result property="descripcion" column="descripcion"/>
     </resultMap>
     
+    <resultMap type="Requisito" id="RequisitoResult">
+        <id property='sigMateria' column='sigla_materia'/>
+        <result property='sigRequisito' column='sigla_requisito'/>
+        <result property='tipo' column='tipo'/>
+    </resultMap>
+    
     <select parameterType="map" id="consultarMaterias" resultMap="MateriasResult">
         
         select
@@ -99,15 +105,30 @@
         where mat.sigla=#{sigla};
     </select>
     
+    <select parameterType="map" id="consultarRequisitos" resultMap="RequisitoResult">
+        select * from requisitos
+        where sigla_materia = #{siglaMateria}
+    </select>
+    
     <insert parameterType="map" id="registrarMateria">
         insert into materias
         values (#{sigla}, #{nombre}, #{creditos}, #{descripcion}, #{idAsignatura});
     </insert>    
     
+    <insert parameterType="map" id="registrarPrograma">
+        insert into materiasporprograma
+        values (#{idPrograma},#{sigla});
+    </insert>
+        
     <insert parameterType="map" id="registrarRequisito">
         insert into requisitos
         values (#{materia}, #{materiaReq}, #{tipo});
     </insert>   
+    
+    <delete parameterType="map" id="quitarRequisito">
+        delete from requisitos
+        where sigla_requisito = #{sigla};
+    </delete>
     
     <delete parameterType="map" id="remover">
         delete from materias
