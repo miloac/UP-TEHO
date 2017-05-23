@@ -22,22 +22,23 @@
         <div style="max-width:100%;min-height:600px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:10px;margin:auto;" >
                 <div style="font-size: xx-large; background: rgba(204, 23, 23, 0.65);  padding: 12px; border-radius: 5px; padding-bottom: 15px; height: auto; text-align: center; color: white;">
-                    CUENTA
+                    ÁREA USUARIO
                 </div>
+                <br></br><br></br>
                 <center>
-                    <h:outputLink value="/UnidadProyectos/logout">logout</h:outputLink>
-                    <pre>     
-                    Subject = <p:outputLabel value="#{loginBean.getSubject()}"/>
-                    principal = <p:outputLabel value="#{loginBean.getSubject().getPrincipal()}"/>
-                    session = <p:outputLabel value="#{loginBean.getSubject().session}"/>
-                    role coord = <p:outputLabel value="#{loginBean.getSubject().hasRole('coord')}"/>
-                    role admin = <p:outputLabel value="#{loginBean.getSubject().hasRole('admin')}"/>
-                    role profesor = <p:outputLabel value="#{loginBean.getSubject().hasRole('profesor')}"/>
-                    autenticado = <p:outputLabel value="#{loginBean.getSubject().isAuthenticated()}"/>
-                    anterior principal = <p:outputLabel value="#{loginBean.getSubject().previousPrincipals}"/>
-                    principals = <p:outputLabel value="#{loginBean.getSubject().principals}"/>
-
-                    </pre>
+                    <h:form id="seleccion">
+                        <h:outputLink value="/UnidadProyectos/logout">Cerrar Sesión</h:outputLink>
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:outputLabel value="CÉDULA:"/>
+                            <p:outputLabel value="#{loginBean.getSubject().getPrincipal()}"/>
+                            
+                            <p:outputLabel value="TIPO DE USUARIO:"/>
+                            <p:outputLabel value="#{UnidadProyectosBean.sessionRol}"/>
+                            
+                        </h:panelGrid>
+                    </h:form>
+                    
+                   
                     
                 </center>
             </div>

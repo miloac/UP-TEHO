@@ -302,6 +302,17 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     @Override
     public boolean agregarClase(int idCurso, Date fecha, Time hora, String tSalon, int idProfesor) throws UnidadProyectosException {
         try{
+            boolean isPosible=esPosible(fecha,hora,idProfesor);
+            if(isPosible)daoClase.agregarClase(idCurso, fecha, hora, tSalon);
+            return isPosible;
+        }catch (PersistenceException | UnidadProyectosException ex) {
+            throw new UnidadProyectosException("Error al insertar la clase", ex);
+        }
+    }
+    
+    @Override
+    public boolean esPosible(Date fecha,Time hora,int idProfesor)throws UnidadProyectosException{
+        try{
             List<HorarioDisponible>  horarios;
             horarios=daoHorarioDisponible.consultarHorarioProfesor(idProfesor);
             boolean isPosible=false;
@@ -317,11 +328,9 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
                 if(horariosC.get(i).getFecha().equals(fecha) && horariosC.get(i).getHora().equals(hora))
                     isPosible=false;
             }
-          
-            if(isPosible)daoClase.agregarClase(idCurso, fecha, hora, tSalon);
             return isPosible;
-        }catch (PersistenceException ex) {
-            throw new UnidadProyectosException("Error al insertar la clase", ex);
+            }catch (PersistenceException ex) {
+                throw  new UnidadProyectosException("Error al  intentar consular Horario o clases del profesor", ex);
         }
     }
     
@@ -583,4 +592,24 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
         }
         return ans;
     }
+    
+    @Override
+    public boolean hayConflicto(Date fecha,Time hora,Curso act)throws UnidadProyectosException{
+        try{
+            Programa progAct=act.getMateria().getAsignatura().getPrograma();
+            boolean resp=true;
+            List<Curso> cursos=consultarCursos();
+            List<Clase> clases=daoClase.consultarClasesHorario(fecha, hora);
+            for (int i=0;i<clases.size() && resp;i++){
+                System.out.println(clases.get(i).getId());
+                Curso cur=daoCurso.consultarCurso(clases.get(i).getCursoId());
+                Programa prog=cur.getMateria().getAsignatura().getPrograma();
+                if(prog.equals(progAct))resp=false;
+            }
+            return resp;
+        }catch (PersistenceException ex){
+            throw new UnidadProyectosException("no se puedo determinar si existia conflicto al registrar clase" +ex);
+        }
+    }
 }
+

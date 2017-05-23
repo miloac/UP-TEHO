@@ -89,11 +89,16 @@ public class UnidadProyectosBean implements Serializable {
     private boolean errorRegistroCurso;
     private String paginaPrevia;
     private ScheduleModel eventModel;
+    private boolean sugerencia=false;
+    private boolean ignore=false;
+
     //----Atributos de Usuario-----
     private boolean sessionON;
     private String sessionNombre;
-    private boolean sessionRol;
+    private String sessionRol;
+
     
+
     
     public UnidadProyectosBean() {
         selectedPrograms = new ArrayList<>();
@@ -140,12 +145,15 @@ public class UnidadProyectosBean implements Serializable {
         String menu = null;
         if(ShiroLoginBean.getSubject().hasRole("admin")){
             menu = "../resources/inc/menuAdmin.xhtml";
+            sessionRol = "ADMINISTRADOR";
         }
         else if(ShiroLoginBean.getSubject().hasRole("coord")) {
             menu = "../resources/inc/menuCoord.xhtml";
+            sessionRol = "COORDINADOR";
         }
         else if(ShiroLoginBean.getSubject().hasRole("profesor")) {
             menu = "../resources/inc/menuProf.xhtml";
+            sessionRol = "PROFESOR";
         }
         return menu;
     }
@@ -175,6 +183,10 @@ public class UnidadProyectosBean implements Serializable {
         }
         return web;              
     }
+    
+    public String getSessionRol(){
+        return sessionRol;
+    }
      
     public String irHorarioCurso(){
         return "HorarioCurso";
@@ -200,11 +212,13 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     public String irProgramarClases() {
-        String pagina;
-        if(registroClase)
+        String pagina="ProgramacionClase";
+        if(!registroClase) pagina="ProgramacionClase";
+        else  if(registroClase || sugerencia){
             pagina= "ProgramarClases";
-        else
-            pagina="ProgramacionClase";
+            if(sugerencia)agregarClase();
+        }
+            
         return pagina;
     }
     
@@ -1026,20 +1040,39 @@ public class UnidadProyectosBean implements Serializable {
      */
     public void agregarClase(){
         try{
-            boolean resp;
-            if(!horaClase.equals("") && !tipoSalon.equals("")){
+            DateFormat formatter = new SimpleDateFormat("HH:mm");
+            Time horaT = new Time(formatter.parse(horaClase).getTime());
+            Date sqlFecha=new Date(fechaClase.getTime());
+            sp.agregarClase(cursoActual.getId(),sqlFecha, horaT, tipoSalon,profesorSelect.getId());
+        } catch (UnidadProyectosException | ParseException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
+        }
+    }
+    
+    public void preAgregarClase(){
+        try{
+            if(!horaClase.equals("") && !tipoSalon.equals("") && fechaClase!=null){
                 DateFormat formatter = new SimpleDateFormat("HH:mm");
                 Time horaT = new Time(formatter.parse(horaClase).getTime());
                 Date sqlFecha=new Date(fechaClase.getTime());
-                resp=sp.agregarClase(cursoActual.getId(),sqlFecha, horaT, tipoSalon,profesorSelect.getId());
-                if(resp)mensaje="La clase se registro";
-                else mensaje="El profesor no tiene horario disponible ";
-            }
-            else{
-                resp=false;
+                sugerencia=sp.hayConflicto(sqlFecha, horaT, cursoActual);
+                boolean esPosible=sp.esPosible(sqlFecha, horaT, profesorSelect.getId());
+                if(esPosible && sugerencia){
+                    registroClase=true;
+                    mensaje="Advertencia , es posible  que los estudiantes \n  ya tengan clase en este horario";
+                }
+                else if(esPosible){
+                    registroClase=true;
+                    agregarClase();
+                }
+                else{
+                    registroClase=false;
+                    mensaje="El profesor no tiene horario disponible ";
+                }
+            }else{
+                registroClase=false;
                 mensaje="Verifique si los datos son correctos";
             }
-            registroClase=resp;
         } catch (UnidadProyectosException | ParseException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
