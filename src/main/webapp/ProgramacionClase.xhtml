@@ -147,7 +147,7 @@
                     </table>
                                 <center>
                                     <p:commandButton value="Agregar"  actionListener="#{UnidadProyectosBean.agregarClase()}" onclick="PF('dlg2').show();" update="mensaje"/>
-                                        <p:dialog id="dialog" header="Agregar Sesión" widgetVar="dlg2" modal="true" height="150">
+                                        <p:dialog id="dialog" header="Agregar Sesión" widgetVar="dlg2" modal="true" height="100">
                                             <h:outputText id="mensaje" value="#{UnidadProyectosBean.mensaje}" />
                                             <br></br>
                                             <p:commandButton value="Aceptar" action="#{UnidadProyectosBean.irProgramarClases()}" onclick="PF('dlg2').hide();"/>

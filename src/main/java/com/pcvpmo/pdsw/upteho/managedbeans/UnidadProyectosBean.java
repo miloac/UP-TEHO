@@ -78,9 +78,9 @@ public class UnidadProyectosBean implements Serializable {
     private double numeroHorasPrf=0;
     private String numeroHorasCur="00:00";
     private java.util.Date fechaClase;
-    private String horaClase;
+    private String horaClase="";
     private List<String> horas=null;
-    private String tipoSalon;
+    private String tipoSalon="";
     private String mensaje;
     private boolean registroClase;
     private boolean errorRegistroCurso;
@@ -959,17 +959,20 @@ public class UnidadProyectosBean implements Serializable {
      */
     public void agregarClase(){
         try{
-            DateFormat formatter = new SimpleDateFormat("HH:mm");
-            Time horaT = new Time(formatter.parse(horaClase).getTime());
-            Date sqlFecha=new Date(fechaClase.getTime());
             boolean resp;
-            if(horaT!=null && tipoSalon !=null)
+            if(!horaClase.equals("") && !tipoSalon.equals("")){
+                DateFormat formatter = new SimpleDateFormat("HH:mm");
+                Time horaT = new Time(formatter.parse(horaClase).getTime());
+                Date sqlFecha=new Date(fechaClase.getTime());
                 resp=sp.agregarClase(cursoActual.getId(),sqlFecha, horaT, tipoSalon,profesorSelect.getId());
-            else
+                if(resp)mensaje="La clase se registro";
+                else mensaje="El profesor no tiene horario disponible ";
+            }
+            else{
                 resp=false;
+                mensaje="Verifique si los datos son correctos";
+            }
             registroClase=resp;
-            if(resp)mensaje="La clase se registro";
-            else mensaje="El profesor no tiene horario disponible \n o no diligencio todos los datos";
         } catch (UnidadProyectosException | ParseException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
