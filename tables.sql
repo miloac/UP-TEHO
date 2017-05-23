@@ -122,6 +122,13 @@ CREATE TABLE Requisitos (
     CONSTRAINT Requisitos_pk PRIMARY KEY (sigla_materia,sigla_requisito)
 );
 
+--Table: materiasporprograma
+CREATE TABLE Materiasporprograma(
+	idPrograma int NOT NULL,
+	siglaMateria varchar(4) NOT NULL,
+	CONSTRAINT Materiasporprograma_pk PRIMARY KEY (idPrograma,siglaMateria)
+);
+
 -- Table: Usuarios
 CREATE TABLE Usuarios (
     id int  NOT NULL,
@@ -225,6 +232,18 @@ ALTER TABLE Requisitos ADD CONSTRAINT Requisitos_Materias
 -- Reference: Requisitos_Materias2 (table: Requisitos)
 ALTER TABLE Requisitos ADD CONSTRAINT Requisitos_Materias2
     FOREIGN KEY (sigla_materia)
+    REFERENCES Materias (sigla)  
+;
+
+-- Reference: Materias_programas (table: Materiasporprograma)
+    ALTER TABLE Materiasporprograma ADD CONSTRAINT Materias_programas
+    FOREIGN KEY (idPrograma)
+    REFERENCES programas (id)  
+;
+
+-- Reference: Materias_programas2 (table: Materiasporprograma)
+    ALTER TABLE Materiasporprograma ADD CONSTRAINT Materias_programas2
+    FOREIGN KEY (siglaMateria)
     REFERENCES Materias (sigla)  
 ;
 

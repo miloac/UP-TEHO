@@ -61,13 +61,16 @@ public class UnidadProyectosBean implements Serializable {
     private String idAsignaturaActual;
     private String siglaMateriaActual;
     //variables para el registro de una mateira--------------------------------------------
-    private String idRequisito;
-    private Integer asignaturaActualID;
+    private String asignaturaSeleccionada;
+    private Integer programaSeleccionado;
+    //-----------------------------
     private String currentLink;
-    private HashMap<Integer,Integer> asSelectedXprog;
+    private List<String> selectedPrograms;
     private String mesageForUser;
-    private String tipoRequisito;
     private HashMap<String,String> requisitosEscogidos;
+    private String idRequisito;
+    private String tipoRequisito;
+    //--fundamental--
     private String siglaMateria;
     private String nombreMateria;
     private String descripcion;
@@ -86,9 +89,11 @@ public class UnidadProyectosBean implements Serializable {
     private boolean errorRegistroCurso;
     private String paginaPrevia;
     private ScheduleModel eventModel;
+    private boolean sugerencia=false;
+    private boolean ignore=false;
     
     public UnidadProyectosBean() {
-        asSelectedXprog = new HashMap<>();
+        selectedPrograms = new ArrayList<>();
         requisitosEscogidos=new HashMap<>();
         Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.INFO, "Bean Inicializado");
     }
@@ -151,11 +156,13 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     public String irProgramarClases() {
-        String pagina;
-        if(registroClase)
+        String pagina="ProgramacionClase";
+        if(!registroClase) pagina="ProgramacionClase";
+        else  if(registroClase || sugerencia){
             pagina= "ProgramarClases";
-        else
-            pagina="ProgramacionClase";
+            if(sugerencia)agregarClase();
+        }
+            
         return pagina;
     }
     
@@ -184,7 +191,8 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     public String irPaginaAsignatura(){
-        return "RegistrarAsignatura";
+        paginaPrevia = "RegistrarNuevaMateria.xhtml";
+        return "RegistrarAsignatura.xhtml";
     }
     
     /**
@@ -208,7 +216,7 @@ public class UnidadProyectosBean implements Serializable {
      * esta funcion serciora que tambien la parte logica de RegistrarMateria se reinicie
      */
     public void resetForRegistrarMateria(){
-        String s = finalizarRegistroMateria();
+        finalizarRegistroMateria();
     }
     
     /**
@@ -216,86 +224,152 @@ public class UnidadProyectosBean implements Serializable {
      * @return si es ejecutado desde el commandButton de cancelar, retorna el link de redireccionamiento a la pagina de inicio
      */
     public String finalizarRegistroMateria(){
-        idProgramaActual="";
-        idAsignaturaActual="";
-        siglaMateriaActual="";
-        idRequisito="";
-        asignaturaActualID=null;
-        asSelectedXprog=new HashMap<>();
-        mesageForUser="";
-        tipoRequisito="";
+        idProgramaActual=null;
+        idRequisito=null;
+        idAsignaturaActual=null;
+        siglaMateriaActual=null;
+        selectedPrograms =new ArrayList<>();
+        mesageForUser=null;
         requisitosEscogidos=new HashMap<>();
-        siglaMateria="";
-        nombreMateria="";
-        descripcion="";
-        
+        siglaMateria=null;
+        nombreMateria=null;
+        descripcion=null;
         return "ConsultarMaterias.xhtml";
     }
     
     /**
      * Registra una Materia nueva con los datos necesarios respectivos
-     * @return link to refresh the page
+     * @param asig asignatura a la que esta registrada la materia
+     * @param cred creditos de la asignatura
+     * @param sigla  codigo mnemónico de la asignatura (no se puede repetir)
+     * @param nombre nombre de la asignatura (preferiblemente no se repite)
+     * @param descripcion descripcion de la materia
+     * @return valor indicando si se completo la operacion
      */
-    public String registrarMateria() {
-        RequestContext rq = RequestContext.getCurrentInstance();
+    public boolean registrarMateria(Asignatura asig, String nombre, String sigla, Integer cred, String descripcion) {
+        boolean ans;
+        try{
+            Materia toRegistry = new Materia(sigla,nombre,cred,descripcion,asig);
+            sp.registrarMateria(toRegistry);
+            ans=true;
+        }catch(UnidadProyectosException ex){
+            ans=false;
+        }
+        return ans;
+    }
+    
+    /**
+     * registra los requisitos de una materia
+     * @param requisitos de la materia en registro
+     * @param sigla de la materia a ser relacionada
+     * @return valor indicando si se completo la operacion
+     */
+    public boolean registrarRequisitosMateria(HashMap<String,String> requisitos,String sigla){
+        boolean ans = true;
+        Iterator reqs = requisitos.entrySet().iterator();
+        while (ans && reqs.hasNext()){
+            Map.Entry e = (Map.Entry) reqs.next();
+            String tipoR = (String) e.getValue();
+            if (isNumeric(tipoR)){
+                try{
+                    sp.registrarRequisito(sigla,(String) e.getKey(),Integer.parseInt(tipoR));
+                }catch (UnidadProyectosException ex){
+                    ans=false;
+                }
+            }
+        }
+        return ans;
+    }
+    
+    /**
+     * registra los programas asociados a la materia que se esta registrando y sus requisitos
+     * @param sigla de la materia que se esta intentando registrar
+     * @param listado de id de los programas que pueden ver la materia
+     * @return valor booleano indicando si se pudo completar la operacion
+     */
+    public boolean registrarProgramasMateria(String sigla, List<String> listado){
+        boolean ans=true;
+        for (String st:listado){
+            if(isNumeric(st)){
+                try{
+                    sp.registrarProgramasPorMateria(Integer.parseInt(st),sigla);
+                    ans=true;
+                }catch (UnidadProyectosException ex){
+                    ans=false;                        
+                }
+            }
+        }        
+        return ans;    
+    }
+    
+    private void devolverse(String sigla, HashMap<String,String> reqs,List<String> selp){
+        for (Map.Entry e : reqs.entrySet()) {
+            try{
+                sp.removerRequisito((String) e.getKey());
+            }catch(UnidadProyectosException ex){}
+        }
+        for (String s: selp){
+            try{
+                sp.removerProgramaPorMateria(Integer.parseInt(s));
+            }catch (UnidadProyectosException ex){}
+        }
+        try{
+            sp.removerMateria(sigla);
+        }catch(UnidadProyectosException ex){} 
+    }
+    
+    /**
+     * listener del boton que le permite al cliente proceder a registrar la asignatura
+     * @return link de la pagina consultar materias, para verificar el registro
+     */
+    public String clickAgregarMateria(){
+        RequestContext request = RequestContext.getCurrentInstance();
         Materia noRegistred = obtenerMateria(siglaMateria);
         boolean continuar=false;
         //si la sigla no es igual que la de alguna materia ya registrada
         if (noRegistred==null){
-            boolean noInvalidMateria = (nombreMateria.length()>0 && descripcion.length()>20 && siglaMateria.length()==4 && !requisitosEscogidos.isEmpty());
-            if (asignatura!=null && programa!=null && noInvalidMateria && isNumeric(creditos)) {
-                try{
-                        Materia toRegistry = new Materia(siglaMateria,nombreMateria,Integer.parseInt(creditos),descripcion,asignatura);
-                        sp.registrarMateria(toRegistry);
-                        continuar=true;
-
-                }catch(UnidadProyectosException ex){
-                    continuar=false;
-                    rq.execute("alertaError('Error al registrar la materia ')");
-                }
+            boolean noInvalidMateria = (nombreMateria.length()>0 && descripcion.length()>20 && siglaMateria.length()==4 && !requisitosEscogidos.isEmpty() && isNumeric(creditos));
+            if( !selectedPrograms.isEmpty() && isNumeric(asignaturaSeleccionada) && noInvalidMateria){
+                Asignatura asig = obtenerAsignatura(Integer.parseInt(asignaturaSeleccionada));
+                continuar = registrarMateria(asig,nombreMateria,siglaMateria,Integer.parseInt(creditos),descripcion);
                 if (continuar){
-                    Set req = requisitosEscogidos.keySet();
-                    Iterator siglas = req.iterator();
-                    while(siglas.hasNext()){
-                        String sigla = (String) siglas.next();
-                        String tipo = requisitosEscogidos.get(sigla);
-                        continuar=registrarRequisitos(siglaMateria,sigla,Integer.parseInt(tipo),rq);
+                    boolean primerRegistro = registrarRequisitosMateria(requisitosEscogidos,siglaMateria);
+                    boolean segundoRegistro = registrarProgramasMateria(siglaMateria,selectedPrograms);
+                    if (!primerRegistro || !segundoRegistro){
+                        devolverse(siglaMateria,requisitosEscogidos,selectedPrograms);
                     }
-                }else{
-                    rq.execute("alertaError('verifique si ha seleccionado requisitos')");
-                    continuar=false;
-                    currentLink = "";
-                }
+                }                   
             }else{
-                rq.execute("alertaError('verifique que ha completado los formularios y las selecciones')");
+                request.execute("alertaError('verifique que ha completado los formularios y las selecciones')");
             }
         }else{
             if(noRegistred.getNombre().equals(nombreMateria)){
-                rq.execute("alertaError('el nombre de esta materia ya esta registrado')");
+                request.execute("alertaError('el nombre de esta materia ya esta registrado')");
             }else{
-                rq.execute("alertaError('la sigla que esta intentando registrar ya esta ocupada por otra materia')");
+                request.execute("alertaError('la sigla que esta intentando registrar ya esta ocupada por otra materia')");
             }
             currentLink = "";
         }
         if(continuar){
             finalizarRegistroMateria();
             currentLink = "RegistroNuevaMateria.xhtml";
-            rq.execute("alertaError('se ha registrado la materia con exito')");
+            request.execute("alertaError('se ha registrado la materia con exito')");
+            currentLink="ConsultarMaterias.xhtml";
         }
         return currentLink;
     }
+    
     /**
      * metodo para quitar lo que se halla alcanzado a registrar en la base de datos
-     * @param rq 
      */
-    private void cancelarInsercion(RequestContext rq){
+    private void cancelarInsercion(RequestContext request){
         try{
             sp.removerMateria(siglaMateria);
             finalizarRegistroMateria();
         }catch(UnidadProyectosException ex){
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
-        rq.execute("alertaError('removiendo datos')");
+        request.execute("alertaError('removiendo datos')");
     }
     
     /**
@@ -303,18 +377,18 @@ public class UnidadProyectosBean implements Serializable {
      * @param siglaMat sigla de la materia en curso de registro
      * @param siglaReq sigla de su requisito
      * @param tipo si es completo o corequisito
-     * @param rq alguna excepcion informar al usuario
+     * @param request para generar dialogo e informar oportunamente el cliente
      * @return saying that all requisits was regystered
      */
     
-    public boolean registrarRequisitos(String siglaMat, String siglaReq, int tipo, RequestContext rq ){
+    public boolean registrarRequisitos(String siglaMat, String siglaReq, int tipo, RequestContext request){
         boolean ans = true;
         try{
             sp.registrarRequisito(siglaMat, siglaReq, tipo);
         }catch(UnidadProyectosException ex){
             ans=false;
-            rq.execute("alertaError('no se pudo completar el registro')");
-            cancelarInsercion(rq);
+            request.execute("alertaError('no se pudo completar el registro')");
+            cancelarInsercion(request);
         }
         return ans;
     }
@@ -373,23 +447,7 @@ public class UnidadProyectosBean implements Serializable {
         }
         return materias;
     }
-    
-    /**
-     * retorna un map con las materias registradas en el sistema
-     * @return HashMa con el conteniendo las materias y su sigla
-     */
-    public Map<String, String> getAllMaterias() {
-        List<Materia> lista;
-        HashMap<String, String> res = new HashMap<>();
-        lista = consultarMaterias();
-        if(lista!=null){
-            for (Materia m: lista) {
-                res.put(m.getNombre(),String.valueOf(m.getSigla()));
-            }
-        }
-        return res;
-    }
-    
+        
     /**
      * Consulta las materias de una asignatura
      * @param idAsignatura id de la asignatura
@@ -419,24 +477,7 @@ public class UnidadProyectosBean implements Serializable {
         }
         return lista;
     }
-    /**
-     * retorna todas las asginaturas y su programa en el registro de materias
-     * @return un mapa con las asignaturas y programas seleccionados
-     */
-    public HashMap<Programa,Asignatura> getAsignaturasYProgramas(){
-        HashMap<Programa,Asignatura> resp = new HashMap<>();
-        Set values = asSelectedXprog.keySet();
-        Iterator keys = values.iterator();
-        while(keys.hasNext()){
-            int id_prog = (int) keys.next();
-            int id_asig = (int) asSelectedXprog.get(id_prog);
-            Programa prog = obtenerPrograma(id_prog);
-            Asignatura asig = obtenerAsignatura(id_asig);
-            resp.put(prog, asig);
-        }
-        return resp;
-    }
-    
+       
     /**
      * retorna una mateira dado su Id
      * @param sigla de la materia que se quiere consultar
@@ -453,38 +494,6 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     /**
-     * get the requisitos  escogidos
-     * @return map of requisitos
-     */
-    public HashMap<Materia,String> getRequisitosEscogidos(){
-        HashMap<Materia,String> resp = new HashMap<>();
-        Set siglas = requisitosEscogidos.keySet();
-        Iterator sigla = siglas.iterator();
-        while(sigla.hasNext()){
-            String sigla_materia = (String) sigla.next();
-            String tipo = requisitosEscogidos.get(sigla_materia);
-            if(tipo.equals("0")){
-                tipo="preRequisito";
-            }if(tipo.equals("1")){
-                tipo="coRequisito";
-            }
-            Materia mat = obtenerMateria(sigla_materia);
-            resp.put(mat ,tipo);
-        }
-        return resp;
-    }
-    
-    /**
-     * quita una asignatua y programa selccionados para registrar materia
-     * @param p programa (llave del multimap)
-     */
-    public void quitarFila(int p){
-        programa=null;
-        asignatura=null;
-        //asSelectedXprog.remove(p);
-    }
-    
-    /**
      * quita una asignatua y programa selccionados para registrar materia
      * @param sigla nombre materia
      */
@@ -493,7 +502,7 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     /**
-     * Consulta las asignaturas (de un programa especifico)
+     * Consulta las asignaturas
      * @return Lista de Asignaturas
      */
     public List<Asignatura> consultarAsignaturas(){
@@ -507,18 +516,17 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     /**
-     * Consulta las Materias dado el programa actual (idProgramaActual) en el bean
-     * @return Lista de Programas
+     * consulta las materias de un programa (el seleccionado actualmente)
+     * @return listado de materias de cierto programa
      */
     public List<Materia> consultaMateriasXprog(){
         List<Materia> lista = new ArrayList<>();
         try{
-            if (idProgramaActual==null || !isNumeric(idProgramaActual)){lista = sp.consultarMateriasxPrograma(0);}
+            if (idProgramaActual==null || !isNumeric(idProgramaActual)){lista = sp.consultarMateriasxPrograma(null);}
             else{lista = sp.consultarMateriasxPrograma(Integer.parseInt(idProgramaActual));}
         }catch (UnidadProyectosException ex){
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
-                
         return lista;
     }
 
@@ -662,22 +670,6 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     /**
-     * get the current requisito
-     * @return requisito selected
-     */
-    public String getIdRequisito(){
-        return idRequisito;
-    }
-    
-    /**
-     * set the requisito
-     * @param currentr requisito for sets
-     */
-    public void setIdRequisito(String currentr){
-        idRequisito=currentr;
-    }
-    
-    /**
      * Get the value of programa
      * @return the value of programa selected
      */
@@ -692,8 +684,8 @@ public class UnidadProyectosBean implements Serializable {
      */
     public void setPrograma(Programa programa) {
         this.programa = programa;
-    }    
-    
+    }  
+        
     /**
      * retorna las asignaturas asociadas a un programa dado prog
      * @param prog programa del que se obtendran sus asignaturas
@@ -712,60 +704,139 @@ public class UnidadProyectosBean implements Serializable {
     }  
     
     /**
-     * retorna la lista de asignaturas de un programa
-     * @return lista de asignaturas del objeto programa de esta clase
+     * devuelve los requisitos que se hallan seleccionado con la finalidad de verificar que la seleccion es correcta antes de proceder
+     * @return mapeo de los requisitos
      */
-    public HashMap<String, String> getAsignaturasProgramaActual(){
-        List<Asignatura> lista = null;
-        HashMap<String, String> res = new HashMap<>();
-        if (programa!=null){
-            try{
-                lista=sp.consultarAsignaturasxPrograma(programa.getId());
-            }catch(UnidadProyectosException ex){
-                Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
+    public HashMap<Materia,String> getRequisitosEscogidos(){
+        HashMap<Materia,String> resp = new HashMap<>();
+        Set siglas = requisitosEscogidos.keySet();
+        Iterator sigla = siglas.iterator();
+        while(sigla.hasNext()){
+            String sigla_materia = (String) sigla.next();
+            String tipo = requisitosEscogidos.get(sigla_materia);
+            if(tipo.equals("0")){
+                tipo="preRequisito";
+            }if(tipo.equals("1")){
+                tipo="coRequisito";
             }
-        }else{
-            lista=new ArrayList<>();
-        }if (lista!=null){
-            for (Asignatura asig: lista) {
-                res.put(asig.getNombre(), String.valueOf(asig.getId()));
-            }
+            Materia mat = obtenerMateria(sigla_materia);
+            resp.put(mat ,tipo);
         }
-        return res;
+        return resp;
+    }
+           
+    /**
+     * retorna las materias de un programa (el seleccionado actualmente)
+     * @return mapeado de las materias 
+     */
+    public Map<String,String> getMateriasPorPrograma(){
+        List<Materia> lista=consultaMateriasXprog();
+        HashMap<String,String> resp = new HashMap<>();
+        for (Materia m: lista){
+            resp.put(m.getNombre(),m.getSigla());
+        }
+        return resp;
     }
     
-    /**
-     * metodo implementado para atender la vista RegistrarMateria / seleccionEnRegistraMateria cuando se tiene modo de seleccion de programas simple (solo una asignatura por materia)
-     * @return tupla asignatura y programa
+     /**
+     * retorna todas las asginaturas y su programa escogidos en el registro de materias
+     * @return un mapa con las asignaturas y programas seleccionados
      */
-    public HashMap<Programa,Asignatura> consultaSimple(){
-        if(programa!=null && asignatura!=null){
-            HashMap<Programa,Asignatura> pareja = new HashMap<>();
-            pareja.put(programa, asignatura);
-            return pareja;
+    public HashMap<Programa,String> getAsignaturasYProgramas(){
+        HashMap<Programa,String> resp = new HashMap<>();
+        String forOther = "Asignatura del programa ";
+        for (String idProgram: selectedPrograms){
+            Integer id =Integer.valueOf(idProgram);
+            Programa current = obtenerPrograma(id);
+            if (programaSeleccionado!=null){
+                Programa selected = obtenerPrograma(programaSeleccionado);
+                if (id.equals(programaSeleccionado)){
+                    if (isNumeric(idAsignaturaActual)){
+                        Asignatura asig = obtenerAsignatura(Integer.parseInt(idAsignaturaActual));
+                        resp.put(current,asig.getNombre());
+                    }
+                    else{
+                        resp.put(current,"No ha seleccionado la asignatura");
+                    }   
+                }else{
+                    resp.put(current, forOther+selected.getNombre());
+                }
+            }else{
+                resp.put(current,"no se ha seleccionado asignatura");        
+            }
         }
-        else{
-            return null;
-        }
+        return resp;
     }
+    
+     /**
+      * gets all sigantures of program currently selected
+     * @param prog programa del que se obtendran sus asignaturas
+      * @return list of selected program's signatures
+      */
+     public HashMap<String,String> getAsignaturasXprog(Programa prog){
+        List<Asignatura> lista;
+        HashMap<String,String> result=new HashMap<>();
+         if (prog!=null){
+            lista=consultaAsginaturasXprog(prog);
+            if (lista!=null){
+                for (Asignatura asig: lista) {
+                    result.put(asig.getNombre(), String.valueOf(asig.getId()));
+                }
+            }
+        }
+        return result;
+    }
+     
+     /**
+      * retorna los programas seleccionados, estos programas pueden ver la materia en registro
+      * @return lista de programas con su respectivo id
+      */
+     public HashMap<String,String> getProgramasSeleccionados(){
+         HashMap<String,String> resp = new HashMap<>();
+         for (String idPrograma:selectedPrograms){
+             Integer id =Integer.valueOf(idPrograma);
+             Programa current = obtenerPrograma(id);
+             resp.put(current.getNombre(),String.valueOf(current.getId()));
+         }         
+         return resp;
+     }
+
+     /**
+      * gets the signature by his ID
+     * @param id id de la asignatura deseada
+     * @return asignatura consultada
+      */
+     public Asignatura obtenerAsignatura(Integer id){
+         Asignatura resp = null;
+         try{
+             resp = sp.consultarAsignatura(id);
+         }catch(UnidadProyectosException ex){
+         }
+         return resp;
+     }
+     
+     /**
+      * gets the program by his ID
+     * @param id del programa
+     * @return programa consultada
+      */
+     public Programa obtenerPrograma(Integer id){
+         Programa resp = null;
+         try{
+             resp = sp.consultarPrograma(id);
+         }catch(UnidadProyectosException ex){
+         }
+         return resp;
+     }
     
     //-------------------------------------listener de la vista registrar Materia-----------------------------------------------------------------------------------------------------
     
     /**
-     * listener del selector de programas modo de seleccion de un solo programa y asignatura
+     * verifica si una cadena es numero para anticipar errores de operaciones sobre esta misma
+     * @param st cadena a verificar si es numero
+     * @return true si es un numero false si son solo caracteres no numericos
      */
-    public void rowSelectSingleMode(){
-        if (isNumeric(idProgramaActual)){
-            programa = obtenerPrograma(Integer.parseInt(idProgramaActual));
-            //rowSelectCheckBox(programa);
-        }
-    }
-    /**
-     * implemented to skip exception of Integer.parseInt()
-     * @param st to verify
-     * @return true or false if st is a number represented in string
-     */
-     private boolean isNumeric(String st){
+     public boolean isNumeric(String st){
          boolean ans;
          if(st!=null){
             if (st.isEmpty() || st.equals("") || st.length()==0){
@@ -784,159 +855,79 @@ public class UnidadProyectosBean implements Serializable {
          }
          return ans;
      }
-    /**
-     * seleciona una asignatura para ser relacionada con la materia a registrar, solo en seleccion simple (una sola asignatura por materia)
-     */
-    public void changeOptionSingleMode(){
-        if(isNumeric(idAsignaturaActual)){
-            asignatura = obtenerAsignatura(Integer.parseInt(idAsignaturaActual)); 
-            //changeOption(programa);   
-        }
-    }
- 
-    
-    /**
-      * indexes the selected signatures
-     * @param prog to verify the selection on multiple asings for materia
-      */
-     public void changeOption(Programa prog){
-        if (prog!=null && isNumeric(idAsignaturaActual)){
-            //si cambia la asginatura por error de eleccion o algun suceso que requiera cambiar la eleccion ya habiendo escogido el programa
-            if (asSelectedXprog.containsKey(prog.getId())){
-                Integer newRegistry = Integer.parseInt(idAsignaturaActual);
-                Integer oldRegistry = asSelectedXprog.get(prog.getId());
-                //
-                if (!(oldRegistry==newRegistry) || !oldRegistry.equals(newRegistry)){
-                    asSelectedXprog.replace(prog.getId(), oldRegistry, newRegistry);
-                }
-            }
-        }
-     }    
-     
-     /**
-     * listener for the select on registrarNuevaMateria.xhtml
-     * @param prog programa to registry
-     * 
-    */
-    public void rowSelectCheckBox(Programa prog){
-        if (prog!=null){
-            if (!asSelectedXprog.containsKey(prog.getId())){
-                //si ya se escogio una asignatura
-                if (isNumeric(idAsignaturaActual)){
-                    asSelectedXprog.put(prog.getId(), Integer.parseInt(idAsignaturaActual));
-                }
-                //se agrega momentaneamente en null
-                else{
-                    asSelectedXprog.put(prog.getId(),null);
-                }
-           }//si ya se escogio entonces la asignatura esta intentando ser des-seleccionada
-            else{
-                asSelectedXprog.remove(prog.getId());
-            }
-        }
-    }
-    
-    /**
-     * Agrega un nuevo requisito
+            
+      /**
+     * agrega un requisito escogido
      */
     public void addRequisito(){
-        boolean evit=(idRequisito!=null && idRequisito.length()>0);
-        RequestContext requestContext = RequestContext.getCurrentInstance();
-        if (evit){
-            if(!requisitosEscogidos.containsKey(idRequisito)){
-                if(isNumeric(tipoRequisito)){
-                    requisitosEscogidos.put(idRequisito,tipoRequisito);
-                }else{
-                    requisitosEscogidos.put(idRequisito,"");
-                }
-            }else if(requisitosEscogidos.containsKey(idRequisito)){
-                    if ((tipoRequisito!=null || !tipoRequisito.equals("")) && requisitosEscogidos.get(idRequisito)!=null){
-                        if (!requisitosEscogidos.get(idRequisito).equals(tipoRequisito)){
-                            requisitosEscogidos.replace(idRequisito,tipoRequisito);
-                        }else{
-                            requisitosEscogidos.put(idRequisito,tipoRequisito);
-                        }                    
-                    }
-            }
-        }else{ 
-            if (!isNumeric(tipoRequisito) && !evit){
-               requestContext.execute("alertaError('no ha seleccionado nada, por favor haga su eleccion')");
-            }else if (!isNumeric(tipoRequisito) && evit){
-                requestContext.execute("alertaError('Un momento!! no ha seleccionado que tipo de requisito')");
-            }else if(isNumeric(tipoRequisito) && !evit){
-                requestContext.execute("alertaError('Un momento!! no ha seleccionado el requisito')");
+        
+        if (idRequisito.length()>0){
+            if(requisitosEscogidos.containsKey(idRequisito)){
+                requisitosEscogidos.replace(idRequisito,tipoRequisito);
+            }else{
+                requisitosEscogidos.put(idRequisito,tipoRequisito);
             }
         }
     }
-     
-    //---------------------------------------------------------listener registrar materia fin ------------------------------------------------------------------------------
     
-    
+    /**
+     * retorna el link de requisitos seleccionados
+     * @return link de la pagina
+     */
+    public String getLinkRequisitos(){
+        return "ListaRequisitosSeleccionados.xhtml";
+    }
      /**
-      * gets all sigantures of program currently selected
-     * @param prog programa del que se obtendran sus asignaturas
-      * @return list of selected program's signatures
+      * define el estado de un select para darle acceso 
+     * @param prog programa al que se le quieren seleccionar las asginaturas
+     * @return si se ha escogido el programa se puede escoger la asignatura, si no, estara deshabilitada la opcion
       */
-     public HashMap<String,String> getAsignaturasXprog(Programa prog){
-        List<Asignatura> lista;
-        HashMap<String,String> result=new HashMap<>();
-        if (prog!=null){
-            lista=consultaAsginaturasXprog(prog);
-            if (lista!=null){
-                for (Asignatura asig: lista) {
-                    result.put(asig.getNombre(), String.valueOf(asig.getId()));
+     public boolean enable(Programa prog){
+         boolean ans;
+         ans = !selectedPrograms.contains(String.valueOf(prog.getId()));
+         return ans;
+     }
+     
+     
+    /**
+      * funcion logica que soporta el funcionamiento de seleccion de asignaturas de un programa en RegistrarNuevaMateria
+     * @param prog programa al que pertenecen las asignaturas escogibles en esa seccion
+      */
+     public void changeOption(Programa prog){
+         if(isNumeric(idAsignaturaActual)){
+             asignaturaSeleccionada = idAsignaturaActual;
+             programaSeleccionado = prog.getId();
+         }    
+     }    
+            
+     /**
+      * another listener
+     * @param prog programa que se esta seleccionando
+     * @param rowIndex identificador de la fila de la tabla, donde esta el programa (solo importante para presentacion)
+      */
+     public void clickButtonSelect(Programa prog, int rowIndex){
+         if (prog!=null){
+             String id = String.valueOf(prog.getId()); 
+            if(!selectedPrograms.contains(id)){
+                selectedPrograms.add(id);
+            }
+            else{
+                selectedPrograms.remove(id);
+                if(programaSeleccionado.equals(prog.getId())){
+                    asignaturaSeleccionada=null;
+                    programaSeleccionado=null;
+                }
+                if(selectedPrograms.isEmpty()){
+                    idAsignaturaActual=null;
+                    idRequisito=null;
+                    tipoRequisito=null;
                 }
             }
-        }
-        return result;
-    }
-
-    /**
-     * gets the signature by his ID
-    * @param id id de la asignatura deseada
-    * @return asignatura consultada
-     */
-    public Asignatura obtenerAsignatura(Integer id){
-        Asignatura resp = null;
-        try{
-            resp = sp.consultarAsignatura(id);
-        }catch(UnidadProyectosException ex){
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
-        }
-        return resp;
-    }
-     
-    /**
-     * gets the program by his ID
-    * @param id del programa
-    * @return programa consultada
-     */
-    public Programa obtenerPrograma(Integer id){
-        Programa resp = null;
-        try{
-            resp = sp.consultarPrograma(id);
-        }catch(UnidadProyectosException ex){
-            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
-        }
-        return resp;
-    }
-     
-    /**
-     * get the type of selection requisit
-    * @param type setter
-     */
-    public void setTipoRequisito(String type){
-        this.tipoRequisito=type;
-    }
-
-    /**
-     * get the type of selection requisit
-    * @return type setter
-     */
-    public String getTipoRequisito(){
-        return this.tipoRequisito;
-    }
-     
+         }
+     }
+         
+    //---------------------------------------------------------listener registrar materia fin ------------------------------------------------------------------------------
+             
     /**
      * Get the value of asignatura
      *
@@ -959,20 +950,39 @@ public class UnidadProyectosBean implements Serializable {
      */
     public void agregarClase(){
         try{
-            boolean resp;
-            if(!horaClase.equals("") && !tipoSalon.equals("")){
+            DateFormat formatter = new SimpleDateFormat("HH:mm");
+            Time horaT = new Time(formatter.parse(horaClase).getTime());
+            Date sqlFecha=new Date(fechaClase.getTime());
+            sp.agregarClase(cursoActual.getId(),sqlFecha, horaT, tipoSalon,profesorSelect.getId());
+        } catch (UnidadProyectosException | ParseException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
+        }
+    }
+    
+    public void preAgregarClase(){
+        try{
+            if(!horaClase.equals("") && !tipoSalon.equals("") && fechaClase!=null){
                 DateFormat formatter = new SimpleDateFormat("HH:mm");
                 Time horaT = new Time(formatter.parse(horaClase).getTime());
                 Date sqlFecha=new Date(fechaClase.getTime());
-                resp=sp.agregarClase(cursoActual.getId(),sqlFecha, horaT, tipoSalon,profesorSelect.getId());
-                if(resp)mensaje="La clase se registro";
-                else mensaje="El profesor no tiene horario disponible ";
-            }
-            else{
-                resp=false;
+                sugerencia=sp.hayConflicto(sqlFecha, horaT, cursoActual);
+                boolean esPosible=sp.esPosible(sqlFecha, horaT, profesorSelect.getId());
+                if(esPosible && sugerencia){
+                    registroClase=true;
+                    mensaje="Advertencia , es posible  que los estudiantes \n  ya tengan clase en este horario";
+                }
+                else if(esPosible){
+                    registroClase=true;
+                    agregarClase();
+                }
+                else{
+                    registroClase=false;
+                    mensaje="El profesor no tiene horario disponible ";
+                }
+            }else{
+                registroClase=false;
                 mensaje="Verifique si los datos son correctos";
             }
-            registroClase=resp;
         } catch (UnidadProyectosException | ParseException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
@@ -1123,16 +1133,8 @@ public class UnidadProyectosBean implements Serializable {
     
     public void setDescripcion(String var){
         this.descripcion=var;
-    }
-    
-    public void setAsignaturaActualID(Integer asig){
-        this.asignaturaActualID = asig;
-    }
-    
-    public Integer getAsignaturaActualID(){
-        return this.asignaturaActualID;
-    }
-    
+    }        
+
     public String getIdAsignaturaActual(){
         return this.idAsignaturaActual;
     }
@@ -1231,21 +1233,21 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     /**
-     * Consulta todos las Materias y las Agrega a un Map utilizado en la capa de presentacion
-     * @return Map de Materias
+     * obtiene las materias de una asignatura (la actualmente escogida)
+     * @return mapeo de las materias de la asginatura escogida
      */
     public Map<String, String> getMaterias() {
         List<Materia> lista = null;
         HashMap<String, String> res = new HashMap<>();
         try {
-            if (idAsignaturaActual == null || idAsignaturaActual.equals("")) lista = sp.consultarMateriasxAsignatura(null);
+            if (idAsignaturaActual == null || idAsignaturaActual.equals("")) lista = null;
             else lista = sp.consultarMateriasxAsignatura(Integer.parseInt(idAsignaturaActual));
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         if(lista!=null){
-            for (Materia materia: lista) {
-                res.put(materia.getNombre(), String.valueOf(materia.getSigla()));
+            for (Materia m: lista) {
+                res.put(m.getNombre(), String.valueOf(m.getSigla()));
             }
         }
         return res;
@@ -1269,7 +1271,22 @@ public class UnidadProyectosBean implements Serializable {
         cohorteCursoActual = 0;
     }
  
-
+    public void setTipoRequisito(String tr){
+        this.tipoRequisito = tr;
+    }
+    
+    public String getTipoRequisito(){
+        return this.tipoRequisito;
+    }
+    
+    public void setIdRequisito(String idR) {
+        this.idRequisito = idR;
+    }
+    
+    public String getIdRequisito(){
+        return this.idRequisito;
+    }
+    
     public String getSiglaMateriaActual() {
         return siglaMateriaActual;
     }
@@ -1333,6 +1350,7 @@ public class UnidadProyectosBean implements Serializable {
         return tipoSalon;
     }
     
+     
     public void setMensaje(String nMensaje){
         
         mensaje=nMensaje;
