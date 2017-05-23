@@ -187,7 +187,7 @@ public class UnidadProyectosBean implements Serializable {
             web = "index.xhtml";           
         }
         else{
-            web = "UnidadProyectos/login.xhtml";
+            web = "login.xhtml";
         }
         return web;              
     }
