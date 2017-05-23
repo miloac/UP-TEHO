@@ -1458,4 +1458,18 @@ public class UnidadProyectosBean implements Serializable {
         }
         return horas;
     }
+   /**
+    * Consulta los cursos de un profesor especifico
+    * @return  lista con los cursos que son dictados por el profesor
+    */
+    public List<Curso> consultatCursoProfesor(){
+        List<Curso> lista=new ArrayList<Curso> ();
+        List<Curso> listaDef=new ArrayList<Curso>();
+        lista=consultarCursos();
+           for(Curso i:lista){
+               if(i.getProfesor().getId()==profesorSelect.getId())
+                   listaDef.add(i);
+        }
+        return listaDef;
+    }
 }
