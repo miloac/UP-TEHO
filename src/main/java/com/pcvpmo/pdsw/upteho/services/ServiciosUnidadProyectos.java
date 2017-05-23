@@ -453,6 +453,7 @@ public interface ServiciosUnidadProyectos {
     String obtenerDiaSemana(Date fecha);
     
     /**
+<<<<<<< HEAD
      * devuelve las relaciones materia-programa
      * @param sigla de la mateira
      * @return listado de las relaciones
@@ -474,5 +475,26 @@ public interface ServiciosUnidadProyectos {
      * @throws UnidadProyectosException para indicar cualquier error
      */
     List<ProgramaXmateria> todasLasRelaciones() throws UnidadProyectosException;
+    
+    /**
+     * verifica si podria haber un conflicto al registrar una clase del mismo programa a la misma hora
+     * @param fecha fecha que se quiere verificar
+     * @param hora hora que se quiere verificar 
+     * @param act curso actual al que se le quiere asignar una clase
+     * @return booleano con la respuesta
+     * @throws UnidadProyectosException  cuando no se pueda realizar alguna de las consulas
+     */
+    public boolean hayConflicto(Date fecha,Time hora,Curso act)throws UnidadProyectosException;
+    
+    /**
+     * verifica si es posible agregar una clase a un profesor y horario especifico
+     * @param fecha fecha de la posible clase
+     * @param hora hora de la posible clase  
+     * @param idProfesor identificacion del profesor
+     * @return booleano indicando si es posible o no agregar la clase
+     * @throws UnidadProyectosException 
+     */
+    public boolean esPosible(Date fecha,Time hora,int idProfesor)throws UnidadProyectosException;
+
 }
 

@@ -3,6 +3,7 @@ package com.pcvpmo.pdsw.upteho.managedbeans;
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
 import com.pcvpmo.pdsw.upteho.entities.Curso;
+import com.pcvpmo.pdsw.upteho.entities.HorarioDisponible;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -16,7 +17,6 @@ import com.pcvpmo.pdsw.upteho.entities.Requisito;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.sql.Date;
@@ -26,6 +26,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -34,6 +35,9 @@ import org.apache.log4j.Logger;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.log4j.Level;
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleModel;
 
 
 /**
@@ -83,20 +87,117 @@ public class UnidadProyectosBean implements Serializable {
     private String idPeriodoActual;   
     private Materia materia;
     private double numeroHorasPrf=0;
-    private double numeroHorasCur=0;
+    private String numeroHorasCur="00:00";
     private java.util.Date fechaClase;
-    private String horaClase;
+    private String horaClase="";
     private List<String> horas=null;
-    private String tipoSalon;
+    private String tipoSalon="";
     private String mensaje;
     private boolean registroClase;
     private boolean errorRegistroCurso;
     private String paginaPrevia;
+    private ScheduleModel eventModel;
+    private boolean sugerencia=false;
+    private boolean ignore=false;
+
+    //----Atributos de Usuario-----
+    private boolean sessionON;
+    private String sessionNombre;
+    private String sessionRol;
+
+    
+
     
     public UnidadProyectosBean() {
         selectedPrograms = new ArrayList<>();
         requisitosEscogidos=new HashMap<>();
         Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.INFO, "Bean Inicializado");
+    }
+
+     public ScheduleModel getEventModel() {
+        eventModel = new DefaultScheduleModel();
+        Calendar cini =Calendar.getInstance();
+        Calendar cfin=Calendar.getInstance();
+        List<Clase> clases=consultarClasesProfesor(profesorSelect.getId());
+        for(Clase i:clases){
+            java.util.Date fecha=new java.util.Date(i.getFecha().getTime());
+            cini.setTime(fecha);
+            cfin.setTime(fecha);
+            int hora=i.getHora().toLocalTime().getHour();
+            int min=i.getHora().toLocalTime().getMinute();
+            
+            
+            cini.set(Calendar.HOUR_OF_DAY,hora-5);
+            cini.set(Calendar.MINUTE,min);
+            
+            if(min==30){              
+                cfin.set(Calendar.HOUR_OF_DAY,hora-3);
+                cfin.set(Calendar.MINUTE,0);
+            }
+            else {
+                cfin.set(Calendar.HOUR_OF_DAY,hora-4);
+                cfin.set(Calendar.MINUTE,30);
+            }
+            String id="clases";
+            DefaultScheduleEvent evento=new DefaultScheduleEvent(cursoActual.getMateria().getSigla(),cini.getTime(),cfin.getTime(),id);
+            eventModel.addEvent(evento);  
+            
+            
+         
+        }
+        return eventModel;
+    }
+     
+    public String menu(){
+        
+        String menu = null;
+        if(ShiroLoginBean.getSubject().hasRole("admin")){
+            menu = "../resources/inc/menuAdmin.xhtml";
+            sessionRol = "ADMINISTRADOR";
+        }
+        else if(ShiroLoginBean.getSubject().hasRole("coord")) {
+            menu = "../resources/inc/menuCoord.xhtml";
+            sessionRol = "COORDINADOR";
+        }
+        else if(ShiroLoginBean.getSubject().hasRole("profesor")) {
+            menu = "../resources/inc/menuProf.xhtml";
+            sessionRol = "PROFESOR";
+        }
+        return menu;
+    }
+    
+    public String botonInicio(){
+        sessionON = ShiroLoginBean.getSubject().isAuthenticated();
+        
+        String valor = null;
+        if(sessionON){
+            sessionNombre = ShiroLoginBean.getSubject().getPrincipal().toString();
+            valor = sessionNombre;           
+        }
+        else{
+            valor = "Iniciar Sesión";
+        }
+        return valor;              
+    }
+    
+    public String botonInicioAccion(){
+        sessionON = ShiroLoginBean.getSubject().isAuthenticated();
+        String web = null;
+        if(sessionON){
+            web = "index.xhtml";           
+        }
+        else{
+            web = "UnidadProyectos/login.xhtml";
+        }
+        return web;              
+    }
+    
+    public String getSessionRol(){
+        return sessionRol;
+    }
+     
+    public String irHorarioCurso(){
+        return "HorarioCurso";
     }
 
     public String irPaginaCurso(Curso curso_actual) {
@@ -119,11 +220,13 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     public String irProgramarClases() {
-        String pagina;
-        if(registroClase)
+        String pagina="ProgramacionClase";
+        if(!registroClase) pagina="ProgramacionClase";
+        else  if(registroClase || sugerencia){
             pagina= "ProgramarClases";
-        else
-            pagina="ProgramacionClase";
+            if(sugerencia)agregarClase();
+        }
+            
         return pagina;
     }
     
@@ -622,7 +725,13 @@ public class UnidadProyectosBean implements Serializable {
         List<Clase> lista = null;
         try {
             lista = sp.consultarClasesCurso(cursoActual.getId());
-             numeroHorasCur=lista.size()*1.5;
+            double numero=lista.size()*1.5;
+            int entera=(int) numero;
+            String decimal;
+            if(numero-entera>0)decimal="30";
+            else decimal="00";
+            
+             numeroHorasCur=entera+" HORAS Y "+decimal+" MINUTOS";
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
@@ -645,6 +754,40 @@ public class UnidadProyectosBean implements Serializable {
         cohorteCursoActual=cohort;
         return cohort;
     }
+    
+    /**
+     * selecciona el valor de sessionON
+     * @return el valor de sessionON
+     */
+    public boolean getSessionOn(){
+        return this.sessionON;
+    }
+    
+    /**
+     * cambia el valor de sessionON
+     * @param sesion si esta iniciada
+     */
+    public void setSessionOn(boolean sesion){
+        this.sessionON=sesion;
+    }
+    
+    /**
+     * selecciona el valor de sessionON
+     * @return el valor de sessionON
+     */
+    public String getSessionNombre(){
+        return this.sessionNombre;
+    }
+    
+    /**
+     * cambia el valor de sessionON
+     * @param nombre del usuario
+     */
+    public void setSessionNombre(String nombre){
+        this.sessionNombre=nombre;
+    }
+    
+    
     
     /**
      * get the current creditos value
@@ -979,10 +1122,36 @@ public class UnidadProyectosBean implements Serializable {
             DateFormat formatter = new SimpleDateFormat("HH:mm");
             Time horaT = new Time(formatter.parse(horaClase).getTime());
             Date sqlFecha=new Date(fechaClase.getTime());
-            boolean resp=sp.agregarClase(cursoActual.getId(),sqlFecha, horaT, tipoSalon,profesorSelect.getId());
-            registroClase=resp;
-            if(resp)mensaje="La clase se registro";
-            else mensaje="El profesor no tiene horario disponible";
+            sp.agregarClase(cursoActual.getId(),sqlFecha, horaT, tipoSalon,profesorSelect.getId());
+        } catch (UnidadProyectosException | ParseException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
+        }
+    }
+    
+    public void preAgregarClase(){
+        try{
+            if(!horaClase.equals("") && !tipoSalon.equals("") && fechaClase!=null){
+                DateFormat formatter = new SimpleDateFormat("HH:mm");
+                Time horaT = new Time(formatter.parse(horaClase).getTime());
+                Date sqlFecha=new Date(fechaClase.getTime());
+                sugerencia=sp.hayConflicto(sqlFecha, horaT, cursoActual);
+                boolean esPosible=sp.esPosible(sqlFecha, horaT, profesorSelect.getId());
+                if(esPosible && sugerencia){
+                    registroClase=true;
+                    mensaje="Advertencia , es posible  que los estudiantes \n  ya tengan clase en este horario";
+                }
+                else if(esPosible){
+                    registroClase=true;
+                    agregarClase();
+                }
+                else{
+                    registroClase=false;
+                    mensaje="El profesor no tiene horario disponible ";
+                }
+            }else{
+                registroClase=false;
+                mensaje="Verifique si los datos son correctos";
+            }
         } catch (UnidadProyectosException | ParseException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
@@ -1340,11 +1509,11 @@ public class UnidadProyectosBean implements Serializable {
     public double getNumeroHorasPrf(){
         return numeroHorasPrf;
     }
-    public void setNumeroHorasCur(double nHoras){
+    public void setNumeroHorasCur(String nHoras){
         numeroHorasCur=nHoras;
     }
     
-    public double getNumeroHorasCur(){
+    public String getNumeroHorasCur(){
         return numeroHorasCur;
     }
     
@@ -1466,5 +1635,63 @@ public class UnidadProyectosBean implements Serializable {
                                + cursoActual.getProfesor().getNombre();
         }
     }
-    
+    /**
+     * Consulta los horarios disponibles del profesor que fue elegido 
+     * @return lista con HorarioDisponible
+     */
+    public List<HorarioDisponible> consultarHorarioProfesor(){
+        List<HorarioDisponible> horarios=new ArrayList<HorarioDisponible>();
+        try{
+            horarios= sp.consultarHorarioProfesor(profesorSelect.getId());
+            for(HorarioDisponible i:horarios){
+                String dia=i.getDia();
+                if(dia.equals("LU"))i.setDia("LUNES");
+                if(dia.equals("MA"))i.setDia("MARTES");
+                if(dia.equals("MI"))i.setDia("MIERCOLES");
+                if(dia.equals("JU"))i.setDia("JUEVES");
+                if(dia.equals("VI"))i.setDia("VIERNES");
+                if(dia.equals("SA"))i.setDia("SABADO");
+                
+            }
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
+        }
+        return horarios;
+    }
+    /**
+     * Consulta el total de horas de clase de un curso especifico
+     * @param idCur identificador del curso 
+     * @return String con numero de horas total de clase de un curso
+     */
+    public String consultaHoraCurso(int idCur){
+         List<Clase> lista = null;
+         String horas="";
+        try {
+            lista = sp.consultarClasesCurso(idCur);
+            double numero=lista.size()*1.5;
+            int entera=(int) numero;
+            String decimal;
+            if(numero-entera>0)decimal="30";
+            else decimal="00";
+            horas= entera+":"+decimal;
+        } catch (UnidadProyectosException ex) {
+            Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
+        }
+        return horas;
+    }
+   /**
+    * Consulta los cursos de un profesor especifico
+    * @return  lista con los cursos que son dictados por el profesor
+    */
+    public List<Curso> consultatCursoProfesor(){
+        List<Curso> lista=new ArrayList<Curso> ();
+        List<Curso> listaDef=new ArrayList<Curso>();
+        lista=consultarCursos();
+           for(Curso i:lista){
+               String id = ShiroLoginBean.getSubject().getPrincipal().toString();
+               if(i.getProfesor().getId()==Integer.parseInt(id))
+                   listaDef.add(i);
+        }
+        return listaDef;
+    }
 }

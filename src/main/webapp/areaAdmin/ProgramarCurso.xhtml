@@ -7,16 +7,16 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     
     <h:head>
-        <link rel="icon" type="image/png" href="resources/image/teho.png" />
+        <link rel="icon" type="image/png" href="../resources/image/teho.png" />
         <title>Programar Curso</title>
         <h:outputStylesheet library="css" name="estilo.css" />
     </h:head>
     <h:body>
         <!-- Encabezado -->
-        <ui:include src="resources/inc/header.xhtml" />
+        <ui:include src="../resources/inc/header.xhtml" />
                
         <!-- MENU -->
-        <ui:include src="resources/inc/menu.xhtml" />
+        <ui:include src="#{UnidadProyectosBean.menu()}" />
         
         <!-- CUERPO -->
         <center><div style="max-width:97%;min-height:20px;background:brown ;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
@@ -57,7 +57,7 @@
                             <f:selectItems value="#{UnidadProyectosBean.getMaterias()}"/>
                             <p:ajax event="change" update=":#{p:component('boton_registrar')}"/>
                         </p:selectOneMenu>
-                        <p:commandButton class="boton" value="Registrar Nueva Materia"/>
+                        <p:commandButton class="boton" value="Registrar Nueva Materia" action="RegistrarNuevaMateria"/>
                         <p:outputLabel for="cohortelabel" value="Cohorte:"/>
                         <p:outputLabel id="cohortelabel" for="botoncohorte" value="#{UnidadProyectosBean.cohorteCursoActual}"/>
                         <p:commandButton class="boton" id="botoncohorte" value="Seleccionar Cohorte y Profesor" action="#{UnidadProyectosBean.irPaginaCohorte()}"/>
@@ -78,6 +78,6 @@
         </div>
         
         <!--SUBPIE -->
-        <ui:include src="resources/inc/footer.xhtml" />
+        <ui:include src="../resources/inc/footer.xhtml" />
     </h:body>
 </html>

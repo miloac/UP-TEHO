@@ -20,4 +20,6 @@ public interface ClaseDAO {
     List<Clase> consultarClasesProfesor(int idProf)throws PersistenceException;
     
     void cancelarClase(int id)throws PersistenceException;
+    
+    List<Clase> consultarClasesHorario(Date fecha,Time hora)throws PersistenceException;
 }
