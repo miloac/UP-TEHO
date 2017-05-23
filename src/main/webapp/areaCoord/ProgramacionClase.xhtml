@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+     
+      
+    <h:head>
+        <link rel="icon" type="image/png" href="../resources/image/teho.png" />
+        <title>Programaci&oacute;n de clases</title>
+        <h:outputStylesheet library="css" name="estilo.css" />
+    </h:head>
+    <h:body>
+        <!-- Encabezado -->
+        <ui:include src="../resources/inc/header.xhtml" />
+               
+        <!-- MENU -->
+        <ui:include src="#{UnidadProyectosBean.menu()}" />
+        
+        <!-- CUERPO -->
+        <center><div style="max-width:97%;min-height:20px;background:rgba(232, 188, 6, 0.87) ;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
+            <div style="padding:15px;margin:auto;" >
+                <center><font color="#FFF" size="+2">AGREGAR SESIÓN</font></center>
+            </div>
+        </div></center>
+       
+        <div style="max-width:100%;min-height:600px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
+            <div style="padding:10px;margin:auto;" >
+                <br></br>
+                <br></br>
+                <table>
+                    <tr>
+                        <td>
+                            <h4>MATERIA       </h4>
+                            <h:outputText value="#{UnidadProyectosBean.materia.nombre}"/>
+                        </td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td>
+                            <h4>COHORTE      </h4>
+                            <h:outputText value="#{UnidadProyectosBean.cohorteCursoActual}"/>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <h4>PROFESOR   </h4>
+                            <h:outputText value="#{UnidadProyectosBean.profesorSelect.nombre}"/>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <h4>PERIODO   </h4>
+                            <h:outputText value="#{UnidadProyectosBean.periodo.nombre}"/>
+                        </td>
+                        <td width="100"/>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <center>
+                                            <h:form><p:commandButton  value="Cronograma Curso" action="#{UnidadProyectosBean.irHorarioCurso()}"></p:commandButton></h:form>
+                                        </center>
+                                    </td>
+                                    <td width="200"></td>
+                                    <td width="400">
+                                        <center>
+                                        <p:outputLabel  value="HORARIO DEL PROFESOR" />
+                                        </center>
+                                        <br></br>                                   
+                                        <p:dataTable var="horarioProf" value="#{UnidadProyectosBean.consultarHorarioProfesor()}">
+                                            <p:column headerText="DIA">
+                                                <h:outputText value="#{horarioProf.dia}"/>
+                                            </p:column>
+                                            <p:column headerText="HORA">
+                                                <h:outputText value="#{horarioProf.hora}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <br></br>
+                <br></br>
+                <h:form id="formulario_clase">                          
+                    <br></br>
+                    <br></br>
+                    <table>
+                        <tr>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <p:outputLabel for="button" value="Fecha* : " />
+                                            <br></br>
+                                            <p:calendar   id="button" value="#{UnidadProyectosBean.fechaClase}" mode="inline" showOn="button" />                                  
+                                        </td>
+                                        <td width="30"></td>
+                                        <td></td>
+                                        <td>
+                                            <p:outputLabel  value="Hora* : " />
+                                            <br></br>
+                                            <p:selectOneMenu id="hora" value="#{UnidadProyectosBean.horaClase}" style="width:200px">
+                                                <f:selectItem itemLabel="Seleccione la hora" itemValue="" noSelectionOption="true" />
+                                                <f:selectItems value="#{UnidadProyectosBean.horas}" />
+                                            </p:selectOneMenu>
+                                        </td>
+                                        <td width="50"/>
+                                        <td>
+                                            <br></br>
+                                            <br></br>
+                                            <p:outputLabel  value="Caracter&iacute;sticas del sal&oacute;n* : " />
+                                            <br></br>
+                                            <br></br>
+                                            <p:selectOneRadio id="console" value="#{UnidadProyectosBean.tipoSalon}">
+                                                <f:selectItem itemLabel="Multimedia" itemValue="Multimedia" />
+                                                <f:selectItem itemLabel="Laboratorio" itemValue="Laboratorio" />
+                                                <f:selectItem itemLabel="Interactivo" itemValue="Interactivo" />
+                                                <f:selectItem itemLabel="Auditorio" itemValue="Auditorio"/>
+                                            </p:selectOneRadio> 
+                                            <br></br>
+                                            <br></br>
+                                        </td>
+                                    </tr>    
+                                </table>
+                                <br></br>
+                                <br></br>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <p:outputLabel  value="Recursos *" />
+                                            <br></br>
+                                            <br></br>
+                                            <p:outputLabel  value="//TODO" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                                <center>
+                                    <p:commandButton value="Agregar"  actionListener="#{UnidadProyectosBean.preAgregarClase()}" onclick="PF('dlg2').show();" update="mensaje"/>
+                                        <p:dialog id="dialog" header="Agregar Sesión" widgetVar="dlg2" modal="true" height="100">
+                                            <h:outputText id="mensaje" value="#{UnidadProyectosBean.mensaje}" />
+                                            <br></br>
+                                            <p:commandButton value="Aceptar" action="#{UnidadProyectosBean.irProgramarClases()}" onclick="PF('dlg2').hide();"/>
+                                        </p:dialog>   
+                                    <p:commandButton value="Cancelar" action="#{UnidadProyectosBean.irProgramarClaseSinValidar()}"/>
+                                </center> 
+                </h:form> 
+            </div>
+        </div>
+       
+       
+        <!--SUBPIE -->
+        <ui:include src="../resources/inc/footer.xhtml" />
+    </h:body>
+</html>

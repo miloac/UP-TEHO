@@ -2,67 +2,84 @@
  * 
  * @author Jefferson David Castañeda Carreño
  */
+jQuery(document).ready(function(){
+        
+    jQuery(".selectButton").click(function(){
+        var objectId = jQuery(this).attr("id");
+        var rowIndexe = objectId.substr(0,38).substr(37,38);
+        var estado = objectId.substr(39,40);
+        var newId = objectId.substr(0,39);
+        if (estado==="d"){
+            jQuery(this).attr("id",newId+"a");
+            jQuery(this).css({"background-color":"#A9E2F3","box-shadow":"2px 3px 3px #BDBDBD"});
+            forButton(this,"-","des-Seleccionar");
+            if (rowIndexe%2===0){
+                jQuery(this).parent().parent().parent().removeClass("rowUnSelectedClass1");
+            }else{
+                jQuery(this).parent().parent().parent().removeClass("rowUnSelectedClass2");
+            }
+            jQuery(this).parent().parent().parent().addClass("rowSelectedClass");
+        }else{
+            var select =rowIndexe;
+            resetSelect(select);
+            jQuery(this).attr("id",newId+"d");
+            jQuery(this).css({"background-color":"gainsboro","box-shadow":"0px 0px 0px #BDBDBD"});
+            forButton(this,"+","Seleccionar");
+            jQuery(this).parent().parent().parent().removeClass("rowSelectedClass");
+            if (rowIndexe%2===0){
+                jQuery(this).parent().parent().parent().addClass("rowUnSelectedClass1");
+            }else{
+                jQuery(this).parent().parent().parent().addClass("rowUnSelectedClass2");
+            }
+        }
+    });
+});
 
 //javascript
-/**
- * 
- * @param {type} obj
- * @returns {undefined}
- */
 
 /**
  * 
- * @param {type} string mensaje para mostrar
+ * @param string string mensaje para mostrar
  * @returns none
  */
 function alertaError(string){
     alert(string);
 }
 
-function verifyThisButton(obj){
-    var id = obj.id;
-    var subs = id.substr(id.length-1, id.length);
-    if (subs=="d" ){
-        obj.id = "a";
-        obj.style.backgroundColor = "skyblue";
-        obj.style.boxShadow = "0px 0px 15px skyblue";
+function resetSelect(id){
+    var sid = "regNuevaMateria:checkRegistroMateria:"+id+":select";
+    document.getElementById(sid).selectedIndex="0";
+}
+
+function forButton(boton,valor,titulo){
+    boton.innerHTML = valor;
+    boton.title = titulo;
+}
+
+function setOtherSelects(rInd){
+    var elements = document.getElementsByTagName("select");
+    for (i=0; i<elements.length;i++){
+        if(i!=rInd){
+            elements[i].selectedIndex="0";
         }
-    else{
-        obj.id = "d";
-        obj.style.textShadow="0px 2px 2px white";
-        obj.style.backgroundColor= "gainsboro";
-        obj.style.boxShadow = "0px 0px 0px black";
     }
-    cargar();
-    
-}
-
-function changeColor(ob){
-    ob.style.color="red";
-}
-
-function habilitar(ob){
-    ob.disabled=false;
-}
-
-function inhabilitar(ob){
-    ob.disabled=true;
 }
 
 function cargar(){
     var lf = document.getElementById("lightframe");
     lf.style.visibility="visible";
     lf.style.zIndex = "1";
-    document.getElementById("loading").style.visibility= "visible";
-    document.getElementById("loading").style.zIndex = "1";
+    document.getElementById("anim_load").style.visibility= "visible";
+    document.getElementById("anim_load").style.zIndex = "1";
 }
 
 function ocultar(){
+
     var lf = document.getElementById("lightframe");
     lf.style.visibility="hidden";
     lf.style.zIndex = "-1";
-    document.getElementById("loading").style.visibility= "hidden";
-    document.getElementById("loading").style.zIndex = "-1";
+    document.getElementById("anim_load").style.visibility= "hidden";
+    document.getElementById("anim_load").style.zIndex = "-1";
 }
 
 function mostrarIframe(but, obj){

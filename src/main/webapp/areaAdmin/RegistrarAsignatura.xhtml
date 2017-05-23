@@ -11,16 +11,16 @@ and open the template in the editor.
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       >
     <h:head>
-        <link rel="icon" type="image/png" href="resources/image/teho.png" />
+        <link rel="icon" type="image/png" href="../resources/image/teho.png" />
         <title>Registro Asignaturas</title>
         <h:outputStylesheet library="css" name="estilo.css" />
     </h:head>
     <h:body>
         <!-- Encabezado -->
-        <ui:include src="resources/inc/header.xhtml" />
-       
+        <ui:include src="../resources/inc/header.xhtml" />
+               
         <!-- MENU -->
-        <ui:include src="resources/inc/menu.xhtml" />
+        <ui:include src="#{UnidadProyectosBean.menu()}" />
         <center><div style="max-width:97%;min-height:20px;background:rgba(75, 177, 243, 0.85) ;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:15px;margin:auto;" >
                 <center><font color="#FFF" size="+2">Registrar una nueva asignatura</font></center>
@@ -43,8 +43,8 @@ and open the template in the editor.
                         <p:commandButton id="aceptar" value="REGISTRAR ASIGNATURA" update="asig" action="#{UnidadProyectosBean.registrarAsignatura(nombreAsig.value,programas.value)}">
                         </p:commandButton>
                         <p:spacer width="20" height="20"/>
-                        <p:commandButton id="regresar" value="REGRESAR" action="#{UnidadProyectosBean.getPaginaPrevia()}">
-                        </p:commandButton>
+                        <p:commandButton id="regresar" value="REGRESAR" ajax="true" action="#{UnidadProyectosBean.getPaginaPrevia()}"/>
+                        
                         <br/>
                         <br/>
                         <p:dataTable id="asig" var="asig" value="#{UnidadProyectosBean.consultarAsignaturas()}">
@@ -63,6 +63,6 @@ and open the template in the editor.
         </div>
             
             </center>
-        <ui:include src="resources/inc/footer.xhtml" />
+        <ui:include src="../resources/inc/footer.xhtml" />
     </h:body>
 </html>

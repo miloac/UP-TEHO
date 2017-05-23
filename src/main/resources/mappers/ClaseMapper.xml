@@ -26,6 +26,18 @@
         where cur.id=COALESCE(#{curId}, cur.id)
     </select>
     
+    <select parameterType="map" id="consultarClasesHorario" resultMap="ClaseResult">
+        select
+        cla.Cursos_id,
+        cla.id_clase,
+        cla.fecha,
+        cla.hora,
+        cla.tipo_salon
+        
+        from Clases as cla
+        where cla.fecha=#{fecha} and cla.hora=#{hora}
+    </select>
+    
     <select parameterType="map" id="consultarClasesxPeriodo" resultMap="ClaseResult">
         select
         cla.Cursos_id,

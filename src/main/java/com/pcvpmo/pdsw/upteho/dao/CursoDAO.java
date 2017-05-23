@@ -11,7 +11,7 @@ public interface CursoDAO {
     
     List<Curso> consultarCursos() throws PersistenceException;
     
-    Curso consultarCurso(int cohorte) throws PersistenceException;
+    Curso consultarCurso(int idCurso) throws PersistenceException;
     
     List<Curso> consultarCursosPorPeriodo(String nombre) throws PersistenceException;
 

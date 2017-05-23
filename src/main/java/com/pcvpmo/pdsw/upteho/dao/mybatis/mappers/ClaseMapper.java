@@ -47,4 +47,12 @@ public interface ClaseMapper {
      * @param id id de la clase
      */
     void cancelarClase(@Param("idClase") int id);
+    
+    /**+
+     * consulta las clases de un horario especifico
+     * @param fecha fecha de la clase a consultar
+     * @param hora hora de la clase a consultar 
+     * @return lista con todas las clases que cumplen ese horario
+     */
+    List<Clase> consultarClasesHorario(@Param("fecha")Date fecha,@Param("hora")Time hora);
 }

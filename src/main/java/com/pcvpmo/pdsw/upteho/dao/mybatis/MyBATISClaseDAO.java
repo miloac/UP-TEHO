@@ -42,6 +42,11 @@ public class MyBATISClaseDAO implements ClaseDAO{
     public void cancelarClase(int id) throws PersistenceException {
         claseMapper.cancelarClase(id);
     }
+
+    @Override
+    public List<Clase> consultarClasesHorario(Date fecha, Time hora) throws PersistenceException {
+        return claseMapper.consultarClasesHorario(fecha, hora);
+    }
     
     
 }

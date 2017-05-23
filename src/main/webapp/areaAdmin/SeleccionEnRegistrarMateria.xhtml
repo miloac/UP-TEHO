@@ -7,17 +7,21 @@
     
     <h:head>
         <h:outputStylesheet library="css" name="estilo.css" />
+        <h:outputScript library="scriptTeho" name="UpTeho.js" />
         <title>Su selección</title>
     </h:head>
     <h:body>
+        <div>
+            <p class="title">Listado de Programas y Asignaturas seleccionadas para el registro de la nueva materia</p>
+        </div>
         <div style="max-width:100%;min-height:300px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
             <div style="padding:10px;margin:auto;" >
                 <h:form id="dataTable">
-                    <p:dataTable id="consult" value="#{UnidadProyectosBean.consultaSimple().entrySet().toArray()}" var="consulta" rowIndexVar="rowIndx">   
-                        <p:remoteCommand name="updateTabla" id="updateTabla" update="consult"/>
+                    <p:dataTable id="consult" value="#{UnidadProyectosBean.getAsignaturasYProgramas().entrySet().toArray()}" var="consulta" rowIndexVar="rowIndx">   
+                        
                         <p:column headerText="Asignatura">
                             <center>
-                                <h:outputText value="#{consulta.value.nombre}"/>
+                                <h:outputText value="#{consulta.value}"/>
                             </center>
                         </p:column>
                         <p:column headerText="Programa">
@@ -25,24 +29,18 @@
                                 <h:outputText value="#{consulta.key.nombre}"/>
                             </center>
                         </p:column>
-                        <p:column headerText="Quitar">
-                            <center>
-                                <h:commandButton value="quitar esta fila" action="#{UnidadProyectosBean.quitarFila(consulta.key.id)}"/>
-                            </center>
-                        </p:column>
                     </p:dataTable>
                 </h:form>
-                <p:separator/>
-                <p:separator/>
+
+                <p:separator class="sombra"/>
                 <center>
                     <a id="linkRefresh" href="SeleccionEnRegistrarMateria.xhtml">
-                        refresque aquí si no visualiza su selección.
+                        Refresque aquí si no visualiza su selección.
                     </a>
                 </center>
-                <p:separator/>
-                <p:separator/>
+                <p:separator class="sombra"/>
+
             </div>                 
         </div>
-        <ui:include src="resources/inc/footer.xhtml" />
     </h:body>
 </html>

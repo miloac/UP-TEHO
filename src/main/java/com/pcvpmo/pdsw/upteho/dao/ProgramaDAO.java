@@ -14,5 +14,6 @@ public interface ProgramaDAO {
     Programa consultarPrograma(Integer id) throws PersistenceException;
 
     void registrarPrograma(int id, String nombre) throws PersistenceException;
-
+    
+    void removerPrograma(int id) throws PersistenceException;
 }

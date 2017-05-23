@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3c.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <link rel="icon" type="image/png" href="../resources/image/teho.png" />
+        <title>Reporte Programaci&oacute;n Semestral</title>
+        <h:outputStylesheet library="css" name="estilo.css" />
+    </h:head>
+    <h:body>
+        <!-- Encabezado -->
+        <ui:include src="../resources/inc/header.xhtml" />
+               
+        <!-- MENU -->
+        <ui:include src="#{UnidadProyectosBean.menu()}" />
+        
+        <!-- CUERPO -->
+        <center><div style="max-width:97%;min-height:20px;background:#444 ;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
+            <div style="padding:15px;margin:auto;" >
+                <center><font color="#FFF" size="+2">REPORTE PROGRAMACI&Oacute;N SEMESTRAL</font></center>
+            </div>
+        </div></center>
+        <div style="max-width:100%;min-height:400px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
+            <div style="padding:10px;margin:auto;" >
+                <br></br>
+                <h:form id="tabla_programacion">
+                    <p:dataTable var="curso" value="#{UnidadProyectosBean.consultatCursoProfesor()}">
+                    <p:column headerText="INFO">
+                        <center><h:commandButton value="Consultar" action="#{UnidadProyectosBean.irPaginaCurso(curso)}"/></center>  
+                    </p:column>
+                    <p:column headerText="PROGRAMA">
+                        <h:outputText value="#{curso.materia.asignatura.programa.nombre}"/>
+                    </p:column>
+                    <p:column headerText="COHORTE">
+                        <h:outputText value="#{UnidadProyectosBean.consultarCohorte(curso,curso.materia.asignatura.programa)}"/>
+                    </p:column>
+                    <p:column headerText="ASIGNATURA">
+                        <h:outputText value="#{curso.materia.asignatura.nombre}"/>
+                    </p:column>
+                    <p:column headerText="MATERIA">
+                        <h:outputText value="#{curso.materia.nombre}"/>
+                    </p:column>
+                    <p:column headerText="PROFESOR">
+                        <h:outputText value="#{curso.profesor.nombre}"/>
+                    </p:column>
+                    <p:column headerText="PERIODO">
+                        <h:outputText value="#{curso.periodo.nombre}"/>
+                    </p:column>
+                    <p:column headerText="HORAS">
+                        <h:outputText value="#{UnidadProyectosBean.consultaHoraCurso(curso.id)}"/>
+                    </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
+        
+        <!--SUBPIE -->
+        <ui:include src="../resources/inc/footer.xhtml" />
+    </h:body>
+</html>

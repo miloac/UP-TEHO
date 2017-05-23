@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <h:head>
+        <link rel="icon" type="image/png" href="../resources/image/teho.png" />
+        <h:outputStylesheet library="css" name="estilo.css" /> 
+        <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            jQuery.noConflict();
+        </script-->
+        <h:outputScript library="scriptTeho" name="UpTeho.js" />
+        <script>
+            window.onload = #{UnidadProyectosBean.resetForRegistrarMateria()};
+        </script>
+        <title>Registrar Nueva Materia</title>
+    </h:head>
+    <h:body>
+            <!--cargando control-->
+            <!--cargando control-->
+            <div id="lightframe"></div>
+            <div id="loading">
+                <center><div><img id="anim_load" src="../resources/image/loading_serio.gif" name="espere un momento..." ></img></div></center>
+            </div>
+            <!-- Encabezado -->
+            <ui:include src="../resources/inc/header.xhtml" />
+
+            <!-- MENU -->
+            <ui:include src="#{UnidadProyectosBean.menu()}" />
+            
+            <!-- CUERPO -->
+            <center><div style="max-width:97%;min-height:20px;background:rgba(241, 130, 7, 0.92);box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
+            <div style="padding:15px;margin:auto;" >
+                <center><font color="#FFF" size="+2">REGISTRO NUEVA MATERIA</font></center>
+            </div>
+            </div></center>
+            
+        <div style="max-width:100%;min-height:300px;background:#fff;box-shadow:0 0 8px 0 rgba(0,0,0,.3);">
+            <div style="padding:10px;margin:auto;" >
+                                
+                <h:form id="regNuevaMateria">
+                    <center>
+                    <p:dataTable id="checkRegistroMateria" var="prog" value="#{UnidadProyectosBean.consultarProgramas()}" rowIndexVar="rowIndex" style="width:80%;"> 
+                      
+                        <p:column style="width:40px">
+                            <center>
+                                <p:commandButton id="d" class="selectButton" type="button" onclick="cargar()" value="+" style="background-color: gainsboro; width:38px; height: 35px;font-size: 15px;" title="Seleccionar Programa">
+                                    <p:ajax event="click" listener="#{UnidadProyectosBean.clickButtonSelect(prog,rowIndex)}" oncomplete="ocultar();programasRequisitos()" update="@(.mySelector#{rowIndex})"/>
+                                </p:commandButton>
+                            </center>
+                        </p:column>
+                        
+                        <p:column headerText="Programa">
+                            <center>
+                                <h:outputLabel value="#{prog.nombre}"/>
+                            </center>  
+                        </p:column>
+                        
+                        <p:column headerText="asignatura">
+                            <center>
+
+                                <h:selectOneMenu id="select" class="mySelector#{rowIndex}" value="#{UnidadProyectosBean.idAsignaturaActual}" disabled="#{UnidadProyectosBean.enable(prog)}" title="Seleccione la asginatura de la materia que quiere registrar">
+                                    <p:ajax event="change" listener="#{UnidadProyectosBean.changeOption(prog)}" onstart="cargar();setOtherSelects('#{rowIndex}')" oncomplete="ocultar()"/>
+                                    <f:selectItem itemLabel="Seleccionar Asignatura"  itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{UnidadProyectosBean.getAsignaturasXprog(prog)}"/> 
+                                </h:selectOneMenu>
+
+                            </center>
+                            
+                        </p:column>  
+                        
+                        <p:column headerText="Accion">
+                             <center><h:commandButton value="Crear Nueva Asignatura" action="#{UnidadProyectosBean.irPaginaAsignatura()}"/></center>
+                        </p:column>
+                   
+                    </p:dataTable>
+                    </center>
+                    <br/>                    
+                     <div class="cf" id="progAsig">
+                         <button id="cerrarProg" type="button" class="closeButton" onclick="cerrarIframe('mostrarSeleccionProgAsig','progAsig')">X</button>
+                    </div>
+                    <iframe id="mostrarSeleccionProgAsig" src="SeleccionEnRegistrarMateria.xhtml" title="su Seleccion" scrolling="yes"/>
+                    <center>
+                        <button id="abrirProg" type="button" class="openButton" onclick="mostrarIframe('mostrarSeleccionProgAsig','progAsig')" title="verifique su selección, en caso de haber cometido un error podra borrarlo">
+                            Ver su Selección
+                        </button>
+                    </center>
+                </h:form>
+                
+                <p:separator class="sombra"/>
+                
+                <h:form id="areaRequisitos">
+                    <p:remoteCommand name="programasRequisitos" update="programaRequisito"/>
+                    <p:remoteCommand name="requisitosUpdate" update="requisitosSeleccion"/>
+                    <center>
+                        <h:panelGrid columns="7" cellpadding="10">
+                            
+                            <h:outputText value="Requisitos en el Programa: " class="etiqueta"></h:outputText>
+                            
+                            <p:selectOneMenu id="programaRequisito"  value="#{UnidadProyectosBean.idProgramaActual}" style="width:250px">
+                                <f:selectItem itemLabel="Seleccionar Programa" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{UnidadProyectosBean.getProgramasSeleccionados()}"/>
+                                <p:ajax event="change" oncomplete="requisitosUpdate()"/>
+                            </p:selectOneMenu>
+                            
+                            <h:outputText value="Requisitos: " class="etiqueta"></h:outputText>
+                            
+                            <p:selectOneMenu id="requisitosSeleccion"  value="#{UnidadProyectosBean.idRequisito}" style="width:250px">
+                                <f:selectItem itemLabel="Sin requisitos" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{UnidadProyectosBean.getMateriasPorPrograma()}"/>
+                                <p:ajax event="change" listener="#{UnidadProyectosBean.addRequisito()}"/>
+                            </p:selectOneMenu>
+                            
+                            <p:selectOneRadio id="requis" value="#{UnidadProyectosBean.tipoRequisito}">
+                                <f:selectItem itemLabel="co-Requisito" itemValue="1" />
+                                <f:selectItem itemLabel="Pre-Requisito" itemValue="0" />
+                                <p:ajax event="change" listener="#{UnidadProyectosBean.addRequisito()}"/>
+                            </p:selectOneRadio>
+                                                        
+                        </h:panelGrid>
+                    </center>
+                
+                    <br/>
+                    
+                    <center>
+                        <div class="cf" id="proReq">
+                            <button id="cerraReq" type="button" class="closeButton" onclick="cerrarIframe('mostrarSeleccionProReq','proReq')"  title="cerrar ventana">X</button>
+                        </div>
+                        <iframe id="mostrarSeleccionProReq" src="#{UnidadProyectosBean.getLinkRequisitos()}" class="frameReq" title="su Selección" scrolling="yes"/>
+                        <center>
+                            <button id="abrirReq" type="button" class="openButton" onclick="mostrarIframe('mostrarSeleccionProReq','proReq')" title="Modificar su selección, en caso de haber cometido un error podra borrarlo">
+                                Modificar su selección
+                            </button>
+                        </center>
+                    </center>
+                </h:form>
+                
+                <p:separator class="sombra"/>
+                
+                <h:form id ="materia">
+                    <center>
+                    
+                    <h:panelGrid columns="3" cellpadding="10">
+                        <p:outputLabel for="nombreMateria" value="Nombre Materia" />
+                        <p:inputText class="textbox" id="nombreMateria" value="#{UnidadProyectosBean.nombreMateria}"/>
+                        <h:outputText />
+                        
+                        <p:outputLabel for="cred" value="Créditos" />
+                        <p:inputTextarea class="textbox" id="cred" value="#{UnidadProyectosBean.creditos}" rows="1" cols="10" counter="creditos" maxlength="2" counterTemplate="{0} Caracteres restantes."/>
+                        <h:outputText id="creditos" />
+                        
+                        <p:outputLabel for="sigl" value="Código (mnemónico)" />
+                        <p:inputTextarea class="textbox" id="sigl" value="#{UnidadProyectosBean.siglaMateria}" rows="1" cols="10" counter="sigla" maxlength="4" counterTemplate="{0} Caracteres restantes."/>
+                        <h:outputText id="sigla" />
+
+                        <p:outputLabel for="desc" value="Descripción" />
+                        <p:inputTextarea class="textbox" id="desc" value="#{UnidadProyectosBean.descripcion}" rows="4" cols="25" counter="display" maxlength="100" counterTemplate="{0} Caracteres restantes."/>
+                        <h:outputText id="display" />
+                        
+                        
+                        <p:commandButton value="Registrar" class="boton" type="submit" action="#{UnidadProyectosBean.clickAgregarMateria()}" onstart="cargar()" oncomplete="ocultar()" title="verifique los datos antes de proceder"/>
+                        <p/>
+                        <p:commandButton value="Cancelar" class="boton" action="#{UnidadProyectosBean.finalizarRegistroMateria()}" title="Regresar a la pagina anterior"/>
+                    </h:panelGrid>
+                    
+                    </center>
+                </h:form>
+                
+            </div>
+            
+        </div>
+            
+        <ui:include src="../resources/inc/footer.xhtml" />
+        
+    </h:body>
+</html>
+
+                   
+                    
+                   
