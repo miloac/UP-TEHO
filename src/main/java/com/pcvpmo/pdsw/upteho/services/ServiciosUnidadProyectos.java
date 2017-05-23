@@ -9,6 +9,7 @@ import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
 import com.pcvpmo.pdsw.upteho.entities.HorarioDisponible;
+import com.pcvpmo.pdsw.upteho.entities.Requisito;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
@@ -34,11 +35,41 @@ public interface ServiciosUnidadProyectos {
     void registrarMateria(int idPrograma, int idAsignatura, String siglaRequisito, int tipoRequisito, String nombreMateria, String siglaMateria, String descripcionMateria) throws UnidadProyectosException;
     
     /**
+     * registra los programas por materia
+     * @param idPrograma programas que pueden ver la materia
+     * @param sigla de la materia que puede ser vista por varios programas
+     * @throws com.pcvpmo.pdsw.upteho.services.UnidadProyectosException excepcion indicando que fallo durante el registro
+     */
+    void registrarProgramasPorMateria(Integer idPrograma,String sigla) throws UnidadProyectosException;
+    
+    /**
+     * quita de la relacion la materia por programa
+     * @param id del programa
+     * @throws UnidadProyectosException indicando el error de la eliminacion
+     */
+    void removerProgramaPorMateria(int id) throws UnidadProyectosException;
+    
+    /**
      * remueve una materia dada su sigla
      * @param sigla de la materia a ser removida
      * @throws UnidadProyectosException indicando el error de la consulta
      */
     void removerMateria(String sigla)throws UnidadProyectosException;
+    
+    /**
+     * remueve un requisito ingresado
+     * @param siglaRequisito del requisito
+     * @throws UnidadProyectosException indicando que no se pudo eliminar un requisito
+     */
+    void removerRequisito(String siglaRequisito) throws UnidadProyectosException;
+    
+    /**
+     * retorna los requisitos de una materia
+     * @param sigla de la materia
+     * @return listado de todos los requisitos de la materia
+     * @throws UnidadProyectosException indicando que no se genero la consulta
+     */
+    List<Requisito> consultarRequisitos(String sigla) throws UnidadProyectosException;
     
     /**
      *  Cancela una clase de un Curso especifico

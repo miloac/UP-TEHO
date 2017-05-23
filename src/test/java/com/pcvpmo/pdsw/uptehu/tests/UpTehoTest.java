@@ -9,6 +9,7 @@ import com.pcvpmo.pdsw.upteho.entities.Materia;
 import com.pcvpmo.pdsw.upteho.entities.Periodo;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
+import com.pcvpmo.pdsw.upteho.entities.Requisito;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
 import java.sql.Date;
@@ -16,7 +17,11 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -386,4 +391,114 @@ public class UpTehoTest {
             fail("Se lanzo una excepcion y no se registro la asignatura " + ex.getMessage());
         }
     }
+    
+    /**  
+    @Test 
+    public void deberiaConsultarRequisitos(){
+        ServiciosUnidadProyectos s = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        Programa prog = new Programa(5,"Programa Test Requisitos 01");
+        Asignatura asig = new Asignatura (101,"Asignatura Test Requisito",prog);
+        Materia m1= new Materia("PR01","PRUEBA TEST 1",3,"PRUEBA DE REGISTRO DE LA MATERIA PRUEBA TEST",asig);
+        Materia m2= new Materia("PRR1","PRUEBA REQUISITO 1",3,"PRUEBA DE REGISTRO DE REQUISITO",asig);
+        Materia m3= new Materia("PRR2","PRUEBA REQUISITO 2",2,"PRUEBA DE REGISTRO DE REQUISITO",asig);
+        try{
+            s.registrarPrograma(prog);
+            s.registrarAsignatura(66,asig.getNombre(),prog.getId());
+            s.registrarMateria(m1);
+            s.registrarMateria(m2);
+            s.registrarMateria(m3);
+            s.registrarRequisito(m1.getSigla(), m2.getSigla(), 0);
+            s.registrarRequisito(m1.getSigla(), m3.getSigla(), 1);
+        }catch (UnidadProyectosException ex){
+        }
+        List<Requisito> resp;
+        try{
+            resp = s.consultarRequisitos("PRB0");
+            assertTrue(resp.get(0).getSigRequisito().equals("PRR1") && resp.get(1).getSigRequisito().equals("PRR2"));
+        }catch (UnidadProyectosException ex){
+        }
+    }
+    
+    @Test
+    public void deberiaRegistrarLosRequisitos(){
+       ServiciosUnidadProyectos s = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        Programa prog = new Programa(1002,"Programa Test Requisitos");
+        Asignatura asig = new Asignatura (96,"Asignatura Test Requisito",prog);
+        Materia m1= new Materia("PRB0","PRUEBA TEST 1",3,"PRUEBA DE REGISTRO DE LA MATERIA PRUEBA TEST",asig);
+        Materia m2= new Materia("PRR1","PRUEBA REQUISITO 1",3,"PRUEBA DE REGISTRO DE REQUISITO",asig);
+        Materia m3= new Materia("PRR2","PRUEBA REQUISITO 2",2,"PRUEBA DE REGISTRO DE REQUISITO",asig);
+        boolean concretado=true;
+        List<Requisito> ans;
+        try{
+            s.registrarPrograma(prog);
+            s.registrarAsignatura(96,asig.getNombre(),prog.getId());
+            s.registrarMateria(m1);
+            s.registrarMateria(m2);
+            s.registrarMateria(m3);
+            s.registrarRequisito(m1.getSigla(), m2.getSigla(), 0);
+            s.registrarRequisito(m1.getSigla(), m3.getSigla(), 1);
+            ans=s.consultarRequisitos("PRB0");
+        }catch (UnidadProyectosException ex){
+            concretado = false;
+            ans=null;
+        }
+        if (ans!=null){
+            concretado = ans.get(0).getSigRequisito().equals("PRR1") && ans.get(1).getSigRequisito().equals("PRR2");
+
+        }
+        assertTrue(concretado); 
+    }
+    
+    @Test
+    public void registroCorrectoMateriaRelaciones(){
+        ServiciosUnidadProyectos s = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        Programa prog = new Programa(22,"Programa Test Requisitos 1");
+        Programa prog1 = new Programa(23,"Programa Test Requisitos 1-2");
+        Programa prog2 = new Programa(24,"Programa Test Requisitos 1-3");
+        Asignatura asig = new Asignatura (79,"Asignatura Test Requisito 3",prog);
+        Materia m1= new Materia("PRB0","PRUEBA TEST 5",3,"PRUEBA DE REGISTRO DE LA MATERIA PRUEBA TEST",asig);
+        boolean ans = false;
+        try{
+            s.registrarPrograma(prog1);
+            s.registrarPrograma(prog);
+            s.registrarPrograma(prog2);
+            s.registrarAsignatura(asig.getId(),asig.getNombre(),22);
+            s.registrarMateria(m1);
+            s.registrarProgramasPorMateria(prog.getId(),m1.getSigla());
+            s.registrarProgramasPorMateria(prog1.getId(),m1.getSigla());
+            s.registrarProgramasPorMateria(prog2.getId(),m1.getSigla());
+            ans=true;
+        }catch (UnidadProyectosException ex){
+            
+        }
+        assertTrue(ans);
+    }
+    
+    @Test
+    public void nodeberiaDejarRegistrarMateriaConSiglaRepetida(){
+        ServiciosUnidadProyectos s = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
+        Programa prog = new Programa(12,"Programa Test Requisitos 2");
+        Asignatura asig = new Asignatura (69,"Asignatura Test Requisito 2",prog);
+        Asignatura asig2 = new Asignatura (70,"Asignatura Test Requisito 2",prog);
+        Materia m1= new Materia("PRB0","PRUEBA TEST 1",3,"PRUEBA DE REGISTRO DE LA MATERIA PRUEBA TEST",asig); 
+        Materia m2= new Materia("PRB0","PRUEBA TEST 2",3,"PRUEBA DE REGISTRO DE LA MATERIA PRUEBA TEST",asig2);
+        boolean ans = true;
+        try{
+            s.registrarPrograma(prog);
+            s.registrarAsignatura(asig.getId(), asig.getNombre(),prog.getId());
+            s.registrarMateria(m1);
+            s.registrarMateria(m2);
+            List<Materia> resp = s.consultarMaterias(asig2.getId());
+            for (Materia m : resp){
+                ans = !m.getSigla().equals(m2.getSigla()) && !m.getNombre().equals(m2.getNombre());
+            }
+        }catch (UnidadProyectosException ex){
+            fail(ex.getMessage());
+        }
+        assertTrue(ans);
+    }
+    
+    @Test
+    public void nodeberianose(){
+    }*/
 }

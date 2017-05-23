@@ -4,6 +4,7 @@
  */
 package com.pcvpmo.pdsw.upteho.managedbeans;
 
+import com.pcvpmo.pdsw.upteho.managedbeans.UnidadProyectosBean;
 import java.io.File;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -32,7 +33,7 @@ public class ShiroLoginBean implements Serializable {
         
     }
 
-    public Subject getSubject() {
+    public static Subject getSubject() {
         return SecurityUtils.getSubject();
     }
     
@@ -48,7 +49,13 @@ public class ShiroLoginBean implements Serializable {
             subject.login(token);
 
             if (subject.hasRole("profesor")) {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("areaProfesor/HorarioCurso.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("areaProfesor/index.xhtml");
+            }
+            else if (subject.hasRole("admin")) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("areaAdmin/index.xhtml");
+            }
+            else {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("areaCoord/index.xhtml");
             }
         }
         catch (UnknownAccountException ex) {
@@ -108,4 +115,5 @@ public class ShiroLoginBean implements Serializable {
     public void setRememberMe(Boolean lembrar) {
         this.rememberMe = lembrar;
     }
+    
 }
