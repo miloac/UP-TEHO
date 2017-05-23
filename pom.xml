@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.pcvpmo</groupId>
-    <artifactId>UP-TEHU</artifactId>
+    <artifactId>UP-TEHO</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
 
-    <name>UP-TEHU</name>
+    <name>UP-TEHO</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
