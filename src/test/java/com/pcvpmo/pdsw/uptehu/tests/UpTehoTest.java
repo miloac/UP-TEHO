@@ -392,7 +392,7 @@ public class UpTehoTest {
         }
     }
     
-       
+    /**  
     @Test 
     public void deberiaConsultarRequisitos(){
         ServiciosUnidadProyectos s = ServiciosUnidadProyectosFactory.getInstance().getServiciosUnidadProyectosTesting();
@@ -500,5 +500,5 @@ public class UpTehoTest {
     
     @Test
     public void nodeberianose(){
-    }
+    }*/
 }

@@ -144,7 +144,8 @@ public class UnidadProyectosBean implements Serializable {
     }
     
     public String irPaginaAsignatura(){
-        return "RegistrarAsignatura";
+        paginaPrevia = "RegistrarNuevaMateria.xhtml";
+        return "RegistrarAsignatura.xhtml";
     }
     
     /**
@@ -241,21 +242,17 @@ public class UnidadProyectosBean implements Serializable {
      */
     public boolean registrarProgramasMateria(String sigla, List<String> listado){
         boolean ans=true;
-        while (ans){
-            for (String st:listado){
-                if(isNumeric(st)){
-                    try{
-                        sp.registrarProgramasPorMateria(Integer.parseInt(st),sigla);
-                        ans=true;
-                    }catch (UnidadProyectosException ex){
-                        ans=false;                        
-                    }
+        for (String st:listado){
+            if(isNumeric(st)){
+                try{
+                    sp.registrarProgramasPorMateria(Integer.parseInt(st),sigla);
+                    ans=true;
+                }catch (UnidadProyectosException ex){
+                    ans=false;                        
                 }
             }
-        }
-        
-        return ans;        
-        
+        }        
+        return ans;    
     }
     
     private void devolverse(String sigla, HashMap<String,String> reqs,List<String> selp){
@@ -478,12 +475,11 @@ public class UnidadProyectosBean implements Serializable {
     public List<Materia> consultaMateriasXprog(){
         List<Materia> lista = new ArrayList<>();
         try{
-            if (idProgramaActual==null || !isNumeric(idProgramaActual)){lista = sp.consultarMateriasxPrograma(0);}
+            if (idProgramaActual==null || !isNumeric(idProgramaActual)){lista = sp.consultarMateriasxPrograma(null);}
             else{lista = sp.consultarMateriasxPrograma(Integer.parseInt(idProgramaActual));}
         }catch (UnidadProyectosException ex){
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
-                
         return lista;
     }
 
@@ -699,17 +695,21 @@ public class UnidadProyectosBean implements Serializable {
         for (String idProgram: selectedPrograms){
             Integer id =Integer.valueOf(idProgram);
             Programa current = obtenerPrograma(id);
-            Programa selected = obtenerPrograma(programaSeleccionado);
-            if (id.equals(programaSeleccionado)){
-                if (isNumeric(idAsignaturaActual)){
-                    Asignatura asig = obtenerAsignatura(Integer.parseInt(idAsignaturaActual));
-                    resp.put(current,asig.getNombre());
-                }
-                else{
-                    resp.put(current,"No ha seleccionado la asignatura");
+            if (programaSeleccionado!=null){
+                Programa selected = obtenerPrograma(programaSeleccionado);
+                if (id.equals(programaSeleccionado)){
+                    if (isNumeric(idAsignaturaActual)){
+                        Asignatura asig = obtenerAsignatura(Integer.parseInt(idAsignaturaActual));
+                        resp.put(current,asig.getNombre());
+                    }
+                    else{
+                        resp.put(current,"No ha seleccionado la asignatura");
+                    }   
+                }else{
+                    resp.put(current, forOther+selected.getNombre());
                 }
             }else{
-                resp.put(current, forOther+selected.getNombre());
+                resp.put(current,"no se ha seleccionado asignatura");        
             }
         }
         return resp;
@@ -807,6 +807,7 @@ public class UnidadProyectosBean implements Serializable {
      * agrega un requisito escogido
      */
     public void addRequisito(){
+        
         if (idRequisito.length()>0){
             if(requisitosEscogidos.containsKey(idRequisito)){
                 requisitosEscogidos.replace(idRequisito,tipoRequisito);
@@ -1160,14 +1161,14 @@ public class UnidadProyectosBean implements Serializable {
         List<Materia> lista = null;
         HashMap<String, String> res = new HashMap<>();
         try {
-            if (idAsignaturaActual == null || idAsignaturaActual.equals("")) lista = sp.consultarMateriasxAsignatura(null);
+            if (idAsignaturaActual == null || idAsignaturaActual.equals("")) lista = null;
             else lista = sp.consultarMateriasxAsignatura(Integer.parseInt(idAsignaturaActual));
         } catch (UnidadProyectosException ex) {
             Logger.getLogger(UnidadProyectosBean.class.getName()).log(Level.ERROR, null, ex);
         }
         if(lista!=null){
-            for (Materia materia: lista) {
-                res.put(materia.getNombre(), String.valueOf(materia.getSigla()));
+            for (Materia m: lista) {
+                res.put(m.getNombre(), String.valueOf(m.getSigla()));
             }
         }
         return res;
