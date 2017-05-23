@@ -635,14 +635,14 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
     public boolean hayConflicto(Date fecha,Time hora,Curso act)throws UnidadProyectosException{
         try{
             Programa progAct=act.getMateria().getAsignatura().getPrograma();
-            boolean resp=true;
+            boolean resp=false;
             List<Curso> cursos=consultarCursos();
             List<Clase> clases=daoClase.consultarClasesHorario(fecha, hora);
-            for (int i=0;i<clases.size() && resp;i++){
+            for (int i=0;i<clases.size() && !resp;i++){
                 System.out.println(clases.get(i).getId());
                 Curso cur=daoCurso.consultarCurso(clases.get(i).getCursoId());
                 Programa prog=cur.getMateria().getAsignatura().getPrograma();
-                if(prog.equals(progAct))resp=false;
+                if(prog.equals(progAct))resp=true;
             }
             return resp;
         }catch (PersistenceException ex){

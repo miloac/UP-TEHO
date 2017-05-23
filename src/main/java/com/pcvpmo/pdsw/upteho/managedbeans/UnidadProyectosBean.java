@@ -1142,6 +1142,7 @@ public class UnidadProyectosBean implements Serializable {
                 }
                 else if(esPosible){
                     registroClase=true;
+                    mensaje="Se registro la clase";
                     agregarClase();
                 }
                 else{
