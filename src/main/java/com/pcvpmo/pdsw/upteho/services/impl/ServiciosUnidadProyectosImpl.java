@@ -21,6 +21,7 @@ import com.pcvpmo.pdsw.upteho.entities.Materia;
 import com.pcvpmo.pdsw.upteho.entities.Periodo;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
+import com.pcvpmo.pdsw.upteho.entities.ProgramaXmateria;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
 import com.pcvpmo.pdsw.upteho.entities.Requisito;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
@@ -589,6 +590,43 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
             ans = daoMateria.consultarRequisitos(sigla);
         }catch (PersistenceException ex){
             ans=null;
+            throw new UnidadProyectosException("no se pudo consultar la relacion" +ex);
+        }
+        return ans;
+    }
+
+    @Override
+    public List<ProgramaXmateria> relacionMateriaPrograma(String sigla) throws UnidadProyectosException {
+        List<ProgramaXmateria> ans;
+        try{
+            ans = daoMateria.consultarProgramaMateriaRel(sigla);
+        }catch (PersistenceException ex){
+            ans=null;
+            throw new UnidadProyectosException("no se pudo consultar la relacion" +ex);
+        }
+        return ans;
+    }
+
+    @Override
+    public List<ProgramaXmateria> relacionProgramaMateria(Integer id) throws UnidadProyectosException {
+        List<ProgramaXmateria> ans;
+        try{
+            ans = daoMateria.consultarMateriaProgramaRel(id);
+        }catch (PersistenceException ex){
+            ans=null;
+            throw new UnidadProyectosException("no se pudo consultar la relacion" +ex);
+        }
+        return ans;
+    }
+
+    @Override
+    public List<ProgramaXmateria> todasLasRelaciones() throws UnidadProyectosException {
+        List<ProgramaXmateria> ans;
+        try{
+            ans = daoMateria.consultarMxP();
+        }catch (PersistenceException ex){
+            ans=null;
+            throw new UnidadProyectosException("no se pudo consultar la relacion" +ex);
         }
         return ans;
     }

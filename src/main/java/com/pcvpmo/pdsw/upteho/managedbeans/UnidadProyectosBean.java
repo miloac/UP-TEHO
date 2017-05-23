@@ -11,7 +11,9 @@ import com.pcvpmo.pdsw.upteho.entities.Materia;
 import com.pcvpmo.pdsw.upteho.entities.Periodo;
 import com.pcvpmo.pdsw.upteho.entities.Profesor;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
+import com.pcvpmo.pdsw.upteho.entities.ProgramaXmateria;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
+import com.pcvpmo.pdsw.upteho.entities.Requisito;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectos;
 import com.pcvpmo.pdsw.upteho.services.ServiciosUnidadProyectosFactory;
 import com.pcvpmo.pdsw.upteho.services.UnidadProyectosException;
@@ -63,6 +65,12 @@ public class UnidadProyectosBean implements Serializable {
     //variables para el registro de una mateira--------------------------------------------
     private String asignaturaSeleccionada;
     private Integer programaSeleccionado;
+    private Materia materiaModificar;
+    private Integer creditosModificar;
+    private String descripcionModificar;
+    private HashMap<String,String> requisitosModificar;
+    private List<String> programasModificar;
+    private Integer asignaturaModificar;
     //-----------------------------
     private String currentLink;
     private List<String> selectedPrograms;
@@ -585,6 +593,44 @@ public class UnidadProyectosBean implements Serializable {
         }
         return lista;
     }
+    
+    /**
+     * consulta todas las materias del sistema relacionadas con un programa
+     * @return mapeo de las materias pro programa
+     */
+    public HashMap<String,String> consultarRelacion(){
+        HashMap<String,String> lista = new HashMap<>();
+        List<Materia> lista1 = new ArrayList<>();
+        List<ProgramaXmateria> lista2=null;
+        try{
+            if(isNumeric(idProgramaActual)){
+                lista1 = sp.consultarMateriasxPrograma(Integer.parseInt(idProgramaActual));
+                lista2 = sp.relacionProgramaMateria(Integer.parseInt(idProgramaActual));
+            }
+        }catch(UnidadProyectosException ex){
+        }
+        if (lista1!=null && lista2!=null){
+            if (!lista2.isEmpty()){
+                for (ProgramaXmateria pxm: lista2){
+                    Materia m = obtenerMateria(pxm.getSiglaMateria());
+                    Asignatura asig = m.getAsignatura();
+                    if (asig.getPrograma().getId()==pxm.getIdPrograma()){
+                        lista.put(m.getNombre(),asig.getNombre());
+                    }else{
+                        Programa prog = obtenerPrograma(asig.getPrograma().getId());
+                        lista.put(m.getNombre(),prog.getNombre()+": "+asig.getNombre());
+                    }
+                }            
+            }if (!lista1.isEmpty()){
+                for (Materia m : lista1){
+                    if(!lista.containsKey(m.getNombre())){
+                        lista.put(m.getNombre(), m.getAsignatura().getNombre());
+                    }
+                }
+            } 
+        }    
+        return lista;
+    }
 
     /**
      * Consulta los periodos academicos
@@ -920,7 +966,40 @@ public class UnidadProyectosBean implements Serializable {
      }
     
     //-------------------------------------listener de la vista registrar Materia-----------------------------------------------------------------------------------------------------
-    
+     /**
+      * retorna los requisitos de una materia
+     * @return requisitos con su tipo
+      */
+     public HashMap<String,Integer> getRequisitosMateria(){
+         HashMap <String,Integer> ans = new HashMap<>();
+         try{
+             List<Requisito> lista = sp.consultarRequisitos(materiaModificar.getSigla());
+             for (Requisito r: lista){
+                 ans.put(r.getSigRequisito(),r.getTipo());
+             }
+         }catch (UnidadProyectosException ex){
+             
+         }
+         return ans;
+     }
+     
+     /**
+      * retorna el nombre de la materia que se esta modificando
+     * @return nombre de la materia en modificacion
+      */
+     public String getNombreMateriaActual(){
+         return materiaModificar.getNombre();
+     }
+     
+    /**
+     * listener de la accion modificar materia
+     * @param msig sigla de la materia para saber cual se quiere modificar
+     * @return link de la pagina de modificar materia
+     */
+     public String irModificar(String msig){
+         materiaModificar = obtenerMateria(msig);
+         return "";
+     }
     /**
      * verifica si una cadena es numero para anticipar errores de operaciones sobre esta misma
      * @param st cadena a verificar si es numero
@@ -1167,6 +1246,40 @@ public class UnidadProyectosBean implements Serializable {
     public Periodo getPeriodo() {
         return periodo;
     }
+    
+    public Integer getCreditosModificar(){
+        return creditosModificar;
+    }
+    
+    public void setCreditosModificar(String cdr){
+        if (isNumeric(cdr)){
+            creditosModificar = Integer.parseInt(cdr);
+        }else{
+            creditosModificar=null;
+        }
+    }
+    
+   public String getDescripcionModificar(){
+       return descripcionModificar;
+   }
+   
+   public void setDescripcionModificar(String desc){
+       this.descripcionModificar = desc;
+   }
+   
+   public Integer getAsignaturaModificar(){
+       return asignaturaModificar;
+   }
+   
+   public void setAsignaturaModificar(String idas){
+       if(isNumeric(idas)){
+           asignaturaModificar = Integer.parseInt(idas);
+       }else{
+           asignaturaModificar=null;
+       }
+   }
+    
+   
     
     /**
      * gets the link for the views

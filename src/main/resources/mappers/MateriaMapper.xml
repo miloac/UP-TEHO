@@ -11,7 +11,7 @@
         <result property="descripcion" column="descripcion"/>
         <association property="asignatura" javaType="Asignatura" columnPrefix="asi_" resultMap="AsignaturaResult"></association>
     </resultMap>
-    
+   
     <resultMap type='Asignatura' id='AsignaturaResult'>
         <id property='id' column='id'/>
         <result property='nombre' column='nombre'/>
@@ -40,6 +40,25 @@
         <result property='sigRequisito' column='sigla_requisito'/>
         <result property='tipo' column='tipo'/>
     </resultMap>
+    
+    <resultMap type='ProgramaXmateria' id='ProgXmateriaResult'>
+        <id property='idPrograma' column='idPrograma'/>
+        <result property='siglaMateria' column='siglaMateria'/>
+    </resultMap>
+    
+    <select parameterType="map" id="consultarProgramaMateriaRel" resultMap="ProgXmateriaResult">
+        select * from materiasporprograma
+        where siglaMateria = #{siglaMateria};        
+    </select>
+    
+    <select parameterType="map" id="consultarMateriaProgramaRel" resultMap="ProgXmateriaResult">
+        select * from Materiasporprograma
+        where "idPrograma" = #{idp};        
+    </select>
+    
+    <select parameterType="map" id="consultarMxP" resultMap="ProgXmateriaResult">
+        select * from materiasporprograma       
+    </select>
     
     <select parameterType="map" id="consultarMaterias" resultMap="MateriasResult">
         

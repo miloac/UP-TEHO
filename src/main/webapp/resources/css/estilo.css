@@ -330,3 +330,11 @@ iframe{
     font-family: sans-serif;
     font-size: 105%;
 }
+
+.subtitle{
+    text-align: center;
+    font: arial;
+    font-family: sans-serif;
+    font-size: 20px;
+    text-shadow: 0px 0px 5px gainsboro;
+}

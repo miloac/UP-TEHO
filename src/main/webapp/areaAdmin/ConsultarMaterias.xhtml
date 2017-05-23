@@ -40,16 +40,14 @@
                 </center>
                 <br></br>  
                 <h:form id="tabla_programas">
-                    <p:dataTable var="materia" value="#{UnidadProyectosBean.consultaMateriasXprog()}">
+                    <p:dataTable var="materia" value="#{UnidadProyectosBean.consultarRelacion().entrySet().toArray()}">
                     <p:column headerText="Asignatura">
-                        <h:outputText value="#{materia.asignatura.nombre}"/>
+                        <h:outputText value="#{materia.value}"/>
                     </p:column>
                     <p:column headerText="Materia">
-                        <h:outputText value="#{materia.nombre}"/>
+                        <h:outputText value="#{materia.key}"/>
                     </p:column>
-                    <p:column headerText="Acción">
-                        <center><h:commandButton value="Modificar Materia" action="#{UnidadProyectosBean.irPaginaCurso(curso)}"/></center>  
-                    </p:column>
+                    
                     </p:dataTable>
                 </h:form>
                 <p:separator/>

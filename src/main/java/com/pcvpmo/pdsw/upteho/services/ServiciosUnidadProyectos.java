@@ -9,6 +9,7 @@ import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
 import com.pcvpmo.pdsw.upteho.entities.HorarioDisponible;
+import com.pcvpmo.pdsw.upteho.entities.ProgramaXmateria;
 import com.pcvpmo.pdsw.upteho.entities.Requisito;
 import java.sql.Date;
 import java.sql.Time;
@@ -452,6 +453,30 @@ public interface ServiciosUnidadProyectos {
     String obtenerDiaSemana(Date fecha);
     
     /**
+<<<<<<< HEAD
+     * devuelve las relaciones materia-programa
+     * @param sigla de la mateira
+     * @return listado de las relaciones
+     * @throws UnidadProyectosException para indicar cualquier error
+     */
+    List<ProgramaXmateria> relacionMateriaPrograma(String sigla) throws UnidadProyectosException;
+    
+    /**
+     * devuelve las relaciones materia-programa
+     * @param id del programa relacionado a mateira
+     * @return listado de las relaciones
+     * @throws UnidadProyectosException para indicar cualquier error
+     */
+    List<ProgramaXmateria> relacionProgramaMateria(Integer id) throws UnidadProyectosException;
+    
+    /**
+     * devuelve las relaciones materia-programa registradas en el sistema
+     * @return listado de las relaciones
+     * @throws UnidadProyectosException para indicar cualquier error
+     */
+    List<ProgramaXmateria> todasLasRelaciones() throws UnidadProyectosException;
+    
+    /**
      * verifica si podria haber un conflicto al registrar una clase del mismo programa a la misma hora
      * @param fecha fecha que se quiere verificar
      * @param hora hora que se quiere verificar 
@@ -470,5 +495,6 @@ public interface ServiciosUnidadProyectos {
      * @throws UnidadProyectosException 
      */
     public boolean esPosible(Date fecha,Time hora,int idProfesor)throws UnidadProyectosException;
+
 }
 

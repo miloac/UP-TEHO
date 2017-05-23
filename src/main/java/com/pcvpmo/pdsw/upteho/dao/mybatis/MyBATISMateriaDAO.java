@@ -7,6 +7,7 @@ import com.pcvpmo.pdsw.upteho.dao.mybatis.mappers.MateriaMapper;
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Materia;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
+import com.pcvpmo.pdsw.upteho.entities.ProgramaXmateria;
 import com.pcvpmo.pdsw.upteho.entities.Requisito;
 import java.util.List;
 
@@ -100,5 +101,20 @@ public class MyBATISMateriaDAO implements MateriaDAO{
     @Override
     public List<Requisito> consultarRequisitos(String sigla) throws PersistenceException{
         return materiaMapper.consultarRequisitos(sigla);
+    }
+
+    @Override
+    public List<ProgramaXmateria> consultarProgramaMateriaRel(String sigla) throws PersistenceException {
+        return materiaMapper.consultarProgramaMateriaRel(sigla);
+    }
+
+    @Override
+    public List<ProgramaXmateria> consultarMateriaProgramaRel(Integer idProg) throws PersistenceException {
+        return materiaMapper.consultarMateriaProgramaRel(idProg);
+    }
+
+    @Override
+    public List<ProgramaXmateria> consultarMxP() throws PersistenceException {
+        return materiaMapper.consultarMxP();
     }
 }
