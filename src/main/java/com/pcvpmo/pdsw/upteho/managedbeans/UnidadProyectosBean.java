@@ -91,6 +91,14 @@ public class UnidadProyectosBean implements Serializable {
     private ScheduleModel eventModel;
     private boolean sugerencia=false;
     private boolean ignore=false;
+
+    //----Atributos de Usuario-----
+    private boolean sessionON;
+    private String sessionNombre;
+    private String sessionRol;
+
+    
+
     
     public UnidadProyectosBean() {
         selectedPrograms = new ArrayList<>();
@@ -130,6 +138,54 @@ public class UnidadProyectosBean implements Serializable {
          
         }
         return eventModel;
+    }
+     
+    public String menu(){
+        
+        String menu = null;
+        if(ShiroLoginBean.getSubject().hasRole("admin")){
+            menu = "../resources/inc/menuAdmin.xhtml";
+            sessionRol = "ADMINISTRADOR";
+        }
+        else if(ShiroLoginBean.getSubject().hasRole("coord")) {
+            menu = "../resources/inc/menuCoord.xhtml";
+            sessionRol = "COORDINADOR";
+        }
+        else if(ShiroLoginBean.getSubject().hasRole("profesor")) {
+            menu = "../resources/inc/menuProf.xhtml";
+            sessionRol = "PROFESOR";
+        }
+        return menu;
+    }
+    
+    public String botonInicio(){
+        sessionON = ShiroLoginBean.getSubject().isAuthenticated();
+        
+        String valor = null;
+        if(sessionON){
+            sessionNombre = ShiroLoginBean.getSubject().getPrincipal().toString();
+            valor = sessionNombre;           
+        }
+        else{
+            valor = "Iniciar Sesión";
+        }
+        return valor;              
+    }
+    
+    public String botonInicioAccion(){
+        sessionON = ShiroLoginBean.getSubject().isAuthenticated();
+        String web = null;
+        if(sessionON){
+            web = "index.xhtml";           
+        }
+        else{
+            web = "UnidadProyectos/login.xhtml";
+        }
+        return web;              
+    }
+    
+    public String getSessionRol(){
+        return sessionRol;
     }
      
     public String irHorarioCurso(){
@@ -652,6 +708,40 @@ public class UnidadProyectosBean implements Serializable {
         cohorteCursoActual=cohort;
         return cohort;
     }
+    
+    /**
+     * selecciona el valor de sessionON
+     * @return el valor de sessionON
+     */
+    public boolean getSessionOn(){
+        return this.sessionON;
+    }
+    
+    /**
+     * cambia el valor de sessionON
+     * @param sesion si esta iniciada
+     */
+    public void setSessionOn(boolean sesion){
+        this.sessionON=sesion;
+    }
+    
+    /**
+     * selecciona el valor de sessionON
+     * @return el valor de sessionON
+     */
+    public String getSessionNombre(){
+        return this.sessionNombre;
+    }
+    
+    /**
+     * cambia el valor de sessionON
+     * @param nombre del usuario
+     */
+    public void setSessionNombre(String nombre){
+        this.sessionNombre=nombre;
+    }
+    
+    
     
     /**
      * get the current creditos value
@@ -1486,7 +1576,8 @@ public class UnidadProyectosBean implements Serializable {
         List<Curso> listaDef=new ArrayList<Curso>();
         lista=consultarCursos();
            for(Curso i:lista){
-               if(i.getProfesor().getId()==profesorSelect.getId())
+               String id = ShiroLoginBean.getSubject().getPrincipal().toString();
+               if(i.getProfesor().getId()==Integer.parseInt(id))
                    listaDef.add(i);
         }
         return listaDef;

@@ -8,16 +8,7 @@
                 
                 <!-- SECCION DE LOGIN -->
                 <div style="position: relative; top:-55px; left:85%;" >
-                    <p:commandButton class="boton" value="Iniciar Sesión" type="button" onclick="PF('dlg2').show();" />
-                    
-                    <p:dialog header="Bienvenido, Inicia Sesión" widgetVar="dlg2" modal="true" height="100">
-                        <h:outputText value="Iniciar Sesión como:" />
-                        <p:separator></p:separator>
-                        <p:commandButton value="Coordinador" type="button" icon="ui-icon-person" />
-                        <p:commandButton value="Administrador" type="button" icon="ui-icon-pencil" />
-                        <p:commandButton value="Profesor" type="button" icon="ui-icon-search" />
-                    </p:dialog> 
-                    
+                    <h:form><p:commandButton class="boton" value="#{UnidadProyectosBean.botonInicio()}" action="#{UnidadProyectosBean.botonInicioAccion()}" /></h:form>
                 </div>  
                 
             </header>

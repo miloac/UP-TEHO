@@ -555,7 +555,6 @@ public class ServiciosUnidadProyectosImpl implements ServiciosUnidadProyectos {
         }
     }
 
-
     @Override
     public void registrarProgramasPorMateria(Integer idPrograma, String sigla) throws UnidadProyectosException {
         try{
