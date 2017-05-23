@@ -983,23 +983,6 @@ public class UnidadProyectosBean implements Serializable {
          return ans;
      }
      
-     /**
-      * retorna el nombre de la materia que se esta modificando
-     * @return nombre de la materia en modificacion
-      */
-     public String getNombreMateriaActual(){
-         return materiaModificar.getNombre();
-     }
-     
-    /**
-     * listener de la accion modificar materia
-     * @param msig sigla de la materia para saber cual se quiere modificar
-     * @return link de la pagina de modificar materia
-     */
-     public String irModificar(String msig){
-         materiaModificar = obtenerMateria(msig);
-         return "";
-     }
     /**
      * verifica si una cadena es numero para anticipar errores de operaciones sobre esta misma
      * @param st cadena a verificar si es numero

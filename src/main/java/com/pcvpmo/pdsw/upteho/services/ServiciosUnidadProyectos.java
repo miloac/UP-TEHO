@@ -453,7 +453,6 @@ public interface ServiciosUnidadProyectos {
     String obtenerDiaSemana(Date fecha);
     
     /**
-<<<<<<< HEAD
      * devuelve las relaciones materia-programa
      * @param sigla de la mateira
      * @return listado de las relaciones
@@ -492,7 +491,7 @@ public interface ServiciosUnidadProyectos {
      * @param hora hora de la posible clase  
      * @param idProfesor identificacion del profesor
      * @return booleano indicando si es posible o no agregar la clase
-     * @throws UnidadProyectosException 
+     * @throws UnidadProyectosException informacion de algun error
      */
     public boolean esPosible(Date fecha,Time hora,int idProfesor)throws UnidadProyectosException;
 
