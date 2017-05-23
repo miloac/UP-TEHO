@@ -135,8 +135,10 @@ En este Sprint el trabajo distribuido entre el equipo fue mejor que en el anteri
 ![](img/BacklogS3.PNG?raw=true)
 
 #### Burndown Chart
-
+![](img/BurndownS3.PNG?raw=true)
 
 #### Reporte GIT
+![](img/GraficaS2.PNG?raw=true)  
 
 ### Reporte de cubrimiento
+![](img/Cubrimiento.PNG?raw=true)
