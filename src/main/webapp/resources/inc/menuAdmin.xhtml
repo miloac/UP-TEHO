@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition>
+        <h:form>
+            <p:menubar>
+                <p:menuitem value="Inicio" url="index.xhtml" icon="ui-icon-home"></p:menuitem>
+                <p:submenu label="Reportes" icon="ui-icon-folder-open">
+                    <p:menuitem value="Consultar Materias" url="ConsultarMaterias.xhtml"></p:menuitem>
+                </p:submenu>
+
+                <p:submenu label="Registrar" icon="ui-icon-note">
+                    <p:menuitem value="Materia" url="RegistrarNuevaMateria.xhtml"></p:menuitem>
+                    <p:separator></p:separator>
+                    <p:menuitem value="Asignatura" url="RegistrarAsignatura.xhtml"></p:menuitem>
+                </p:submenu>
+                
+                <p:submenu label="Programar" icon="ui-icon-note">
+                    <p:menuitem value="Programar Curso" url="ProgramarCurso.xhtml"></p:menuitem>
+                </p:submenu>
+            </p:menubar>
+            <!-- RELOG -->
+            <div style="position: relative; top:-33px; left:80%;" >
+                <p:clock />
+            </div> 
+        </h:form>
+    </ui:composition>
+</html>

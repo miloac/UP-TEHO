@@ -6,8 +6,12 @@
         <h:form>
             <p:menubar>
                 <p:menuitem value="Inicio" url="index.xhtml" icon="ui-icon-home"></p:menuitem>
+                <p:submenu label="Reportes" icon="ui-icon-folder-open">
+                    <p:menuitem value="Programación" url="ReporteProgramacion.xhtml"></p:menuitem>
+                    <p:separator></p:separator>
+                    <p:menuitem value="Salones" url="ReporteSalones.xhtml"></p:menuitem>                    
+                </p:submenu>
             </p:menubar>
-            
             <!-- RELOG -->
             <div style="position: relative; top:-33px; left:80%;" >
                 <p:clock />

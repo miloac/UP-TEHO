@@ -92,6 +92,7 @@ public class UnidadProyectosBean implements Serializable {
     //----Atributos de Usuario-----
     private boolean sessionON;
     private String sessionNombre;
+    private boolean sessionRol;
     
     
     public UnidadProyectosBean() {
@@ -134,13 +135,17 @@ public class UnidadProyectosBean implements Serializable {
         return eventModel;
     }
      
-    public String menu(String rol){
+    public String menu(){
+        
         String menu = null;
-        if("pr".equals(rol)){
-            menu = "../resources/inc/menu.xhtml";
+        if(ShiroLoginBean.getSubject().hasRole("admin")){
+            menu = "../resources/inc/menuAdmin.xhtml";
         }
-        else {
-            menu = "../resources/inc/menu.xhtml";
+        else if(ShiroLoginBean.getSubject().hasRole("coord")) {
+            menu = "../resources/inc/menuCoord.xhtml";
+        }
+        else if(ShiroLoginBean.getSubject().hasRole("profesor")) {
+            menu = "../resources/inc/menuProf.xhtml";
         }
         return menu;
     }
@@ -163,10 +168,10 @@ public class UnidadProyectosBean implements Serializable {
         sessionON = ShiroLoginBean.getSubject().isAuthenticated();
         String web = null;
         if(sessionON){
-            web = "/logout";           
+            web = "index.xhtml";           
         }
         else{
-            web = "login.xhtml";
+            web = "UnidadProyectos/login.xhtml";
         }
         return web;              
     }
@@ -1537,7 +1542,8 @@ public class UnidadProyectosBean implements Serializable {
         List<Curso> listaDef=new ArrayList<Curso>();
         lista=consultarCursos();
            for(Curso i:lista){
-               if(i.getProfesor().getId()==profesorSelect.getId())
+               String id = ShiroLoginBean.getSubject().getPrincipal().toString();
+               if(i.getProfesor().getId()==Integer.parseInt(id))
                    listaDef.add(i);
         }
         return listaDef;
