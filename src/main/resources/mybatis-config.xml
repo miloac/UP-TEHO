@@ -20,6 +20,7 @@
         <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Cohorte" alias="Cohorte"/>
         <typeAlias type="com.pcvpmo.pdsw.upteho.entities.HorarioDisponible" alias="HorarioDisponible"/>
         <typeAlias type="com.pcvpmo.pdsw.upteho.entities.Periodo" alias="Periodo"/>
+        <typeAlias type="com.pcvpmo.pdsw.upteho.entities.ProgramaXmateria" alias="ProgramaXmateria"/>
     </typeAliases>
         
                         

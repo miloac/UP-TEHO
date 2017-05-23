@@ -9,6 +9,7 @@ import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Recurso;
 import com.pcvpmo.pdsw.upteho.entities.Clase;
 import com.pcvpmo.pdsw.upteho.entities.HorarioDisponible;
+import com.pcvpmo.pdsw.upteho.entities.ProgramaXmateria;
 import com.pcvpmo.pdsw.upteho.entities.Requisito;
 import java.sql.Date;
 import java.sql.Time;
@@ -450,5 +451,28 @@ public interface ServiciosUnidadProyectos {
      * @return dato de la fecha
      */
     String obtenerDiaSemana(Date fecha);
+    
+    /**
+     * devuelve las relaciones materia-programa
+     * @param sigla de la mateira
+     * @return listado de las relaciones
+     * @throws UnidadProyectosException para indicar cualquier error
+     */
+    List<ProgramaXmateria> relacionMateriaPrograma(String sigla) throws UnidadProyectosException;
+    
+    /**
+     * devuelve las relaciones materia-programa
+     * @param id del programa relacionado a mateira
+     * @return listado de las relaciones
+     * @throws UnidadProyectosException para indicar cualquier error
+     */
+    List<ProgramaXmateria> relacionProgramaMateria(Integer id) throws UnidadProyectosException;
+    
+    /**
+     * devuelve las relaciones materia-programa registradas en el sistema
+     * @return listado de las relaciones
+     * @throws UnidadProyectosException para indicar cualquier error
+     */
+    List<ProgramaXmateria> todasLasRelaciones() throws UnidadProyectosException;
 }
 

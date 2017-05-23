@@ -3,6 +3,7 @@ package com.pcvpmo.pdsw.upteho.dao.mybatis.mappers;
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Materia;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
+import com.pcvpmo.pdsw.upteho.entities.ProgramaXmateria;
 import com.pcvpmo.pdsw.upteho.entities.Requisito;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -110,5 +111,25 @@ public interface MateriaMapper {
      * @param sigla materia que puede ser vista por el programa
      */
     public void registrarPrograma(@Param("idPrograma") Integer idPrograma, @Param("sigla") String sigla);
+    
+    /**
+     * consulta los programas asociados a una materia
+     * @param sigla materia que se quiere consultar
+     * @return lista de programas asociados
+     */
+    public List<ProgramaXmateria> consultarProgramaMateriaRel(@Param ("siglaMateria") String sigla);
+    
+    /**
+     * consulta las materias por programa que no estan asociadas
+     * @param id del programa
+     * @return listado de programas y materias en relacion
+     */
+    public List<ProgramaXmateria> consultarMateriaProgramaRel(@Param ("idp") Integer id);
+    
+    /**
+     * retorna todas las relaciones entre materias y programas
+     * @return relaciones entre materia y programa
+     */
+    public List<ProgramaXmateria> consultarMxP();
 }
 

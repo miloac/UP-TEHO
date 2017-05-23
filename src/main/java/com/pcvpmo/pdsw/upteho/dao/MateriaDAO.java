@@ -3,6 +3,7 @@ package com.pcvpmo.pdsw.upteho.dao;
 import com.pcvpmo.pdsw.upteho.entities.Asignatura;
 import com.pcvpmo.pdsw.upteho.entities.Programa;
 import com.pcvpmo.pdsw.upteho.entities.Materia;
+import com.pcvpmo.pdsw.upteho.entities.ProgramaXmateria;
 import com.pcvpmo.pdsw.upteho.entities.Requisito;
 
 import java.util.List;
@@ -46,4 +47,9 @@ public interface MateriaDAO {
     
     List<Requisito> consultarRequisitos(String sigla) throws PersistenceException;
     
+    List<ProgramaXmateria> consultarProgramaMateriaRel(String sigla) throws PersistenceException;
+    
+    List<ProgramaXmateria> consultarMateriaProgramaRel(Integer idProg) throws PersistenceException;
+    
+    List<ProgramaXmateria> consultarMxP() throws PersistenceException;
 }
