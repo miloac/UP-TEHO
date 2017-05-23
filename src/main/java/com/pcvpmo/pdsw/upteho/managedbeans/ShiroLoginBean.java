@@ -48,27 +48,27 @@ public class ShiroLoginBean implements Serializable {
             subject.login(token);
 
             if (subject.hasRole("profesor")) {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("areaProfesor/index.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("areaProfesor/HorarioCurso.xhtml");
             }
         }
         catch (UnknownAccountException ex) {
-            facesError("Unknown account");
+            facesError("Cuenta no Encontrada");
             log.error(ex.getMessage(), ex);
         }
         catch (IncorrectCredentialsException ex) {
-            facesError("Wrong password");
+            facesError("Contraseña Incorrecta");
             log.error(ex.getMessage(), ex);
         }
         catch (LockedAccountException ex) {
-            facesError("Locked account");
+            facesError("Cuenta Bloqueada");
             log.error(ex.getMessage(), ex);
         }
         catch (AuthenticationException ex) {
-            facesError("Unknown error: " + ex.getMessage());
+            facesError("Error Desconocido: " + ex.getMessage());
             log.error(ex.getMessage(), ex);
         }
         catch (IOException ex){
-            facesError("Unknown error: " + ex.getMessage());
+            facesError("Error Desconocido: " + ex.getMessage());
             log.error(ex.getMessage(), ex);
             
         }
